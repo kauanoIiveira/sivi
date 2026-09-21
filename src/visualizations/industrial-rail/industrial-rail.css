@@ -1,0 +1,245 @@
+.industrial-rail {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: 5px;
+  background: var(--surface-raised);
+}
+
+.industrial-rail__visual-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.industrial-rail__visual-scroll:focus-visible,
+.industrial-rail__table-scroll:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+
+.industrial-rail svg {
+  display: block;
+  width: 100%;
+  min-width: 940px;
+  height: auto;
+  background-image: linear-gradient(90deg, transparent 49.8%, var(--border-subtle) 50%, transparent 50.2%);
+  background-size: 112px 100%;
+}
+
+.industrial-rail__track {
+  fill: none;
+  stroke-linecap: square;
+  stroke-linejoin: bevel;
+}
+
+.industrial-rail__track--bed {
+  stroke: var(--border-strong);
+  stroke-width: 6;
+  opacity: 0.28;
+}
+
+.industrial-rail__track--signal {
+  stroke: var(--text-muted);
+  stroke-width: 3;
+  stroke-dasharray: none;
+  opacity: 0.72;
+}
+
+.industrial-rail__node { cursor: pointer; outline: none; }
+.industrial-rail__halo {
+  fill: var(--surface);
+  stroke: var(--border-subtle);
+  stroke-width: 2;
+}
+.industrial-rail__disc {
+  fill: var(--surface-interactive);
+  stroke: var(--border-strong);
+  stroke-width: 2;
+}
+.industrial-rail__glyph {
+  fill: var(--text-primary);
+  font: 700 17px "IBM Plex Mono", monospace;
+  pointer-events: none;
+}
+.industrial-rail__sequence {
+  fill: var(--text-subtle);
+  font: 700 9px "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+.industrial-rail__label {
+  fill: var(--text-muted);
+  font: 650 12px "Archivo", sans-serif;
+  pointer-events: none;
+}
+
+.industrial-rail__node--completed .industrial-rail__disc {
+  fill: var(--feedback-success-bg);
+  stroke: var(--feedback-success);
+}
+.industrial-rail__node--active .industrial-rail__disc,
+.industrial-rail__node--partial .industrial-rail__disc {
+  fill: var(--feedback-info-bg);
+  stroke: var(--feedback-info);
+}
+.industrial-rail__node--attention .industrial-rail__disc {
+  fill: var(--feedback-warning-bg);
+  stroke: var(--feedback-warning);
+}
+.industrial-rail__node--locked .industrial-rail__disc {
+  fill: var(--surface-raised);
+  stroke: var(--border-control);
+  stroke-dasharray: 4 3;
+}
+.industrial-rail__node--upcoming .industrial-rail__disc { stroke-dasharray: 3 4; }
+.industrial-rail__node--active .industrial-rail__halo {
+  stroke: var(--action-primary);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: industrial-rail-pulse 1.8s ease-out infinite;
+}
+.industrial-rail__node:focus-visible .industrial-rail__halo,
+.industrial-rail__node[data-selected] .industrial-rail__halo {
+  stroke: var(--focus-ring);
+  stroke-width: 4;
+}
+
+.industrial-rail__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 4px 22px 18px;
+  list-style: none;
+}
+.industrial-rail__legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+.industrial-rail__legend b {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  color: var(--text-primary);
+  background: var(--surface);
+  font-family: "IBM Plex Mono", monospace;
+}
+.industrial-rail__legend li[data-rail-legend-status="locked"] b,
+.industrial-rail__legend li[data-rail-legend-status="upcoming"] b { border-style: dashed; }
+
+.industrial-rail__detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.85fr);
+  gap: 24px;
+  padding: 20px 22px;
+  border-block: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+.industrial-rail__detail-status {
+  color: var(--action-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.industrial-rail__detail h3 { margin: 6px 0; font-size: 1.15rem; }
+.industrial-rail__detail p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.industrial-rail__evidence-panel > strong { font-size: 0.78rem; }
+[data-rail-evidence] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+[data-rail-evidence] button {
+  min-height: 44px;
+  padding: 7px 11px;
+  border: 1px solid var(--border-control);
+  border-radius: 8px;
+  color: var(--action-text);
+  background: var(--surface-interactive);
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+[data-rail-evidence] button:hover { border-color: var(--action-primary); }
+[data-rail-evidence] button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.industrial-rail__empty-evidence,
+[data-rail-evidence-output] {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+[data-rail-evidence-output] { display: block; min-height: 1.3em; margin-top: 8px; }
+
+.industrial-rail__table-wrap {
+  margin: 14px 22px;
+  color: var(--action-text);
+  font-size: 0.78rem;
+}
+.industrial-rail__table-wrap summary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.industrial-rail__table-scroll { max-width: 100%; overflow-x: auto; }
+.industrial-rail__table-wrap table {
+  width: 100%;
+  min-width: 720px;
+  margin-top: 8px;
+  border-collapse: collapse;
+  color: var(--text-primary);
+}
+.industrial-rail__table-wrap th,
+.industrial-rail__table-wrap td {
+  padding: 9px;
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+.industrial-rail__table-wrap th {
+  color: var(--text-muted);
+  background: var(--surface-raised);
+}
+.industrial-rail figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px 18px;
+  padding: 11px 22px 15px;
+  color: var(--text-subtle);
+  background: var(--surface);
+  font-size: 0.72rem;
+}
+
+@keyframes industrial-rail-pulse {
+  from { opacity: 0.84; transform: scale(0.74); }
+  to { opacity: 0; transform: scale(1.36); }
+}
+
+@media (max-width: 700px) {
+  .industrial-rail__detail { grid-template-columns: 1fr; gap: 18px; }
+  .industrial-rail__legend { padding-inline: 16px; }
+  .industrial-rail__detail,
+  .industrial-rail figcaption { padding-inline: 16px; }
+  .industrial-rail__table-wrap { margin-inline: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industrial-rail__node--active .industrial-rail__halo { animation: none; }
+}

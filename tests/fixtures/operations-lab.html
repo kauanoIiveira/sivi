@@ -1,0 +1,11 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIVI — teste de páginas</title><link rel="stylesheet" href="/src/styles/theme-tokens.css"><link rel="stylesheet" href="/src/pages/operations/operations-page.css"><main></main><script type="module">
+import { mountOperationsPage } from '/src/pages/operations/operations-page.js';
+import { createDemoRepository } from '/tests/fixtures/repositories/demo-repository.js';
+import { DEMO_WORKSPACES } from '/tests/fixtures/data/workspaces.js';
+const params = new URLSearchParams(location.search);
+const repository = createDemoRepository();
+await repository.setSimulationMode(params.get('state') ?? 'normal');
+let cleanup = () => {};
+window.operationsLab = (role, section) => { cleanup(); cleanup = mountOperationsPage({container: document.querySelector('main'), repository, workspace: DEMO_WORKSPACES.find(w => w.organizationRole === role), section}); };
+window.operationsLab(params.get('role') ?? 'buyer', params.get('section') ?? 'demands');
+</script></html>

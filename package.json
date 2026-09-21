@@ -1,0 +1,21 @@
+{
+  "name": "sivi",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node tests/support/static-server.mjs",
+    "serve:test": "node tests/support/static-server.mjs",
+    "test:unit": "node tests/unit/all.test.js",
+    "test:operations": "node tests/operations-browser.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test": "npm run test:unit && npm run test:e2e"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "firebase-tools": "^15.28.2"
+  }
+}

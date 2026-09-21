@@ -1,0 +1,84 @@
+.page-state {
+  min-height: min(620px, 70vh);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.page-state h1 {
+  max-width: 620px;
+  margin: 2px 0 0;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  letter-spacing: -0.035em;
+}
+
+.page-state p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.page-state button {
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 0 18px;
+  border: 1px solid var(--button-primary-border);
+  border-radius: 10px;
+  color: var(--button-primary-fg);
+  background: var(--button-primary-bg);
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+}
+
+.page-state button:hover {
+  background: var(--button-primary-hover-bg);
+}
+
+.page-state__kicker {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page-state__signal {
+  width: 76px;
+  height: 40px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.page-state__signal i {
+  width: 8px;
+  border-radius: 3px 3px 1px 1px;
+  background: var(--action-primary);
+  animation: page-state-pulse 900ms ease-in-out infinite alternate;
+}
+
+.page-state__signal i:nth-child(1) { height: 30%; }
+.page-state__signal i:nth-child(2) { height: 68%; animation-delay: 120ms; }
+.page-state__signal i:nth-child(3) { height: 48%; animation-delay: 240ms; }
+.page-state__signal i:nth-child(4) { height: 82%; animation-delay: 360ms; }
+.page-state:not(.page-state--loading) .page-state__signal i { animation: none; }
+.page-state--error .page-state__signal i,
+.page-state--forbidden .page-state__signal i { background: var(--feedback-danger); }
+.page-state--conflict .page-state__signal i { background: var(--feedback-warning); }
+
+@keyframes page-state-pulse {
+  to { opacity: 0.38; transform: scaleY(0.72); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-state__signal i { animation: none; }
+}

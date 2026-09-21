@@ -1,0 +1,68 @@
+import { expect, test } from "@playwright/test";
+import { createVerifiedUser, resetAuthEmulator, resetDatabaseEmulator, seedDatabaseEmulator } from "../helpers/auth-emulator.js";
+import { captureUi } from "../helpers/ui-review.js";
+
+test("admin registers a company for another verified account and owner enters both roles", async ({ page }) => {
+  test.setTimeout(180_000);
+  await resetAuthEmulator();
+  await resetDatabaseEmulator();
+  const password = "SiviPortal2026";
+  const admin = await createVerifiedUser({ email: "portal-admin@sivi.test", password, displayName: "Admin" });
+  const owner = await createVerifiedUser({ email: "portal-owner@sivi.test", password, displayName: "Responsável" });
+  await seedDatabaseEmulator(`platformAdmins/${admin.uid}`, true);
+  await seedDatabaseEmulator(`users/${owner.uid}`, { uid: owner.uid, email: owner.email, emailVerified: true, authProvider: "password", updatedAt: 1 });
+  const login = async email => {
+    await page.goto("/?authEmulator=1#/acesso");
+    await expect(page.locator(".auth-shell")).toHaveAttribute("data-ui-ready", "true");
+    if (!(await page.locator("#login-email").isVisible())) await page.locator(".form-view--register [data-switch-mode='login']").click();
+    await page.locator("#login-email").fill(email);
+    await page.locator("#login-password").fill(password);
+    await page.locator("#login-form button[type='submit']").click();
+    await expect(page.getByRole("heading", { name: "Qual empresa você vai usar?" })).toBeVisible();
+  };
+  await login(admin.email);
+  await page.getByRole("button", { name: /Abrir portal administrativo/ }).click();
+  await page.getByText("Cadastrar empresa", { exact: true }).click();
+  const form = page.locator("[data-admin-register]");
+  await form.getByLabel("Nome da empresa").fill("Indústria Portal");
+  await form.getByLabel("E-mail do responsável").fill("missing@sivi.test");
+  await form.getByLabel("Compradora", { exact: true }).check();
+  await form.getByLabel("Fornecedora", { exact: true }).check();
+  await form.getByRole("button").click();
+  await expect(form.getByRole("alert")).toContainText("Responsável não encontrado");
+  await expect(form.getByLabel("Nome da empresa")).toHaveValue("Indústria Portal");
+  await form.getByLabel("E-mail do responsável").fill(owner.email);
+  await captureUi(page, "portal-admin-cadastro");
+  await form.getByRole("button").click();
+  await expect(page.locator("[data-admin-feedback]")).toContainText(`Acesso liberado para ${owner.email}`);
+  const card = page.locator(".admin-organization-card", { hasText: "Indústria Portal" });
+  await expect(card).toContainText("Compradora e fornecedora · Ativa");
+  await card.getByLabel("Motivo para Indústria Portal").fill("Revisão cadastral");
+  await card.getByRole("button", { name: "Bloquear", exact: true }).click();
+  await expect(card).toContainText("Bloqueada");
+  await card.getByRole("button", { name: "Aprovar", exact: true }).click();
+  await expect(card).toContainText("Ativa");
+  await page.locator("[data-account-menu] summary").click();
+  await page.locator("[data-logout]").click();
+  await login(owner.email);
+  await expect(page.locator(".context-company", { hasText: "Indústria Portal" })).toHaveCount(1);
+  await expect(page.locator(".context-card", { hasText: "Administração SIVI" })).toHaveCount(0);
+  await captureUi(page, "empresas-dupla-atuacao");
+  await page.getByRole("button", { name: /Entrar como comprador/ }).click();
+  await expect(page.getByRole("heading", { name: "Próximas ações" })).toBeVisible();
+  await page.getByRole("button", { name: "Trocar empresa", exact: true }).first().click();
+  await page.getByRole("button", { name: /Entrar como fornecedor/ }).click();
+  await expect(page.getByRole("heading", { name: "Visão do fornecedor" })).toBeVisible();
+
+  const tokens = await Promise.all([admin, owner].map(async user => {
+    const response = await fetch("http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: user.email, password, returnSecureToken: true }) });
+    return (await response.json()).idToken;
+  }));
+  const usersUrl = token => `http://127.0.0.1:9000/users.json?ns=sivi-org-default-rtdb&auth=${token}`;
+  const query = `&orderBy=${encodeURIComponent('"email"')}&equalTo=${encodeURIComponent(JSON.stringify(owner.email))}&limitToFirst=2`;
+  expect((await fetch(usersUrl(tokens[1]) + query)).status).toBe(401);
+  expect((await fetch(usersUrl(tokens[0]))).status).toBe(401);
+  expect((await fetch(usersUrl(tokens[0]) + query)).status).toBe(200);
+  const invalid = { id: "invalid", name: "Tentativa", roles: { buyer: true }, status: "active", createdBy: owner.uid, registeredBy: owner.uid, createdAt: 1, updatedAt: 1 };
+  expect((await fetch(`http://127.0.0.1:9000/organizations/invalid.json?ns=sivi-org-default-rtdb&auth=${tokens[1]}`, { method: "PUT", body: JSON.stringify(invalid) })).status).toBe(401);
+});

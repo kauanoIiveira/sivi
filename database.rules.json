@@ -1,0 +1,185 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['uid', 'authProvider', 'emailVerified', 'updatedAt'])",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "email": {
+          ".validate": "newData.isString() && auth.token.email != null && newData.val() === auth.token.email && newData.val().length <= 254"
+        },
+        "displayName": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 120"
+        },
+        "firstName": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60"
+        },
+        "lastName": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80"
+        },
+        "authProvider": {
+          ".validate": "newData.isString() && (newData.val() === 'password' || newData.val() === 'google' || newData.val() === 'github')"
+        },
+        "emailVerified": {
+          ".validate": "newData.isBoolean() && newData.val() === auth.token.email_verified"
+        },
+        "onboardingState": {
+          ".validate": "newData.isString() && newData.val() === 'profile_pending'"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber() && ((!data.exists() && newData.val() <= now) || (data.exists() && newData.val() === data.val()))"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        },
+        "lastLoginAt": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        },
+        "$other": {
+          ".validate": false
+        }
+      },
+      ".indexOn": [
+        "email"
+      ],
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true && query.orderByChild === 'email' && query.equalTo != null && query.limitToFirst != null && query.limitToFirst <= 2"
+    },
+    "platformAdmins": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".validate": "newData.isBoolean()"
+      }
+    },
+    "organizations": {
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      "$organizationId": {
+        ".read": "auth != null && (data.child('createdBy').val() === auth.uid || root.child('membershipsByUser').child(auth.uid).child($organizationId).exists() || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".write": "auth != null && newData.exists() && ((!data.exists() && auth.token.email_verified === true && newData.child('createdBy').val() === auth.uid && newData.child('status').val() === 'pending' && !newData.child('registeredBy').exists() && !newData.child('reviewedBy').exists() && !newData.child('reviewedAt').exists() && !newData.child('reviewReason').exists()) || (data.child('createdBy').val() === auth.uid && auth.token.email_verified === true && (data.child('status').val() === 'pending' || data.child('status').val() === 'changes_requested') && newData.child('status').val() === 'pending' && newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('createdAt').val() === data.child('createdAt').val() && newData.child('registeredBy').val() === data.child('registeredBy').val() && newData.child('reviewedBy').val() === data.child('reviewedBy').val() && newData.child('reviewedAt').val() === data.child('reviewedAt').val() && newData.child('reviewReason').val() === data.child('reviewReason').val() && newData.child('reviewedApplicationUpdatedAt').val() === data.child('reviewedApplicationUpdatedAt').val()) || (root.child('platformAdmins').child(auth.uid).val() === true && (data.exists() || (newData.child('registeredBy').val() === auth.uid && root.child('users').child(newData.child('createdBy').val()).child('emailVerified').val() === true))))",
+        ".validate": "newData.hasChildren(['id', 'name', 'roles', 'status', 'createdBy', 'createdAt', 'updatedAt']) && newData.child('id').val() === $organizationId && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 120 && (newData.child('roles').child('buyer').val() === true || newData.child('roles').child('supplier').val() === true) && (newData.child('status').val() === 'pending' || newData.child('status').val() === 'active' || newData.child('status').val() === 'blocked' || newData.child('status').val() === 'changes_requested' || newData.child('status').val() === 'rejected') && newData.child('createdAt').isNumber() && newData.child('updatedAt').isNumber() && (!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('createdAt').val() === data.child('createdAt').val())) && (!data.exists() || newData.child('registeredBy').val() === data.child('registeredBy').val()) && (!data.child('onboardingVersion').exists() || newData.child('onboardingVersion').val() === data.child('onboardingVersion').val()) && (!newData.child('onboardingVersion').exists() || (newData.child('onboardingVersion').val() === 1 && newData.hasChildren(['cnpj', 'city', 'state', 'contact']) && newData.child('cnpj').isString() && newData.child('cnpj').val().matches(/^[A-Z0-9]{12}[0-9]{2}$/) && newData.child('city').isString() && newData.child('city').val().length >= 2 && newData.child('city').val().length <= 100 && newData.child('state').val().matches(/^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)$/) && newData.child('contact').isString() && newData.child('contact').val().length >= 8 && newData.child('contact').val().length <= 120)) && (!data.exists() || (newData.child('status').val() === 'pending' && newData.child('reviewedAt').val() === data.child('reviewedAt').val()) || root.child('platformAdmins').child(auth.uid).val() !== true || newData.child('reviewedApplicationUpdatedAt').val() === data.child('updatedAt').val())"
+      }
+    },
+    "membershipsByUser": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$organizationId": {
+          ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+          ".write": "auth != null && newData.exists() && ((!data.exists() && auth.uid === $uid && auth.token.email_verified === true && newData.parent().parent().parent().child('organizations').child($organizationId).child('createdBy').val() === auth.uid && newData.parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending') || root.child('platformAdmins').child(auth.uid).val() === true)",
+          ".validate": "newData.hasChildren(['organizationName', 'organizationRoles', 'status', 'userRoles', 'permissions', 'createdAt']) && newData.child('organizationName').isString() && (newData.child('organizationRoles').child('buyer').val() === true || newData.child('organizationRoles').child('supplier').val() === true) && newData.child('status').val() === newData.parent().parent().parent().child('organizations').child($organizationId).child('status').val() && newData.child('organizationName').val() === newData.parent().parent().parent().child('organizations').child($organizationId).child('name').val() && newData.child('organizationRoles').child('buyer').val() === newData.parent().parent().parent().child('organizations').child($organizationId).child('roles').child('buyer').val() && newData.child('organizationRoles').child('supplier').val() === newData.parent().parent().parent().child('organizations').child($organizationId).child('roles').child('supplier').val()",
+          "status": {
+            ".write": "auth != null && auth.uid === $uid && auth.token.email_verified === true && data.parent().exists() && root.child('organizations').child($organizationId).child('createdBy').val() === auth.uid && (root.child('organizations').child($organizationId).child('status').val() === 'pending' || root.child('organizations').child($organizationId).child('status').val() === 'changes_requested') && newData.parent().parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending'"
+          },
+          "organizationName": {
+            ".write": "auth != null && auth.uid === $uid && auth.token.email_verified === true && data.parent().exists() && root.child('organizations').child($organizationId).child('createdBy').val() === auth.uid && (root.child('organizations').child($organizationId).child('status').val() === 'pending' || root.child('organizations').child($organizationId).child('status').val() === 'changes_requested') && newData.parent().parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending'"
+          },
+          "organizationRoles": {
+            ".write": "auth != null && auth.uid === $uid && auth.token.email_verified === true && data.parent().exists() && root.child('organizations').child($organizationId).child('createdBy').val() === auth.uid && (root.child('organizations').child($organizationId).child('status').val() === 'pending' || root.child('organizations').child($organizationId).child('status').val() === 'changes_requested') && newData.parent().parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending'"
+          }
+        }
+      }
+    },
+    "organizationMembers": {
+      "$organizationId": {
+        ".read": "auth != null && (root.child('membershipsByUser').child(auth.uid).child($organizationId).exists() || root.child('platformAdmins').child(auth.uid).val() === true)",
+        "$uid": {
+          ".write": "auth != null && newData.exists() && ((!data.exists() && auth.uid === $uid && auth.token.email_verified === true && newData.parent().parent().parent().child('organizations').child($organizationId).child('createdBy').val() === auth.uid && newData.parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending') || root.child('platformAdmins').child(auth.uid).val() === true)",
+          ".validate": "newData.hasChildren(['status', 'userRoles', 'joinedAt']) && newData.child('status').val() === newData.parent().parent().parent().child('organizations').child($organizationId).child('status').val()",
+          "status": {
+            ".write": "auth != null && auth.uid === $uid && auth.token.email_verified === true && data.parent().exists() && root.child('organizations').child($organizationId).child('createdBy').val() === auth.uid && (root.child('organizations').child($organizationId).child('status').val() === 'pending' || root.child('organizations').child($organizationId).child('status').val() === 'changes_requested') && newData.parent().parent().parent().parent().child('organizations').child($organizationId).child('status').val() === 'pending'"
+          }
+        }
+      }
+    },
+    "supplierProfiles": {
+      ".read": "auth != null",
+      "$supplierId": {
+        ".write": "auth != null && ((root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier')) || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".validate": "newData.hasChildren(['organizationId', 'organizationName', 'organizationStatus', 'categories', 'materials', 'processes', 'regions', 'capacity', 'description', 'createdAt', 'updatedAt']) && newData.child('organizationId').val() === $supplierId && (newData.child('organizationStatus').val() === 'active' || newData.child('organizationStatus').val() === 'blocked') && newData.child('capacity').isNumber() && newData.child('capacity').val() > 0"
+      }
+    },
+    "demandsByBuyer": {
+      "$buyerId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer')",
+        "$demandId": {
+          ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer')",
+          ".validate": "newData.hasChildren(['id', 'buyerId', 'buyerName', 'title', 'description', 'items', 'quantity', 'requiredBy', 'destination', 'region', 'status', 'createdAt', 'updatedAt']) && newData.child('id').val() === $demandId && newData.child('buyerId').val() === $buyerId && newData.child('title').isString() && newData.child('title').val().length <= 160 && newData.child('description').isString() && newData.child('description').val().length <= 2000 && newData.child('quantity').isNumber() && newData.child('quantity').val() > 0 && (newData.child('status').val() === 'draft' || newData.child('status').val() === 'published' || newData.child('status').val() === 'ordered') && (!data.exists() || (newData.child('buyerId').val() === data.child('buyerId').val() && newData.child('createdAt').val() === data.child('createdAt').val()))"
+        }
+      }
+    },
+    "publishedDemands": {
+      "$demandId": {
+        ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRole').val() === 'buyer')",
+        ".validate": "newData.hasChildren(['id', 'buyerId', 'status']) && newData.child('id').val() === $demandId && (newData.child('status').val() === 'published' || newData.child('status').val() === 'ordered')"
+      }
+    },
+    "matchesByDemand": {
+      "$demandId": {
+        "$supplierId": {
+          ".read": "auth != null && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' || root.child('membershipsByUser').child(auth.uid).child(data.child('buyerId').val()).child('status').val() === 'active')",
+          ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRole').val() === 'buyer')",
+          ".validate": "newData.child('demandId').val() === $demandId && newData.child('supplierId').val() === $supplierId && newData.child('eligible').isBoolean()"
+        }
+      }
+    },
+    "opportunitiesBySupplier": {
+      "$supplierId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier')",
+        "$demandId": {
+          ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRole').val() === 'buyer')",
+          ".validate": "newData.child('id').val() === $demandId && newData.child('match').child('supplierId').val() === $supplierId && newData.child('match').child('eligible').val() === true"
+        }
+      }
+    },
+    "proposalsByBuyer": {
+      "$buyerId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer')",
+        "$proposalId": {
+          ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child(newData.child('supplierId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('supplierId').val()).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('supplierId').val()).child('organizationRole').val() === 'supplier') && newData.child('buyerId').val() === $buyerId && root.child('publishedDemands').child(newData.child('demandId').val()).child('status').val() === 'published' && root.child('opportunitiesBySupplier').child(newData.child('supplierId').val()).child(newData.child('demandId').val()).child('match').child('eligible').val() === true",
+          ".validate": "newData.hasChildren(['id', 'demandId', 'buyerId', 'buyerName', 'supplierId', 'supplierName', 'updatedAt', 'versions']) && newData.child('id').val() === $proposalId && (!data.exists() || (newData.child('demandId').val() === data.child('demandId').val() && newData.child('buyerId').val() === data.child('buyerId').val() && newData.child('supplierId').val() === data.child('supplierId').val()))",
+          "versions": {
+            "$versionId": {
+              ".validate": "newData.hasChildren(['id', 'revision', 'totalCents', 'freightCents', 'leadTimeDays', 'manufacturer', 'payment', 'warranty', 'technical', 'validUntil', 'createdAt']) && newData.child('id').val() === $versionId && newData.child('revision').isNumber() && newData.child('revision').val() > 0 && newData.child('totalCents').isNumber() && newData.child('totalCents').val() > 0 && newData.child('freightCents').isNumber() && newData.child('freightCents').val() >= 0 && (!data.exists() || newData.val() === data.val())"
+            }
+          }
+        }
+      }
+    },
+    "proposalsBySupplier": {
+      "$supplierId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier')",
+        "$proposalId": {
+          ".write": "auth != null && root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier') && newData.child('supplierId').val() === $supplierId && root.child('publishedDemands').child(newData.child('demandId').val()).child('status').val() === 'published' && root.child('opportunitiesBySupplier').child($supplierId).child(newData.child('demandId').val()).child('match').child('eligible').val() === true",
+          ".validate": "newData.hasChildren(['id', 'demandId', 'buyerId', 'buyerName', 'supplierId', 'supplierName', 'updatedAt', 'versions']) && newData.child('id').val() === $proposalId && (!data.exists() || (newData.child('demandId').val() === data.child('demandId').val() && newData.child('buyerId').val() === data.child('buyerId').val() && newData.child('supplierId').val() === data.child('supplierId').val()))",
+          "versions": {
+            "$versionId": {
+              ".validate": "newData.hasChildren(['id', 'revision', 'totalCents', 'freightCents', 'leadTimeDays', 'manufacturer', 'payment', 'warranty', 'technical', 'validUntil', 'createdAt']) && newData.child('id').val() === $versionId && newData.child('revision').isNumber() && newData.child('revision').val() > 0 && newData.child('totalCents').isNumber() && newData.child('totalCents').val() > 0 && newData.child('freightCents').isNumber() && newData.child('freightCents').val() >= 0 && (!data.exists() || newData.val() === data.val())"
+            }
+          }
+        }
+      }
+    },
+    "ordersByBuyer": {
+      "$buyerId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer')",
+        "$orderId": {
+          ".write": "auth != null && newData.exists() && ((!data.exists() && root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRole').val() === 'buyer')) || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('organizationRole').val() === 'supplier') && ((data.child('status').val() === 'accepted' && (newData.child('status').val() === 'blocked' || newData.child('status').val() === 'released')) || (data.child('status').val() === 'blocked' && (newData.child('status').val() === 'blocked' || newData.child('status').val() === 'released')) || (data.child('status').val() === 'released' && newData.child('status').val() === 'dispatched'))) || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('buyerId').val()).child('status').val() === 'active' && data.child('status').val() === 'dispatched' && newData.child('status').val() === 'delivered') || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('buyerId').val()).child('status').val() === 'active' && data.child('status').val() === 'delivered' && newData.child('status').val() === 'delivered'))",
+          ".validate": "newData.hasChildren(['id', 'demandId', 'buyerId', 'buyerName', 'supplierId', 'supplierName', 'sourceProposalId', 'title', 'quantity', 'version', 'status', 'createdAt', 'updatedAt']) && newData.child('id').val() === $orderId && newData.child('buyerId').val() === $buyerId && (!data.exists() || (newData.child('demandId').val() === data.child('demandId').val() && newData.child('buyerId').val() === data.child('buyerId').val() && newData.child('supplierId').val() === data.child('supplierId').val() && newData.child('sourceProposalId').val() === data.child('sourceProposalId').val() && newData.child('version').child('id').val() === data.child('version').child('id').val()))"
+        }
+      }
+    },
+    "ordersBySupplier": {
+      "$supplierId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier')",
+        "$orderId": {
+          ".write": "auth != null && newData.exists() && ((!data.exists() && root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child(newData.child('buyerId').val()).child('organizationRole').val() === 'buyer')) || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child(data.child('supplierId').val()).child('organizationRole').val() === 'supplier') && ((data.child('status').val() === 'accepted' && (newData.child('status').val() === 'blocked' || newData.child('status').val() === 'released')) || (data.child('status').val() === 'blocked' && (newData.child('status').val() === 'blocked' || newData.child('status').val() === 'released')) || (data.child('status').val() === 'released' && newData.child('status').val() === 'dispatched'))) || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('buyerId').val()).child('status').val() === 'active' && data.child('status').val() === 'dispatched' && newData.child('status').val() === 'delivered') || (data.exists() && root.child('membershipsByUser').child(auth.uid).child(data.child('buyerId').val()).child('status').val() === 'active' && data.child('status').val() === 'delivered' && newData.child('status').val() === 'delivered'))",
+          ".validate": "newData.hasChildren(['id', 'demandId', 'buyerId', 'buyerName', 'supplierId', 'supplierName', 'sourceProposalId', 'title', 'quantity', 'version', 'status', 'createdAt', 'updatedAt']) && newData.child('id').val() === $orderId && newData.child('supplierId').val() === $supplierId && (!data.exists() || (newData.child('demandId').val() === data.child('demandId').val() && newData.child('buyerId').val() === data.child('buyerId').val() && newData.child('supplierId').val() === data.child('supplierId').val() && newData.child('sourceProposalId').val() === data.child('sourceProposalId').val() && newData.child('version').child('id').val() === data.child('version').child('id').val()))"
+        }
+      }
+    }
+  }
+}
