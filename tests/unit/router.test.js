@@ -52,3 +52,25 @@ test("starts, navigates, replaces and stops without losing the query string", ()
   assert.deepEqual(visited, ["access", "context", "404:/app/inexistente"]);
   assert.equal(fakeWindow.location.search, "?authEmulator=1");
 });
+
+test('navigation keeps the selected record query and a rejected navigation restores the current route', () => {
+  const fakeWindow = new FakeWindow('#/app/comprador/demandas?registro=A');
+  let allowed = false;
+  const visited = [];
+  const router = createHashRouter({ windowObject: fakeWindow, routes: APP_ROUTES,
+    beforeNavigate: () => allowed, onRoute: ({ route }) => visited.push(route.id), onNotFound: () => {},
+  });
+  router.start();
+  router.navigate('/app/comprador/propostas?registro=A', { replace: true });
+  assert.equal(fakeWindow.location.hash, '#/app/comprador/demandas?registro=A');
+  assert.deepEqual(visited, ['buyer-demands']);
+  allowed = true;
+  router.navigate('/app/comprador/propostas?registro=A', { replace: true });
+  assert.equal(fakeWindow.location.hash, '#/app/comprador/propostas?registro=A');
+  assert.deepEqual(visited, ['buyer-demands', 'buyer-proposals']);
+  allowed = false;
+  fakeWindow.location.hash = '#/app/comprador/inicio';
+  fakeWindow.dispatchEvent(new Event('hashchange'));
+  assert.equal(fakeWindow.location.hash, '#/app/comprador/propostas?registro=A');
+  router.stop();
+});

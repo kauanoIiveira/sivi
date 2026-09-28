@@ -1,6 +1,6 @@
 # Transferência e retomada
 
-Atualizado em 20/09/2026. Leia junto com [CONTINUE_AQUI.md](../CONTINUE_AQUI.md) para o estado funcional e [COMO_ABRIR.md](../COMO_ABRIR.md) para os fluxos de acesso.
+Atualizado em 27/09/2026. Leia junto com [CONTINUE_AQUI.md](../CONTINUE_AQUI.md) para o estado funcional e [COMO_ABRIR.md](../COMO_ABRIR.md) para os fluxos de acesso.
 
 ## Ambiente em outra máquina
 
@@ -44,7 +44,7 @@ Se o Java não estiver no PATH, aponte `SIVI_JAVA_HOME` para a pasta do JDK inst
 .\scripts\export-project.ps1
 ```
 
-O comando gera em `exports/` um ZIP e seu arquivo `.sha256`. O ZIP contém a pasta `SIVI` com os arquivos atuais e um texto de transferência. `SIVI/SHA256SUMS.txt` registra a integridade individual dos arquivos. O snapshot inclui alterações ainda não commitadas e toda a documentação.
+O comando gera em `exports/` um ZIP, seu arquivo `.sha256` e uma pasta `SIVI-continuidade-DATA` pronta para copiar. O ZIP contém a pasta `SIVI` com os arquivos atuais e um texto de transferência. `SIVI/SHA256SUMS.txt` registra a integridade individual dos arquivos. O snapshot inclui alterações ainda não commitadas e toda a documentação. A pasta de continuidade permanece disponível; o exportador não exclui arquivos.
 
 Não acompanham o pacote: `node_modules`, `.git`, caches, logs, relatórios de testes, diretórios auxiliares locais e credenciais privadas. Na pasta de trabalho atual, as dependências permanecem instaladas para permitir a retomada imediata. Novas dependências devem ser registradas no `package.json` e no lockfile.
 
@@ -56,7 +56,27 @@ Para conferir o ZIP no PowerShell, compare a saída com o conteúdo do `.sha256`
 Get-FileHash .\exports\SIVI-transferencia-DATA.zip -Algorithm SHA256
 ```
 
-Se precisar levar o histórico atual, gere outro pacote com `-IncludeGitHistory`. O bundle fica fora da pasta de código e contém somente a branch `main` e seus commits, sem referências internas de ferramentas. Restaure-o com `git clone .\SIVI-history.bundle SIVI-com-git`; as alterações ainda não commitadas estão somente no snapshot `SIVI/` e devem ser copiadas por cima do clone, preservando a pasta `.git` do clone.
+Para levar o histórico atual, use `-IncludeGitHistory`. O bundle fica fora da pasta de código e contém `HEAD` e todas as branches locais, incluindo a branch do trabalho em andamento. `HISTORICO.json` registra a branch atual, a revisão e o hash do bundle. Alterações ainda não commitadas estão no snapshot `SIVI/`; o bundle sozinho não as contém.
+
+Antes de editar a cópia, na pasta `SIVI`, execute:
+
+```sh
+node scripts/verify-transfer.mjs .
+```
+
+Para continuar com Git no **snapshot novo**, execute os comandos abaixo dentro da pasta `SIVI` copiada. Ela deve estar sem `.git`. O reset é misto: reconstrói o índice sem substituir os arquivos do snapshot e, portanto, mantém as alterações atuais e as exclusões em relação ao commit. Se `HISTORICO.json` indicar outra branch, substitua o nome nos dois comandos correspondentes. Nunca execute este procedimento na pasta original que já contém `.git`.
+
+```powershell
+git init
+git fetch ../SIVI-history.bundle 'refs/heads/*:refs/remotes/transfer/*'
+git symbolic-ref HEAD refs/heads/codex/proteger-condicoes-aceitas
+git reset --mixed refs/remotes/transfer/codex/proteger-condicoes-aceitas
+git branch main refs/remotes/transfer/main
+git remote add origin https://github.com/kauanoIiveira/sivi.git
+git status
+```
+
+O arquivo `SHA256SUMS.txt` aparece como não rastreado após a restauração; é apenas o comprovante da transferência. Confira a autoria local conforme as instruções abaixo antes de criar commits. Nenhum commit ou envio remoto faz parte da exportação.
 
 ## Repositório de continuidade
 

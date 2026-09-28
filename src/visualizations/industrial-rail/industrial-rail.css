@@ -3,7 +3,7 @@
   overflow: hidden;
   border: 1px solid var(--border-subtle);
   border-radius: 5px;
-  background: var(--surface-raised);
+  background: var(--surface);
 }
 
 .industrial-rail__visual-scroll {
@@ -23,8 +23,6 @@
   width: 100%;
   min-width: 940px;
   height: auto;
-  background-image: linear-gradient(90deg, transparent 49.8%, var(--border-subtle) 50%, transparent 50.2%);
-  background-size: 112px 100%;
 }
 
 .industrial-rail__track {
@@ -35,42 +33,42 @@
 
 .industrial-rail__track--bed {
   stroke: var(--border-strong);
-  stroke-width: 6;
+  stroke-width: 2;
   opacity: 0.28;
 }
 
 .industrial-rail__track--signal {
   stroke: var(--text-muted);
-  stroke-width: 3;
+  stroke-width: 1;
   stroke-dasharray: none;
-  opacity: 0.72;
+  opacity: 0.4;
 }
 
 .industrial-rail__node { cursor: pointer; outline: none; }
 .industrial-rail__halo {
   fill: var(--surface);
-  stroke: var(--border-subtle);
-  stroke-width: 2;
+  stroke: transparent;
+  stroke-width: 1;
 }
 .industrial-rail__disc {
-  fill: var(--surface-interactive);
+  fill: var(--surface);
   stroke: var(--border-strong);
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 .industrial-rail__glyph {
   fill: var(--text-primary);
-  font: 700 17px "IBM Plex Mono", monospace;
+  font: 700 1.0625rem "IBM Plex Mono", monospace;
   pointer-events: none;
 }
 .industrial-rail__sequence {
   fill: var(--text-subtle);
-  font: 700 9px "IBM Plex Mono", monospace;
+  font: 700 0.5625rem "IBM Plex Mono", monospace;
   letter-spacing: 0.08em;
   pointer-events: none;
 }
 .industrial-rail__label {
   fill: var(--text-muted);
-  font: 650 12px "Archivo", sans-serif;
+  font: 650 0.75rem "Archivo", sans-serif;
   pointer-events: none;
 }
 
@@ -97,13 +95,12 @@
   stroke: var(--action-primary);
   transform-box: fill-box;
   transform-origin: center;
-  animation: industrial-rail-pulse 1.8s ease-out infinite;
 }
-.industrial-rail__node:focus-visible .industrial-rail__halo,
 .industrial-rail__node[data-selected] .industrial-rail__halo {
   stroke: var(--focus-ring);
-  stroke-width: 4;
+  stroke-width: 2;
 }
+.industrial-rail__node:focus-visible .industrial-rail__halo { stroke: var(--focus-ring); stroke-width: 3; }
 
 .industrial-rail__legend {
   display: flex;
@@ -121,18 +118,13 @@
   font-size: 0.72rem;
 }
 .industrial-rail__legend b {
-  width: 25px;
-  height: 25px;
+  width: 18px;
+  height: 22px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--border-strong);
-  border-radius: 50%;
   color: var(--text-primary);
-  background: var(--surface);
   font-family: "IBM Plex Mono", monospace;
 }
-.industrial-rail__legend li[data-rail-legend-status="locked"] b,
-.industrial-rail__legend li[data-rail-legend-status="upcoming"] b { border-style: dashed; }
 
 .industrial-rail__detail {
   display: grid;
@@ -143,11 +135,9 @@
   background: var(--surface);
 }
 .industrial-rail__detail-status {
-  color: var(--action-text);
+  color: var(--text-muted);
   font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
 }
 .industrial-rail__detail h3 { margin: 6px 0; font-size: 1.15rem; }
 .industrial-rail__detail p {
@@ -162,19 +152,23 @@
   gap: 7px;
   margin-top: 8px;
 }
-[data-rail-evidence] button {
+[data-rail-evidence] button, [data-rail-evidence] a {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  text-decoration: none;
   min-height: 44px;
   padding: 7px 11px;
   border: 1px solid var(--border-control);
-  border-radius: 8px;
-  color: var(--action-text);
-  background: var(--surface-interactive);
+  border-radius: 5px;
+  color: var(--text-primary);
+  background: var(--surface);
   font: inherit;
   font-size: 0.76rem;
   cursor: pointer;
 }
-[data-rail-evidence] button:hover { border-color: var(--action-primary); }
-[data-rail-evidence] button:focus-visible {
+[data-rail-evidence] button:hover, [data-rail-evidence] a:hover { background: var(--surface-raised); border-color: var(--text-muted); }
+[data-rail-evidence] button:focus-visible, [data-rail-evidence] a:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
@@ -188,7 +182,7 @@
 
 .industrial-rail__table-wrap {
   margin: 14px 22px;
-  color: var(--action-text);
+  color: var(--text-muted);
   font-size: 0.78rem;
 }
 .industrial-rail__table-wrap summary {
@@ -227,10 +221,6 @@
   font-size: 0.72rem;
 }
 
-@keyframes industrial-rail-pulse {
-  from { opacity: 0.84; transform: scale(0.74); }
-  to { opacity: 0; transform: scale(1.36); }
-}
 
 @media (max-width: 700px) {
   .industrial-rail__detail { grid-template-columns: 1fr; gap: 18px; }

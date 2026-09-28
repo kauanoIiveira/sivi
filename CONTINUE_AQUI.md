@@ -1,61 +1,69 @@
-# Retomar o SIVI — 20/09/2026
+# Retomar o SIVI — 27/09/2026
 
-O ponto de entrada é `index.html`. As próximas entregas devem continuar no sistema existente, com Firebase e dados da empresa ativa. A página pública foi aprovada após o ajuste de largura do rodapé; preservar essa direção visual.
+Comece por [32 — Evolução funcional e continuidade](docs/32-evolucao-e-continuidade.md) e [33 — Transferência e limpeza](docs/33-transferencia-e-limpeza.md). Eles descrevem a entrega mais recente, as funções aplicadas e o que permanece pendente. Os documentos 26 a 31 conservam as revisões anteriores.
 
-## Ler primeiro
+## Executar
 
-Consulte primeiro [Transferência e retomada](docs/25-transferencia-e-retomada.md), [Entrada e aprovação de empresas](docs/24-entrada-e-aprovacao.md) e [Jornada, próximas ações e portal administrativo](docs/23-jornada-e-proximas-acoes.md).
+O ponto de entrada é index.html, com HTML/CSS/JavaScript e Firebase Authentication/Realtime Database. Não há build, React ou Vite. Use Node.js 22+; execute npm ci e npm start na raiz, depois abra http://127.0.0.1:4173/#/.
 
-1. [Limpeza e revisão da UI](docs/22-limpeza-e-revisao-ui.md): alterações, diagnóstico e verificações desta revisão.
-2. [Design System](design-system/MASTER.md): regras visuais atuais para todas as telas.
-3. [Entrega de empresas, perfil e match](docs/21-entrega-firebase-empresas-perfil-match.md): estado funcional e configuração da administração.
-4. [Plano funcional](docs/19-plano-mvp-academico-dinamico.md) e [plano técnico](docs/20-plano-de-implementacao-mvp-dinamico.md): funcionalidades restantes. A orientação atual de UI e sistema real prevalece sobre a antiga orientação de congelar o demo.
+Para os testes: npm test. Playwright inicia servidor e emuladores locais. É necessário JDK 21+; SIVI_JAVA_HOME pode apontar para um JDK instalado. Na máquina de origem foi usado C:/Program Files/Android/Android Studio/jbr. Esse caminho deve ser conferido no destino.
 
-## Estado atual
+Verificação final: 155 testes unitários e 124 de navegador/emuladores aprovados, 180 verificações de largura em 22 telas/estados sem transbordamento. Os resultados ficam em docs/reviews/2026-09-27-evolucao-final.json. Capturas desta entrega: exports/evolucao-final-2026-09-27. Não houve implantação remota, commit ou push nesta entrega.
 
-- Página pública com títulos de maior escala, fundo claro, faixa de entrada, FAQ e rodapé de largura total. Referência de proporção: landing do BarberFlow, adaptada à identidade industrial. Teste do rodapé cobre 360 a 2560px nos dois temas.
-- Autenticação Firebase, cadastro dinâmico de empresas e associação por papel.
-- Página pública em `#/`, cadastro empresarial guiado com revisão, consulta da solicitação, correção e reenvio. Acesso gratuito nesta etapa.
-- Administração pode aprovar, solicitar correção ou recusar com motivo. Cada empresa aparece em um cartão; uma única atuação comercial ativa permite entrada direta após login.
-- Portal administrativo com cadastro de empresas para responsáveis com conta verificada, aprovação e bloqueio; perfil industrial de fornecedores.
-- Painéis com próximas ações e links que conservam a demanda ou pedido selecionado.
-- Navegação “Empresas e atuação”, com entradas para comprar, fornecer e administrar.
-- Demandas com vários itens e match explicável.
-- Propostas versionadas, aceite único e pedido com condições preservadas.
-- Inspeção/reinspeção por pedido, liberação, expedição, recebimento e avaliação.
-- Painéis calculados, navegação responsiva e preferência de tema persistida.
-- Página demo excluída; simulações isoladas em `tests/fixtures/`.
-- UI revisada: navegação grafite, superfície aço clara ou grafite escura, laranja nas ações, tipografia Archivo e IBM Plex Mono.
+## Funções atuais
 
-## Limites a tratar nas próximas entregas
+- Landing industrial com explicação interativa da compra e papéis de comprador/fornecedor. Temas, teclado e texto ampliado continuam disponíveis.
+- Autenticação, confirmação de e-mail, cadastro de empresas com revisão, aprovação, correção/reenvio e bloqueio. Uma empresa pode comprar e fornecer.
+- Administração com cadastro para responsáveis verificados; perfil industrial dos fornecedores; navegação por empresa e atuação.
+- Demandas multiitem, objetivo separado, edição transacional do rascunho, recuperação de preenchimento na mesma aba, busca e filtros.
+- Reutilização de uma demanda como novo rascunho independente, revisável antes de gravar. Prazos vencidos não são reaproveitados.
+- Match explicado por requisitos e capacidade, sem comparar metros com unidades ou somar unidades distintas.
+- Propostas versionadas, validade pelo dia de São Paulo, comparação e pedido com cópia das condições aceitas.
+- Filtros e ordenação de negociações/pedidos por situação, empresa, referência, descrição, atualização, data desejada e valor. Preferências isoladas por contexto.
+- Avisos no painel para validade próxima, propostas vencidas e data desejada pelo comprador. Essa data não equivale à promessa de entrega.
+- Inspeção e reinspeção por item, liberação integral, expedição, confirmação de recebimento e avaliação.
+- CSV da lista filtrada de pedidos, com uma linha por item e totais sem duplicação. Resumo imprimível do pedido e dos registros operacionais.
+- Proteção de preenchimento e envio, confirmação de gravação distinguida de erro na leitura seguinte, atualização explícita e estados de erro recuperáveis.
 
-- Propostas ainda usam valor agregado; detalhamento comercial por item permanece no plano.
-- Atendimento por estoque/produção, lotes, QR, anexos e auditoria ainda não estão implementados.
-- Inspeções atuais pertencem ao pedido, sem divisão operacional por lote.
-- Convites e gestão de membros não possuem interface.
-- Serviço de notificações pendente; a interface não oferece botão fictício.
-- `kauanbarboza2305@gmail.com` está habilitada como administrador no projeto remoto, por UID em `platformAdmins`. Entrar novamente e escolher “Administração SIVI”.
-- As regras foram publicadas no `sivi-org` em 18/09 e comparadas com o arquivo local. A etapa de entrada e aprovação também publicou suas regras, confirmadas por leitura remota. Não foram criadas empresas de teste no projeto remoto.
-- Marca gráfica e arte final da raposa continuam pendentes. A aplicação usa o nome SIVI; não inventar outra versão do mascote.
+## Consistência e limites
+
+A publicação agora leva o token da versão do rascunho. As regras locais rejeitam o PATCH inteiro se essa versão mudar entre leitura e publicação. O token de edição avança mesmo com relógios repetidos. Demandas desta versão guardam os destinatários na projeção privada do comprador; o aceite encerra as oportunidades desses fornecedores no mesmo PATCH.
+
+**As regras comerciais e a precondição de publicação ainda não foram implantadas no Firebase remoto.** Os resultados são locais, verificados com emuladores. Não afirmar proteção remota sem atualização coordenada. Clientes antigos sem o marcador permanecem compatíveis e não recebem a mesma garantia.
+
+O bloco 1B do [roteiro 28](docs/28-proximos-passos.md) está parcialmente atendido. Continuam prioritários: criação/aceite autoritativos, repetição segura de escritas de resultado desconhecido e reconciliação de projeções antigas. Sem lista de destinatários, o fechamento legado alcança apenas fornecedores conhecidos pelas propostas. A inspeção e a avaliação ainda precisam de validação completa e histórico imutável nas regras.
+
+Propostas por item, anexos, atendimento por estoque/produção, lotes, QR, dados detalhados de transporte, notificações persistidas e gestão de convites/membros continuam pendentes. A jornada real mostra apenas as etapas implementadas. Não colocar métricas fictícias, estoque, QR ou rastreio como se já existissem.
+
+O SIVI é intermediador B2B industrial; não é ERP/MES/WMS e não fabrica, transporta ou processa pagamentos. Simulações ficam somente em tests/fixtures.
+
+## Direção visual
+
+Preservar Archivo e IBM Plex Mono, grafite, superfícies planas, laranja nas ações e cores semânticas suaves. Aplicar minimalist-ui quando ajudar a leitura industrial, sem impor serifas, animações decorativas ou cartões desnecessários. Consulte design-system/MASTER.md e as referências públicas registradas na revisão 32. Não inventar outra versão da raposa; a marca gráfica final continua pendente.
 
 ## Arquivos centrais
 
-- `src/app/bootstrap.js`: inicia o sistema com Firebase; não importa fixtures.
-- `src/repositories/firebase-marketplace-repository.js`: persistência e comandos.
-- `src/domain/live-marketplace-selectors.js`: indicadores e etapas reais.
-- `src/pages/operations/workflow-view.js`: formulários comerciais e operacionais.
-- `src/layouts/app-shell/`: navegação, empresa e conta.
-- `src/styles/theme-tokens.css`: cores e tokens.
-- `database.rules.json`: autorização e transições.
-- `tests/e2e/firebase-marketplace.spec.js`: jornada persistida nos emuladores.
+- src/repositories/firebase-marketplace-repository.js e database.rules.json: persistência, transições e projeções.
+- src/pages/operations/: demandas, propostas, pedidos, filtros, reutilização, CSV e impressão.
+- src/domain/next-actions.js, deadline.js, calendar-date.js, quantity.js e inspection.js: prioridades, datas, unidades e qualidade.
+- src/pages/public/: landing e fluxo público.
+- src/core/unsaved-changes.js: proteção de formulários ao sair.
+- src/layouts/app-shell/ e src/theme/: navegação, aparência e acessibilidade.
+- scripts/export-project.ps1 e verify-transfer.mjs: cópia portátil e integridade.
 
-Consulte [COMO_ABRIR.md](COMO_ABRIR.md) para executar e verificar. O SIVI continua intermediador industrial; não ampliar o escopo para ERP, MES ou WMS.
+## Transferência e Git
+
+O exportador preserva toda a pasta docs e os arquivos atuais, inclusive alterações não commitadas. Omite dependências, caches, logs, credenciais privadas e .git; o histórico é opcional, em bundle separado, com HEAD e todas as branches locais. A pasta gerada permanece ao lado do ZIP. Não apagar a origem antes de verificar o destino.
+
+Leia o documento 25 para restaurar o bundle sobre o snapshot sem substituir os arquivos. Leia o documento 33 para a lista de remoções manuais possíveis; nenhum arquivo antigo foi excluído nesta entrega. O inventário classifica separadamente backups e anotações ambíguos.
+
+Repositório de continuidade: https://github.com/kauanoIiveira/sivi. Branch do trabalho atual: codex/proteger-condicoes-aceitas. Há alterações locais ainda sem commit. A referência publicada continua main; confirmar git status, git branch e git remote -v antes de enviar qualquer coisa.
+
+Preservar a autoria de Kauan Oliveira e o histórico limpo já adotado. Novos commits devem ter mensagens naturais em português. Não importar o bundle de histórico antigo para o repositório atual sem uma decisão específica do responsável. Os dados e usuários continuam no Firebase; não recriar administração nem publicar regras só por mudar de máquina.
 
 ## Próxima sessão
 
-1. Conferir `git status`, ler este arquivo e iniciar com `npm start`.
-2. Conferir a página pública e entrar com a conta adequada antes de alterar o fluxo.
-3. Escolher com o responsável a próxima página ou função. Os itens pendentes acima são opções de continuidade, não uma ordem para implementar todos.
-4. Preservar a entrada e aprovação de empresas, temas, isolamento de dados e navegação entre demanda, proposta e pedido.
-5. O repositório de continuidade é `https://github.com/kauanoIiveira/sivi`, branch `main`. Conferir `git remote -v` antes de enviar alterações e seguir `docs/25-transferencia-e-retomada.md`.
-6. Manter o histórico iniciado pela publicação completa do projeto, sem integrar commits anteriores de outros repositórios. Novos commits devem usar títulos e descrições naturais em português, com autoria de Kauan Oliveira.
+1. Verificar o manifesto da cópia, Git e dependências; iniciar a aplicação.
+2. Ler a revisão 32 e seus limites, depois incorporar a análise manual do responsável.
+3. Priorizar o restante do bloco 1B antes de ampliar negociação e rastreabilidade.
+4. Preservar autorização por empresa, condições aceitas, acessibilidade e toda a documentação.

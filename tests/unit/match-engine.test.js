@@ -48,3 +48,23 @@ test("blocks a supplier missing a mandatory category and keeps partial matches e
   assert.equal(partial.status, "partial");
   assert.equal(partial.eligible, true);
 });
+
+test('matching does not equate declared unit capacity to metres or mixed quantities', () => {
+  const profile = { categories: ['engrenagens'], processes: ['usinagem'], materials: ['aço 1045'], regions: ['Campinas/SP'], certifications: ['ISO 9001'], capacity: 800 };
+  const result = matchSupplierToDemand({ ...demand, items: [{ ...demand.items[0], quantity: 20, unit: 'm' }] }, profile);
+  assert.equal(result.criteria.find(item => item.id === 'capacity').state, 'not_informed');
+  assert.equal(result.status, 'partial');
+  const unknown = matchSupplierToDemand(demand, { ...profile, capacity: undefined });
+  assert.equal(unknown.criteria.find(item => item.id === 'capacity').state, 'not_informed');
+});
+
+test('a requested criterion missing from the supplier profile needs confirmation', () => {
+  const profile = { categories: ['engrenagens'], processes: ['usinagem'], materials: ['aço 1045'], regions: ['Campinas/SP'], certifications: ['ISO 9001'], capacity: 800 };
+  for (const field of ['certifications', 'materials', 'regions']) {
+    const match = matchSupplierToDemand(demand, { ...profile, [field]: [] });
+    assert.equal(match.status, 'partial', `Missing ${field} must not be presented as compatible`);
+    assert.equal(match.eligible, true);
+  }
+  const noCertification = { ...demand, items: [{ ...demand.items[0], certifications: [] }] };
+  assert.equal(matchSupplierToDemand(noCertification, { ...profile, certifications: [] }).status, 'compatible');
+});

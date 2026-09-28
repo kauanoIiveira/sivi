@@ -1,0 +1,87 @@
+{
+  "date": "2026-09-26",
+  "scope": "Bloco 1A: campos comerciais dos pedidos existentes e transições de demandsByBuyer",
+  "outcome": "fixed_locally",
+  "branch": "codex/proteger-condicoes-aceitas",
+  "baseCommit": "6cbc567958a22251935c9bd084f187fbb4ab6911",
+  "workingTree": "Alterações sem commit, incluindo trabalho anterior preservado; hashes abaixo identificam os arquivos verificados.",
+  "environment": {
+    "node": "v24.19.0",
+    "javaHome": "C:/Program Files/Android/Android Studio/jbr",
+    "auth": "127.0.0.1:9099",
+    "database": "127.0.0.1:9000",
+    "web": "127.0.0.1:4173",
+    "data": "Contas, empresas e registros sintéticos locais",
+    "remoteDatabaseAccessed": false,
+    "remoteRulesDeployed": false
+  },
+  "verification": [
+    {
+      "phase": "Antes da correção dos pedidos",
+      "command": "npx playwright test tests/e2e/marketplace-integrity.spec.js",
+      "exitCode": 1,
+      "passed": 3,
+      "failed": 3,
+      "evidence": "HTTP 200 em adulterações e remoções que deveriam retornar 401; leituras posteriores confirmaram dados alterados. Incluiu totalCents 10000 para 1 e quantity 10 para 1."
+    },
+    {
+      "phase": "Antes da correção das demandas",
+      "command": "npx playwright test tests/e2e/marketplace-integrity.spec.js --grep demand",
+      "exitCode": 1,
+      "passed": 1,
+      "failed": 2,
+      "evidence": "Transições proibidas, criação adiantada e exclusão retornaram HTTP 200; exclusão deixou registro null."
+    },
+    {
+      "phase": "Regressão e jornada completa após correção",
+      "command": "npx playwright test tests/e2e/marketplace-integrity.spec.js tests/e2e/firebase-marketplace.spec.js",
+      "exitCode": 0,
+      "passed": 11,
+      "failed": 0,
+      "evidence": "Escritas autenticadas proibidas retornam 401 e preservam registros. Interface percorre criação, publicação, proposta, aceite, inspeção parcial, reinspeção, expedição, recebimento e avaliação persistida após reload."
+    },
+    {
+      "phase": "Suíte completa",
+      "command": "npm test",
+      "exitCode": 0,
+      "unitPassed": 91,
+      "e2ePassed": 84,
+      "failed": 0
+    },
+    {
+      "phase": "Revisão do diff",
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "independentReview": {
+    "mode": "Agente novo, somente leitura, sem executar testes",
+    "result": "Nenhum bypass ou regressão concreta encontrado dentro do escopo",
+    "reviewed": ["database.rules.json", "orderOperationUpdates e os quatro comandos operacionais", "fixture e testes de integridade", "extensão da jornada no navegador"]
+  },
+  "implementation": {
+    "orderPolicy": "Criação autorizada no pedido; registros existentes concedem escrita somente a status, updatedAt, inspections, dispatchedAt, deliveredAt e evaluation. Demais caminhos, inclusive filhos arbitrários e exclusões de version/items, não recebem autorização.",
+    "repository": "Os quatro comandos operacionais enviam campos filhos nas duas projeções num PATCH atômico, sem reenviar condições aceitas.",
+    "demandPolicy": "Criação draft; draft para draft/published; published para published/ordered; ordered para ordered; sem exclusão.",
+    "legacy": "Ausência de items e description é preservada, sem migração artificial.",
+    "technicalAdjustment": "RuleDataSnapshot.val retorna sentinel para objetos; igualdade profunda não está disponível. Usou-se autorização por caminho para congelar objetos inteiros.",
+    "reference": "https://firebase.google.com/docs/reference/security/database#val"
+  },
+  "remaining": [
+    "Publicação remota separada; atualizar aplicação e recarregar clientes antigos que substituem pedidos inteiros.",
+    "Criação autoritativa do pedido e vínculo com versão aceita ainda pendentes.",
+    "Não força sincronização das projeções contra clientes arbitrários nem corrige divergências existentes.",
+    "publishedDemands não está protegido pela matriz desta entrega; reabertura por escrita direta pertence ao bloco 1B.",
+    "Repetir estado em demandsByBuyer ainda permite alterar requisitos publicados; revisão imutável pendente.",
+    "Liberação não exige inspeção autoritativa; histórico de inspeções e avaliação ainda podem ser reescritos nas transições permitidas.",
+    "Recebimento e avaliação mantêm a autorização anterior por associação ativa à empresa compradora, sem nova verificação explícita de papel.",
+    "Concorrência, idempotência, falha após gravação e atualização das oportunidades permanecem no bloco 1B."
+  ],
+  "sha256": {
+    "database.rules.json": "BA9FC6E48574932642FD34F2C2CABEF547DF58417879C6CDED95B5DAD817AFE4",
+    "src/repositories/firebase-marketplace-repository.js": "017802431DD65088A9814BE20D5BFBB8FC6D2902E1FE41F498114C1B87366C65",
+    "tests/e2e/marketplace-integrity.spec.js": "FE02E7E9C2433E4B08EE8B00A2187C6C0F3FE095DEFAB5085C3B0EBB93EED772",
+    "tests/e2e/firebase-marketplace.spec.js": "56F44163F5F16E04FB210EEFF5445DF056532F102F96B12C164CFAA218743C01",
+    "tests/helpers/marketplace-rule-fixture.js": "FBC9406672B93B428C093BF27772288B1BE786F1EB0BB00059E0EF7EAC0B0921"
+  }
+}

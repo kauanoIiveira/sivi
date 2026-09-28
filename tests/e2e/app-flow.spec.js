@@ -138,7 +138,7 @@ test.describe("integrated authenticated application", () => {
 
     await expect(page.locator("[data-app-shell]")).toBeVisible();
     await expect(page.locator("[data-page-state='not-found']")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Esta rota não faz parte da jornada" })).toBeFocused();
+    await expect(page.getByRole("heading", { name: "Página não encontrada" })).toBeFocused();
     await expect(page.locator("[data-page-state='not-found'] p"))
       .toContainText("/app/rota-inexistente");
   });

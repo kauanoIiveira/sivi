@@ -59,7 +59,7 @@ test("keeps the light context composition identical to the dark reference", asyn
     read("src/layouts/app-shell/app-shell.css"),
   ]);
 
-  assert.match(contextCss, /\.context-page__eyebrow\s*\{[^}]*color:\s*var\(--action-text\)/);
+  assert.match(contextCss, /\.context-page__eyebrow\s*\{[^}]*color:\s*var\(--text-muted\)/);
   assert.match(contextCss, /\.context-card > span\s*\{[^}]*color:\s*var\(--action-text\)/);
   assert.match(contextCss, /\.context-card > em\s*\{[^}]*color:\s*var\(--action-text\)/);
   assert.doesNotMatch(contextCss, /:root\[data-theme="light"\]/);

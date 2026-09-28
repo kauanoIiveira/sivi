@@ -5,7 +5,8 @@ for (const role of ["buyer", "supplier", "administration"]) {
     await page.goto(`/tests/fixtures/dashboard-lab.html?role=${role}`);
     await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
     await expect(page.locator(".dashboard-page")).toHaveAttribute("data-page-state", "success");
-    await expect(page.locator(".dashboard-hero__eyebrow")).not.toBeEmpty();
+    await expect(page.getByRole('heading', { level: 1 })).not.toBeEmpty();
+    await expect(page.locator('.metrics-heading time')).toContainText('Atualizado em');
     const metrics = page.locator("[data-metric]");
     for (let index = 0; index < await metrics.count(); index += 1) {
       const metric = metrics.nth(index);
@@ -58,7 +59,7 @@ for (const state of ["empty", "error", "conflict"]) {
 
 test("forbidden state explains access without offering a cosmetic retry", async ({ page }) => {
   await page.goto("/tests/fixtures/dashboard-lab.html?role=buyer&state=forbidden");
-  await expect(page.getByText(/menu oculto não substitui permissão real/i)).toBeVisible();
+  await expect(page.getByText(/Sua conta não tem permissão/i)).toBeVisible();
   await expect(page.locator("[data-page-state] button")).toHaveCount(0);
 });
 

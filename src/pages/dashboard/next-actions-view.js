@@ -26,7 +26,7 @@ export function renderNextActions(data) {
     copy.append(title, reason);
     const link = document.createElement("a");
     link.className = "dashboard-link";
-    link.textContent = `${action.label} →`;
+    link.textContent = action.label;
     link.href = action.href;
     item.append(copy, link);
     list.append(item);

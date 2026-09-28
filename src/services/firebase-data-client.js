@@ -1,4 +1,4 @@
-import { query, orderByChild, equalTo, limitToFirst, get, push, ref, serverTimestamp, set, update } from "firebase/database";
+import { query, orderByChild, equalTo, limitToFirst, get, push, ref, runTransaction, serverTimestamp, set, update } from "firebase/database";
 
 export function createFirebaseDataClient(database) {
   return Object.freeze({
@@ -15,6 +15,10 @@ export function createFirebaseDataClient(database) {
     },
     patch(updates) {
       return update(ref(database), updates);
+    },
+    async transaction(path, updater) {
+      const result = await runTransaction(ref(database, path), updater, { applyLocally: false });
+      return { committed: result.committed, value: result.snapshot.val() };
     },
     newKey(path) {
       return push(ref(database, path)).key;

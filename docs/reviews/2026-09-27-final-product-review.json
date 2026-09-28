@@ -1,0 +1,106 @@
+{
+  "checkedAt": "2026-09-27T17:26:58.3227198Z",
+  "environment": "Local Chromium and Firebase Authentication/Realtime Database emulators; synthetic accounts only",
+  "command": "npm test",
+  "unit": {
+    "failed": 0,
+    "skipped": 0,
+    "passed": 133
+  },
+  "browser": {
+    "lastRunStatus": "passed",
+    "failed": 0,
+    "skipped": 0,
+    "passed": 112
+  },
+  "visual": {
+    "note": "1920 and 2560 for public page; no WCAG certification or remote validation",
+    "layoutChecks": 180,
+    "horizontalOverflows": 0,
+    "screenshots": 90,
+    "directory": "exports/revisao-final-2026-09-27",
+    "widths": [
+      360,
+      390,
+      768,
+      1440,
+      1920,
+      2560
+    ],
+    "scenes": 22,
+    "themes": [
+      "light",
+      "dark"
+    ]
+  },
+  "diffCheck": {
+    "result": "passed",
+    "command": "git -c core.safecrlf=false diff --check"
+  },
+  "deployment": "No remote deployment or Git publication",
+  "cleanup": {
+    "artifacts": "Pending: earlier automatic approval review returned blocked by policy; no deletion from that attempt",
+    "documents": "Preserved",
+    "source": "Removed unused styles and decorative markup in edited components"
+  },
+  "limitations": [
+    "Concurrent publication/acceptance and unknown write outcomes need authoritative handling",
+    "Quality history and per-item constraints are not fully enforced by database rules",
+    "Legacy quantity and approved aggregate fields remain for compatibility",
+    "Stock/production, lots, QR, attachments and item-level commercial prices are not implemented"
+  ],
+  "centralFiles": [
+    {
+      "path": "src/core/unsaved-changes.js",
+      "sha256": "c4093108ebe1c5899bbc3c1ad69aa8393377a53fbc01f1e449cbe5e401af3e11"
+    },
+    {
+      "path": "src/domain/quantity.js",
+      "sha256": "833db049fd46b6638de434df212b790cb46d71c792be5a84b5d698d1c9955721"
+    },
+    {
+      "path": "src/domain/inspection.js",
+      "sha256": "8c3704697e1ab872f7d2bedf7d3513e7810cce9db68fb616a0100a38e45d8896"
+    },
+    {
+      "path": "src/domain/calendar-date.js",
+      "sha256": "5f1e5485b23b70af75a0ed0114a1b57b7cba820a8c7028dd5f74285e100ba975"
+    },
+    {
+      "path": "src/domain/match-engine.js",
+      "sha256": "b48b8fff7a11f2a7fb1a637db324b9558c84bfa7375b6b01c096669950ec6477"
+    },
+    {
+      "path": "src/domain/live-marketplace-selectors.js",
+      "sha256": "4a847f51b40246c5f4b176884bf921cec31486770395e0b46fae398034c074cb"
+    },
+    {
+      "path": "src/repositories/firebase-marketplace-repository.js",
+      "sha256": "805d1d9992c9fe511ad4819c88ddb63e2b82e37f9171a1a94a918d408b560f3c"
+    },
+    {
+      "path": "src/pages/dashboard/admin-dashboard-page.js",
+      "sha256": "7b90ca38c95ff367a60ee7c58acb0fa8d1c0196634d6a966cca327bd755ca16a"
+    },
+    {
+      "path": "src/pages/supplier/profile-page.js",
+      "sha256": "07f8014def5528bbdd790fba0189b4c78bfd71b448e6cbcc98e49d751c300c3c"
+    },
+    {
+      "path": "src/pages/operations/workflow-view.js",
+      "sha256": "a590fd3477d91cc620c250f80285ffb2d7648c1c913844fb4f3843843fdb3986"
+    },
+    {
+      "path": "src/pages/public/public-page.js",
+      "sha256": "0e030955bfe788b4335d6e86c5f3cd51a7f50d82e135a2d6d9d19d16e79f0aa4"
+    },
+    {
+      "path": "tests/e2e/product-refinement.spec.js",
+      "sha256": "aa5f77268a18a25490157cfddd714b57cc31d29b045c25bc14da131c3c27732d"
+    },
+    {
+      "path": "tests/e2e/supplier-profile-reliability.spec.js",
+      "sha256": "da1cd7a091b593c90dc34ee88e64ae487006c2685ccce4d8c784ad84640d69d1"
+    }
+  ]
+}

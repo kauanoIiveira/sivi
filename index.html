@@ -18,6 +18,13 @@
 
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
+        let appearance = {};
+        try { appearance = JSON.parse(window.localStorage.getItem('sivi.appearance.v1')) ?? {}; } catch {}
+        const root = document.documentElement;
+        root.dataset.textSize = appearance.textSize === 'large' ? 'large' : 'standard';
+        root.dataset.contrast = appearance.contrast === 'more' ? 'more' : 'standard';
+        root.dataset.density = appearance.density === 'compact' ? 'compact' : 'comfortable';
+        root.dataset.motion = appearance.motion === 'reduce' || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'full';
         document.querySelector('meta[name="theme-color"]').content =
           theme === "dark" ? "#111315" : "#F3F4F4";
       })();
@@ -44,6 +51,7 @@
     <link rel="stylesheet" href="./src/pages/operations/operations-page.css" />
     <link rel="stylesheet" href="./src/pages/supplier/profile-page.css" />
     <link rel="stylesheet" href="./src/visualizations/industrial-rail/industrial-rail.css" />
+    <link rel="stylesheet" href="./src/theme/appearance.css" />
     <script type="importmap">
       {
         "imports": {
@@ -96,7 +104,7 @@
             <div class="story-copy story-copy--register is-active" data-story="register">
               <p class="story-copy__eyebrow">Seu acesso começa aqui</p>
               <h2>Comece com o SIVI</h2>
-              <p>Crie sua conta e prepare a sua organização para uma jornada industrial rastreável.</p>
+              <p>Crie sua conta para cadastrar a empresa e solicitar acesso às negociações.</p>
               <ol class="story-steps" aria-label="Etapas de configuração">
                 <li class="is-current"><span>01</span> Crie sua conta</li>
                 <li><span>02</span> Configure sua organização</li>
@@ -107,7 +115,7 @@
             <div class="story-copy story-copy--login" data-story="login" aria-hidden="true">
               <p class="story-copy__eyebrow">Continue de onde parou</p>
               <h2>Da demanda à entrega</h2>
-              <p>Acesse suas atividades, propostas e pedidos em um único fluxo de trabalho.</p>
+              <p>Consulte as propostas recebidas e acompanhe os pedidos da sua empresa.</p>
               <ol class="story-steps" aria-label="Etapas para continuar">
                 <li class="is-current"><span>01</span> Acesse sua conta</li>
                 <li><span>02</span> Retome suas atividades</li>
@@ -276,6 +284,7 @@
 
         <div class="toast-region" aria-live="polite" aria-atomic="true"></div>
       </section>
+      <button class="preferences-link auth-preferences" type="button" data-open-preferences>Aparência e acessibilidade</button>
     </main>
     <div data-app-root hidden></div>
 

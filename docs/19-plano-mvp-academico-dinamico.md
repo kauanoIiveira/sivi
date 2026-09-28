@@ -1,5 +1,7 @@
 # Plano do MVP acadêmico dinâmico do SIVI
 
+> O recorte funcional deste documento continua como referência. A tabela “O que existe hoje” retrata a revisão original; consulte [28 — Próximos passos](28-proximos-passos.md) para o estado verificado e a sequência atual de implementação.
+
 **Atualização:** 14/09/2026
 
 **Estado:** recorte recomendado para execução

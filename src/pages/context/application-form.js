@@ -22,7 +22,8 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
   for (const check of form.querySelectorAll('[name="roles"]')) check.checked = initial.roles?.[check.value] === true;
   const error = form.querySelector('[role="alert"]');
   const submit = form.querySelector('[type="submit"]');
-  let values, reviewing = false, disposed = false;
+  let values, reviewing = false, disposed = false, sending = false, submitted = false;
+  const initialValues = JSON.stringify([...new FormData(form)]);
   const setStep = value => {
     reviewing = value;
     form.querySelector('[data-fields]').hidden = value;
@@ -34,9 +35,15 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
   };
   form.querySelector('[data-back]').addEventListener('click', () => setStep(false));
   form.querySelector('[data-cancel]').addEventListener('click', onCancel);
-  form.addEventListener('input', () => { error.textContent = ''; });
+  form.addEventListener('input', () => {
+    error.textContent = '';
+    if (JSON.stringify([...new FormData(form)]) === initialValues) delete form.dataset.dirty;
+    else form.dataset.dirty = 'true';
+  });
   form.addEventListener('submit', async event => {
-    event.preventDefault(); error.textContent = '';
+    event.preventDefault();
+    if (disposed || sending || submitted) return;
+    error.textContent = '';
     try {
       if (!reviewing) {
         const data = new FormData(form);
@@ -48,14 +55,20 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
         }
         setStep(true); return;
       }
-      for (const control of form.querySelectorAll('button')) control.disabled = true;
+      sending = true;
+      form.setAttribute('aria-busy', 'true');
+      for (const control of form.querySelectorAll('input, select, button')) control.disabled = true;
       submit.textContent = 'Enviando cadastro…';
       await onSubmit(values);
+      submitted = true;
+      delete form.dataset.dirty;
     } catch (cause) { if (!disposed) error.textContent = cause?.message ?? 'Não foi possível enviar o cadastro. Tente novamente.'; }
     finally {
+      sending = false;
       if (!disposed) {
-        for (const control of form.querySelectorAll('button')) control.disabled = false;
-        submit.textContent = reviewing ? (initial.id ? 'Corrigir e reenviar' : 'Solicitar acesso') : 'Revisar cadastro';
+        form.removeAttribute('aria-busy');
+        for (const control of form.querySelectorAll('input, select, button')) control.disabled = submitted;
+        submit.textContent = submitted ? 'Cadastro enviado' : reviewing ? (initial.id ? 'Corrigir e reenviar' : 'Solicitar acesso') : 'Revisar cadastro';
       }
     }
   });

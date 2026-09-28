@@ -1,0 +1,313 @@
+{
+  "originalRoot": "C:\\Users\\Kauan\\Documents\\SIVI",
+  "entries": [
+    {
+      "path": "database-debug.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 0
+    },
+    {
+      "path": "e2e-after.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 16208
+    },
+    {
+      "path": "e2e-cleanup.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1537
+    },
+    {
+      "path": "firebase-debug.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 117592
+    },
+    {
+      "path": "firebase-fixed.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2949
+    },
+    {
+      "path": "firebase-focus.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2375
+    },
+    {
+      "path": "firebase-journey.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 354
+    },
+    {
+      "path": "footer-width-after.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1853
+    },
+    {
+      "path": "footer-width-before.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 3724
+    },
+    {
+      "path": "footer-width-final.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1852
+    },
+    {
+      "path": "journey-deploy.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 384
+    },
+    {
+      "path": "journey-verification.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 15664
+    },
+    {
+      "path": "journey-visual.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2036
+    },
+    {
+      "path": "onboarding-backup.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 0
+    },
+    {
+      "path": "onboarding-deploy.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 384
+    },
+    {
+      "path": "onboarding-diff-warnings.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 0
+    },
+    {
+      "path": "onboarding-final.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2184
+    },
+    {
+      "path": "onboarding-focus.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 3954
+    },
+    {
+      "path": "onboarding-full.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 16250
+    },
+    {
+      "path": "onboarding-readback.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 0
+    },
+    {
+      "path": "onboarding-test.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2010
+    },
+    {
+      "path": "onboarding-unit.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 6849
+    },
+    {
+      "path": "onboarding-visual.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1763
+    },
+    {
+      "path": "operations-after.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 245
+    },
+    {
+      "path": "public-polish.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1745
+    },
+    {
+      "path": "public-regression.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 3567
+    },
+    {
+      "path": "rules-red.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 2330
+    },
+    {
+      "path": "unit-after.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 5936
+    },
+    {
+      "path": "unit-baseline.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 5664
+    },
+    {
+      "path": "verification.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 14656
+    },
+    {
+      "path": "visual-check.log",
+      "category": "regeneravel",
+      "reason": "Log de execucao",
+      "bytes": 1572
+    },
+    {
+      "path": "test-results/",
+      "category": "regeneravel",
+      "reason": "Dependencias ou resultados locais",
+      "bytes": null
+    },
+    {
+      "path": "node_modules/",
+      "category": "regeneravel",
+      "reason": "Dependencias ou resultados locais",
+      "bytes": null
+    },
+    {
+      "path": "exports/acessibilidade-2026-09-26/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/minimalismo-industrial-2026-09-27/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/revisao-2026-09-26/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/revisao-final-2026-09-27/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/revisao-integrada-2026-09-26/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/ux-2026-09-26/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/ux-suave-2026-09-26/",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": null
+    },
+    {
+      "path": "exports/public-refinement-before.png",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 475511
+    },
+    {
+      "path": "exports/SIVI-historico-anterior-20260920-213256.bundle",
+      "category": "preservar_para_revisao",
+      "reason": "Backup historico distinto",
+      "bytes": 668198
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-173528-247.zip",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 509567
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-173528-247.zip.sha256",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 110
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-212655-875.zip",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 509673
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-212655-875.zip.sha256",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 110
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-212841-522.zip",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 509679
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-212841-522.zip.sha256",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 110
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-213331-040.zip",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 994134
+    },
+    {
+      "path": "exports/SIVI-transferencia-20260920-213331-040.zip.sha256",
+      "category": "opcional_apos_validar_copia_nova",
+      "reason": "Pacote ou evidencia visual anterior",
+      "bytes": 110
+    },
+    {
+      "path": ".superpowers/",
+      "category": "preservar_para_revisao",
+      "reason": "Anotacoes e scripts da correcao anterior",
+      "bytes": null
+    }
+  ],
+  "deleted": [],
+  "capturedAt": "2026-09-27T21:30:58.9050549-03:00"
+}

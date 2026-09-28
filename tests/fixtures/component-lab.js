@@ -1,4 +1,5 @@
 import "/src/theme/theme-controller.js";
+import "/src/theme/preferences-dialog.js";
 import { DEMO_WORKSPACES } from "/tests/fixtures/data/workspaces.js";
 import { createAppShell } from "/src/layouts/app-shell/app-shell.js";
 import { mountContextPage } from "/src/pages/context/context-page.js";

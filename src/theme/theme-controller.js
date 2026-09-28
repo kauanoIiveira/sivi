@@ -48,13 +48,20 @@ function applyTheme(theme, { emit = true } = {}) {
   if (emit) window.dispatchEvent(new CustomEvent("sivi:themechange", { detail: { theme: safeTheme } }));
 }
 
-function persistPreference(theme) {
-  preference = theme;
+export function getThemePreference() { return preference ?? 'system'; }
+
+export function setThemePreference(theme) {
+  if (![...THEMES, 'system'].includes(theme)) return false;
+  preference = theme === 'system' ? null : theme;
+  let saved = true;
   try {
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    if (preference === null) window.localStorage.removeItem(THEME_STORAGE_KEY);
+    else window.localStorage.setItem(THEME_STORAGE_KEY, preference);
   } catch {
-    // A escolha continua válida nesta aba quando o armazenamento está indisponível.
+    saved = false;
   }
+  applyTheme(resolveTheme());
+  return saved;
 }
 
 document.addEventListener("click", (event) => {
@@ -62,8 +69,7 @@ document.addEventListener("click", (event) => {
   if (!toggle) return;
   const current = currentTheme();
   const next = nextExplicitTheme(current);
-  persistPreference(next);
-  applyTheme(next);
+  setThemePreference(next);
 });
 
 const themeToggleObserver = new MutationObserver((records) => {

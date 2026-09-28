@@ -1,28 +1,28 @@
 export const PAGE_STATE_COPY = Object.freeze({
   loading: Object.freeze({
-    title: "Organizando os sinais industriais",
-    description: "Estamos preparando a leitura deste contexto.",
+    title: "Carregando registros",
+    description: "Aguarde enquanto buscamos os dados da empresa.",
     action: null,
   }),
   empty: Object.freeze({
-    title: "Este contexto ainda está silencioso",
-    description: "Ainda não há registros para esta leitura.",
-    action: "Atualizar leitura",
+    title: "Nenhum registro disponível",
+    description: "Ainda não há dados para exibir nesta página.",
+    action: "Atualizar registros",
   }),
   error: Object.freeze({
-    title: "A leitura não pôde ser concluída",
-    description: "Tente novamente sem perder o contexto selecionado.",
+    title: "Não foi possível carregar os registros",
+    description: "Confira sua conexão e tente novamente.",
     action: "Tentar novamente",
   }),
   forbidden: Object.freeze({
-    title: "Este contexto não está disponível",
-    description: "Troque de contexto; menu oculto não substitui permissão real.",
+    title: "Acesso indisponível",
+    description: "Sua conta não tem permissão para acessar estes registros. Selecione outra empresa ou atuação no menu.",
     action: null,
   }),
   conflict: Object.freeze({
-    title: "A versão mudou durante a leitura",
-    description: "Recarregue a projeção antes de tomar uma decisão.",
-    action: "Recarregar projeção",
+    title: "Os registros foram alterados",
+    description: "Atualize a página para conferir as informações mais recentes antes de continuar.",
+    action: "Atualizar registros",
   }),
 });
 
@@ -37,8 +37,6 @@ export function renderPageState(container, { status, onRetry = () => {} }) {
   section.setAttribute("role", status === "error" ? "alert" : "status");
   section.setAttribute("aria-live", status === "loading" ? "polite" : "assertive");
   section.innerHTML = `
-    <span class="page-state__signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="page-state__kicker">Estado da leitura</span>
     <h1 data-page-title></h1>
     <p></p>`;
   section.querySelector("h1").textContent = copy.title;

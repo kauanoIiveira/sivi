@@ -23,6 +23,7 @@ export function createAuthTransitions({
   let resizeFrame = 0;
   let compactHeightFrame = 0;
   let active = true;
+  const frameObserver = new ResizeObserver(() => scheduleCompactHeight());
 
   function getView(mode) {
     return [...root.querySelectorAll("[data-view]")].find((view) => view.dataset.view === mode);
@@ -106,7 +107,7 @@ export function createAuthTransitions({
     const previousView = getView(currentMode);
     const previousStory = getStory(currentMode);
 
-    if (!reducedMotionQuery.matches) {
+    if (!reducedMotionQuery.matches && document.documentElement.dataset.motion !== 'reduce') {
       await Promise.all([
         runAnimation(previousView, { opacity: 0, y: -8, duration: MOTION.compactExit, ease: "inQuad", signal: animationSignal }),
         runAnimation(previousStory, { opacity: 0, duration: MOTION.compactExit, ease: "inQuad", signal: animationSignal }),
@@ -122,7 +123,7 @@ export function createAuthTransitions({
     const nextView = getView(nextMode);
     const nextStory = getStory(nextMode);
 
-    if (reducedMotionQuery.matches) {
+    if (reducedMotionQuery.matches || document.documentElement.dataset.motion === 'reduce') {
       nextView.style.opacity = "1";
       nextStory.style.opacity = "1";
       return;
@@ -188,7 +189,7 @@ export function createAuthTransitions({
     isTransitioning = true;
     onTransitionChange(true);
 
-    if (compactQuery.matches || reducedMotionQuery.matches) {
+    if (compactQuery.matches || reducedMotionQuery.matches || document.documentElement.dataset.motion === 'reduce') {
       await switchCompactMode(nextMode);
     } else {
       await switchDesktopMode(nextMode);
@@ -212,6 +213,8 @@ export function createAuthTransitions({
   function initialize() {
     if (!active) return;
     window.addEventListener("resize", scheduleLayout);
+    window.addEventListener('sivi:appearancechange', scheduleLayout);
+    root.querySelectorAll('.form-frame').forEach(frame => frameObserver.observe(frame));
     compactQuery.addEventListener("change", scheduleLayout);
     document.fonts?.ready.then(() => {
       if (active) scheduleLayout();
@@ -233,6 +236,8 @@ export function createAuthTransitions({
     placeLayout();
     active = false;
     window.removeEventListener("resize", scheduleLayout);
+    window.removeEventListener('sivi:appearancechange', scheduleLayout);
+    frameObserver.disconnect();
     compactQuery.removeEventListener("change", scheduleLayout);
     window.cancelAnimationFrame(resizeFrame);
     window.cancelAnimationFrame(compactHeightFrame);

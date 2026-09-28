@@ -49,7 +49,9 @@ test("admin registers a company for another verified account and owner enters bo
   await expect(page.locator(".context-card", { hasText: "Administração SIVI" })).toHaveCount(0);
   await captureUi(page, "empresas-dupla-atuacao");
   await page.getByRole("button", { name: /Entrar como comprador/ }).click();
-  await expect(page.getByRole("heading", { name: "Próximas ações" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Visão do comprador" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Criar primeira demanda" })).toBeVisible();
+  await expect(page.locator(".dashboard-next-actions")).toHaveCount(0);
   await page.getByRole("button", { name: "Trocar empresa", exact: true }).first().click();
   await page.getByRole("button", { name: /Entrar como fornecedor/ }).click();
   await expect(page.getByRole("heading", { name: "Visão do fornecedor" })).toBeVisible();

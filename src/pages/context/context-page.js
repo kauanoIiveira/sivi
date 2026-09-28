@@ -4,7 +4,7 @@ import { applicationLabels, canResubmitApplication } from '../../domain/organiza
 const node = (tag, text, className) => { const el = document.createElement(tag); el.textContent = text; if (className) el.className = className; return el; };
 export function mountContextPage({ container, workspaces, onSelect, onCreate, onboarding }) {
   container.innerHTML = `<section class="context-page" aria-labelledby="context-title">
-    <header class="context-page__header"><span class="context-page__eyebrow">EMPRESAS DA SUA CONTA</span><h1 id="context-title" data-page-title>Qual empresa você vai usar?</h1><p>Consulte seu cadastro ou escolha como deseja atuar na empresa.</p></header>
+    <header class="context-page__header"><h1 id="context-title" data-page-title>Qual empresa você vai usar?</h1><p>Consulte seu cadastro ou escolha como deseja atuar na empresa.</p></header>
     <div class="application-actions"><button type="button" data-new>Cadastrar empresa</button><button type="button" data-refresh>Atualizar situação</button></div>
     <p role="status" data-feedback></p><div data-application-panel></div><div class="context-page__grid" data-workspace-options></div>
   </section>`;
@@ -12,11 +12,27 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
   let cleanupForm = () => {};
   const panel = container.querySelector('[data-application-panel]');
   const feedback = container.querySelector('[data-feedback]');
+  feedback.tabIndex = -1;
+  const canReplacePanel = () => {
+    if (panel.querySelector('form[aria-busy=true]')) { feedback.textContent = 'Aguarde o envio do cadastro terminar.'; feedback.focus(); return false; }
+    const form = panel.querySelector('form[data-dirty=true]');
+    if (!form) return true;
+    if (!window.confirm('Descartar as alterações não enviadas deste cadastro?')) return false;
+    delete form.dataset.dirty;
+    return true;
+  };
   const closePanel = () => { detailRevision++; cleanupForm(); panel.replaceChildren(); };
   const openForm = (initial = {}) => {
+    if (!canReplacePanel()) return;
     closePanel();
-    cleanupForm = mountApplicationForm({ container: panel, initial, onCancel: closePanel, onSubmit: async values => {
-      if (initial.id) { await onboarding.resubmitOrganization(initial.id, values); await onboarding.refresh(); }
+    cleanupForm = mountApplicationForm({ container: panel, initial, onCancel: () => { if (canReplacePanel()) { closePanel(); container.querySelector('[data-new]').focus(); } }, onSubmit: async values => {
+      if (initial.id) {
+        await onboarding.resubmitOrganization(initial.id, values);
+        if (disposed) return;
+        closePanel(); feedback.textContent = 'Cadastro reenviado. Atualizando a situação…';
+        try { await onboarding.refresh(); }
+        catch { if (!disposed) feedback.textContent = 'Cadastro reenviado. Não foi possível atualizar a lista; use Atualizar situação.'; return; }
+      }
       else await onCreate(values);
       if (!disposed) { closePanel(); feedback.textContent = 'Cadastro enviado para análise. Acompanhe a situação abaixo.'; }
     } });
@@ -27,6 +43,10 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
   const refresh = container.querySelector('[data-refresh]');
   refresh.hidden = !onboarding;
   refresh.addEventListener('click', async () => {
+    if (refresh.disabled) return;
+    if (panel.querySelector('form[data-dirty=true], form[aria-busy=true]')) {
+      feedback.textContent = 'Envie ou cancele o cadastro em preenchimento antes de atualizar a situação.'; feedback.focus(); return;
+    }
     refresh.disabled = true; feedback.textContent = 'Consultando situação…';
     try { await onboarding.refresh(); if (!disposed) feedback.textContent = 'Situação atualizada.'; }
     catch { if (!disposed) feedback.textContent = 'Não foi possível atualizar. Tente novamente.'; }
@@ -50,7 +70,7 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
         const button = node('button', label, 'context-card');
         button.setAttribute('aria-label', `${label} — ${workspace.organizationName}`);
         button.type = 'button'; button.dataset.workspaceId = role.id;
-        button.addEventListener('click', () => onSelect(role.id)); actions.append(button);
+        button.addEventListener('click', () => { if (canReplacePanel()) onSelect(role.id); }); actions.append(button);
       }
       card.append(actions);
     } else {
@@ -59,6 +79,7 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
     if (onboarding && workspace.organizationRole !== 'administration') {
       const inspect = node('button', 'Consultar cadastro'); inspect.type = 'button';
       inspect.addEventListener('click', async () => {
+        if (!canReplacePanel()) return;
         closePanel(); const revision = detailRevision; panel.textContent = 'Carregando cadastro…';
         try {
           const organization = await onboarding.getOrganization(workspace.organizationId ?? workspace.id);

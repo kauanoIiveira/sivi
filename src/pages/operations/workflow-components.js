@@ -1,4 +1,5 @@
 export const money = (cents) => (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+export { quantitySummary } from '../../domain/quantity.js';
 export const element = (tag, text, className) => {
   const node = document.createElement(tag);
   if (text !== undefined) node.textContent = text;
@@ -18,16 +19,15 @@ export function metrics(entries) {
 
 export function emptyState(title, description) {
   const node = element('div', undefined, 'workflow-empty');
-  const icon = element('span', '↗', 'workflow-empty__icon'); icon.setAttribute('aria-hidden', 'true');
-  node.append(icon, element('h3', title), element('p', description));
+  node.append(element('h3', title), element('p', description));
   return node;
 }
 
-export function comparison(proposals, supplierName, appendDecision) {
+export function comparison(proposals, supplierName, appendDecision, captionText = 'Condições da versão mais recente de cada fornecedor') {
   const wrap = element('div', undefined, 'workflow-comparison');
   wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'Comparador de propostas, com rolagem horizontal');
   const table = element('table');
-  const caption = element('caption', 'Compare as condições, escolha com clareza.'); table.append(caption);
+  const caption = element('caption', captionText); table.append(caption);
   const head = element('thead'); const headings = element('tr');
   const corner = element('th', 'Condições da oferta'); corner.scope = 'col'; headings.append(corner);
   proposals.forEach(proposal => {

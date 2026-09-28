@@ -43,6 +43,8 @@ function normaliseSteps(steps) {
         ? step.summary
         : "Sem resumo disponível.",
       evidenceIds,
+      href: typeof step.href === 'string' && step.href.startsWith('#/app/') ? step.href : null,
+      linkLabel: typeof step.linkLabel === 'string' ? step.linkLabel : 'Abrir registro',
     }];
   });
 }
@@ -185,6 +187,13 @@ export function mountIndustrialRail(container, rawSteps, rawMeta = {}) {
     detailParts.evidence.replaceChildren();
     detailParts.output.textContent = "";
 
+    if (step.href) {
+      const link = htmlElement('a', '', step.linkLabel);
+      link.href = step.href;
+      detailParts.evidence.append(link);
+      return;
+    }
+
     if (step.evidenceIds.length === 0) {
       detailParts.evidence.append(htmlElement("span", "industrial-rail__empty-evidence", "Nenhuma evidência liberada nesta etapa."));
       return;
@@ -270,7 +279,8 @@ export function mountIndustrialRail(container, rawSteps, rawMeta = {}) {
   container.replaceChildren(figure);
 
   if (steps.length > 0) {
-    const initialIndex = Math.max(0, steps.findIndex(({ status }) => status === "active"));
+    const attentionIndex = steps.findIndex(({ status }) => status === 'attention');
+    const initialIndex = attentionIndex >= 0 ? attentionIndex : Math.max(0, steps.findIndex(({ status }) => status === "active"));
     selectStep(steps[initialIndex], groups[initialIndex]);
   }
 

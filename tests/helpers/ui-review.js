@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const checks = [];
@@ -29,11 +29,18 @@ export async function captureUi(page, name, { widths = [360, 390, 768, 1440] } =
       checks.push({ name, theme, width, ...layout });
       expect(layout.horizontalOverflow, `${name} ${theme} ${width}px`).toBe(false);
       if ([390, 1440, 1920].includes(width)) {
+        // Full-page screenshots otherwise offset sticky/fixed navigation by the
+        // previous input's scroll position and produce a misleading composition.
+        await page.evaluate(() => window.scrollTo(0, 0));
         await page.screenshot({ path: resolve(output, `${name}-${theme}-${width}.png`), fullPage: true, animations: "disabled" });
       }
     }
   }
-  await writeFile(resolve(output, "ui-checks.json"), JSON.stringify(checks, null, 2));
+  const report = resolve(output, "ui-checks.json");
+  let previous = [];
+  try { previous = JSON.parse(await readFile(report, 'utf8')); } catch { /* First capture or unreadable previous report. */ }
+  const combined = new Map([...previous, ...checks].map(check => [`${check.name}:${check.theme}:${check.width}`, check]));
+  await writeFile(report, JSON.stringify([...combined.values()], null, 2));
   await page.setViewportSize({ width: 1440, height: 960 });
   if (await page.locator("html").getAttribute("data-theme") !== "light") {
     await page.locator("[data-theme-toggle]:visible").first().click();

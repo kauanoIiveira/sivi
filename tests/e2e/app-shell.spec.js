@@ -62,6 +62,7 @@ test("keyboard and pointer targets meet the minimum target size", async ({ page 
   await expect(skipLink).toBeFocused();
   expect((await skipLink.boundingBox()).height).toBeGreaterThanOrEqual(44);
 
+  await page.locator("[data-account-menu] summary").click();
   const targets = page.locator(".app-shell__actions button, .app-shell__account summary, .context-card");
   for (let index = 0; index < await targets.count(); index += 1) {
     expect((await targets.nth(index).boundingBox()).height).toBeGreaterThanOrEqual(44);
@@ -135,3 +136,93 @@ test("component lab labels the injected account as demonstrative", async ({ page
   await expect(accountMenu.getByText("Conta de teste", { exact: true })).toBeVisible();
   await expect(accountMenu.getByText("Conta autenticada", { exact: true })).toHaveCount(0);
 });
+
+test("skip link focuses main content without changing the application route", async ({ page }) => {
+  await page.goto("/tests/fixtures/component-lab.html#/app/contexto");
+  const routeUrl = page.url();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".app-shell__skip")).toBeFocused();
+
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(routeUrl);
+  await expect(page.locator("[data-app-outlet]")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".context-card").first()).toBeFocused();
+});
+
+test("account disclosure exposes its state and Escape returns focus to its trigger", async ({ page }) => {
+  await page.goto("/tests/fixtures/component-lab.html");
+  const trigger = page.locator("[data-account-menu] summary");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-open-preferences]")).toBeFocused();
+
+  await page.keyboard.press("Escape");
+  await expect(page.locator("[data-logout]")).toBeHidden();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
+});
+
+test("account disclosure closes when clicking noninteractive content outside it", async ({ page }) => {
+  await page.goto("/tests/fixtures/component-lab.html");
+  await page.locator("[data-account-menu] summary").click();
+  await page.locator(".context-page__notice").click();
+  await expect(page.locator("[data-logout]")).toBeHidden();
+});
+
+test("account disclosure allows Tab to leave in either direction and closes", async ({ page }) => {
+  await page.goto("/tests/fixtures/component-lab.html");
+  const trigger = page.locator("[data-account-menu] summary");
+  await trigger.click();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-open-preferences]")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-logout]")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".context-card").first()).toBeFocused();
+  await expect(page.locator("[data-logout]")).toBeHidden();
+
+  await trigger.click();
+  await page.keyboard.press("Shift+Tab");
+  await expect(page.locator("[data-theme-toggle]")).toBeFocused();
+  await expect(page.locator("[data-logout]")).toBeHidden();
+});
+
+test("account disclosure closes when navigation or context changes are requested", async ({ page }) => {
+  await page.goto("/tests/fixtures/component-lab.html");
+  const trigger = page.locator("[data-account-menu] summary");
+  await trigger.click();
+  await page.locator("[data-navigation-list] a").dispatchEvent("click");
+  await expect(page.locator("[data-component-lab]")).toHaveAttribute("data-navigated-to", "/app/contexto");
+  await expect(page.locator("[data-logout]")).toBeHidden();
+
+  await trigger.click();
+  await page.locator("[data-change-context]").dispatchEvent("click");
+  await expect(page.locator("[data-component-lab]")).toHaveAttribute("data-context-requested", "true");
+  await expect(page.locator("[data-logout]")).toBeHidden();
+});
+
+for (const textScale of [125, 200]) {
+  test(`short mobile drawer wraps long labels at ${textScale}% text without horizontal clipping`, async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 320 });
+    await page.goto("/tests/fixtures/component-lab.html");
+    await page.evaluate((scale) => {
+      document.documentElement.style.fontSize = `${scale}%`;
+      document.querySelector("[data-organization-name]").textContent = "Indústria de Componentes Mecânicos e Soluções Técnicas Avançadas";
+      document.querySelector("[data-user-name]").textContent = "responsavel.de.compras.industriais@organizacao-muito-longa.com.br";
+      document.querySelector("[data-navigation-list] span").textContent = "ResponsabilidadesOrganizacionais";
+    }, textScale);
+    await page.locator("[data-drawer-trigger]").click();
+    const sidebar = page.locator("[data-app-sidebar]");
+    expect(await sidebar.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    const contextAction = page.locator("[data-change-context-compact]");
+    await expect(contextAction).toBeFocused();
+    await expect(contextAction).toBeInViewport();
+    await contextAction.click();
+    await expect(page.locator("[data-component-lab]")).toHaveAttribute("data-context-requested", "true");
+  });
+}

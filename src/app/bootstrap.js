@@ -2,6 +2,7 @@ import { createAppController } from "./app-controller.js";
 import { loadAuthSurface, loadPageMount } from "./page-loaders.js";
 import { APP_ROUTES } from "./routes.js";
 import { createHashRouter } from "../core/router.js";
+import { createUnsavedChangesGuard } from '../core/unsaved-changes.js';
 import { createSessionStore } from "../core/session-store.js";
 import { createWorkspaceStore } from "../core/workspace-store.js";
 import { auth, database } from "../config/firebase.js";
@@ -25,8 +26,10 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
   const sessionStore = createSessionStore({
     loadAuthModule: () => import("../services/auth-service.js"),
   });
+  let sessionStorage;
+  try { sessionStorage = window.sessionStorage; } catch { /* Stores keep their state in memory when browser storage is unavailable. */ }
   const workspaceStore = createWorkspaceStore({
-    storage: window.sessionStorage,
+    storage: sessionStorage,
     key: "sivi.workspace.v1",
     workspaces: [],
   });
@@ -47,11 +50,13 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
   let membershipRevision = 0;
   let activeUid = null;
   let controller;
+  const unsavedChanges = createUnsavedChangesGuard({ container: surfaces.app, windowObject: window });
   const router = createHashRouter({
     windowObject: window,
     routes: APP_ROUTES,
     onRoute: (payload) => controller.handleRoute(payload),
     onNotFound: (payload) => controller.handleNotFound(payload),
+    beforeNavigate: () => sessionStore.getSnapshot().status !== 'authenticated' || unsavedChanges.canLeave(),
   });
   controller = createAppController({
     router,
@@ -61,7 +66,7 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
     loadAuthSurface,
     loadPageMount,
     surfaces,
-    storage: window.sessionStorage,
+    storage: sessionStorage,
     reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)"),
     administration,
     supplierProfiles,
@@ -76,6 +81,7 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
         router.refresh();
       },
     },
+    canLeavePage: () => unsavedChanges.canLeave(),
     createOrganization: async (input) => {
       membershipRevision += 1;
       const created = await workspaceService.createOrganization(input);
@@ -120,5 +126,6 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
     router.stop();
     sessionStore.stop();
     unsubscribeMemberships();
+    unsavedChanges.dispose();
   };
 }

@@ -20,7 +20,7 @@ const icons = {
   profile: '<path d="M3 21V9l6 3V7l6 3V3h6v18zM7 16h1M12 16h1M17 16h1"/>',
   context: '<path d="M3 21V3h12v18M15 9h6v12M7 7h4M7 12h4M7 17h4M1 21h22"/>',
 };
-const icon = (name) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.home}</svg>`;
+const icon = (name) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.home}</svg>`;
 
 export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) {
   root.innerHTML = `
@@ -29,9 +29,9 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
       <div class="app-shell__overlay" data-drawer-overlay hidden></div>
       <aside class="app-shell__sidebar" id="app-sidebar" data-app-sidebar aria-label="Navegação principal">
         <div class="app-shell__brand">
-          <span><strong>SIVI<span class="app-shell__brand-dot" aria-hidden="true">.</span></strong><small>SISTEMA DE VENDAS INDUSTRIAIS</small></span>
+          <span><strong>SIVI<span class="app-shell__brand-dot" aria-hidden="true">.</span></strong><small>Vendas industriais</small></span>
         </div>
-        <span class="app-shell__nav-label">ÁREA DE TRABALHO</span>
+        <span class="app-shell__nav-label">Área de trabalho</span>
         <nav><ul class="app-shell__nav" data-navigation-list></ul></nav>
         <div class="app-shell__identity">
           <strong data-organization-name>Escolha uma empresa</strong>
@@ -51,16 +51,17 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
             <button class="app-shell__text-button" type="button" data-change-context>Trocar empresa</button>
             <button class="app-shell__icon-button" type="button" data-theme-toggle aria-label="Alternar tema">◐</button>
             <details class="app-shell__account" data-account-menu>
-              <summary class="app-shell__text-button" aria-label="Abrir menu da conta">Conta</summary>
-              <div class="app-shell__account-popover">
+              <summary class="app-shell__text-button" aria-label="Menu da conta" aria-controls="account-options" aria-expanded="false">Conta</summary>
+              <div class="app-shell__account-popover" id="account-options">
                 <strong data-account-user>Usuário SIVI</strong>
                 <span data-account-source>Conta autenticada</span>
+                <button class="app-shell__text-button" type="button" data-open-preferences>Aparência e acessibilidade</button>
                 <button class="app-shell__text-button" type="button" data-logout>Sair</button>
               </div>
             </details>
           </div>
         </header>
-        <main class="app-shell__content" id="app-content" data-app-outlet></main>
+        <main class="app-shell__content" id="app-content" tabindex="-1" data-app-outlet></main>
       </div>
       <div class="sr-only" aria-live="polite" aria-atomic="true" data-app-announcer></div>
     </div>`;
@@ -74,8 +75,25 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   const navigationList = root.querySelector("[data-navigation-list]");
   const outlet = root.querySelector("[data-app-outlet]");
   const announcer = root.querySelector("[data-app-announcer]");
+  const accountMenu = root.querySelector("[data-account-menu]");
+  const accountTrigger = accountMenu.querySelector("summary");
   const compactDrawer = window.matchMedia("(max-width: 899px)");
   let drawerReturnTarget = drawerTrigger;
+
+  const syncAccountState = () => {
+    accountTrigger.setAttribute("aria-expanded", String(accountMenu.open));
+  };
+
+  const closeAccount = ({ restoreFocus = false } = {}) => {
+    if (!accountMenu.open) return;
+    accountMenu.open = false;
+    syncAccountState();
+    if (restoreFocus) accountTrigger.focus();
+  };
+
+  const onAccountOutsideInteraction = (event) => {
+    if (!accountMenu.contains(event.target)) closeAccount();
+  };
 
   const closeDrawer = ({ restoreFocus = false } = {}) => {
     shell.dataset.drawerOpen = "false";
@@ -90,6 +108,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   };
 
   const openDrawer = () => {
+    closeAccount();
     drawerReturnTarget = document.activeElement;
     shell.dataset.drawerOpen = "true";
     drawerTrigger.setAttribute("aria-expanded", "true");
@@ -103,6 +122,11 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   };
 
   const onKeydown = (event) => {
+    if (event.key === "Escape" && accountMenu.open) {
+      event.preventDefault();
+      closeAccount({ restoreFocus: true });
+      return;
+    }
     if (shell.dataset.drawerOpen !== "true") return;
     if (event.key === "Escape") {
       event.preventDefault();
@@ -132,18 +156,32 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
     sidebar.inert = false;
   };
 
+  skipLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    outlet.focus();
+  });
+  accountMenu.addEventListener("toggle", syncAccountState);
   drawerTrigger.addEventListener("click", () => {
     if (shell.dataset.drawerOpen === "true") closeDrawer({ restoreFocus: true });
     else openDrawer();
   });
   overlay.addEventListener("click", () => closeDrawer({ restoreFocus: true }));
-  root.querySelector("[data-logout]").addEventListener("click", onLogout);
-  root.querySelector("[data-change-context]").addEventListener("click", onChangeContext);
+  root.querySelector("[data-logout]").addEventListener("click", () => {
+    closeAccount({ restoreFocus: true });
+    onLogout();
+  });
+  root.querySelector("[data-change-context]").addEventListener("click", () => {
+    closeAccount();
+    onChangeContext();
+  });
   root.querySelector("[data-change-context-compact]").addEventListener("click", () => {
+    closeAccount();
     closeDrawer({ restoreFocus: true });
     onChangeContext();
   });
   document.addEventListener("keydown", onKeydown);
+  document.addEventListener("click", onAccountOutsideInteraction);
+  document.addEventListener("focusin", onAccountOutsideInteraction);
   compactDrawer.addEventListener("change", syncDrawerAvailability);
   syncDrawerAvailability();
   window.dispatchEvent(new Event("sivi:theme-refresh"));
@@ -151,6 +189,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   return {
     outlet,
     setIdentity({ user, workspace, accountSource = "firebase" }) {
+      closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
       const userName = user?.displayName ?? user?.email ?? "Usuário SIVI";
       const safeAccountSource = Object.hasOwn(accountSourceLabels, accountSource) ? accountSource : "firebase";
       root.querySelector("[data-user-name]").textContent = userName;
@@ -176,6 +215,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
         if (item.current) link.setAttribute("aria-current", "page");
         link.addEventListener("click", (event) => {
           event.preventDefault();
+          closeAccount();
           closeDrawer({ restoreFocus: true });
           onNavigate(item.path);
         });
@@ -184,6 +224,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
       }));
     },
     setRouteMeta({ title, breadcrumbs }) {
+      closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
       root.querySelector("[data-route-title]").textContent = title;
       root.querySelector("[data-breadcrumbs]").textContent = breadcrumbs.join(" / ");
       document.title = `${title} — SIVI`;
@@ -203,7 +244,11 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
     },
     destroy() {
       document.removeEventListener("keydown", onKeydown);
+      document.removeEventListener("click", onAccountOutsideInteraction);
+      document.removeEventListener("focusin", onAccountOutsideInteraction);
+      accountMenu.removeEventListener("toggle", syncAccountState);
       compactDrawer.removeEventListener("change", syncDrawerAvailability);
+      closeAccount();
       closeDrawer();
       root.replaceChildren();
     },

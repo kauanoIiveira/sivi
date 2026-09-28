@@ -45,6 +45,7 @@ export function createAppController({
   administration = null,
   supplierProfiles = null,
   onboarding = null,
+  canLeavePage = () => true,
 }) {
   let currentRoute = null;
   let currentPath = ROUTE_PATHS.access;
@@ -103,7 +104,7 @@ export function createAppController({
   };
 
   const animateRoute = (activeShell) => {
-    if (reducedMotion.matches || typeof activeShell.outlet.animate !== "function") return () => {};
+    if (reducedMotion.matches || globalThis.document?.documentElement?.dataset.motion === 'reduce' || typeof activeShell.outlet.animate !== "function") return () => {};
     const animation = activeShell.outlet.animate(
       [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }],
       { duration: 220, easing: "cubic-bezier(.22, 1, .36, 1)" },
@@ -120,13 +121,13 @@ export function createAppController({
       .finally(() => { retryInFlight = false; });
   };
 
-  const navigateToWorkspace = (selected) => {
+  const navigateToWorkspace = (selected, options) => {
     const pendingRoute = canonicalProtectedRoute(readReturnTo());
     clearReturnTo();
     const destination = pendingRoute?.workspaceRole === selected.organizationRole
       ? pendingRoute.path
       : selected.homeRoute;
-    router.navigate(destination);
+    router.navigate(destination, options);
   };
 
   const withoutWorkspaceRefresh = (mutation) => {
@@ -139,7 +140,7 @@ export function createAppController({
   };
 
   const selectWorkspace = (workspaceId) => {
-    if (!started) return;
+    if (!started || !canLeavePage()) return;
     let selected;
     try {
       selected = withoutWorkspaceRefresh(() => workspaceStore.select(workspaceId));
@@ -167,12 +168,12 @@ export function createAppController({
       workspaceStore.replace(nextWorkspaces, preferred?.id ?? null);
       return workspaceStore.getCurrent();
     });
-    if (selected) navigateToWorkspace(selected);
-    else router.navigate(ROUTE_PATHS.context, { replace: true });
+    if (selected) navigateToWorkspace(selected, { force: true });
+    else router.navigate(ROUTE_PATHS.context, { replace: true, force: true });
   };
 
   const logout = async () => {
-    if (!started) return;
+    if (!started || !canLeavePage()) return;
     clearReturnTo();
     try {
       await sessionStore.logout();

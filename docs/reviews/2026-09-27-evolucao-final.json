@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-27",
+  "branch": "codex/proteger-condicoes-aceitas",
+  "head": "6cbc567958a22251935c9bd084f187fbb4ab6911",
+  "uncommittedChangesIncluded": true,
+  "tests": {
+    "command": "npm test",
+    "environment": {
+      "SIVI_JAVA_HOME": "C:/Program Files/Android/Android Studio/jbr",
+      "SIVI_CAPTURE_UI": "exports/evolucao-final-2026-09-27",
+      "SIVI_CAPTURE_APPEARANCE": "exports/evolucao-final-2026-09-27/aparencia"
+    },
+    "unit": {
+      "passed": 155,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "passed": 124,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "visual": {
+    "screenshots": 90,
+    "widthChecks": 180,
+    "scenes": 22,
+    "horizontalOverflows": 0,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      360,
+      390,
+      768,
+      1440,
+      1920,
+      2560
+    ],
+    "additionalPublicWidths": [
+      320
+    ],
+    "additionalTextScale": 2
+  },
+  "diffCheck": "passed",
+  "remoteDeployment": false,
+  "deletedFiles": [],
+  "limits": [
+    "Authoritative acceptance and unknown-result retries remain pending",
+    "Publication protection requires deploying the tested local rules",
+    "Legacy publications without recipient list only close known proposing suppliers",
+    "Item pricing, attachments, lots, QR, production and stock remain pending"
+  ],
+  "sha256": {
+    "src/repositories/firebase-marketplace-repository.js": "ac4ff906a36f59ab8960c2fc3903b7c70b5e71d71ac50c4afbc2010fe8ab69c8",
+    "database.rules.json": "edf0f08df22df44ec23e7f7f5b7ff6fef2224bd7a2f952c0c20534f8ddaec20d",
+    "src/domain/next-actions.js": "7d90b10fa4e2753da1899a5f3e151ea873f4c7eee68e03309b211ae50ff23fcb",
+    "src/domain/deadline.js": "addb708e448231db6369c4a737f1af117c96282fb47c7c10f0a0ee6fd37730e8",
+    "src/pages/operations/workflow-view.js": "ad7d6a4a66948bb4c81209c3431393649fbafab4c5b650109c4bd50e8111f812",
+    "src/pages/operations/workflow-components.js": "54154537e6baff3bd64f696e532f2ec85bc8aec3d1dbb89efc7ba351e066b39d",
+    "src/pages/operations/record-filters.js": "7edc03db1cc394f5206f19397927060a0de95ace4be5b24f0ca03ab940cdab3a",
+    "src/pages/operations/record-collection.js": "8ae64d4126c66c73af63788385dbbfc0f94c685af8020d11b350558a848651f7",
+    "src/pages/operations/demand-copy.js": "7aeca83fc0df029bd50efd57e7237a44c6d87a77a1cedeee1fc059e602b166ae",
+    "src/pages/operations/orders-csv.js": "71430026071aa0d59c537b3c52c236f86af904648944cd928649d2db00f8c133",
+    "src/pages/operations/order-print.js": "d2ccc9fec8e1aa0e4eab71211332555e31886d4c36d0e0be8bab1f4b20605467",
+    "src/pages/operations/workflow-layout.css": "82b8dcd683526fdfd32b255b483884c66c17ca8c8bc1aabce0ea0adac7fa97e1",
+    "src/pages/public/public-page.js": "16708a1ab2ca504a436dec24a83c8ef7a91c96906c7f667a926848b0dd7439f7",
+    "src/pages/public/public-page.css": "66f6cfba87bd014bbddfb8fe96f3012f04a62936eb943fbade2f679fbd07c400",
+    "scripts/export-project.ps1": "6c1e417729fc8f865cb48a601c75d1d2b19739db5d8b81085814cc030fd03360",
+    "scripts/verify-transfer.mjs": "cdc7e8dea375cb759bed4dc6375824e30fb190ee5dc255e53e59c6295bedda37"
+  }
+}

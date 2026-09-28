@@ -2,6 +2,18 @@
 
 ## Estado atual
 
+**Evolução funcional — 27/09/2026:** [32 — Evolução e continuidade](32-evolucao-e-continuidade.md): reutilizar demandas, filtros e ordenação, CSV, impressão, avisos de datas, publicação consistente e encerramento de oportunidades. Landing com fluxo interativo e referências profissionais. [33 — Transferência e limpeza](33-transferencia-e-limpeza.md) orienta a mudança de local e classifica os arquivos dispensáveis.
+
+**Minimalismo industrial — 27/09/2026:** [31 — Refinamento visual](31-minimalismo-industrial.md): painéis, navegação, formulários, empresas e jornada com menos molduras e decoração. 133 unitários e 112 testes de navegador/emuladores aprovados; 180 verificações de largura sem transbordamento da página.
+
+**Revisão final — 27/09/2026:** [30 — Revisão final do produto](30-revisao-final-do-produto.md): quantidades e inspeção por item, validade em São Paulo, propostas identificadas por demanda, proteção de navegação, perfil industrial e administração, página pública simplificada. Resultados finais, evidências e limites no documento.
+
+**Revisão integrada — 26/09/2026:** [29 — Revisão para uso manual](29-revisao-integrada.md): recuperação da nova demanda, busca, feedback, atualização de registros, navegação por teclado e distinção entre gravação confirmada e falha de atualização. 111 testes unitários e 98 de navegador/emuladores aprovados; roteiro de revisão e limites explícitos.
+
+**Próximas entregas — 26/09/2026:** [28 — Próximos passos](28-proximos-passos.md): recorte 1A aplicado e verificado localmente; condições comerciais de pedidos existentes e transições da demanda protegidas. Próxima entrega: concorrência e repetição segura, antes de continuidade de uso, negociação por item e rastreabilidade. Novas regras ainda não publicadas no Firebase remoto.
+
+**Conforto de uso — 26/09/2026:** [27 — Conforto e acessibilidade](27-conforto-e-acessibilidade.md): preferências de leitura, tema e movimento; continuidade dos filtros; formulário de demandas e pesquisa de design.
+
 **Retomada — 20/09/2026:** [25 — Transferência e retomada](25-transferencia-e-retomada.md): requisitos, pacote portátil, validação e repositório `kauanoIiveira/sivi`. A página pública e seu rodapé foram revisados e aprovados; manter essa base para as próximas telas.
 
 **Entrada de empresas — 18/09/2026:** [24 — Entrada e aprovação](24-entrada-e-aprovacao.md): página pública, cadastro guiado, análise, correção/reenvio e primeiro acesso.
@@ -49,6 +61,12 @@ O marketplace é autenticado e curado: apenas organizações e usuários aprovad
 | [23 — Jornada e próximas ações](23-jornada-e-proximas-acoes.md) | Navegação operacional e portal administrativo |
 | [24 — Entrada e aprovação](24-entrada-e-aprovacao.md) | Cadastro público, revisão administrativa e página pública |
 | [25 — Transferência e retomada](25-transferencia-e-retomada.md) | Ambiente, pacote portátil e futuro repositório |
+| [26 — Revisão e evolução](26-revisao-e-evolucao.md) | Edição de rascunhos, correções e prioridades de implementação |
+| [27 — Conforto e acessibilidade](27-conforto-e-acessibilidade.md) | Preferências de leitura, temas e movimento |
+| [28 — Próximos passos](28-proximos-passos.md) | Consistência comercial e sequência de evolução |
+| [29 — Revisão integrada](29-revisao-integrada.md) | Melhorias aplicadas, evidências e roteiro para revisão manual |
+| [30 — Revisão final do produto](30-revisao-final-do-produto.md) | Unidades, inspeção por item, confiabilidade de formulários e refinamento visual |
+| [31 — Minimalismo industrial](31-minimalismo-industrial.md) | Superfícies planas, divisórias, hierarquia tipográfica e validação visual |
 
 ## Fluxo principal
 

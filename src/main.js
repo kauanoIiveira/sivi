@@ -1,4 +1,5 @@
 import "./theme/theme-controller.js";
+import "./theme/preferences-dialog.js";
 import { bootstrapApplication } from "./app/bootstrap.js";
 
 try {

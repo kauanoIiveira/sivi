@@ -2,7 +2,8 @@
 .operations-page { max-width: 1240px; margin-inline: auto; color: var(--text-primary); }
 .operations-page h1 { font-size: 1.8rem; }
 .operations-page p { line-height: 1.6; }
-.operations-page details { margin-block: 16px; padding: 18px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--surface); }
+.operations-page details { margin-block: 16px; padding: 16px 24px; border: 1px solid var(--border-subtle); border-radius: 6px; background: var(--surface); }
+.operations-page .workflow-record > details { padding: 16px 0; border-width: 1px 0 0; border-radius: 0; background: transparent; }
 .operations-page summary { cursor: pointer; font-weight: 600; min-height: 44px; }
 .operations-page dl { display: grid; grid-template-columns: minmax(120px, 1fr) 3fr; gap: 12px; }
 .operations-page dd { margin: 0; overflow-wrap: anywhere; }
@@ -16,3 +17,60 @@
 .operations-page th, .operations-page td { text-align: left; padding: 14px; border-bottom: 1px solid var(--border-subtle); }
 .operations-page :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 @media(max-width: 600px) { .operations-page dl { grid-template-columns: 1fr; } .operations-page dd { margin-bottom: 8px; } }
+
+.operations-page .workflow-demand-items fieldset { min-width: 0; }
+.operations-page .workflow-demand-form .workflow-secondary-action,
+.operations-page .workflow-demand-form .workflow-remove-item {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: var(--border-control);
+}
+.operations-page .workflow-demand-form .workflow-secondary-action:hover,
+.operations-page .workflow-demand-form .workflow-remove-item:hover { border-color: var(--action-text); }
+.operations-page .workflow-demand-form .workflow-remove-item { align-self: end; margin-block: 12px; }
+.operations-page .workflow-demand-form button:disabled,
+.operations-page .workflow-draft-actions button:disabled { cursor: not-allowed; }
+.operations-page .workflow-demand-form[aria-busy=true] button:disabled { cursor: wait; }
+.workflow-draft-actions > p { color: var(--text-muted); font-size: 0.8125rem; }
+
+.workflow-section-heading { flex-wrap: wrap; align-items: center; }
+.operations-page .workflow-section-heading button { min-height: 44px; border: 1px solid var(--border-control); font-size: .8125rem; }
+.operations-page .workflow-secondary-action:hover { background: var(--surface-interactive); color: var(--text-primary); }
+.workflow-result-count { margin: -10px 0 16px; color: var(--text-muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.workflow-recovery { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-control); border-left: 3px solid var(--action-primary); border-radius: 6px; background: var(--surface-raised); }
+.workflow-recovery strong, .workflow-recovery p { flex-basis: 100%; margin: 0; }
+.workflow-recovery p { color: var(--text-muted); font-size: .875rem; }
+.workflow-save-hint { margin: 0 0 24px; color: var(--text-muted); font-size: .8125rem; }
+.operations-page .workflow-feedback[data-tone=success] { color: var(--feedback-success); background: var(--feedback-success-bg); border-color: var(--feedback-success); }
+.operations-page .workflow-feedback[data-tone=error] { color: var(--feedback-danger); background: var(--feedback-danger-bg); border-color: var(--feedback-danger); }
+.operations-page .workflow-feedback[data-tone=warning] { color: var(--feedback-warning); background: var(--feedback-warning-bg); border-color: var(--feedback-warning); }
+.operations-page .workflow-form > [role=alert]:not(:empty) { padding: 12px 16px; background: var(--feedback-danger-bg); border-left: 3px solid var(--feedback-danger); border-radius: 4px; }
+.workflow-form__footer .workflow-secondary-action { margin-right: auto; }
+.workflow-order > .workflow-reference { display: block; margin-bottom: 8px; overflow-wrap: anywhere; }
+@media(max-width: 520px) { .workflow-section-heading { align-items: stretch; } .workflow-section-heading h2 { flex-basis: 100%; } .workflow-recovery { padding: 16px; } .workflow-recovery button { width: 100%; } }
+
+.workflow-form-group { min-width: 0; margin: 0 0 24px; padding: 20px 0 0; border: 0; border-top: 1px solid var(--border-subtle); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+.workflow-form-group legend { padding: 0 12px 0 0; font-size: .9375rem; font-weight: 600; }
+.operations-page .workflow-form-group label { margin-block: 8px; }
+.operations-page .workflow-form textarea { font-size: .875rem; font-weight: 400; }
+.workflow-optional { font-weight: 400; color: var(--text-muted); font-size: .75rem; }
+.workflow-demand-items { margin-top: 0; }
+.workflow-demand-items fieldset { margin: 0; }
+.workflow-demand-items [data-demand-items] { display: grid; gap: 24px; }
+.workflow-metric { padding-block: 16px; gap: 8px; }
+.workflow-metric > strong { font-size: 1.5rem; }
+.workflow-empty { text-align: left; padding: 24px 0; border: 0; border-top: 1px solid var(--border-subtle); border-radius: 0; }
+.workflow-empty h3 { margin-top: 0; }
+.workflow-empty p { margin: 0; max-width: 620px; }
+.workflow-form > [hidden] { display: none !important; }
+.operations-page .workflow-specification .workflow-record { padding: 16px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; }
+.operations-page .workflow-specification .workflow-record:last-child { border-bottom: 0; }
+.operations-page .workflow-proposal-history .workflow-record { padding: 20px 0; border-width: 0 0 1px; border-radius: 0; background: transparent; }
+.operations-page .workflow-proposal-history .workflow-record:last-child { border-bottom: 0; }
+.workflow-specification .workflow-record h3 { font-size: .9375rem; }
+.operations-page .workflow-record > .workflow-related-link { background: transparent; border: 0; padding-inline: 0; color: var(--text-primary); text-decoration: underline; text-decoration-color: var(--border-control); text-underline-offset: 4px; }
+.operations-page .workflow-record > .workflow-related-link:hover { color: var(--action-text); text-decoration-color: currentColor; }
+@media(max-width: 600px) {
+  .workflow-form-group { grid-template-columns: minmax(0, 1fr); }
+  .operations-page .workflow-form textarea { font-size: 1rem; }
+}

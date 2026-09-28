@@ -1,12 +1,16 @@
 # SIVI · Design System
 
-Atualizado em 16/09/2026. Referência para a interface existente e as próximas páginas. O produto é um intermediador B2B industrial desenvolvido como TCC do SENAI, com dados persistidos e ações reais.
+Atualizado em 27/09/2026. Referência para a interface existente e as próximas páginas. O produto é um intermediador B2B industrial desenvolvido como TCC do SENAI, com dados persistidos e ações reais.
 
 ## Direção
 
 Uma central de compras e fornecimento industrial: navegação grafite, hierarquia técnica, leitura de dados e laranja nas decisões principais. O acabamento é sóbrio, com densidade suficiente para comparar especificações, valores, quantidades e prazos. Evitar transformar telas operacionais em páginas de apresentação.
 
+O refinamento de [minimalismo industrial](../docs/31-minimalismo-industrial.md) usa indicadores com divisórias e seções abertas, reduz caixas aninhadas e reserva superfícies delimitadas para registros, controles e detalhes que precisam de agrupamento. Títulos e respiro organizam a página; rótulos decorativos em caixa alta e faixas coloridas repetidas não fazem parte desse padrão. Manter a tipografia existente e as cores semânticas nos dois temas.
+
 O nome SIVI identifica o sistema. A arte final da marca e da raposa permanece pendente; não mostrar placeholders de identidade ao usuário e não inventar poses ou outro mascote.
+
+A [landing revisada](../docs/32-evolucao-e-continuidade.md) usa fotografia industrial local, duas atuações comerciais e uma explicação interativa do fluxo. Rótulos de etapa, texto por papel e registros concretos devem substituir promessas genéricas. Manter a ação de cadastro clara, sem métricas, clientes ou certificações fictícios. Filtros operacionais são controles rotulados; exportação e impressão usam ações secundárias para não competir com a decisão comercial.
 
 ## Cores
 
@@ -36,6 +40,10 @@ Laranja claro sobre branco não serve para texto pequeno. Verde indica aprovaç�
 - Espaçamento: 4, 8, 12, 16, 20, 24, 32, 48px.
 - Controles com altura mínima de 44px, raios de 4–6px; painel de acesso com 12px.
 - Bordas leves separam dados. Evitar sombras em cartões, excesso de caixas e gradientes decorativos.
+- Implementar tamanhos de texto em rem; os valores em pixels acima descrevem a escala padrão de 16px. Títulos fluidos também devem respeitar `--text-scale`. Texto maior não pode esconder ações ou sobrepor conteúdo.
+- Preferências globais usam `src/theme/appearance.css`. Estados `data-motion`, `data-text-size`, `data-density` e `data-contrast` complementam o tema; animações JavaScript devem verificar a redução de movimento também.
+- Espaçamento compacto altera registros e tabelas, sem diminuir os alvos dos controles. Preferências de leitura são aplicadas de imediato e podem ser restauradas no menu Conta.
+- Formulários agrupam campos pelo assunto, com legendas e rótulos persistentes. Indicadores sem informação útil não devem afastar a primeira ação de uma tela vazia.
 
 ## Estrutura das telas
 
@@ -63,6 +71,13 @@ O trilho industrial usa uma sequência horizontal compacta, estados textuais, se
 - Manter carregamento, erro, permissão, conflito e tentativa novamente.
 - Não oferecer controles de funcionalidades ainda não conectadas, como notificações.
 - Longos nomes de empresa, IDs e descrições precisam quebrar linha sem esconder ações.
+- Distinguir preenchimento guardado na aba, rascunho salvo para a empresa e demanda publicada. A recuperação deve oferecer retomar/descartar e informar quando o navegador não permitir armazenamento.
+- Mensagens de sucesso, aviso e erro incluem texto e região de estado; ao substituir o conteúdo após uma ação, o foco deve ir para o resultado. Atualização com erro preserva a tela e preenchimentos abertos.
+- Resumos operacionais agrupam quantidades por unidade. Não rotular a soma de metros e peças como “unidades”.
+- Inspeções de vários itens identificam a quantidade aprovada de cada um. Não usar o total legado como comprovação de aprovação integral.
+- Propostas no painel identificam a demanda e abrem sua negociação. Condições aceitas vêm do pedido preservado, mesmo se outra versão aparecer posteriormente.
+- Etapas da jornada devem apontar para registros existentes. Não exibir QR, produção ou outros recursos ainda sem operação disponível na jornada real.
+- Formulários em edição avisam antes de sair; envios pendentes impedem navegação até a resposta. Erro de leitura preserva os registros e o texto digitado quando já estão na tela.
 
 ## Verificação
 

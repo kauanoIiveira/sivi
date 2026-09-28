@@ -12,6 +12,7 @@ const element = (tag, text, className) => {
 export function mountOperationsPage({ container, workspace, repository, section, onReady = () => {} }) {
   let disposed = false;
   let clearState = () => {};
+  let clearWorkflow = () => {};
   const page = element("section", undefined, "operations-page");
   container.replaceChildren(page);
   async function load() {
@@ -38,14 +39,15 @@ export function mountOperationsPage({ container, workspace, repository, section,
       proposals: buyer ? "Compare condições e selecione a proposta para cada demanda." : "Acompanhe suas propostas e envie novas versões.",
       orders: "Acompanhe inspeções, liberação e entrega de cada pedido.",
     };
-    copy.append(element("span", `${buyer ? "COMPRAS" : "FORNECIMENTO"} / ${section === "orders" ? "EXECUÇÃO" : "NEGOCIAÇÃO"}`, "operations-eyebrow"), title, element("p", descriptions[section]));
+    copy.append(title, element("p", descriptions[section]));
     const identity = element("div", undefined, "operations-identity");
-    identity.append(element("span", "EMPRESA ATIVA"), element("strong", workspace.organizationName));
+    identity.append(element("span", buyer ? 'Empresa compradora' : 'Empresa fornecedora'), element("strong", workspace.organizationName));
     header.append(copy, identity);
     page.append(header);
-    mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, suppliers: result.data.suppliers });
+    clearWorkflow();
+    clearWorkflow = mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, suppliers: result.data.suppliers, onRefresh: () => repository.getOperations(workspace.id) });
     onReady();
   }
   void load();
-  return () => { disposed = true; clearState(); page.remove(); };
+  return () => { disposed = true; clearState(); clearWorkflow(); page.remove(); };
 }

@@ -1,6 +1,8 @@
 import { renderNextActions } from "./next-actions-view.js";
 import { renderPageState } from "../../components/page-state/page-state.js";
 import { mountIndustrialRail } from "../../visualizations/industrial-rail/industrial-rail.js";
+import { workflowLink } from '../../domain/next-actions.js';
+import { quantitySummary } from '../../domain/quantity.js';
 
 const dateTime = new Intl.DateTimeFormat("pt-BR", {
   dateStyle: "short",
@@ -51,18 +53,17 @@ function renderBuyer(data) {
   const section = element("section", "dashboard-panel dashboard-panel--decision");
   const heading = element("div", "dashboard-panel__heading");
   heading.append(
-    element("span", "dashboard-panel__index", "DECISÃO"),
-    element("h2", "", "Comparação recebida"),
+    element("h2", "", "Propostas por demanda"),
   );
   section.append(heading);
 
   const table = element("table", "decision-table");
-  table.innerHTML = "<thead><tr><th>Fornecedor</th><th>Versões</th><th>Valor mais recente</th><th>Prazo</th><th>Qualidade histórica</th><th>Decisão</th></tr></thead>";
+  table.innerHTML = "<thead><tr><th scope='col'>Demanda / fornecedor</th><th scope='col'>Total com frete</th><th scope='col'>Prazo</th><th scope='col'>Situação</th></tr></thead>";
   const body = element("tbody");
   if (!data.proposalSummaries.length) {
     const empty = element("div", "dashboard-empty");
     empty.append(element("h3", "", "Nenhuma proposta recebida"), element("p", "", "Publique uma demanda com os requisitos da compra para receber propostas."));
-    const link = element("a", "dashboard-link", "Abrir minhas demandas →");
+    const link = element("a", "dashboard-link", "Abrir minhas demandas");
     link.href = "#/app/comprador/demandas";
     empty.append(link);
     section.append(empty);
@@ -71,12 +72,16 @@ function renderBuyer(data) {
   data.proposalSummaries.forEach((proposal) => {
     const row = element("tr");
     if (proposal.accepted) row.dataset.decision = "accepted";
+    const identity = element('td');
+    if (proposal.href) {
+      const link = element('a', 'dashboard-record-link', proposal.demandTitle);
+      link.href = proposal.href; identity.append(link);
+    } else identity.append(element('strong', '', proposal.demandTitle ?? 'Proposta recebida'));
+    identity.append(element('span', 'dashboard-record-detail', proposal.supplierName));
+    row.append(identity);
     const values = [
-      proposal.supplierName,
-      String(proposal.versionCount),
       proposal.latestTotalDisplay,
       `${proposal.leadTimeDays} dias`,
-      proposal.historicalQuality.sampleSize > 0 ? `${proposal.historicalQuality.acceptedLotsPercent}% · amostra ${proposal.historicalQuality.sampleSize}` : "Sem histórico",
       proposal.decisionLabel ?? (proposal.accepted ? "Versão aceita" : "Não selecionada"),
     ];
     values.forEach((value) => row.append(element("td", "", value)));
@@ -86,7 +91,7 @@ function renderBuyer(data) {
   const scroll = element("div", "dashboard-table-scroll");
   scroll.tabIndex = 0;
   scroll.setAttribute("role", "region");
-  scroll.setAttribute("aria-label", "Comparação horizontal de propostas");
+  scroll.setAttribute("aria-label", "Propostas recebidas por demanda");
   scroll.append(table);
   section.append(scroll);
   return section;
@@ -96,20 +101,25 @@ function renderSupplier(data) {
   const section = element("section", "dashboard-panel dashboard-panel--fulfillment");
   const heading = element("div", "dashboard-panel__heading");
   heading.append(
-    element("span", "dashboard-panel__index", "ATENDIMENTO"),
     element("h2", "", "Plano de atendimento próprio"),
   );
   section.append(heading);
 
   if (data.execution.model === null) {
-    heading.querySelector("h2").textContent = "Compromissos da empresa";
-    const summary = element("div", "execution-summary");
-    for (const [label, value] of [["Unidades contratadas", data.execution.committedQuantity], ["Liberadas pela qualidade", data.execution.releasedQuantity], ["Aguardando reinspeção", data.execution.reworkQuantity]]) {
-      const item = element("div");
-      item.append(element("strong", "", String(value ?? 0)), element("span", "", label));
+    heading.querySelector("h2").textContent = "Pedidos em execução";
+    const summary = element('ul', 'dashboard-order-list');
+    const labels = { accepted: 'Aguardando inspeção', blocked: 'Reinspeção necessária', released: 'Pronto para expedição', dispatched: 'Aguardando recebimento' };
+    for (const order of data.execution.orders) {
+      const item = element('li');
+      const copy = element('div');
+      const link = element('a', 'dashboard-record-link', order.title);
+      link.href = workflowLink('supplier', 'orders', order.id);
+      copy.append(link, element('span', 'dashboard-record-detail', `${order.buyerName ?? 'Comprador'} · ${quantitySummary(order)}`));
+      item.append(copy, element('span', '', labels[order.status] ?? order.status));
       summary.append(item);
     }
-    const link = element("a", "dashboard-link", "Acompanhar pedidos →");
+    if (!data.execution.orders.length) section.append(element('p', 'dashboard-panel__note', 'Nenhum pedido em execução. Os próximos aceites dos compradores aparecerão aqui.'));
+    const link = element("a", "dashboard-link", "Ver todos os pedidos");
     link.href = "#/app/fornecedor/pedidos";
     section.append(summary, link);
     return section;
@@ -135,8 +145,7 @@ function renderAdministration(data) {
   const section = element("section", "dashboard-panel dashboard-panel--aggregate");
   const heading = element("div", "dashboard-panel__heading");
   heading.append(
-    element("span", "dashboard-panel__index", "PLATAFORMA"),
-    element("h2", "", "Leitura agregada da jornada"),
+    element("h2", "", "Atividade das empresas"),
   );
   section.append(heading);
 
@@ -164,8 +173,7 @@ function renderRailPanel() {
   const section = element("section", "dashboard-panel dashboard-panel--rail-slot");
   const heading = element("div", "dashboard-panel__heading");
   heading.append(
-    element("span", "dashboard-panel__index", "JORNADA"),
-    element("h2", "", "Trilho industrial"),
+    element("h2", "", "Acompanhamento da compra"),
   );
   const slot = element("div", "dashboard-panel__rail");
   slot.dataset.industrialRailSlot = "true";
@@ -257,14 +265,10 @@ export function mountDashboardPage({
       page.innerHTML = `
         <header class="dashboard-hero">
           <div class="dashboard-hero__copy">
-            <span class="dashboard-hero__eyebrow">${data.role === "buyer" ? "COMPRAS INDUSTRIAIS" : data.role === "supplier" ? "FORNECIMENTO INDUSTRIAL" : "ADMINISTRAÇÃO"}</span>
             <h1 data-page-title></h1>
             <p></p>
           </div>
-          <div class="dashboard-hero__stamp">
-            <span>Última atualização</span>
-            <time class="dashboard-hero__as-of"></time>
-          </div>
+          <div class="dashboard-hero__stamp"></div>
         </header>`;
       page.querySelector("h1").textContent = data.title;
       page.querySelector("header p").textContent = data.role === "buyer" ? "Acompanhe suas compras, compare propostas e confira entregas." : data.role === "supplier" ? "Oportunidades, propostas e compromissos da sua empresa." : "Acompanhe a atividade das empresas na plataforma.";
@@ -282,24 +286,28 @@ export function mountDashboardPage({
       }
       const updated = new Date(dashboardResult.meta.asOf);
       const updatedLabel = dateTime.format(updated);
-      const updatedElement = page.querySelector(".dashboard-hero__as-of");
+      const updatedElement = element('time', 'dashboard-hero__as-of');
       updatedElement.dateTime = updated.toISOString();
-      updatedElement.textContent = updatedLabel;
+      updatedElement.textContent = `Atualizado em ${updatedLabel}`;
 
       const metricsHeader = element("div", "metrics-heading");
       metricsHeader.append(
-        element("span", "dashboard-panel__index", "SINAIS-CHAVE"),
-        element("h2", "", "Indicadores do contexto"),
+        element("h2", "", "Resumo da empresa"), updatedElement,
       );
       const metrics = element("section", "metrics-grid");
-      metrics.setAttribute("aria-label", "Indicadores do contexto");
+      metrics.setAttribute("aria-label", "Resumo da empresa");
       data.metrics.forEach((metric) => metrics.append(renderMetric(metric)));
 
-      const railPanel = renderRailPanel();
-      if (data.nextActions) page.append(renderNextActions(data));
-      page.append(metricsHeader, metrics, renderRole(data), railPanel.section);
+      if (data.nextActions?.length) page.append(renderNextActions(data));
+      page.append(metricsHeader, metrics, renderRole(data));
       container.append(page);
-      clearJourney = mountJourney(railPanel.slot, journeyResult.data, journeyResult.meta) ?? (() => {});
+      if (data.showJourney !== false) {
+        const railPanel = renderRailPanel();
+        const context = journeyResult.data.find(step => step.id === 'demand');
+        if (context?.href) railPanel.section.querySelector('.dashboard-panel__heading').append(element('p', 'dashboard-panel__note', context.summary));
+        page.append(railPanel.section);
+        clearJourney = mountJourney(railPanel.slot, journeyResult.data, journeyResult.meta) ?? (() => {});
+      }
       container.dataset.dashboardStatus = "ready";
       onReady();
     } catch {

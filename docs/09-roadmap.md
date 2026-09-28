@@ -1,5 +1,7 @@
 # Roadmap sugerido
 
+> Registro histórico. Para a ordem atual, consulte [28 — Próximos passos](28-proximos-passos.md), baseado no código e nas verificações de 26/09/2026. A stack e vários fluxos descritos aqui já foram definidos ou implementados.
+
 O roadmap entrega uma fatia vertical do marketplace B2B industrial antes de ampliar automações. O [benchmark funcional da Odoo](14-arquitetura-escalavel.md) organiza as features; banco, serviços complementares, hospedagem e identidade visual ainda serão definidos pela equipe.
 
 ## Etapa 0 — Validação acadêmica, industrial e preparação funcional

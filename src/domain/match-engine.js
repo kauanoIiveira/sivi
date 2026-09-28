@@ -1,3 +1,5 @@
+import { quantitiesByUnit } from './quantity.js';
+
 const normalize = (value) => String(value ?? "").trim().toLocaleLowerCase("pt-BR");
 const list = (value) => (Array.isArray(value) ? value : String(value ?? "").split(","))
   .map(normalize)
@@ -7,7 +9,7 @@ function listCriterion(id, label, requiredValues, offeredValues, { required = fa
   const expected = list(requiredValues);
   const offered = new Set(list(offeredValues));
   if (!expected.length) return { id, label, state: "not_informed", explanation: "A demanda não informou este critério." };
-  if (!offered.size) return { id, label, state: required ? "unmet" : "not_informed", explanation: "O fornecedor ainda não informou este critério." };
+  if (!offered.size) return { id, label, state: required ? "unmet" : "not_informed", requiresConfirmation: true, explanation: "O fornecedor ainda não informou este critério solicitado pela demanda." };
   const missing = expected.filter((value) => !offered.has(value));
   return missing.length
     ? { id, label, state: "unmet", explanation: `Não atende: ${missing.join(", ")}.` }
@@ -50,19 +52,23 @@ export function matchSupplierToDemand(demand, profile) {
   const requiredMaterials = items.map((item) => item.material).filter(Boolean);
   const requiredProcesses = items.map((item) => item.process);
   const requiredCertifications = items.flatMap((item) => list(item.certifications ?? item.certification));
-  const totalQuantity = items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+  const quantities = quantitiesByUnit([{ items }]);
+  const comparableCapacity = quantities.length === 1 && quantities[0].unit === 'un' && Number(profile?.capacity) > 0;
+  const totalQuantity = quantities[0]?.quantity ?? 0;
   const criteria = [
     listCriterion("category", "Categoria", requiredCategories, profile?.categories, { required: true }),
     listCriterion("process", "Processo", requiredProcesses, profile?.processes, { required: true }),
     listCriterion("material", "Material", requiredMaterials, profile?.materials),
     listCriterion("certification", "Certificação", requiredCertifications, profile?.certifications),
     listCriterion("region", "Região", demand?.region ?? demand?.destination, profile?.regions),
-    Number(profile?.capacity) >= totalQuantity
+    !comparableCapacity
+      ? { id: 'capacity', label: 'Capacidade', state: 'not_informed', explanation: 'Confirme a capacidade para os itens solicitados. O perfil informa capacidade em unidades.' }
+      : Number(profile?.capacity) >= totalQuantity
       ? { id: "capacity", label: "Capacidade", state: "met", explanation: `Capacidade declarada de ${profile.capacity} unidades.` }
       : { id: "capacity", label: "Capacidade", state: "unmet", explanation: `Capacidade declarada abaixo das ${totalQuantity} unidades solicitadas.` },
   ];
   const mandatoryFailed = criteria.some((criterion) => ["category", "process"].includes(criterion.id) && criterion.state !== "met");
-  const allMet = criteria.every((criterion) => ["met", "not_informed"].includes(criterion.state));
+  const allMet = comparableCapacity && criteria.every((criterion) => ["met", "not_informed"].includes(criterion.state) && !criterion.requiresConfirmation);
   const status = mandatoryFailed ? "ineligible" : allMet ? "compatible" : "partial";
   return Object.freeze({
     supplierId: profile?.organizationId,
