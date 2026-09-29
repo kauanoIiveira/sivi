@@ -26,7 +26,7 @@
         root.dataset.density = appearance.density === 'compact' ? 'compact' : 'comfortable';
         root.dataset.motion = appearance.motion === 'reduce' || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'full';
         document.querySelector('meta[name="theme-color"]').content =
-          theme === "dark" ? "#111315" : "#F3F4F4";
+          theme === "dark" ? "#101010" : "#F3F4F4";
       })();
     </script>
     <link rel="icon" href="./src/assets/favicon-placeholder.svg" type="image/svg+xml" />
@@ -48,10 +48,15 @@
     <link rel="stylesheet" href="./src/pages/context/context-page.css" />
     <link rel="stylesheet" href="./src/pages/public/public-page.css" />
     <link rel="stylesheet" href="./src/pages/dashboard/dashboard-page.css" />
+    <link rel="stylesheet" href="./src/pages/dashboard/buyer-overview-page.css" />
+    <link rel="stylesheet" href="./src/pages/buyer/suppliers-page.css" />
+    <link rel="stylesheet" href="./src/pages/buyer/reviews-page.css" />
     <link rel="stylesheet" href="./src/pages/operations/operations-page.css" />
     <link rel="stylesheet" href="./src/pages/supplier/profile-page.css" />
     <link rel="stylesheet" href="./src/visualizations/industrial-rail/industrial-rail.css" />
     <link rel="stylesheet" href="./src/theme/appearance.css" />
+    <link rel="stylesheet" href="./src/styles/dark-components.css" />
+    <link rel="stylesheet" href="./src/styles/high-end-pages.css" />
     <script type="importmap">
       {
         "imports": {

@@ -361,8 +361,17 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       };
       // New publications retain every recipient. For older records, close the
       // opportunities known from proposals without guessing private paths.
+      let manuallyInvited = null;
+      try {
+        manuallyInvited = await client.read(`invitedSuppliersByBuyer/${current.organizationId}/${demand.id}`);
+      } catch (error) {
+        // Earlier deployed rules do not know this collection. Existing orders
+        // still use the recipients recorded when their demand was published.
+        if (!/permission[_ -]?denied/i.test(`${error?.code ?? ''} ${error?.message ?? ''}`)) throw error;
+      }
       const recipients = new Set([
         ...values(demand.opportunitySupplierIds),
+        ...Object.keys(manuallyInvited ?? {}),
         ...data.proposals.filter(item => item.demandId === demand.id).map(item => item.supplierId),
         proposal.supplierId,
       ]);
@@ -403,9 +412,23 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       const current = workspace(workspaceId, "buyer");
       const order = await getOrder(workspaceId, orderId);
       if (order.buyerId !== current.organizationId || order.status !== "delivered" || order.evaluation) fail("Avaliação indisponível.");
-      const score = integer(input.score, "nota");
-      if (score > 5) fail("A nota deve ser de 1 a 5.");
-      await updateOrder(workspaceId, order, { evaluation: { score, comment: text(input.comment, "comentário", 1000) }, updatedAt: timestamp(client) });
+      let evaluation;
+      if (input.criteria) {
+        const criteria = Object.fromEntries(["quality", "punctuality", "communication", "documentation"].map((key) => {
+          const value = integer(input.criteria[key], `nota de ${key}`);
+          if (value > 5) fail("Cada critério deve receber uma nota de 1 a 5.");
+          return [key, value];
+        }));
+        const comment = String(input.comment ?? "").trim();
+        if (comment.length > 1000) fail("O comentário deve ter no máximo 1.000 caracteres.");
+        const score = Math.round(Object.values(criteria).reduce((sum, value) => sum + value, 0) / 4 * 10) / 10;
+        evaluation = { score, comment, criteria, evaluatedAt: timestamp(client) };
+      } else {
+        const score = integer(input.score, "nota");
+        if (score > 5) fail("A nota deve ser de 1 a 5.");
+        evaluation = { score, comment: text(input.comment, "comentário", 1000) };
+      }
+      await updateOrder(workspaceId, order, { evaluation, updatedAt: timestamp(client) });
     },
   });
 
@@ -428,6 +451,52 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       } catch (error) {
         return createRepositoryResult("error", { error, meta: meta() });
       }
+    },
+    async getBuyerRecommendations(workspaceId) {
+      workspace(workspaceId, "buyer");
+      const published = read(workspaceId).demands
+        .filter((demand) => demand.status === "published")
+        .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+      if (!published) return [];
+      const profiles = values(await client.read("supplierProfiles"))
+        .filter((profile) => profile.organizationStatus === "active");
+      return profiles.map((profile) => ({ profile, match: matchSupplierToDemand(published, profile) }))
+        .filter(({ match }) => match.eligible)
+        .sort((a, b) => b.match.criteria.filter((item) => item.state === "met").length - a.match.criteria.filter((item) => item.state === "met").length);
+    },
+    async listSupplierProfiles(workspaceId) {
+      const current = workspace(workspaceId, "buyer");
+      return values(await client.read("supplierProfiles"))
+        .filter((profile) => profile.organizationStatus === "active" && profile.organizationId !== current.organizationId)
+        .sort((a, b) => String(a.organizationName).localeCompare(String(b.organizationName), "pt-BR"));
+    },
+    async getBuyerInvitations(workspaceId, demandId) {
+      const current = workspace(workspaceId, "buyer");
+      const demand = getDemand(workspaceId, demandId);
+      if (demand.buyerId !== current.organizationId || demand.status !== "published") fail("Demanda indisponível.");
+      const invited = await client.read(`invitedSuppliersByBuyer/${current.organizationId}/${demandId}`);
+      return [...new Set([...values(demand.opportunitySupplierIds), ...Object.keys(invited ?? {})])];
+    },
+    async inviteSupplierToDemand(workspaceId, demandId, supplierId) {
+      const current = workspace(workspaceId, "buyer");
+      await refresh(workspaceId);
+      const demand = getDemand(workspaceId, demandId);
+      if (demand.buyerId !== current.organizationId || demand.status !== "published") fail("Selecione uma demanda publicada da sua empresa.");
+      const validSupplierId = supplierIdentifier(supplierId);
+      if (validSupplierId === current.organizationId) fail("Selecione outra empresa fornecedora.");
+      const profile = await client.read(`supplierProfiles/${validSupplierId}`);
+      if (!profile || profile.organizationStatus !== "active" || profile.organizationId !== validSupplierId) fail("Este fornecedor não está disponível.");
+      const match = matchSupplierToDemand(demand, profile);
+      if (!match.eligible) fail("O perfil não atende aos critérios essenciais desta demanda.");
+      const alreadyInvited = await client.read(`invitedSuppliersByBuyer/${current.organizationId}/${demandId}/${validSupplierId}`);
+      if (values(demand.opportunitySupplierIds).includes(validSupplierId) || alreadyInvited === true) return { alreadyAvailable: true };
+      const storedMatch = { ...clone(match), buyerId: current.organizationId, createdAt: timestamp(client) };
+      await client.patch({
+        [`invitedSuppliersByBuyer/${current.organizationId}/${demandId}/${validSupplierId}`]: true,
+        [`matchesByDemand/${demandId}/${validSupplierId}`]: storedMatch,
+        [`opportunitiesBySupplier/${validSupplierId}/${demandId}`]: { ...publicDemand(demand), match: storedMatch },
+      });
+      return { alreadyAvailable: false };
     },
     async getIndustrialJourney(workspaceId) {
       try {

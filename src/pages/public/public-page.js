@@ -8,7 +8,7 @@ const purchaseSteps = [
   { label: 'Recebimento', context: '07 / O fechamento da compra', title: 'Confirme a entrega e avalie o fornecedor.', description: 'A compra termina com o registro de recebimento e a avaliação do fornecimento. O histórico da negociação continua disponível para consulta.', buyer: 'Confirme o recebimento e registre nota e comentário.', supplier: 'Consulte a confirmação de entrega e a avaliação recebida.', record: 'Recebimento, avaliação e histórico do pedido.' },
 ];
 
-const arrow = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg>';
+const arrow = '<span class="public-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h15M13 5l7 7-7 7"/></svg></span>';
 
 export function mountPublicPage({ container }) {
   container.innerHTML = `<div class="public-page">
@@ -77,6 +77,20 @@ export function mountPublicPage({ container }) {
   };
   workflow.addEventListener('click', onStepClick);
 
+  const revealTargets = [...container.querySelectorAll('.public-hero, .public-principles, .public-section-heading, .public-workflow__body, .public-roles article, .public-entry > div, .public-entry__steps, .public-faq > div')];
+  let revealObserver;
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && document.documentElement.dataset.motion !== 'reduce') {
+    revealTargets.forEach((target) => { target.dataset.reveal = 'pending'; });
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.dataset.reveal = 'visible';
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px 40px 0px' });
+    revealTargets.forEach((target) => revealObserver.observe(target));
+  }
+
   const section = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('secao');
   let frame;
   if (['compras', 'fornecimento', 'funcionamento', 'cadastro', 'duvidas', 'topo'].includes(section)) {
@@ -88,6 +102,7 @@ export function mountPublicPage({ container }) {
   }
   return () => {
     cancelAnimationFrame(frame);
+    revealObserver?.disconnect();
     workflow.removeEventListener('click', onStepClick);
     container.replaceChildren();
   };

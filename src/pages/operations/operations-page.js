@@ -14,6 +14,8 @@ export function mountOperationsPage({ container, workspace, repository, section,
   let clearState = () => {};
   let clearWorkflow = () => {};
   const page = element("section", undefined, "operations-page");
+  page.dataset.operationRole = workspace.organizationRole;
+  page.dataset.operationSection = section;
   container.replaceChildren(page);
   async function load() {
     clearState();
@@ -32,7 +34,7 @@ export function mountOperationsPage({ container, workspace, repository, section,
     const buyer = workspace.organizationRole === "buyer";
     const header = element("header", undefined, "operations-heading");
     const copy = element("div");
-    const title = element("h1", section === "demands" && !buyer ? "Oportunidades" : titles[section]);
+    const title = element("h1", buyer && section === "proposals" ? "Propostas recebidas" : buyer && section === "orders" ? "Meus pedidos" : section === "demands" && !buyer ? "Oportunidades" : titles[section]);
     title.dataset.pageTitle = "";
     const descriptions = {
       demands: buyer ? "Especificações, quantidades e prazos para sua próxima compra." : "Demandas publicadas para a capacidade da sua empresa.",

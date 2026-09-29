@@ -1,0 +1,74 @@
+.marketplace-page { width: min(1320px, 100%); margin: 0 auto; display: grid; gap: 19px; color: #172537; }
+.marketplace-page__header h1 { margin: 0 0 4px; font-size: clamp(1.55rem, 2.25vw, 1.95rem); line-height: 1.15; letter-spacing: -.035em; }
+.marketplace-page__header p { margin: 0; color: #607285; font-size: .84rem; }
+.marketplace-analysis { padding: 16px 18px; border-left: 4px solid #233d4d; background: #fff; box-shadow: 0 1px 4px rgba(25, 48, 63, .04); }
+.marketplace-analysis__heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.marketplace-analysis__heading strong { font-size: .76rem; }
+.marketplace-analysis__heading span { padding: 4px 7px; border-radius: 3px; background: #eef1f3; color: #344c5c; font-size: .67rem; font-weight: 700; }
+.marketplace-analysis__demand { display: flex; flex-wrap: wrap; align-items: center; gap: 9px 14px; margin-top: 11px; }
+.marketplace-analysis__tag { display: none; }
+.marketplace-analysis__demand select { max-width: min(390px, 100%); min-height: 34px; padding: 5px 8px; border: 1px solid #d9e1e7; border-radius: 4px; background: #f5f7f9; color: #172537; font: inherit; font-size: .74rem; font-weight: 700; }
+.marketplace-analysis__demand p { flex: 1 1 380px; margin: 0; color: #52677a; font-size: .71rem; line-height: 1.4; }
+.marketplace-search { display: grid; gap: 11px; padding: 17px; border: 1px solid #d6dfe6; border-radius: 7px; background: #fff; }
+.marketplace-search__row { display: flex; gap: 10px; }
+.marketplace-search__row input { min-width: 0; flex: 1; min-height: 39px; padding: 8px 11px; border: 1px solid #d4dde5; border-radius: 5px; background: #fff; color: #172537; font: inherit; font-size: .77rem; }
+.marketplace-search__row input::placeholder { color: #718094; }
+.marketplace-search__filters { display: flex; flex-wrap: wrap; gap: 7px; }
+.marketplace-filter { max-width: 185px; min-height: 31px; padding: 4px 7px; border: 1px solid #d6dfe6; border-radius: 4px; background: #fff; color: #223b4e; font: inherit; font-size: .69rem; }
+.marketplace-search__active { display: flex; align-items: flex-start; gap: 8px; min-height: 22px; }
+.marketplace-search__active > strong { padding-top: 4px; white-space: nowrap; color: #52677a; font-size: .66rem; }
+.marketplace-search__active > div { display: flex; flex-wrap: wrap; gap: 5px; }
+.marketplace-active-filter { padding: 4px 7px; border: 0; border-radius: 3px; background: #edf1f3; color: #344c5c; font: inherit; font-size: .66rem; cursor: pointer; }
+.marketplace-button { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 13px; border: 1px solid #233d4d; border-radius: 5px; background: #fff; color: #172d3e; font: inherit; font-size: .74rem; font-weight: 700; text-align: center; cursor: pointer; }
+.marketplace-button:hover:not(:disabled) { filter: brightness(.94); }
+.marketplace-button--primary { border-color: #fe7f2d; background: #fe7f2d; color: #142536; }
+.marketplace-button:disabled { cursor: default; opacity: .68; }
+.marketplace-page__count { margin: 0 0 -7px; color: #5c7184; font-size: .76rem; }
+.marketplace-feedback { margin: 0; font-size: .76rem; }
+.marketplace-feedback:empty { display: none; }
+.marketplace-feedback[data-state="success"] { padding: 10px 12px; border-radius: 4px; background: #d9f7e5; color: #12633e; }
+.marketplace-feedback[data-state="error"] { padding: 10px 12px; border-radius: 4px; background: #ffebe9; color: #9d3330; }
+.marketplace-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; align-items: stretch; }
+.marketplace-card { min-width: 0; display: flex; flex-direction: column; gap: 14px; padding: 19px; border: 1px solid #d6dfe6; border-radius: 7px; background: #fff; box-shadow: 0 2px 5px rgba(25, 48, 63, .07); }
+.marketplace-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.marketplace-card__heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.marketplace-card__heading h2 { margin: 0 0 3px; font-size: 1rem; line-height: 1.25; }
+.marketplace-card__heading p { margin: 0; color: #65788a; font-size: .72rem; line-height: 1.35; }
+.marketplace-card__type { max-width: 160px; padding: 4px 6px; border-radius: 3px; background: #edf1f3; color: #344c5c; font-size: .61rem; font-weight: 700; text-align: right; text-transform: uppercase; }
+.marketplace-card__active { display: grid; gap: 2px; padding: 11px; border: 1px solid #42c885; border-radius: 4px; background: #d5f9e3; }
+.marketplace-card__active strong { color: #076d42; font-size: .72rem; }
+.marketplace-card__active small { color: #3e7356; font-size: .68rem; line-height: 1.3; }
+.marketplace-card__section { border-top: 1px solid #dfe6eb; padding-top: 13px; }
+.marketplace-card__section h3 { margin: 0 0 9px; font-size: .71rem; font-weight: 800; }
+.marketplace-card__section > small { display: block; margin: 8px 0 4px; color: #65788a; font-size: .65rem; }
+.marketplace-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.marketplace-chips span { padding: 3px 6px; border-radius: 3px; background: #eef1f3; color: #21374a; font-size: .66rem; }
+.marketplace-chips:empty::before { content: "Não informado"; color: #718094; font-size: .67rem; }
+.marketplace-card__section-heading { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+.marketplace-card__section-heading small { color: #718094; font-size: .62rem; }
+.marketplace-criteria { display: grid; }
+.marketplace-criterion { min-width: 0; display: grid; grid-template-columns: 90px 110px minmax(0, 1fr); align-items: start; gap: 7px; padding: 7px 5px; border-bottom: 1px solid #e4eaee; font-size: .67rem; line-height: 1.35; }
+.marketplace-criterion > strong { font-weight: 600; }
+.marketplace-criterion > span:last-child { min-width: 0; color: #50657a; }
+.marketplace-criterion__state { justify-self: start; padding: 3px 5px; border-radius: 3px; font-size: .59rem; font-weight: 700; white-space: nowrap; }
+.marketplace-criterion__state--met { background: #d3f7e0; color: #078255; }
+.marketplace-criterion__state--unmet { background: #fff0c9; color: #a96700; }
+.marketplace-criterion__state--unknown { background: #edf1f3; color: #52677a; }
+.marketplace-muted { margin: 5px 0; color: #65788a; font-size: .75rem; }
+.marketplace-card__history p { margin: 0; padding: 12px; border-radius: 4px; background: #f1f3f5; color: #42576a; font-size: .69rem; }
+.marketplace-card__footer { display: grid; gap: 10px; margin-top: auto; }
+.marketplace-card__footer > small { color: #65788a; font-size: .65rem; }
+.marketplace-card__actions { display: flex; gap: 8px; }
+.marketplace-card__actions > * { flex: 1; }
+.marketplace-empty { grid-column: 1 / -1; margin: 0; padding: 32px; border: 1px solid #d6dfe6; border-radius: 6px; background: #fff; color: #52677a; font-size: .85rem; }
+.marketplace-page__note { margin: 0; padding: 11px 13px; border: 1px solid #d6dfe6; border-radius: 5px; background: #f0f3f5; color: #52677a; font-size: .72rem; line-height: 1.45; }
+.marketplace-dialog { width: min(550px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 22px; border: 1px solid #d6dfe6; border-radius: 7px; background: #fff; color: #172537; box-shadow: 0 20px 60px rgba(17, 32, 44, .25); }
+.marketplace-dialog::backdrop { background: rgba(17, 32, 44, .5); }
+.marketplace-dialog__heading { display: flex; align-items: start; justify-content: space-between; gap: 14px; }
+.marketplace-dialog__heading h2 { margin: 0; font-size: 1.15rem; }
+.marketplace-dialog > p { color: #52677a; font-size: .81rem; line-height: 1.5; }
+.marketplace-dialog dl { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px 12px; font-size: .78rem; }
+.marketplace-dialog dt { color: #52677a; font-weight: 700; }
+.marketplace-dialog dd { margin: 0; }
+@media (max-width: 1000px) { .marketplace-grid { grid-template-columns: 1fr; } .marketplace-card:last-child:nth-child(odd) { grid-column: auto; } }
+@media (max-width: 650px) { .marketplace-analysis__heading { align-items: start; flex-direction: column; } .marketplace-search__row { flex-direction: column; } .marketplace-search__row > * { width: 100%; } .marketplace-filter { max-width: 100%; } .marketplace-card { padding: 14px; } .marketplace-card__actions { flex-direction: column; } .marketplace-criterion { grid-template-columns: minmax(60px, .7fr) minmax(90px, 1fr); } .marketplace-criterion > span:last-child { grid-column: 1 / -1; } }

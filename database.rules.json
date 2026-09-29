@@ -126,6 +126,17 @@
         }
       }
     },
+    "invitedSuppliersByBuyer": {
+      "$buyerId": {
+        ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer')",
+        "$demandId": {
+          "$supplierId": {
+            ".write": "auth != null && !data.exists() && newData.val() === true && root.child('membershipsByUser').child(auth.uid).child($buyerId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRoles').child('buyer').val() === true || root.child('membershipsByUser').child(auth.uid).child($buyerId).child('organizationRole').val() === 'buyer') && root.child('publishedDemands').child($demandId).child('buyerId').val() === $buyerId && root.child('publishedDemands').child($demandId).child('status').val() === 'published'",
+            ".validate": "newData.val() === true"
+          }
+        }
+      }
+    },
     "opportunitiesBySupplier": {
       "$supplierId": {
         ".read": "auth != null && root.child('membershipsByUser').child(auth.uid).child($supplierId).child('status').val() === 'active' && (root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRoles').child('supplier').val() === true || root.child('membershipsByUser').child(auth.uid).child($supplierId).child('organizationRole').val() === 'supplier')",

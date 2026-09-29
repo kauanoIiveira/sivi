@@ -1,11 +1,11 @@
 :root {
   color-scheme: light;
   --canvas: #F3F4F4;
-  --navigation-bg: #18252D;
-  --navigation-fg: #F5F7F8;
-  --navigation-muted: #B2BEC6;
-  --navigation-hover: #283943;
-  --navigation-border: #394A55;
+  --navigation-bg: #FFFFFF;
+  --navigation-fg: #18232B;
+  --navigation-muted: #52616B;
+  --navigation-hover: #ECEFF0;
+  --navigation-border: #D8E0E7;
   --surface: #ffffff;
   --surface-raised: #ECEFF0;
   --surface-interactive: color-mix(in srgb, #EAECF0 64%, #FFFFFF);
@@ -78,18 +78,26 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --canvas: #111315;
-  --surface: #181a1d;
-  --surface-raised: #1d2024;
-  --surface-interactive: #24272b;
+  --canvas: #101010;
+  --navigation-bg: #1a1a1a;
+  --navigation-fg: #f5f5f5;
+  --navigation-muted: #c3c3c3;
+  --navigation-hover: #2b2b2b;
+  --navigation-border: #383838;
+  --surface: #1d1d1d;
+  --surface-raised: #252525;
+  --surface-interactive: #303030;
+  --surface-deep: #171717;
+  --surface-selected: #292929;
+  --surface-icon: #303030;
   --surface-subtle: var(--surface-raised);
   --surface-hover: var(--surface-interactive);
-  --text-primary: #f5f5f7;
-  --text-muted: #a1a1a6;
-  --text-subtle: #8e8e93;
-  --border-subtle: rgba(255, 255, 255, 0.09);
-  --border-control: rgba(255, 255, 255, 0.2);
-  --border-strong: rgba(255, 255, 255, 0.3);
+  --text-primary: #f5f5f5;
+  --text-muted: #b9b9b9;
+  --text-subtle: #a8a8a8;
+  --border-subtle: #383838;
+  --border-control: #505050;
+  --border-strong: #6a6a6a;
   --action-primary: #FE7F2D;
   --action-primary-hover: color-mix(in srgb, var(--action-primary) 88%, #FFFFFF);
   --action-text: #FE7F2D;
@@ -113,11 +121,14 @@
   --feedback-danger-bg: #442326;
   --feedback-danger-border: #875055;
   --feedback-info: #EAECF0;
-  --feedback-info-bg: color-mix(in srgb, #233D4D 68%, #000000);
-  --feedback-info-border: color-mix(in srgb, #233D4D 76%, #EAECF0);
+  --feedback-info-bg: var(--surface-raised);
+  --feedback-info-border: var(--border-control);
+  --media-bg: #1a1a1a;
+  --media-step-bg: rgba(0, 0, 0, 0.44);
+  --media-step-current-fg: #101010;
   --page-glow: rgba(254, 127, 45, 0.12);
   --shell-border: var(--border-subtle);
-  --provider-bg: rgba(29, 32, 36, 0.88);
+  --provider-bg: rgba(29, 29, 29, 0.88);
   --provider-hover-bg: var(--surface-interactive);
   --input-error-bg: var(--feedback-danger-bg);
   --danger-focus-shadow: rgba(252, 165, 165, 0.28);
@@ -131,8 +142,8 @@
   --card-shadow: none;
   --dialog-shadow: 0 24px 64px rgba(0, 0, 0, 0.46);
   --overlay-bg: rgba(0, 0, 0, 0.62);
-  --toast-bg: #24272b;
-  --toast-fg: #f5f5f7;
+  --toast-bg: #252525;
+  --toast-fg: #f5f5f5;
   --toast-border: rgba(255, 255, 255, 0.14);
   --toast-code: #EAECF0;
 }

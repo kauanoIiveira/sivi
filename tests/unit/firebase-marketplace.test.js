@@ -86,6 +86,22 @@ async function marketplaceContext({ demandStatus = 'draft', orderDemandId = 'oth
   return { client, repository, input, proposalInput, demand, proposal, order };
 }
 
+test('buyer evaluation stores four criteria and the calculated overall score on both order views', async () => {
+  const { client, repository, order } = await marketplaceContext({ orderStatus: 'delivered' });
+  const criteria = { quality: 5, punctuality: 4, communication: 3, documentation: 5 };
+  await assert.rejects(repository.workflow.evaluateOrder('buyer', order.id, { criteria: { ...criteria, quality: 0 } }));
+  assert.equal((await client.read(`ordersByBuyer/alpha/${order.id}`)).evaluation, undefined);
+  await repository.workflow.evaluateOrder('buyer', order.id, { criteria, comment: 'Entrega conferida.' });
+  const buyer = (await client.read(`ordersByBuyer/alpha/${order.id}`)).evaluation;
+  const supplier = (await client.read(`ordersBySupplier/beta/${order.id}`)).evaluation;
+  assert.equal(buyer.score, 4.3);
+  assert.deepEqual(buyer.criteria, criteria);
+  assert.equal(buyer.comment, 'Entrega conferida.');
+  assert.ok(Number.isFinite(buyer.evaluatedAt));
+  assert.deepEqual(supplier, buyer);
+  await assert.rejects(repository.workflow.evaluateOrder('buyer', order.id, { criteria }));
+});
+
 function interruptReadsAfterCommit(client, method) {
   const read = client.read;
   const original = client[method];
@@ -427,6 +443,26 @@ test('publication records its recipients privately and acceptance closes every e
   await assert.rejects(competitor.workflow.sendProposal('competitor', demand.id, {
     totalCents: 10000, freightCents: 0, leadTimeDays: 10, manufacturer: 'Gamma', payment: '30 dias', warranty: '12 meses', technical: 'Conforme', validUntil: '2099-12-10',
   }), /não está aberta/i);
+});
+
+test('buyer can invite an eligible supplier added after publication and acceptance closes that opportunity', async () => {
+  const { client, repository, demand, proposal } = await marketplaceContext();
+  await client.write('supplierProfiles/beta', eligibleProfile('beta'));
+  await repository.workflow.publishDemand('buyer', demand.id);
+  await client.write('supplierProfiles/gamma', eligibleProfile('gamma'));
+  await client.write('supplierProfiles/delta', { ...eligibleProfile('delta'), processes: ['fundição'] });
+  await assert.rejects(repository.inviteSupplierToDemand('buyer', demand.id, 'delta'), /critérios essenciais/i);
+  assert.equal(await client.read(`opportunitiesBySupplier/delta/${demand.id}`), null);
+  const profiles = await repository.listSupplierProfiles('buyer');
+  assert.deepEqual(profiles.map((profile) => profile.organizationId), ['beta', 'delta', 'gamma']);
+  assert.deepEqual(await repository.getBuyerInvitations('buyer', demand.id), ['beta']);
+  assert.deepEqual(await repository.inviteSupplierToDemand('buyer', demand.id, 'gamma'), { alreadyAvailable: false });
+  assert.deepEqual(await repository.inviteSupplierToDemand('buyer', demand.id, 'gamma'), { alreadyAvailable: true });
+  assert.deepEqual((await repository.getBuyerInvitations('buyer', demand.id)).sort(), ['beta', 'gamma']);
+  assert.equal((await client.read(`opportunitiesBySupplier/gamma/${demand.id}`)).match.eligible, true);
+  assert.equal((await client.read(`publishedDemands/${demand.id}`)).opportunitySupplierIds, undefined);
+  await repository.workflow.acceptProposal('buyer', proposal.id, 'version-1');
+  assert.equal((await client.read(`opportunitiesBySupplier/gamma/${demand.id}`)).status, 'ordered');
 });
 
 test('invalid supplier identifiers stop publication before writing any projection', async () => {
