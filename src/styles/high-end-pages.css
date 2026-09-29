@@ -1,0 +1,173 @@
+/* Editorial SIVI treatment for the public index and the buyer's proposals and orders. */
+.public-page,
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) {
+  --design-tray: color-mix(in srgb, var(--text-primary) 5%, var(--canvas));
+  --design-line: color-mix(in srgb, var(--text-primary) 11%, transparent);
+  --design-soft-orange: color-mix(in srgb, var(--action-primary) 12%, var(--surface));
+  --design-motion: cubic-bezier(.32,.72,0,1);
+}
+
+/* Public index: an editorial split with a detached navigation island. */
+body[data-surface="public"] { background: var(--canvas); }
+.public-page { background: var(--canvas); }
+.public-header { border: 0; padding-top: 22px; }
+.public-nav {
+  width: min(1280px, calc(100% - 48px));
+  min-height: 76px;
+  padding: 10px 14px 10px 26px;
+  border: 1px solid var(--design-line);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 18px 60px color-mix(in srgb, var(--text-primary) 5%, transparent);
+}
+.public-brand { font-size: 1.875rem; }
+.public-brand span { letter-spacing: .16em; }
+.public-nav nav { gap: 8px; }
+.public-nav a:not(.public-brand) { padding-inline: 18px; border-radius: 999px; transition: transform 450ms var(--design-motion), background-color 450ms var(--design-motion); }
+.public-nav a:not(.public-brand):hover { background: var(--surface-hover); text-decoration: none; transform: translateY(-2px); }
+.public-nav nav > a[href*="modo=login"] { background: var(--design-soft-orange); color: var(--text-primary); }
+.public-nav button { border-radius: 50%; border-color: var(--design-line); }
+.public-hero { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(36px, 6vw, 104px); padding-block: clamp(78px, 11vw, 160px) clamp(76px, 9vw, 126px); }
+.public-hero__copy { padding-bottom: 20px; }
+.public-eyebrow { display: inline-flex; align-items: center; width: fit-content; min-height: 28px; padding: 5px 12px; border-radius: 999px; background: var(--design-soft-orange); color: var(--action-text); font-size: .625rem; letter-spacing: .13em; line-height: 1.5; }
+.public-hero .public-eyebrow { margin-bottom: 28px; }
+.public-brand-mark { width: 6px; height: 6px; border-radius: 50%; }
+.public-hero h1 { max-width: 790px; font-size: clamp(3.5rem, calc(5.35vw * var(--text-scale, 1)), 6.375rem); font-weight: 600; line-height: .98; letter-spacing: -.075em; margin-bottom: 30px; }
+.public-hero__intro { max-width: 590px; font-size: clamp(1rem, 1.25vw, 1.1875rem); line-height: 1.72; }
+.public-hero__actions { margin-top: 38px; gap: 14px; }
+.public-primary { min-height: 58px; padding: 7px 8px 7px 25px; gap: 24px; border-radius: 999px; transition: transform 550ms var(--design-motion), background-color 550ms var(--design-motion); }
+.public-primary:hover { transform: translateY(-3px); }
+.public-primary:active { transform: scale(.98); }
+.public-button-icon { display: inline-grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; background: color-mix(in srgb, #000 10%, transparent); transition: transform 550ms var(--design-motion), background-color 550ms var(--design-motion); }
+.public-primary:hover .public-button-icon, .public-text-link:hover .public-button-icon { transform: translate(3px, -2px) scale(1.05); }
+.public-text-link { gap: 10px; text-decoration: none; padding: 4px 5px 4px 18px; border-radius: 999px; transition: background-color 550ms var(--design-motion), transform 550ms var(--design-motion); }
+.public-text-link:hover { background: var(--surface-hover); transform: translateY(-2px); }
+.public-text-link .public-button-icon { background: var(--surface); border: 1px solid var(--design-line); }
+.public-note { margin-top: 28px; }
+.public-hero__image { position: relative; padding: 7px; border: 1px solid var(--design-line); border-radius: 32px; background: var(--design-tray); box-shadow: 0 26px 76px color-mix(in srgb, var(--text-primary) 9%, transparent); overflow: hidden; transform: rotate(1.1deg); }
+.public-hero__image img { height: clamp(320px, 32vw, 490px); border-radius: 25px 25px 0 0; }
+.public-hero__image figcaption { min-height: 126px; align-items: end; padding: 24px 28px; border-radius: 0 0 25px 25px; background: #1b1b1b; }
+.public-image-index { max-width: 180px; color: #c9c9c9; }
+.public-principles { gap: 8px; border: 0; padding: 8px; border-radius: 27px; background: var(--design-tray); }
+.public-principles p { min-height: 72px; align-items: center; padding: 18px 24px; border-radius: 21px; background: var(--surface); font-weight: 600; }
+.public-principles p:first-child { padding-left: 24px; }
+.public-principles p + p { border-left: 0; }
+.public-principles span { color: var(--action-text); }
+.public-workflow { padding-block: clamp(96px, 11vw, 160px); }
+.public-section-heading { margin-bottom: 54px; }
+.public-page h2 { font-size: clamp(2.75rem, calc(4.15vw * var(--text-scale, 1)), 4.625rem); font-weight: 600; letter-spacing: -.065em; line-height: 1.04; }
+.public-workflow__body { grid-template-columns: minmax(220px, .66fr) minmax(0, 1.34fr); gap: clamp(24px, 5vw, 72px); }
+.public-workflow__steps li + li { border-color: var(--design-line); }
+.public-workflow__steps button { min-height: 69px; border-left: 0; border-radius: 16px; padding-inline: 20px; transition: background-color 420ms var(--design-motion), transform 420ms var(--design-motion), color 420ms var(--design-motion); }
+.public-workflow__steps button:hover { transform: translateX(5px); }
+.public-workflow__steps button[aria-pressed="true"] { background: var(--design-soft-orange); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--action-primary) 24%, transparent); }
+.public-workflow__content { padding: 7px; border: 1px solid var(--design-line); border-radius: 29px; background: var(--design-tray); }
+.public-workflow__detail { min-height: 470px; padding: clamp(26px, 4vw, 54px); border-radius: 21px; background: var(--surface); }
+.public-workflow__detail[hidden] { display: none; }
+.public-workflow__detail h3 { max-width: 650px; font-size: clamp(2rem, 3vw, 3.25rem); font-weight: 600; letter-spacing: -.055em; }
+.public-workflow__record { padding-bottom: 0; }
+.public-roles-band { background: var(--surface); border-color: var(--design-line); }
+.public-roles { gap: 56px; padding-block: clamp(88px, 10vw, 140px); }
+.public-roles article { padding: 34px; border-radius: 28px; background: var(--canvas); }
+.public-roles article + article { border: 0; padding: 34px; }
+.public-roles li::before { content: "—"; }
+.public-entry, .public-faq { padding-block: clamp(88px, 10vw, 144px); }
+.public-entry__steps li { padding-block: 28px; }
+.public-faq details { background: transparent; }
+.public-faq summary { transition: color 450ms var(--design-motion); }
+.public-faq details[open] summary::after { content: '−'; }
+.public-footer { --public-footer-bg: #171717; }
+:root[data-theme="dark"] .public-page { --design-tray: #282828; --design-line: #3b3b3b; }
+:root[data-theme="dark"] .public-hero__image figcaption { background: #101010; }
+.public-page [data-reveal="pending"] { opacity: 0; transform: translateY(42px); }
+.public-page [data-reveal="visible"] { opacity: 1; transform: translateY(0); transition: opacity 900ms var(--design-motion), transform 900ms var(--design-motion); }
+
+/* Buyer workspace: proposal and order pages use one coherent visual language. */
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) { max-width: 1320px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-heading { position: relative; align-items: end; padding: 48px 0 38px; margin-bottom: 0; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-heading::before { content: "COMPRADOR / OPERAÇÕES"; position: absolute; top: 12px; left: 0; color: var(--action-text); font-family: "IBM Plex Mono", monospace; font-size: .625rem; font-weight: 600; letter-spacing: .15em; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-heading h1 { font-size: clamp(2.75rem, calc(4vw * var(--text-scale, 1)), 4.25rem); line-height: 1.03; letter-spacing: -.065em; margin-bottom: 16px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-heading p { max-width: 620px; font-size: 1rem; line-height: 1.65; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-identity { border-color: var(--action-primary); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metrics { grid-template-columns: 1.25fr 1fr 1fr; gap: 12px; border: 0; margin: 0 0 72px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric { position: relative; min-height: 164px; align-content: space-between; padding: 24px; border: 7px solid var(--design-tray); border-radius: 27px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--design-line); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric:first-child { background: var(--design-soft-orange); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric + .workflow-metric { border-left-width: 7px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric > span { font-weight: 650; color: var(--text-primary); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric > strong { font-size: clamp(2.5rem, 3.6vw, 3.5rem); font-weight: 650; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-section-heading { gap: 20px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--design-line); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-section-heading h2 { font-size: 1.5rem; letter-spacing: -.04em; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) :is(.workflow-section-heading button, .workflow-collection-actions button, .workflow-collection-toolbar > button, .workflow-record > button, .workflow-record > a, .workflow-comparison button) { border-radius: 999px; transition: transform 450ms var(--design-motion), background-color 450ms var(--design-motion); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) :is(.workflow-section-heading button, .workflow-collection-actions button, .workflow-collection-toolbar > button, .workflow-record > button, .workflow-record > a, .workflow-comparison button):hover { transform: translateY(-2px); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) :is(.workflow-toolbar input, .workflow-toolbar select) { min-height: 50px; border-radius: 14px; border-color: var(--design-line); background: var(--surface); box-shadow: 0 0 0 6px var(--design-tray); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-toolbar { column-gap: 22px; row-gap: 12px; margin-block: 24px 20px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-collection-toolbar > button { margin-bottom: 8px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-filter-hint { margin: 8px 0 20px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record-list { display: grid; gap: 22px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record { position: relative; margin: 0; padding: clamp(24px, 3vw, 40px); border: 7px solid var(--design-tray); border-radius: 30px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--design-line); transition: transform 600ms var(--design-motion), box-shadow 600ms var(--design-motion); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record-list > .workflow-record:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px var(--design-line), 0 18px 48px color-mix(in srgb, var(--text-primary) 5%, transparent); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record h3 { max-width: 780px; font-size: clamp(1.5rem, 2.1vw, 2rem); letter-spacing: -.045em; margin: 9px 0 20px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-reference { color: var(--action-text); font-family: "IBM Plex Mono", monospace; font-size: .6875rem; letter-spacing: .045em; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record > .workflow-state { margin: 0 0 20px; border-radius: 999px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record > .workflow-related-link { padding-inline: 0; margin-block: 2px 16px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-comparison { border: 1px solid var(--design-line); border-radius: 20px; background: var(--surface); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-comparison caption { padding: 20px; color: var(--text-primary); font-weight: 600; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-comparison thead { background: var(--design-soft-orange); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-comparison .comparison-total { background: var(--design-soft-orange); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-proposal-history { margin-top: 14px; }
+.operations-page[data-operation-role="buyer"][data-operation-section="proposals"] .workflow-comparison button { gap: 14px; padding: 6px 6px 6px 18px; }
+.operations-page[data-operation-role="buyer"][data-operation-section="proposals"] .workflow-comparison button::after { content: "↗"; display: inline-grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px; border-radius: 50%; background: color-mix(in srgb, #000 10%, transparent); font-size: 1rem; transition: transform 450ms var(--design-motion); }
+.operations-page[data-operation-role="buyer"][data-operation-section="proposals"] .workflow-comparison button:hover::after { transform: translate(2px, -2px); }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights { display: grid; grid-template-columns: 1.5fr 1fr .8fr 1.2fr; gap: 20px; padding: 24px 0; margin: 10px 0 4px; border-block: 1px solid var(--design-line); }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights .workflow-field { display: grid; align-content: start; gap: 9px; margin: 0; }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights .workflow-field > span { font-size: .6875rem; }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights .workflow-field > strong { font-size: .9375rem; font-weight: 650; }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights .workflow-field:last-child > strong { font-size: 1.375rem; letter-spacing: -.035em; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-progress { gap: 8px; margin-block: 30px; }
+.operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights + .workflow-progress { border-top: 0; margin-top: 0; padding-top: 12px; }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-progress li > span { width: 36px; height: 36px; border-color: var(--design-line); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-progress li.is-current > span { box-shadow: 0 0 0 5px var(--design-soft-orange); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-next-step { padding: 18px 22px; border: 0; border-radius: 16px; background: var(--design-soft-orange); }
+.operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-empty { padding: 44px 28px; border: 7px solid var(--design-tray); border-radius: 28px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--design-line); }
+:root[data-theme="dark"] .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) { --design-tray: #292929; --design-line: #3e3e3e; }
+
+@media (max-width: 850px) {
+  .public-hero { grid-template-columns: 1fr; padding-block: 70px 90px; }
+  .public-hero__image { width: min(100%, 700px); transform: none; }
+  .public-hero__image img { height: 330px; }
+  .public-workflow__body { grid-template-columns: 1fr; }
+  .public-roles { grid-template-columns: 1fr; }
+  .public-roles article + article { padding: 34px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metrics { margin-bottom: 48px; }
+  .operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .public-header { padding-top: 12px; }
+  .public-nav { width: calc(100% - 24px); min-height: 64px; padding: 9px 12px 9px 18px; }
+  .public-brand { font-size: 1.5rem; }
+  .public-brand span { font-size: .5rem; }
+  .public-nav a:not(.public-brand) { padding-inline: 12px; }
+  .public-hero { padding-block: 68px 70px; }
+  .public-hero h1 { font-size: clamp(3rem, calc(11vw * var(--text-scale, 1)), 4.25rem); }
+  .public-hero__image img { height: 280px; }
+  .public-principles { display: grid; gap: 6px; padding: 6px; }
+  .public-principles p { min-height: 56px; padding: 12px 18px; }
+  .public-principles p:first-child { padding-left: 18px; }
+  .public-workflow { padding-block: 90px; }
+  .public-workflow__detail { min-height: 0; padding: 25px; }
+  .public-roles article, .public-roles article + article { padding: 25px; }
+  .public-entry, .public-faq { padding-block: 90px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .operations-heading { padding-top: 42px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metrics { grid-template-columns: 1fr; gap: 9px; margin-bottom: 44px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-metric { min-height: 124px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-toolbar { grid-template-columns: 1fr; gap: 4px; }
+  .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) .workflow-record { padding: 22px; border-width: 5px; }
+  .operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights { gap: 22px 14px; }
+  .operations-page[data-operation-role="buyer"][data-operation-section="orders"] .workflow-order-highlights .workflow-field:last-child > strong { font-size: 1.125rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .public-page [data-reveal="pending"] { opacity: 1; transform: none; }
+  .public-page *, .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) * { transition-duration: 0ms !important; }
+}
+:root[data-motion="reduce"] .public-page [data-reveal="pending"] { opacity: 1; transform: none; }
+:root[data-motion="reduce"] .public-page *, :root[data-motion="reduce"] .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) * { transition-duration: 0ms !important; }

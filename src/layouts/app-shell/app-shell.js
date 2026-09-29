@@ -19,6 +19,8 @@ const icons = {
   orders: '<path d="m3 7 9-4 9 4v11l-9 4-9-4zM3 7l9 4 9-4M12 11v11M7 5l10 4"/>',
   profile: '<path d="M3 21V9l6 3V7l6 3V3h6v18zM7 16h1M12 16h1M17 16h1"/>',
   context: '<path d="M3 21V3h12v18M15 9h6v12M7 7h4M7 12h4M7 17h4M1 21h22"/>',
+  suppliers: '<path d="M3 21V8l6 3V7l6 3V3h6v18zM7 16h2M13 16h2M18 10h2"/>',
+  reviews: '<path d="m12 2 3.1 6.3 7 .9-5.1 5 .9 7-5.9-3.2-5.9 3.2.9-7-5.1-5 7-.9z"/>',
 };
 const icon = (name) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.home}</svg>`;
 
@@ -191,6 +193,8 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
     setIdentity({ user, workspace, accountSource = "firebase" }) {
       closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
       const userName = user?.displayName ?? user?.email ?? "Usuário SIVI";
+      shell.dataset.workspaceRole = workspace?.organizationRole ?? "none";
+      accountTrigger.dataset.initials = userName.split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("");
       const safeAccountSource = Object.hasOwn(accountSourceLabels, accountSource) ? accountSource : "firebase";
       root.querySelector("[data-user-name]").textContent = userName;
       root.querySelector("[data-account-user]").textContent = userName;
@@ -223,8 +227,10 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
         return entry;
       }));
     },
-    setRouteMeta({ title, breadcrumbs }) {
+    setRouteMeta({ title, breadcrumbs, routeId }) {
       closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
+      shell.dataset.routeId = routeId ?? "";
+      accountTrigger.textContent = ["buyer-home", "buyer-suppliers", "buyer-reviews"].includes(routeId) ? root.querySelector("[data-account-user]").textContent : "Conta";
       root.querySelector("[data-route-title]").textContent = title;
       root.querySelector("[data-breadcrumbs]").textContent = breadcrumbs.join(" / ");
       document.title = `${title} — SIVI`;

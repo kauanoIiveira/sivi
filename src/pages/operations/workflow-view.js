@@ -292,7 +292,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
     const stats = section === 'demands'
       ? [['Demandas da empresa', data.demands.length, 'Necessidades registradas'], ['Abertas para propostas', active, 'Negociação em andamento'], ['Pedidos gerados', data.orders.length, 'Propostas aceitas']]
       : section === 'proposals'
-        ? [['Propostas', data.proposals.length, 'Negociações da empresa'], ['Versões enviadas', data.proposals.reduce((sum, item) => sum + item.versions.length, 0), 'Histórico preservado'], ['Pedidos gerados', data.orders.length, 'Decisões confirmadas']]
+        ? [['Propostas', data.proposals.length, workspace.organizationRole === 'buyer' ? 'Condições para comparar' : 'Negociações da empresa'], [workspace.organizationRole === 'buyer' ? 'Versões recebidas' : 'Versões enviadas', data.proposals.reduce((sum, item) => sum + item.versions.length, 0), 'Histórico preservado'], ['Pedidos gerados', data.orders.length, 'Decisões confirmadas']]
         : [['Pedidos', data.orders.length, 'Compromissos da empresa'], ['Em execução', data.orders.filter(item => item.status !== 'delivered').length, 'Acompanhe os próximos passos'], ['Entregues', data.orders.filter(item => item.status === 'delivered').length, 'Recebimento confirmado']];
     root.replaceChildren(status);
     if (section !== 'demands' || data.demands.length) root.prepend(metrics(stats));
@@ -480,7 +480,14 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
       const entries = [];
       data.orders.forEach((order) => {
         const record = box(order.title); const reference = el('span', `Referência: ${order.id}`); reference.className = 'workflow-reference'; record.prepend(reference);
-        row(record, "Estado", labels[order.status]); row(record, workspace.organizationRole === 'buyer' ? "Fornecedor" : "Comprador", workspace.organizationRole === 'buyer' ? name(order.supplierId) : order.buyerName ?? order.buyerId); row(record, "Quantidade por unidade", quantitySummary(order)); row(record, "Versão preservada", order.version.revision); row(record, "Total com frete", money(order.version.totalCents + order.version.freightCents));
+        row(record, "Estado", labels[order.status]);
+        const summary = workspace.organizationRole === 'buyer' ? el('div') : record;
+        if (summary !== record) summary.className = 'workflow-order-highlights';
+        row(summary, workspace.organizationRole === 'buyer' ? "Fornecedor" : "Comprador", workspace.organizationRole === 'buyer' ? name(order.supplierId) : order.buyerName ?? order.buyerId);
+        row(summary, "Quantidade por unidade", quantitySummary(order));
+        row(summary, "Versão preservada", order.version.revision);
+        row(summary, "Total com frete", money(order.version.totalCents + order.version.freightCents));
+        if (summary !== record) record.append(summary);
         record.classList.add('workflow-order'); record.append(orderProgress(order));
         const hints = workspace.organizationRole === "buyer"
           ? { accepted: "O fornecedor deve registrar a inspeção.", blocked: "O fornecedor deve corrigir e reinspecionar o pedido.", released: "Aguardando o fornecedor registrar a expedição.", dispatched: "Confira a entrega e confirme o recebimento abaixo.", delivered: order.evaluation ? "Jornada concluída. A avaliação está registrada." : "Recebimento confirmado. Registre sua avaliação abaixo." }

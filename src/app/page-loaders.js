@@ -2,6 +2,8 @@ const definitions = Object.freeze({
   'public-home': Object.freeze({ path: '../pages/public/public-page.js', exportName: 'mountPublicPage' }),
   context: Object.freeze({ path: "../pages/context/context-page.js", exportName: "mountContextPage" }),
   "buyer-home": Object.freeze({ path: "../pages/dashboard/buyer-dashboard-page.js", exportName: "mountBuyerDashboardPage" }),
+  "buyer-suppliers": Object.freeze({ path: "../pages/buyer/suppliers-page.js", exportName: "mountBuyerSuppliersPage" }),
+  "buyer-reviews": Object.freeze({ path: "../pages/buyer/reviews-page.js", exportName: "mountBuyerReviewsPage" }),
   "supplier-home": Object.freeze({ path: "../pages/dashboard/supplier-dashboard-page.js", exportName: "mountSupplierDashboardPage" }),
   "admin-home": Object.freeze({ path: "../pages/dashboard/admin-dashboard-page.js", exportName: "mountAdminDashboardPage" }),
   "supplier-profile": Object.freeze({ path: "../pages/supplier/profile-page.js", exportName: "mountSupplierProfilePage" }),

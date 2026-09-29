@@ -12,7 +12,7 @@ function navigationFor(workspace, currentPath) {
   if (workspace) {
     items.push(...APP_ROUTES.filter((route) => route.section && route.workspaceRole === workspace.organizationRole).map((route) => ({ id: route.id, label: route.title, path: route.path })));
     const labels = {
-      buyer: "Visão do comprador",
+      buyer: "Visão geral",
       supplier: "Visão do fornecedor",
       administration: "Visão administrativa",
     };
@@ -21,6 +21,11 @@ function navigationFor(workspace, currentPath) {
       label: labels[workspace.organizationRole],
       path: workspace.homeRoute,
     });
+    if (workspace.organizationRole === "buyer") {
+      items.splice(1, 0, { id: "buyer-suppliers", label: "Fornecedores", path: ROUTE_PATHS.buyerSuppliers });
+      items.splice(items.findIndex((item) => item.id === "buyer-orders") + 1, 0, { id: "buyer-reviews", label: "Avaliações", path: ROUTE_PATHS.buyerReviews });
+      items.push(items.splice(items.findIndex((item) => item.id === "context"), 1)[0]);
+    }
   }
   return items.map((item) => ({ ...item, current: item.path === currentPath }));
 }
@@ -193,7 +198,7 @@ export function createAppController({
     const workspace = workspaceStore.getCurrent();
     activeShell.setIdentity({ user: session.user, workspace });
     activeShell.setNavigation(navigationFor(workspace, path));
-    activeShell.setRouteMeta({ title: route.title, breadcrumbs: ["SIVI", route.title] });
+    activeShell.setRouteMeta({ title: route.title, breadcrumbs: ["buyer-home", "buyer-suppliers", "buyer-reviews"].includes(route.id) ? ["Comprador", route.title] : ["SIVI", route.title], routeId: route.id });
     activeShell.setBusy(true);
     clearPage();
 
@@ -207,7 +212,7 @@ export function createAppController({
       };
       const cleanup = route.id === "context"
         ? mount({ container: activeShell.outlet, workspaces: workspaceStore.list(), onSelect: selectWorkspace, onCreate: createAndSelectOrganization, onboarding })
-        : mount({ container: activeShell.outlet, workspace, repository, administration, supplierProfiles, onReady: onPageReady });
+        : mount({ container: activeShell.outlet, workspace, user: session.user, repository, administration, supplierProfiles, onReady: onPageReady });
       if (!isActive(revision)) {
         try { cleanup?.(); } catch { /* A montagem tardia não pode sobreviver à revisão atual. */ }
         return;

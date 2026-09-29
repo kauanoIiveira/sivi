@@ -16,6 +16,26 @@ test("resolves system, explicit and invalid theme preferences", () => {
   assert.equal(resolveThemePreference("invalid", true), "dark");
   assert.equal(nextExplicitTheme("dark"), "light");
   assert.equal(THEME_COLORS.light, "#F3F4F4");
+  assert.equal(THEME_COLORS.dark, "#101010");
+});
+
+test("dark surfaces are neutral and ordered consistently across buyer pages", async () => {
+  const [tokens, components] = await Promise.all([
+    read("src/styles/theme-tokens.css"), read("src/styles/dark-components.css"),
+  ]);
+  const dark = tokens.split(':root[data-theme="dark"]')[1];
+  const values = ["canvas", "navigation-bg", "surface", "surface-raised", "surface-interactive"]
+    .map((name) => {
+      const match = dark.match(new RegExp(`--${name}:\\s*#([0-9a-f]{6})`, "i"));
+      assert.ok(match, `missing ${name}`);
+      const [red, green, blue] = match[1].match(/../g).map((part) => parseInt(part, 16));
+      assert.equal(red, green, `${name} is not neutral`);
+      assert.equal(green, blue, `${name} is not neutral`);
+      return red;
+    });
+  assert.ok(values.every((value, index) => index === 0 || value > values[index - 1]));
+  assert.match(components, /\.buyer-metric.*\.marketplace-card.*\.reviews-panel/s);
+  assert.match(components, /\.reviews-filters input/);
 });
 
 test("defines orange as the primary action in both themes", async () => {
@@ -25,6 +45,8 @@ test("defines orange as the primary action in both themes", async () => {
   ]).then((files) => files.map((file) => file.toLowerCase()));
   const lightTheme = css.split(':root[data-theme="dark"]')[0];
   assert.match(lightTheme, /--canvas:\s*#f3f4f4/);
+  assert.match(lightTheme, /--navigation-bg:\s*#ffffff/);
+  assert.match(lightTheme, /--navigation-fg:\s*#18232b/);
   assert.match(lightTheme, /--surface:\s*#ffffff/);
   assert.match(lightTheme, /--surface-raised:\s*#eceff0/);
   assert.match(lightTheme, /--text-primary:\s*#18232b/);
@@ -35,10 +57,11 @@ test("defines orange as the primary action in both themes", async () => {
   assert.match(lightTheme, /--button-primary-fg:\s*#000000/);
   assert.match(lightTheme, /--brand-fox:\s*#fe7f2d/);
 
-  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--canvas:\s*#111315/);
-  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface:\s*#181a1d/);
-  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface-raised:\s*#1d2024/);
-  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface-interactive:\s*#24272b/);
+  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--canvas:\s*#101010/);
+  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--navigation-bg:\s*#1a1a1a/);
+  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface:\s*#1d1d1d/);
+  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface-raised:\s*#252525/);
+  assert.match(css, /:root\[data-theme="dark"\][\s\S]*--surface-interactive:\s*#303030/);
   assert.match(css, /:root\[data-theme="dark"\][\s\S]*--action-primary:\s*#fe7f2d/);
   assert.match(css, /:root\[data-theme="dark"\][\s\S]*--action-text:\s*#fe7f2d/);
   assert.doesNotMatch(css, /#2563eb/);
@@ -48,7 +71,8 @@ test("defines orange as the primary action in both themes", async () => {
 
 test("keeps pre-paint colors aligned and forbids global wildcard transitions", async () => {
   const [html, globalCss] = await Promise.all([read("index.html"), read("src/styles/global.css")]);
-  assert.match(html, /theme === "dark" \? "#111315" : "#F3F4F4"/);
+  assert.match(html, /theme === "dark" \? "#101010" : "#F3F4F4"/);
+  assert.match(html, /src\/styles\/dark-components\.css/);
   assert.doesNotMatch(globalCss, /body\s+\*[^\{]*\{[^\}]*transition/s);
   assert.match(globalCss, /\[hidden\]\s*\{\s*display:\s*none\s*!important/);
 });

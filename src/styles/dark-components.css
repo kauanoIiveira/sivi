@@ -1,0 +1,131 @@
+/* Shared dark treatment for the buyer pages that use literal light colors. */
+:root[data-theme="dark"] .app-shell:is([data-route-id="buyer-home"], [data-route-id="buyer-suppliers"], [data-route-id="buyer-reviews"]) {
+  background: var(--canvas);
+}
+:root[data-theme="dark"] .app-shell .app-shell__header {
+  background: var(--surface-deep);
+  border-color: var(--border-subtle);
+}
+:root[data-theme="dark"] .app-shell__brand strong::before,
+:root[data-theme="dark"] .app-shell__account summary::before {
+  background: var(--surface-icon);
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] .app-shell__route-meta span { color: var(--text-muted); }
+
+:root[data-theme="dark"] :is(.buyer-overview, .marketplace-page, .reviews-page) {
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] :is(
+  .buyer-metric, .buyer-panel,
+  .marketplace-analysis, .marketplace-search, .marketplace-card, .marketplace-dialog, .marketplace-empty,
+  .reviews-metric, .reviews-panel, .reviews-dialog
+) {
+  background: var(--surface);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+  box-shadow: var(--card-shadow);
+}
+:root[data-theme="dark"] :is(
+  .buyer-supplier-card, .buyer-demand-row, .buyer-activity,
+  .marketplace-card__section, .marketplace-criterion, .marketplace-criterion__state,
+  .reviews-pending__list, .reviews-preview, .reviews-order, .reviews-table td,
+  .reviews-form__comment
+) { border-color: var(--border-subtle); }
+:root[data-theme="dark"] :is(
+  .buyer-overview__hero p, .buyer-metric__top, .buyer-metric small, .buyer-panel__heading p,
+  .buyer-demand-table__labels, .buyer-demand-row__name small, .buyer-demand-row__next,
+  .buyer-alert small, .buyer-panel__empty, .buyer-empty p, .buyer-supplier-card__explain p,
+  .buyer-supplier-card__criteria ul, .buyer-supplier-card__approved small,
+  .marketplace-page__header p, .marketplace-analysis__demand p, .marketplace-search__row input::placeholder,
+  .marketplace-search__active > strong, .marketplace-page__count, .marketplace-card__heading p,
+  .marketplace-card__section > small, .marketplace-card__section-heading small,
+  .marketplace-criterion > span:last-child, .marketplace-muted, .marketplace-card__footer > small,
+  .marketplace-dialog > p, .marketplace-dialog dt,
+  .reviews-page__intro p, .reviews-muted, .reviews-metric__top, .reviews-metric > small,
+  .reviews-order small, .reviews-order__dates, .reviews-form__comment, .reviews-empty,
+  .reviews-table td small, .reviews-pagination
+) { color: var(--text-muted); }
+
+/* Overview */
+:root[data-theme="dark"] :is(.buyer-demand-row, .buyer-activity, .buyer-priority) { color: var(--text-primary); }
+:root[data-theme="dark"] :is(.buyer-priority, .buyer-supplier-card__top span, .buyer-suppliers__note,
+  .buyer-metric__icon, .buyer-priority__count) {
+  background: var(--surface-raised);
+}
+:root[data-theme="dark"] :is(.buyer-metric__icon, .buyer-priority__icon,
+  .buyer-supplier-card__top span) { color: var(--text-primary); }
+:root[data-theme="dark"] .buyer-demand-row:hover { background: var(--surface-selected); }
+:root[data-theme="dark"] .buyer-priority__count { color: var(--action-text); }
+:root[data-theme="dark"] :is(.buyer-panel__heading a, .buyer-activity, .buyer-supplier-card__explain span) {
+  color: var(--action-text);
+}
+:root[data-theme="dark"] :is(.buyer-button, .marketplace-button, .reviews-button) {
+  background: var(--surface-raised);
+  border-color: var(--border-control);
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] :is(.buyer-button--primary, .marketplace-button--primary, .reviews-button--primary) {
+  background: var(--button-primary-bg);
+  border-color: var(--button-primary-border);
+  color: var(--button-primary-fg);
+}
+:root[data-theme="dark"] .buyer-badge--blue { background: var(--surface-selected); color: var(--text-primary); }
+:root[data-theme="dark"] .buyer-badge--green { background: var(--feedback-success-bg); color: var(--feedback-success); }
+:root[data-theme="dark"] .buyer-badge--amber { background: var(--feedback-warning-bg); color: var(--feedback-warning); }
+:root[data-theme="dark"] .buyer-alert--amber { background: var(--feedback-warning-bg); color: var(--text-primary); }
+:root[data-theme="dark"] .buyer-alert--blue { background: var(--feedback-info-bg); color: var(--text-primary); }
+:root[data-theme="dark"] .buyer-alert--blue .buyer-alert__icon { color: var(--feedback-info); }
+:root[data-theme="dark"] .buyer-supplier-card__approved { background: var(--feedback-success-bg); }
+:root[data-theme="dark"] .buyer-supplier-card__approved :is(strong, small) { color: var(--feedback-success); }
+:root[data-theme="dark"] .buyer-suppliers__note { color: var(--text-muted); }
+
+/* Supplier marketplace */
+:root[data-theme="dark"] .marketplace-analysis { border-left-color: var(--border-strong); }
+:root[data-theme="dark"] :is(.marketplace-analysis__heading span, .marketplace-active-filter,
+  .marketplace-card__type, .marketplace-chips span, .marketplace-criterion__state--unknown,
+  .marketplace-card__history p, .marketplace-page__note) {
+  background: var(--surface-raised);
+  color: var(--text-muted);
+}
+:root[data-theme="dark"] .marketplace-page__note { border-color: var(--border-subtle); }
+:root[data-theme="dark"] :is(.marketplace-search__row input, .marketplace-filter,
+  .marketplace-analysis__demand select) {
+  background: var(--surface-raised);
+  border-color: var(--border-control);
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] .marketplace-card__active {
+  background: var(--feedback-success-bg);
+  border-color: var(--feedback-success-border);
+}
+:root[data-theme="dark"] .marketplace-card__active :is(strong, small) { color: var(--feedback-success); }
+:root[data-theme="dark"] .marketplace-criterion__state--met { background: var(--feedback-success-bg); color: var(--feedback-success); }
+:root[data-theme="dark"] .marketplace-criterion__state--unmet { background: var(--feedback-warning-bg); color: var(--feedback-warning); }
+:root[data-theme="dark"] .marketplace-feedback[data-state="success"] { background: var(--feedback-success-bg); color: var(--feedback-success); }
+:root[data-theme="dark"] .marketplace-feedback[data-state="error"] { background: var(--feedback-danger-bg); color: var(--feedback-danger); }
+:root[data-theme="dark"] .marketplace-dialog::backdrop { background: var(--overlay-bg); }
+
+/* Reviews */
+:root[data-theme="dark"] :is(.reviews-order--selected, .reviews-dialog__criteria,
+  .reviews-table th, .reviews-page__note) {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] :is(.reviews-pending__list, .reviews-preview, .reviews-form textarea,
+  .reviews-filters input, .reviews-filters select) {
+  background: var(--surface);
+  border-color: var(--border-control);
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] :is(.reviews-link, .reviews-score) { color: var(--action-text); }
+:root[data-theme="dark"] .reviews-metric__icon { background: var(--surface-icon); color: var(--text-primary); }
+:root[data-theme="dark"] .reviews-metric--pending .reviews-metric__icon { background: var(--feedback-warning-bg); color: var(--action-text); }
+:root[data-theme="dark"] .reviews-rating__choice span { background: var(--surface-icon); color: var(--text-primary); }
+:root[data-theme="dark"] .reviews-rating__choice input:checked + span { background: var(--action-primary); color: var(--button-primary-fg); }
+:root[data-theme="dark"] .reviews-table th { color: var(--text-muted); }
+:root[data-theme="dark"] .reviews-table td .reviews-success { color: var(--feedback-success); }
+:root[data-theme="dark"] .reviews-page__note { border-color: var(--border-subtle); color: var(--text-muted); }
+:root[data-theme="dark"] .reviews-feedback[data-state="success"] { background: var(--feedback-success-bg); color: var(--feedback-success); }
+:root[data-theme="dark"] .reviews-feedback[data-state="error"] { background: var(--feedback-danger-bg); color: var(--feedback-danger); }
+:root[data-theme="dark"] .reviews-dialog::backdrop { background: var(--overlay-bg); }

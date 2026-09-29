@@ -6,10 +6,10 @@
   --border-subtle: #82919a;
 }
 :root[data-theme="dark"][data-contrast="more"] {
-  --text-muted: #d9dce0;
-  --text-subtle: #d9dce0;
-  --border-control: #a0abb3;
-  --border-subtle: #737f89;
+  --text-muted: #dedede;
+  --text-subtle: #dedede;
+  --border-control: #b0b0b0;
+  --border-subtle: #858585;
 }
 :root[data-motion="reduce"] { scroll-behavior: auto !important; }
 :root[data-motion="reduce"] *, :root[data-motion="reduce"] *::before, :root[data-motion="reduce"] *::after {

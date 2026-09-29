@@ -4,11 +4,13 @@ import test from "node:test";
 const expectedMountNames = Object.freeze({
   context: "mountContextPage",
   "buyer-home": "mountBuyerDashboardPage",
+  "buyer-suppliers": "mountBuyerSuppliersPage",
+  "buyer-reviews": "mountBuyerReviewsPage",
   "supplier-home": "mountSupplierDashboardPage",
   "admin-home": "mountAdminDashboardPage",
 });
 
-test("lazy-loads only the four registered application page mounts", async () => {
+test("lazy-loads the registered application page mounts", async () => {
   let loadPageMount;
   try {
     ({ loadPageMount } = await import("../../src/app/page-loaders.js"));

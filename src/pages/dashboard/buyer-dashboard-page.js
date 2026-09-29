@@ -1,3 +1,3 @@
-import { mountDashboardPage } from "./dashboard-view.js";
+import { mountBuyerOverviewPage } from "./buyer-overview-page.js";
 
-export const mountBuyerDashboardPage = (options) => mountDashboardPage(options);
+export const mountBuyerDashboardPage = (options) => mountBuyerOverviewPage(options);
