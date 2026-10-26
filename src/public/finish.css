@@ -1,0 +1,84 @@
+/* Capture and contrast corrections from the first visual inspection. */
+.sivi-public-ui .sv-skip {
+  top: 12px;
+  left: 20px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  padding: 0;
+}
+.sivi-public-ui .sv-skip:focus {
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: 14px 20px;
+  overflow: visible;
+}
+.sivi-public-ui .sv-intro h2 span {
+  color: #6f7d66;
+}
+.sivi-public-ui .sv-pricing-note {
+  max-width: 75ch;
+}
+.sivi-public-ui .sv-demo-role button {
+  min-height: 44px;
+}
+.sivi-auth-ui .sa-feedback {
+  border: 1px solid #d2ddc8;
+  border-radius: 5px;
+}
+.sivi-public-ui .sv-chart-filter button {
+  min-height: 44px;
+}
+.sivi-public-ui .sv-role-copy h2 {
+  font-size: clamp(36px, 3.5vw, 51px);
+}
+@media (max-width: 900px) and (min-width: 761px) {
+  .sivi-public-ui .sv-section-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 25px;
+  }
+  .sivi-public-ui .sv-section-heading > p {
+    max-width: 470px;
+  }
+  .sivi-public-ui .sv-role {
+    gap: 35px;
+  }
+  .sivi-public-ui .sv-role-copy h2 {
+    font-size: 32px;
+  }
+}
+@media (max-width: 760px) {
+  .sivi-public-ui .sv-intro h2 {
+    font-size: 32px;
+  }
+  .sivi-public-ui .sv-section-heading h2 {
+    font-size: 32px;
+  }
+  .sivi-public-ui .sv-role-copy h2 {
+    font-size: 35px;
+  }
+  .sivi-public-ui .sv-trust h2 {
+    font-size: 34px;
+  }
+  .sivi-public-ui .sv-workflow ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    overflow: visible;
+  }
+  .sivi-public-ui .sv-workflow li button {
+    width: 100%;
+    white-space: normal;
+    min-height: 44px;
+  }
+  .sivi-public-ui .sv-workflow li:last-child {
+    grid-column: 1/-1;
+  }
+  .sivi-public-ui .sv-workflow-panel {
+    padding-top: 24px;
+  }
+}

@@ -1,6 +1,8 @@
 import { quantitiesByUnit } from './quantity.js';
 
-const normalize = (value) => String(value ?? "").trim().toLocaleLowerCase("pt-BR");
+const declared = value => String(value ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR');
+const normalize = value => declared(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const declaredList = value => (Array.isArray(value) ? value : String(value ?? '').split(',')).map(declared).filter(Boolean);
 const list = (value) => (Array.isArray(value) ? value : String(value ?? "").split(","))
   .map(normalize)
   .filter(Boolean);
@@ -21,7 +23,7 @@ export function normalizeSupplierProfile(input, { organizationId, organizationNa
   const description = String(input?.description ?? "").trim();
   if (description.length < 10 || description.length > 1000) throw new Error("Descreva a capacidade industrial em 10 a 1000 caracteres.");
   const requiredLists = ["categories", "materials", "processes", "regions"];
-  const normalized = Object.fromEntries(requiredLists.map((key) => [key, list(input?.[key])]));
+  const normalized = Object.fromEntries(requiredLists.map((key) => [key, declaredList(input?.[key])]));
   if (requiredLists.some((key) => normalized[key].length === 0)) {
     throw new Error("Informe categorias, materiais, processos e regiões atendidas.");
   }
@@ -29,7 +31,7 @@ export function normalizeSupplierProfile(input, { organizationId, organizationNa
     organizationId,
     organizationName,
     ...normalized,
-    certifications: list(input?.certifications),
+    certifications: declaredList(input?.certifications),
     capacity,
     leadTimeDays: Number.isSafeInteger(Number(input?.leadTimeDays)) && Number(input.leadTimeDays) > 0
       ? Number(input.leadTimeDays)
@@ -76,6 +78,7 @@ export function matchSupplierToDemand(demand, profile) {
     demandId: demand?.id,
     status,
     eligible: status !== "ineligible",
+    explanation: mandatoryFailed ? 'Categoria e processo precisam atender a todos os itens.' : allMet ? 'Os critérios declarados atendem à demanda; confirme disponibilidade antes de contratar.' : 'Categoria e processo atendidos. Os demais requisitos indicados precisam de confirmação antes do aceite.',
     criteria: Object.freeze(criteria.map(Object.freeze)),
   });
 }

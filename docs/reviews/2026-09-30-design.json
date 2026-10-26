@@ -1,0 +1,21 @@
+{
+  "changedFiles": [
+    "src\\assets\\brand\\README.md",
+    "src\\layouts\\app-shell\\app-shell.css",
+    "src\\layouts\\app-shell\\app-shell.js",
+    "src\\pages\\dashboard\\buyer-overview-page.css",
+    "src\\pages\\dashboard\\buyer-overview-page.js",
+    "src\\pages\\public\\public-page.css",
+    "src\\pages\\public\\public-page.js",
+    "src\\styles\\high-end-pages.css",
+    "index.html"
+  ],
+  "removedFiles": [],
+  "unitTests": 158,
+  "browserTests": 81,
+  "browserGroups": [
+    56,
+    25
+  ],
+  "domainRepositoryRulesUnchanged": true
+}

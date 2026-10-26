@@ -45,6 +45,134 @@ function draftContext() {
   return { client, repository, input };
 }
 
+test('an incomplete draft is persisted but cannot be published as a commercial demand', async () => {
+  const { client, repository } = draftContext();
+  const id = await repository.workflow.createDemand('buyer', { title: 'Compra em preparação', items: [{ description: 'Peça a detalhar' }] });
+  const saved = await client.read(`demandsByBuyer/alpha/${id}`);
+  assert.equal(saved.status, 'draft');
+  assert.equal(saved.quantity, 0);
+  await repository.workflow.updateDemand('buyer', id, { ...saved, title: 'Preparação revisada' }, saved.updatedAt, saved.revision);
+  assert.equal((await client.read(`demandsByBuyer/alpha/${id}`)).quantity, 0);
+  await assert.rejects(repository.workflow.publishDemand('buyer', id), /Informe/);
+  assert.equal(await client.read(`publishedDemands/${id}`), null);
+});
+
+test('retrying an unknown draft creation outcome recovers the first record instead of duplicating it', async () => {
+  const { client, repository, input } = draftContext();
+  const write = client.write;
+  let interrupted = false;
+  client.write = async (...args) => { await write(...args); if (!interrupted) { interrupted = true; throw new Error('Conexão perdida após envio'); } };
+  await assert.rejects(repository.workflow.createDemand('buyer', input), /Conexão perdida/);
+  const id = await repository.workflow.createDemand('buyer', input);
+  assert.equal(Object.keys(client.dump().demandsByBuyer.alpha).length, 1);
+  assert.equal(id, Object.keys(client.dump().demandsByBuyer.alpha)[0]);
+});
+
+test('inspection appends its evidence without replacing a concurrent history entry', async () => {
+  const { client, repository, order } = await marketplaceContext();
+  const patch = client.patch;
+  client.patch = async updates => {
+    await patch(Object.fromEntries(['ordersByBuyer/alpha', 'ordersBySupplier/beta'].map(base => [`${base}/${order.id}/inspections/concurrent`, { id: 'concurrent', approved: 0, plan: 'Outro registro', evidence: 'Preservar', createdAt: 5 }])));
+    return patch(updates);
+  };
+  await repository.workflow.recordInspection('supplier', order.id, { approved: 1, plan: 'PI-2', evidence: 'Conferência parcial' });
+  assert.ok((await client.read(`ordersByBuyer/alpha/${order.id}`)).inspections.concurrent);
+});
+
+test('retrying an unknown proposal outcome recovers its version instead of advancing the negotiation', async () => {
+  const { client, repository, demand, proposalInput } = await marketplaceContext();
+  const patch = client.patch;
+  let interrupted = false;
+  client.patch = async updates => { await patch(updates); if (!interrupted) { interrupted = true; throw new Error('Resultado desconhecido'); } };
+  await assert.rejects(repository.workflow.sendProposal('supplier', demand.id, proposalInput), /desconhecido/);
+  const id = await repository.workflow.sendProposal('supplier', demand.id, proposalInput);
+  const stored = await client.read(`proposalsBySupplier/beta/${demand.id}_beta`);
+  assert.equal(Object.keys(stored.versions).length, 2);
+  assert.equal(stored.latestVersionId, id);
+  assert.equal(stored.revision, 2);
+});
+
+test('retrying an unknown complete inspection recovers its evidence after release', async () => {
+  const { client, repository, order } = await marketplaceContext();
+  const patch = client.patch;
+  let interrupted = false;
+  client.patch = async updates => { await patch(updates); if (!interrupted) { interrupted = true; throw new Error('Resultado desconhecido'); } };
+  const input = { approved: 10, plan: 'PI completo', evidence: 'Dimensões conferidas' };
+  await assert.rejects(repository.workflow.recordInspection('supplier', order.id, input), /desconhecido/);
+  await repository.workflow.recordInspection('supplier', order.id, input);
+  const stored = await client.read(`ordersBySupplier/beta/${order.id}`);
+  assert.equal(stored.status, 'released');
+  assert.equal(Object.keys(stored.inspections).length, 2);
+});
+
+test('dispatch, receipt and the same review are safe to retry without rewriting their first timestamps', async () => {
+  const { client, repository, order } = await marketplaceContext({ orderStatus: 'released' });
+  await repository.workflow.dispatchOrder('supplier', order.id);
+  const dispatched = await client.read(`ordersByBuyer/alpha/${order.id}`);
+  await repository.workflow.dispatchOrder('supplier', order.id);
+  assert.deepEqual(await client.read(`ordersByBuyer/alpha/${order.id}`), dispatched);
+  await repository.workflow.confirmDelivery('buyer', order.id);
+  const delivered = await client.read(`ordersByBuyer/alpha/${order.id}`);
+  await repository.workflow.confirmDelivery('buyer', order.id);
+  assert.deepEqual(await client.read(`ordersByBuyer/alpha/${order.id}`), delivered);
+  const input = { criteria: { quality: 4, punctuality: 4, communication: 4, documentation: 4 }, comment: 'Conferido' };
+  await repository.workflow.evaluateOrder('buyer', order.id, input);
+  const evaluated = await client.read(`ordersByBuyer/alpha/${order.id}`);
+  await repository.workflow.evaluateOrder('buyer', order.id, input);
+  assert.deepEqual(await client.read(`ordersByBuyer/alpha/${order.id}`), evaluated);
+  await assert.rejects(repository.workflow.evaluateOrder('buyer', order.id, { ...input, comment: 'Outra avaliação' }), /Avaliação indisponível/);
+});
+
+test('an unknown draft outcome remains recoverable after rebuilding the repository in the same browser session', async () => {
+  const { client, input } = draftContext();
+  const entries = new Map();
+  const storage = { getItem: key => entries.get(key) ?? null, setItem: (key, value) => entries.set(key, value) };
+  const options = { client, storage, getUser: () => user('owner'), getWorkspace: () => ({ id: 'buyer', organizationId: 'alpha', organizationRole: 'buyer', memberUid: 'owner', canEnter: true }) };
+  const first = createFirebaseMarketplaceRepository(options);
+  const write = client.write;
+  client.write = async (...args) => { await write(...args); throw new Error('Resultado desconhecido'); };
+  await assert.rejects(first.workflow.createDemand('buyer', input));
+  client.write = write;
+  const second = createFirebaseMarketplaceRepository(options);
+  await second.workflow.createDemand('buyer', input);
+  assert.equal(Object.keys(client.dump().demandsByBuyer.alpha).length, 1);
+});
+
+test('company registration retries reuse the first membership after an unknown write outcome', async () => {
+  const client = memoryClient();
+  const service = createFirebaseWorkspaceService({ client, getUser: () => user('owner') });
+  const patch = client.patch;
+  let failed = false;
+  client.patch = async updates => { await patch(updates); if (!failed) { failed = true; throw new Error('Resultado desconhecido'); } };
+  const input = { name: 'Empresa nova', roles: ['buyer'] };
+  await assert.rejects(service.createOrganization(input), /desconhecido/);
+  const result = await service.createOrganization(input);
+  assert.equal(Object.keys(client.dump().organizations).length, 1);
+  assert.equal(result.organizationId, Object.keys(client.dump().organizations)[0]);
+});
+
+test('reassessment updates only an open demand and adds newly eligible suppliers', async () => {
+  const { client, repository, demand } = await marketplaceContext({ demandStatus: 'published' });
+  await client.write('supplierProfiles/newcomer', { organizationId: 'newcomer', organizationName: 'Nova', organizationStatus: 'active', categories: ['usinados'], processes: ['usinagem'], materials: ['aço'], capacity: 50, regions: ['SP'] });
+  const result = await repository.reassessDemand('buyer', demand.id);
+  assert.ok(result.eligible >= 1);
+  assert.equal((await client.read(`opportunitiesBySupplier/newcomer/${demand.id}`)).match.eligible, true);
+  await client.write(`demandsByBuyer/alpha/${demand.id}/status`, 'ordered');
+  await assert.rejects(repository.reassessDemand('buyer', demand.id), /publicada|aberta/i);
+});
+
+test('the supplier view reflects its current profile without erasing contracted execution when that profile is unavailable', async () => {
+  const { client, repository, demand } = await marketplaceContext();
+  await client.write('supplierProfiles/beta', { organizationId: 'beta', categories: ['incompatível'], processes: ['usinagem'] });
+  const result = await repository.getOperations('supplier');
+  assert.equal(result.data.demands.find(item => item.id === demand.id).match.eligible, false);
+  const read = client.read;
+  client.read = async path => { if (path === 'supplierProfiles/beta') throw new Error('Perfil indisponível'); return read(path); };
+  const recovered = await repository.getOperations('supplier');
+  assert.equal(recovered.status, 'ready');
+  assert.equal(recovered.data.orders.length, 1);
+});
+
 test('demand dates reject impossible calendar days before persisting', async () => {
   const { client, repository, input } = draftContext();
   for (const requiredBy of ['2027-02-31', '2027-02-29', '2100-02-29', '2027-04-31', '2027-00-20', '2027-12-00', '2027-13-01', '2027-1-01', '0000-01-01']) {
@@ -484,7 +612,7 @@ test('new draft items do not reuse surviving identifiers and invalid edits leave
   assert.notEqual(saved.items[1].id, 'item-2');
   for (const patch of [
     { title: '' },
-    { items: [{ ...input.items[0], quantity: 0 }] },
+    { items: [{ ...input.items[0], quantity: -1 }] },
     { items: [{ ...input.items[0], id: 'repeated' }, { ...input.items[0], id: 'repeated' }] },
   ]) {
     await assert.rejects(repository.workflow.updateDemand('buyer', id, { ...input, ...patch }, saved.updatedAt));

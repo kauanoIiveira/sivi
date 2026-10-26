@@ -1,3 +1,4 @@
+import { states } from '../../domain/organization-application.js';
 const statusLabels = Object.freeze({ pending: "Pendente", active: "Ativa", blocked: "Bloqueada", changes_requested: 'Correção solicitada', rejected: 'Cadastro recusado' });
 const roleLabel = (organization) => {
   const roles = organization.roles ?? { [organization.role]: true };
@@ -23,12 +24,17 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
         <form data-admin-register>
           <label>Nome da empresa<input name="name" maxlength="120" required autocomplete="organization"></label>
           <label>E-mail do responsável<input name="ownerEmail" type="email" maxlength="254" required autocomplete="off"></label>
+          <label>CNPJ<input name="cnpj" maxlength="18" required placeholder="00.000.000/0000-00"></label>
+          <label>Cidade<input name="city" maxlength="100" required autocomplete="address-level2"></label>
+          <label>UF<select name="state" aria-label="UF" required><option value="">Selecione</option>${states.map(state => `<option>${state}</option>`).join('')}</select></label>
+          <label>Telefone ou e-mail de contato<input name="contact" maxlength="120" required></label>
           <fieldset><legend>Atuação da empresa</legend><label><input type="checkbox" name="roles" value="buyer"> Compradora</label><label><input type="checkbox" name="roles" value="supplier"> Fornecedora</label></fieldset>
           <button type="submit">Cadastrar e liberar acesso</button>
           <p role="alert" data-admin-register-error></p>
         </form>
       </details>
       <p role="status" data-admin-feedback></p>
+      <section class="admin-summary" aria-label="Resumo das empresas" data-admin-summary></section>
       <button type="button" data-admin-refresh>Atualizar solicitações</button>
       <div data-admin-content><p>Carregando empresas…</p></div>
     </section>`;
@@ -47,7 +53,7 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
     saving = true;
     const values = new FormData(registration);
     registration.setAttribute('aria-busy', 'true');
-    registration.querySelectorAll('input, button').forEach(control => { control.disabled = true; });
+    registration.querySelectorAll('input, select, button').forEach(control => { control.disabled = true; });
     refresh.disabled = true;
     const button = registration.querySelector("button");
     const error = registration.querySelector("[data-admin-register-error]");
@@ -56,7 +62,7 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
     button.disabled = true;
     button.textContent = "Cadastrando…";
     try {
-      const created = await administration.registerOrganization({ name: values.get("name"), ownerEmail: values.get("ownerEmail"), roles: values.getAll("roles") });
+      const created = await administration.registerOrganization({ ...Object.fromEntries(values), roles: values.getAll('roles'), onboardingVersion: 1 });
       if (disposed) return;
       registration.reset();
       delete registration.dataset.dirty;
@@ -67,7 +73,7 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
     } finally {
       saving = false;
       registration.removeAttribute('aria-busy');
-      registration.querySelectorAll('input, button').forEach(control => { control.disabled = false; });
+      registration.querySelectorAll('input, select, button').forEach(control => { control.disabled = false; });
       refresh.disabled = false;
       button.textContent = "Cadastrar e liberar acesso";
     }
@@ -80,6 +86,13 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
     try {
       const organizations = await administration.listOrganizations();
       if (disposed || revision !== loadRevision) return;
+      const summary = container.querySelector('[data-admin-summary]');
+      summary.replaceChildren(...[['Todas as empresas', organizations.length], ['Aguardando análise', organizations.filter(item => item.status === 'pending').length], ['Acesso ativo', organizations.filter(item => item.status === 'active').length], ['Correções e bloqueios', organizations.filter(item => ['changes_requested', 'blocked', 'rejected'].includes(item.status)).length]].map(([label, value]) => {
+        const metric = document.createElement('article');
+        const title = document.createElement('span'); title.textContent = label;
+        const count = document.createElement('strong'); count.textContent = value;
+        metric.append(title, count); return metric;
+      }));
       if (!organizations.length) {
         content.innerHTML = "<p>Nenhuma empresa cadastrada.</p>";
         return;
@@ -123,7 +136,7 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
         const button = (label, status) => {
           const control = document.createElement("button");
           control.type = "button";
-          control.textContent = label;
+          control.textContent = status === 'active' && organization.status === 'blocked' ? 'Reativar' : label;
           control.dataset.decision = status;
           control.disabled = organization.status === status;
           control.addEventListener("click", async () => {
@@ -139,7 +152,7 @@ export function mountAdminDashboardPage({ container, administration, onReady = (
               if (disposed) return;
               reasons.delete(organization.id);
               delete review.dataset.dirty;
-              feedback.textContent = `${organization.name}: ${status === 'active' ? 'cadastro aprovado' : statusLabels[status]}.`;
+              feedback.textContent = `${organization.name}: ${status === 'active' ? organization.status === 'blocked' ? 'acesso reativado' : 'cadastro aprovado' : statusLabels[status]}.`;
               await render();
             } catch (error) {
               if (disposed) return;

@@ -150,16 +150,17 @@ export function mountBuyerSuppliersPage({ container, workspace, repository, onRe
       return;
     }
     visible.forEach((profile) => grid.append(supplierCard(profile, selectedDemand, invited.has(profile.organizationId), invitationsAvailable, async (supplier, demand, button) => {
+      const revision = invitationRevision;
       const feedback = page.querySelector("[data-marketplace-feedback]");
       try {
         const result = await repository.inviteSupplierToDemand(workspace.id, demand.id, supplier.organizationId);
-        if (disposed) return;
+        if (disposed || revision !== invitationRevision || selectedDemand?.id !== demand.id) return;
         invited.add(supplier.organizationId);
         button.textContent = "Já disponível para esta demanda";
         feedback.textContent = result.alreadyAvailable ? `${supplier.organizationName} já tinha acesso a esta demanda.` : `A demanda foi disponibilizada para ${supplier.organizationName}.`;
         feedback.dataset.state = "success";
       } catch (error) {
-        if (disposed) return;
+        if (disposed || revision !== invitationRevision || selectedDemand?.id !== demand.id) return;
         button.disabled = false;
         button.textContent = "Convidar para esta demanda";
         feedback.textContent = error?.message ?? "Não foi possível convidar o fornecedor. Tente novamente.";

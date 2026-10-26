@@ -6,6 +6,7 @@ import { createAppShell } from "../layouts/app-shell/app-shell.js";
 import { mountNotFoundPage } from "../pages/not-found/not-found-page.js";
 
 const RETURN_TO_KEY = "sivi.return-to.v1";
+const INTENT_KEY = 'sivi.onboarding-role.v1';
 
 function navigationFor(workspace, currentPath) {
   const items = [{ id: "context", label: "Empresas e atuação", path: ROUTE_PATHS.context }];
@@ -32,8 +33,18 @@ function navigationFor(workspace, currentPath) {
 
 function canonicalProtectedRoute(path) {
   if (typeof path !== "string") return null;
-  const route = matchRoute(path, APP_ROUTES);
-  return route?.access === "authenticated" && route.path === path ? route : null;
+  const [base, query = ''] = path.split('?');
+  if (path.split('?').length > 2) return null;
+  const route = matchRoute(base, APP_ROUTES);
+  if (route?.access !== 'authenticated' || route.path !== base || path.length > 512) return null;
+  const params = new URLSearchParams(query);
+  for (const [key, value] of params) {
+    if (key === 'registro' && /^[A-Za-z0-9_-]{1,128}$/.test(value)) continue;
+    if (key === 'nova' && value === '1' && route.id === 'buyer-demands') continue;
+    return null;
+  }
+  if ([...params.keys()].some(key => params.getAll(key).length > 1)) return null;
+  return { ...route, destination: base + (params.size ? `?${params.toString()}` : '') };
 }
 
 export function createAppController({
@@ -51,9 +62,11 @@ export function createAppController({
   supplierProfiles = null,
   onboarding = null,
   canLeavePage = () => true,
+  createShell = createAppShell,
 }) {
   let currentRoute = null;
   let currentPath = ROUTE_PATHS.access;
+  let currentDestination = ROUTE_PATHS.access;
   let pageCleanup = () => {};
   let authCleanup = () => {};
   let shell = null;
@@ -63,6 +76,13 @@ export function createAppController({
   let started = false;
   let retryInFlight = false;
   let workspaceNavigationDepth = 0;
+  let enterAfterAuthentication = false;
+  let contextNotice = null;
+  const contextOnboarding = onboarding && {
+    ...onboarding,
+    refresh: async () => { contextNotice = null; return onboarding.refresh(); },
+    retry: async () => { contextNotice = null; return onboarding.retry(); },
+  };
 
   const isActive = (revision) => started && revision === renderRevision;
   const readReturnTo = () => {
@@ -74,6 +94,10 @@ export function createAppController({
   };
   const clearReturnTo = () => {
     try { storage.removeItem(RETURN_TO_KEY); } catch { /* Não há estado persistido a limpar. */ }
+  };
+  const readIntent = () => {
+    try { const value = storage?.getItem(INTENT_KEY); return ['buyer', 'supplier'].includes(value) ? value : null; }
+    catch { return null; }
   };
 
   const showSurface = (name) => {
@@ -99,11 +123,12 @@ export function createAppController({
 
   const ensureShell = () => {
     if (shell) return shell;
-    shell = createAppShell({
+    shell = createShell({
       root: surfaces.app,
       onNavigate: (path) => router.navigate(path),
       onChangeContext: () => router.navigate(ROUTE_PATHS.context),
       onLogout: () => { void logout(); },
+      onAccountUpdated: (user) => sessionStore.updateProfile(user),
     });
     return shell;
   };
@@ -130,7 +155,7 @@ export function createAppController({
     const pendingRoute = canonicalProtectedRoute(readReturnTo());
     clearReturnTo();
     const destination = pendingRoute?.workspaceRole === selected.organizationRole
-      ? pendingRoute.path
+      ? pendingRoute.destination
       : selected.homeRoute;
     router.navigate(destination, options);
   };
@@ -155,8 +180,10 @@ export function createAppController({
     navigateToWorkspace(selected);
   };
 
-  const createAndSelectOrganization = async (input) => {
-    const result = await createOrganization(input);
+  const createAndSelectOrganization = async (input, options) => {
+    const result = await createOrganization(input, options);
+    contextNotice = result?.syncWarning ? 'Cadastro enviado para análise. A consulta da lista está temporariamente indisponível; a empresa confirmada aparece abaixo. Use Atualizar situação.' : null;
+    try { storage?.removeItem(INTENT_KEY); } catch { /* A seleção permanece editável. */ }
     const nextWorkspaces = Array.isArray(result?.workspaces)
       ? result.workspaces
       : result?.id
@@ -175,11 +202,15 @@ export function createAppController({
     });
     if (selected) navigateToWorkspace(selected, { force: true });
     else router.navigate(ROUTE_PATHS.context, { replace: true, force: true });
+    return result;
   };
 
   const logout = async () => {
     if (!started || !canLeavePage()) return;
     clearReturnTo();
+    contextNotice = null;
+    enterAfterAuthentication = false;
+    try { storage?.removeItem(INTENT_KEY); } catch { /* A próxima conta escolhe sua atuação. */ }
     try {
       await sessionStore.logout();
     } catch (error) {
@@ -188,7 +219,7 @@ export function createAppController({
     try { workspaceStore.clear(); } catch { /* A limpeza em memória é responsabilidade da store. */ }
     try { await repository.reset?.(); } catch (error) { console.warn("O estado local não pôde ser limpo.", error); }
     clearReturnTo();
-    if (started) router.navigate(ROUTE_PATHS.access, { replace: true });
+    if (started) router.navigate(`${ROUTE_PATHS.access}?modo=login`, { replace: true });
   };
 
   const renderAllowedAppRoute = async (route, path, revision) => {
@@ -211,8 +242,8 @@ export function createAppController({
         activeShell.announce(`${route.title} carregada`);
       };
       const cleanup = route.id === "context"
-        ? mount({ container: activeShell.outlet, workspaces: workspaceStore.list(), onSelect: selectWorkspace, onCreate: createAndSelectOrganization, onboarding })
-        : mount({ container: activeShell.outlet, workspace, user: session.user, repository, administration, supplierProfiles, onReady: onPageReady });
+        ? mount({ container: activeShell.outlet, workspaces: workspaceStore.list(), workspaceState: workspaceStore.getSnapshot?.(), currentWorkspace: workspace, preferredRole: readIntent(), notice: contextNotice, onSelect: selectWorkspace, onCreate: createAndSelectOrganization, onboarding: contextOnboarding })
+        : mount({ container: activeShell.outlet, workspace, user: sessionStore.getSnapshot().user, repository, administration, supplierProfiles, onReady: onPageReady });
       if (!isActive(revision)) {
         try { cleanup?.(); } catch { /* A montagem tardia não pode sobreviver à revisão atual. */ }
         return;
@@ -245,8 +276,9 @@ export function createAppController({
       return;
     }
     if (decision.kind === "redirect") {
-      if (decision.reason === "authentication-required") writeReturnTo(path);
-      if (decision.reason === "workspace-required") writeReturnTo(path);
+      if (decision.reason === 'already-authenticated' && !workspace) enterAfterAuthentication = true;
+      if (decision.reason === "authentication-required") writeReturnTo(currentDestination);
+      if (decision.reason === "workspace-required") writeReturnTo(currentDestination);
       router.navigate(decision.to, { replace: true });
       return;
     }
@@ -310,12 +342,21 @@ export function createAppController({
 
   const refreshForStoreChange = (skipInitial) => {
     let initial = true;
-    return () => {
+    return (_snapshot, { reason } = {}) => {
       if (!started || (skipInitial && initial)) {
         initial = false;
         return;
       }
       initial = false;
+      if (reason === "profile") {
+        const session = sessionStore.getSnapshot();
+        if (shell && session.status === "authenticated") {
+          shell.setIdentity({ user: session.user, workspace: workspaceStore.getCurrent() });
+          shell.outlet.dispatchEvent(new CustomEvent("sivi:account-updated", { detail: { user: session.user } }));
+        }
+        return;
+      }
+      if (['unverified', 'anonymous'].includes(sessionStore.getSnapshot().status) && document.body.dataset.surface === 'auth') return;
       router.refresh();
     };
   };
@@ -328,11 +369,18 @@ export function createAppController({
         return;
       }
       if (workspaceNavigationDepth > 0) return;
+      if (document.body.dataset.surface === 'auth' && sessionStore.getSnapshot().status !== 'authenticated') return;
       const selected = workspaceStore.getCurrent();
       const pendingRoute = canonicalProtectedRoute(readReturnTo());
       if (selected && pendingRoute?.workspaceRole === selected.organizationRole) {
+        enterAfterAuthentication = false;
         clearReturnTo();
-        router.navigate(pendingRoute.path, { replace: true });
+        router.navigate(pendingRoute.destination, { replace: true });
+        return;
+      }
+      if (selected && enterAfterAuthentication && currentRoute?.id === 'context') {
+        enterAfterAuthentication = false;
+        navigateToWorkspace(selected, { replace: true });
         return;
       }
       router.refresh();
@@ -346,10 +394,18 @@ export function createAppController({
       unsubscribeSession = sessionStore.subscribe(refreshForStoreChange(true));
       unsubscribeWorkspace = workspaceStore.subscribe(refreshForWorkspaceChange());
     },
-    handleRoute({ route, path }) {
+    handleRoute({ route, path, fullPath = path }) {
       if (!started) return;
       currentRoute = route;
       currentPath = path;
+      currentDestination = fullPath;
+      if (route.id !== 'context' && route.id !== 'access') enterAfterAuthentication = false;
+      if (route.id === 'access') {
+        const intent = new URLSearchParams(fullPath.split('?')[1] ?? '').get('atuacao');
+        if (['buyer', 'supplier'].includes(intent)) {
+          try { storage?.setItem(INTENT_KEY, intent); } catch { /* O cadastro permite escolher a atuação. */ }
+        }
+      }
       retryInFlight = false;
       const revision = ++renderRevision;
       void renderRoute(route, path, revision);

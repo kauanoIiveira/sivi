@@ -1,0 +1,737 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T23:57:33.268Z",
+  "title": "Design System: SIVI — apresentação, acesso e operação",
+  "extensions": {
+    "colorMeta": {
+      "--sv-ink": {
+        "role": "neutral",
+        "displayName": "Grafite de leitura"
+      },
+      "--sv-muted": {
+        "role": "neutral",
+        "displayName": "Apoio editorial"
+      },
+      "--sv-paper": {
+        "role": "neutral",
+        "displayName": "Papel público"
+      },
+      "--sv-line": {
+        "role": "neutral",
+        "displayName": "Linha estrutural"
+      },
+      "--sv-orange": {
+        "role": "primary",
+        "displayName": "Laranja original e foco"
+      },
+      "--sv-dark": {
+        "role": "neutral",
+        "displayName": "Grafite de superfície"
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Laranja de ação revisado"
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Apoio operacional revisado"
+      },
+      "auth-action": {
+        "role": "secondary",
+        "displayName": "Verde de acesso"
+      },
+      "plan-featured": {
+        "role": "secondary",
+        "displayName": "Verde de oferta"
+      },
+      "chart-line": {
+        "role": "primary",
+        "displayName": "Linha ilustrativa"
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Erro textual"
+      },
+      "--canvas": {
+        "role": "neutral",
+        "displayName": "Operação · --canvas"
+      },
+      "--surface": {
+        "role": "neutral",
+        "displayName": "Operação · --surface"
+      },
+      "--surface-raised": {
+        "role": "neutral",
+        "displayName": "Operação · --surface-raised"
+      },
+      "--surface-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · --surface-subtle"
+      },
+      "--surface-hover": {
+        "role": "neutral",
+        "displayName": "Operação · --surface-hover"
+      },
+      "--surface-interactive": {
+        "role": "primary",
+        "displayName": "Operação · --surface-interactive"
+      },
+      "--text-primary": {
+        "role": "neutral",
+        "displayName": "Operação · --text-primary"
+      },
+      "--text-muted": {
+        "role": "neutral",
+        "displayName": "Operação · --text-muted"
+      },
+      "--text-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · --text-subtle"
+      },
+      "--border-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · --border-subtle"
+      },
+      "--border-control": {
+        "role": "neutral",
+        "displayName": "Operação · --border-control"
+      },
+      "--border-strong": {
+        "role": "neutral",
+        "displayName": "Operação · --border-strong"
+      },
+      "--navigation-bg": {
+        "role": "neutral",
+        "displayName": "Operação · --navigation-bg"
+      },
+      "--navigation-fg": {
+        "role": "neutral",
+        "displayName": "Operação · --navigation-fg"
+      },
+      "--navigation-muted": {
+        "role": "neutral",
+        "displayName": "Operação · --navigation-muted"
+      },
+      "--navigation-hover": {
+        "role": "neutral",
+        "displayName": "Operação · --navigation-hover"
+      },
+      "--navigation-border": {
+        "role": "neutral",
+        "displayName": "Operação · --navigation-border"
+      },
+      "--action-primary": {
+        "role": "primary",
+        "displayName": "Operação · --action-primary"
+      },
+      "--action-primary-hover": {
+        "role": "primary",
+        "displayName": "Operação · --action-primary-hover"
+      },
+      "--action-text": {
+        "role": "primary",
+        "displayName": "Operação · --action-text"
+      },
+      "--interactive": {
+        "role": "primary",
+        "displayName": "Operação · --interactive"
+      },
+      "--interactive-hover": {
+        "role": "primary",
+        "displayName": "Operação · --interactive-hover"
+      },
+      "--brand-primary": {
+        "role": "primary",
+        "displayName": "Operação · --brand-primary"
+      },
+      "--brand-primary-hover": {
+        "role": "primary",
+        "displayName": "Operação · --brand-primary-hover"
+      },
+      "--button-primary-bg": {
+        "role": "primary",
+        "displayName": "Operação · --button-primary-bg"
+      },
+      "--button-primary-hover-bg": {
+        "role": "primary",
+        "displayName": "Operação · --button-primary-hover-bg"
+      },
+      "--button-primary-fg": {
+        "role": "primary",
+        "displayName": "Operação · --button-primary-fg"
+      },
+      "--button-primary-border": {
+        "role": "primary",
+        "displayName": "Operação · --button-primary-border"
+      },
+      "--feedback-success": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-success"
+      },
+      "--feedback-success-bg": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-success-bg"
+      },
+      "--feedback-warning": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-warning"
+      },
+      "--feedback-warning-bg": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-warning-bg"
+      },
+      "--feedback-danger": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-danger"
+      },
+      "--feedback-danger-bg": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-danger-bg"
+      },
+      "--feedback-info": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-info"
+      },
+      "--feedback-info-bg": {
+        "role": "secondary",
+        "displayName": "Operação · --feedback-info-bg"
+      },
+      "--focus-ring": {
+        "role": "primary",
+        "displayName": "Operação · --focus-ring"
+      },
+      "--focus-shadow": {
+        "role": "primary",
+        "displayName": "Operação · --focus-shadow"
+      },
+      "--control-hover": {
+        "role": "neutral",
+        "displayName": "Operação · --control-hover"
+      },
+      "workspace-dark-canvas": {
+        "role": "neutral",
+        "displayName": "Operação · dark-canvas"
+      },
+      "workspace-dark-surface": {
+        "role": "neutral",
+        "displayName": "Operação · dark-surface"
+      },
+      "workspace-dark-surface-raised": {
+        "role": "neutral",
+        "displayName": "Operação · dark-surface-raised"
+      },
+      "workspace-dark-surface-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · dark-surface-subtle"
+      },
+      "workspace-dark-surface-hover": {
+        "role": "neutral",
+        "displayName": "Operação · dark-surface-hover"
+      },
+      "workspace-dark-surface-interactive": {
+        "role": "primary",
+        "displayName": "Operação · dark-surface-interactive"
+      },
+      "workspace-dark-text-primary": {
+        "role": "neutral",
+        "displayName": "Operação · dark-text-primary"
+      },
+      "workspace-dark-text-muted": {
+        "role": "neutral",
+        "displayName": "Operação · dark-text-muted"
+      },
+      "workspace-dark-text-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · dark-text-subtle"
+      },
+      "workspace-dark-border-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · dark-border-subtle"
+      },
+      "workspace-dark-border-control": {
+        "role": "neutral",
+        "displayName": "Operação · dark-border-control"
+      },
+      "workspace-dark-border-strong": {
+        "role": "neutral",
+        "displayName": "Operação · dark-border-strong"
+      },
+      "workspace-dark-navigation-bg": {
+        "role": "neutral",
+        "displayName": "Operação · dark-navigation-bg"
+      },
+      "workspace-dark-navigation-fg": {
+        "role": "neutral",
+        "displayName": "Operação · dark-navigation-fg"
+      },
+      "workspace-dark-navigation-muted": {
+        "role": "neutral",
+        "displayName": "Operação · dark-navigation-muted"
+      },
+      "workspace-dark-navigation-hover": {
+        "role": "neutral",
+        "displayName": "Operação · dark-navigation-hover"
+      },
+      "workspace-dark-navigation-border": {
+        "role": "neutral",
+        "displayName": "Operação · dark-navigation-border"
+      },
+      "workspace-dark-action-text": {
+        "role": "primary",
+        "displayName": "Operação · dark-action-text"
+      },
+      "workspace-dark-interactive": {
+        "role": "primary",
+        "displayName": "Operação · dark-interactive"
+      },
+      "workspace-dark-interactive-hover": {
+        "role": "primary",
+        "displayName": "Operação · dark-interactive-hover"
+      },
+      "workspace-dark-focus-ring": {
+        "role": "primary",
+        "displayName": "Operação · dark-focus-ring"
+      },
+      "workspace-dark-feedback-success": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-success"
+      },
+      "workspace-dark-feedback-success-bg": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-success-bg"
+      },
+      "workspace-dark-feedback-warning": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-warning"
+      },
+      "workspace-dark-feedback-warning-bg": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-warning-bg"
+      },
+      "workspace-dark-feedback-danger": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-danger"
+      },
+      "workspace-dark-feedback-danger-bg": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-danger-bg"
+      },
+      "workspace-dark-feedback-info": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-info"
+      },
+      "workspace-dark-feedback-info-bg": {
+        "role": "secondary",
+        "displayName": "Operação · dark-feedback-info-bg"
+      },
+      "workspace-contrast-more-text-muted": {
+        "role": "neutral",
+        "displayName": "Operação · contrast-more-text-muted"
+      },
+      "workspace-contrast-more-text-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · contrast-more-text-subtle"
+      },
+      "workspace-contrast-more-border-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · contrast-more-border-subtle"
+      },
+      "workspace-contrast-more-border-control": {
+        "role": "neutral",
+        "displayName": "Operação · contrast-more-border-control"
+      },
+      "workspace-dark-contrast-more-text-muted": {
+        "role": "neutral",
+        "displayName": "Operação · dark-contrast-more-text-muted"
+      },
+      "workspace-dark-contrast-more-text-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · dark-contrast-more-text-subtle"
+      },
+      "workspace-dark-contrast-more-border-subtle": {
+        "role": "neutral",
+        "displayName": "Operação · dark-contrast-more-border-subtle"
+      },
+      "workspace-dark-contrast-more-border-control": {
+        "role": "neutral",
+        "displayName": "Operação · dark-contrast-more-border-control"
+      },
+      "--insight-accent": {
+        "role": "primary",
+        "displayName": "Operação · --insight-accent"
+      },
+      "workspace-dark-insight-accent": {
+        "role": "primary",
+        "displayName": "Operação · dark-insight-accent"
+      },
+      "workspace-red-green-insight-accent": {
+        "role": "primary",
+        "displayName": "Operação · red-green-insight-accent"
+      },
+      "workspace-blue-yellow-insight-accent": {
+        "role": "primary",
+        "displayName": "Operação · blue-yellow-insight-accent"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Abertura",
+        "purpose": "Hero; escala móvel e ultrawide próprias na implementação."
+      },
+      "headline": {
+        "displayName": "Título de seção",
+        "purpose": "Escala principal dos cabeçalhos; composições específicas possuem ajustes locais."
+      },
+      "body": {
+        "displayName": "Base pública",
+        "purpose": "Base tipográfica dos escopos públicos, sem substituir os tamanhos por componente."
+      },
+      "label": {
+        "displayName": "Contexto",
+        "purpose": "Rótulo curto em maiúsculas; não usar no texto de apoio dos dados."
+      },
+      "price": {
+        "displayName": "Preço",
+        "purpose": "Número animado dos planos; tracking consolidado pela revisão final."
+      },
+      "auth-title": {
+        "displayName": "Título de acesso",
+        "purpose": "Entrada e conclusão dos formulários, com escala responsiva própria."
+      },
+      "field": {
+        "displayName": "Texto de campo",
+        "purpose": "Texto digitável; o tamanho móvel é 16px inclusive no select da revisão."
+      },
+      "data-title": {
+        "displayName": "Título do bento",
+        "purpose": "Exceção de tracking em -.03em; no celular usa 22px."
+      },
+      "workspace-body": {
+        "displayName": "Operação · body",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-title": {
+        "displayName": "Operação · title",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-metric": {
+        "displayName": "Operação · metric",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-panel-title": {
+        "displayName": "Operação · panel-title",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-chart-title": {
+        "displayName": "Operação · chart-title",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-navigation": {
+        "displayName": "Operação · navigation",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-control": {
+        "displayName": "Operação · control",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-field": {
+        "displayName": "Operação · field",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-field-mobile": {
+        "displayName": "Operação · field-mobile",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-chart-total": {
+        "displayName": "Operação · chart-total",
+        "purpose": "Papel operacional extraído dos estilos finais; valores normativos no frontmatter."
+      },
+      "workspace-chart-axis": {
+        "displayName": "Operação · chart-axis",
+        "purpose": "Eixo Y HTML fora do SVG, acompanha a escala de texto."
+      }
+    },
+    "shadows": [
+      {
+        "name": "demo",
+        "value": "0 25px 60px -30px #233b2833",
+        "purpose": "Separação difusa da demonstração industrial."
+      },
+      {
+        "name": "record-sheet",
+        "value": "0 7px 15px #25351a0a",
+        "purpose": "Folha de registro na etapa selecionada."
+      },
+      {
+        "name": "chart-filter-selected",
+        "value": "0 1px 3px #22331115",
+        "purpose": "Período ativo do gráfico."
+      },
+      {
+        "name": "mobile-navigation",
+        "value": "0 15px 25px #10201015",
+        "purpose": "Navegação aberta abaixo do cabeçalho móvel."
+      },
+      {
+        "name": "workspace-panels",
+        "value": "none",
+        "purpose": "Folha, painéis, registros e formulários operacionais usam superfície, borda e espaço; sem elevação ou deslocamento no hover."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-transition",
+        "value": "0.2s",
+        "purpose": "Mudanças de fundo e cor dos controles; o CTA público também move translateY(-2px) no hover."
+      },
+      {
+        "name": "reveal",
+        "value": "duration: 0.6s; y: 22px → 0; opacity: 0 → 1; cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Conteúdo de seção uma vez, viewport amount 0.08; initial false com redução de movimento."
+      },
+      {
+        "name": "hero-media-first-visit",
+        "value": "duration: 1.15s; scale: 1.08 → 1; cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Vídeo real na primeira visita, quando movimento é permitido."
+      },
+      {
+        "name": "hero-copy-first-visit",
+        "value": "duration: 0.9s; delay: 0.12s; y: 30px → 0; opacity: 0 → 1; cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Título, apoio e ação do hero sem tela de espera."
+      },
+      {
+        "name": "period-indicator",
+        "value": "spring; stiffness: 450; damping: 35",
+        "purpose": "Indicador Motion de mensal/anual; duration 0 com redução de movimento."
+      },
+      {
+        "name": "plan-reveal-stagger",
+        "value": "index * 0.06s",
+        "purpose": "Pequena sequência entre os três planos."
+      },
+      {
+        "name": "chart-line",
+        "value": "opacity: 0 → 1; duration: 0.45s",
+        "purpose": "Linha ilustrativa ao entrar em vista; duration 0 com redução de movimento."
+      },
+      {
+        "name": "data-distribution",
+        "value": "duration: 0.5s",
+        "purpose": "Larguras da comparação e proporção das etapas; duration 0 com redução de movimento."
+      },
+      {
+        "name": "number-flow",
+        "value": "animated: !reduced",
+        "purpose": "Preços e totais da demonstração usam Number Flow sem duração local customizada."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none !important; animation: none !important; scroll-behavior: auto !important",
+        "purpose": "Preferência do dispositivo nos dois escopos; MotionConfig reducedMotion=user e hooks locais também respeitam essa preferência."
+      },
+      {
+        "name": "workspace-curve-selection",
+        "value": "duration: 0.35s; duration: 0 with reduced motion",
+        "purpose": "Curva muda na seleção sem ocultar o conteúdo inicial."
+      },
+      {
+        "name": "workspace-number-flow",
+        "value": "animated: !reduced",
+        "purpose": "Total de movimento, sem duração local customizada."
+      },
+      {
+        "name": "workspace-navigation-state",
+        "value": "color 160ms ease, background-color 160ms ease",
+        "purpose": "Navegação; sem transição com redução de movimento."
+      },
+      {
+        "name": "workspace-drawer",
+        "value": "transform 180ms ease",
+        "purpose": "Gaveta móvel; redução de movimento remove a transição."
+      },
+      {
+        "name": "workspace-reduced-motion",
+        "value": "scroll-behavior: auto; transition-duration: 0s; animation-duration: 0s",
+        "purpose": "Shell e pseudoelementos; Motion e Number Flow respeitam também a preferência."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "760px"
+      },
+      {
+        "name": "section-stack-max",
+        "value": "900px"
+      },
+      {
+        "name": "tablet-max",
+        "value": "1100px"
+      },
+      {
+        "name": "ultrawide-min",
+        "value": "1800px"
+      },
+      {
+        "name": "workspace-mobile-max",
+        "value": "680px"
+      },
+      {
+        "name": "workspace-drawer-max",
+        "value": "899px"
+      },
+      {
+        "name": "workspace-insights-compact-max",
+        "value": "1150px"
+      },
+      {
+        "name": "workspace-overview-stack-max",
+        "value": "1200px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ação pública",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA final da home, com cor revisada e seta diagonal.",
+      "html": "<a class=\"ds-action\" href=\"#planos\">Encontre seu plano<svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a>",
+      "css": ".ds-action{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:52px;padding:14px 21px;border-radius:6px;background:#c94317;color:#fff;font:750 13px/1.65 Manrope,Arial,sans-serif;letter-spacing:0;text-decoration:none;transition:background .2s,transform .2s}.ds-action:hover{background:#ae3610;transform:translateY(-2px)}.ds-action:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}.ds-action svg{flex-shrink:0}@media(max-width:760px){.ds-action{min-height:50px;padding:13px 17px;gap:25px;font-size:12px}}@media(prefers-reduced-motion:reduce){.ds-action{transition:none!important}}"
+    },
+    {
+      "name": "Envio do formulário",
+      "kind": "button",
+      "refersTo": "button-auth",
+      "description": "Ação verde de avanço e envio, com largura integral e espera.",
+      "html": "<button class=\"ds-submit\" type=\"button\">Continuar<svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></button>",
+      "css": ".ds-submit{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:50px;padding:13px 18px;border:0;border-radius:5px;background:#263b23;color:#fff;font:650 12px/1.65 Manrope,Arial,sans-serif;letter-spacing:0;cursor:pointer;transition:background .2s}.ds-submit:hover{background:#3d5634}.ds-submit:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}.ds-submit:disabled{cursor:wait}@media(prefers-reduced-motion:reduce){.ds-submit{transition:none!important}}"
+    },
+    {
+      "name": "Escolha de plano",
+      "kind": "button",
+      "refersTo": "button-plan",
+      "description": "Link contornado usado nas ofertas Compras e Fornecimento.",
+      "html": "<a class=\"ds-plan-button\" href=\"#/acesso?modo=register&amp;plano=compras&amp;periodo=mensal\">Escolher Compras<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a>",
+      "css": ".ds-plan-button{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:48px;padding:12px 16px;border:1px solid #cbd4c1;border-radius:5px;background:transparent;color:var(--sv-ink,#1c2323);font:700 13px/1.65 Manrope,Arial,sans-serif;text-decoration:none;transition:background .2s}.ds-plan-button:hover{background:#edf2e5}.ds-plan-button:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}@media(max-width:760px){.ds-plan-button{font-size:12px}}@media(prefers-reduced-motion:reduce){.ds-plan-button{transition:none!important}}"
+    },
+    {
+      "name": "Escolha do plano Integrado",
+      "kind": "button",
+      "refersTo": "button-plan-featured",
+      "description": "Variante preenchida presente na oferta com duas atuações.",
+      "html": "<a class=\"ds-featured-button\" href=\"#/acesso?modo=register&amp;plano=integrado&amp;periodo=mensal\">Escolher Integrado<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a>",
+      "css": ".ds-featured-button{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:48px;padding:12px 16px;border:1px solid #273a24;border-radius:5px;background:#273a24;color:#fff;font:700 13px/1.65 Manrope,Arial,sans-serif;text-decoration:none;transition:background .2s}.ds-featured-button:hover{background:#3d5437}.ds-featured-button:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}@media(max-width:760px){.ds-featured-button{font-size:12px}}@media(prefers-reduced-motion:reduce){.ds-featured-button{transition:none!important}}"
+    },
+    {
+      "name": "Campo de acesso",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Campo com rótulo, foco verde e ajuda legível; escala móvel de 16px.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-email\">E-mail</label><input id=\"ds-email\" type=\"email\" autocomplete=\"email\" aria-describedby=\"ds-email-help\"/><small id=\"ds-email-help\">Use o e-mail da sua conta.</small></div>",
+      "css": ".ds-field{font-family:Manrope,Arial,sans-serif}.ds-field label{display:block;margin-bottom:7px;font-size:12px;line-height:1.65;font-weight:700;color:#34492a}.ds-field input{width:100%;min-height:48px;border:1px solid #d3dacb;border-radius:5px;background:#fff;color:#263520;padding:11px 13px;font:400 13px/1.5 Manrope,Arial,sans-serif;letter-spacing:0;box-shadow:none;outline:none}.ds-field input:focus{border-color:#6e8a58;outline:2px solid #74935b30;outline-offset:1px}.ds-field input[aria-invalid=true]{border-color:#b24c33;outline-color:#b24c3344}.ds-field small{display:block;margin-top:6px;color:#56644d;font-size:11px;line-height:1.7}.ds-field small.ds-error{color:#a13520}@media(max-width:760px){.ds-field input{font-size:16px;min-height:49px}}"
+    },
+    {
+      "name": "Navegação pública",
+      "kind": "nav",
+      "description": "Recorte dos links do cabeçalho; a marca real permanece no produto.",
+      "html": "<nav class=\"ds-navigation\" aria-label=\"Navegação principal\"><a href=\"#funcionamento\">Plataforma</a><a href=\"#compras\">Compradores</a><a href=\"#fornecimento\">Fornecedores</a><a href=\"#planos\">Planos</a><a class=\"ds-login\" href=\"#/acesso?modo=login\">Entrar<svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a></nav>",
+      "css": ".ds-navigation{display:flex;gap:28px;align-items:center;background:var(--sv-paper,#f7f7f2);color:var(--sv-ink,#1c2323);font:650 13px/1.65 Manrope,Arial,sans-serif}.ds-navigation a{display:flex;gap:8px;align-items:center;min-height:44px;color:inherit;text-decoration:none;transition:color .2s}.ds-navigation a:hover{color:#b93c13}.ds-navigation a:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}.ds-navigation .ds-login{margin-left:20px}@media(max-width:1100px) and (min-width:761px){.ds-navigation{gap:17px;font-size:11px}.ds-navigation .ds-login{margin-left:5px}}@media(max-width:760px){.ds-navigation{flex-direction:column;align-items:stretch;gap:0;font-size:14px;padding:20px;border-bottom:1px solid var(--sv-line,#dcded6);box-shadow:0 15px 25px #10201015}.ds-navigation a{padding:12px 5px}.ds-navigation .ds-login{margin-left:0}}@media(prefers-reduced-motion:reduce){.ds-navigation a{transition:none!important}}"
+    },
+    {
+      "name": "Identificação de demonstração",
+      "kind": "chip",
+      "refersTo": "example-label",
+      "description": "Selo informativo sempre associado ao exemplo industrial.",
+      "html": "<span class=\"ds-example\">Demonstração · dados ilustrativos</span>",
+      "css": ".ds-example{display:inline-block;font:400 11px/1.5 Manrope,Arial,sans-serif;color:#46583b;border:1px solid #d0d9cb;background:#f3f7ee;padding:5px 9px;border-radius:4px}@media(max-width:760px){.ds-example{padding:4px 6px}}"
+    },
+    {
+      "name": "Superfície do plano",
+      "kind": "card",
+      "refersTo": "plan-featured",
+      "description": "Recorte da oferta Integrado; fundo e contorno distinguem a terceira opção.",
+      "html": "<article class=\"ds-plan\"><div class=\"ds-plan-top\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m12 3 10 5-10 5L2 8Zm-10 9 10 5 10-5M2 16l10 5 10-5\"/></svg><span>As duas atuações</span></div><h3>Integrado</h3><p>Compre e forneça no mesmo lugar.</p><a href=\"#/acesso?modo=register&amp;plano=integrado&amp;periodo=mensal\">Escolher Integrado<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a></article>",
+      "css": ".ds-plan{border:1px solid #9baa8b;border-radius:9px;background:#e8eedf;padding:30px;color:var(--sv-ink,#1c2323);font:400 15px/1.65 Manrope,Arial,sans-serif}.ds-plan-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:28px;color:#627259}.ds-plan-top span{font-size:12px;letter-spacing:.02em;padding:4px 7px;background:#d9e5cf;border-radius:4px;color:#3c5431}.ds-plan h3{margin:0;font-size:25px;line-height:1.1;letter-spacing:-.04em;font-weight:600}.ds-plan p{font-size:13px;color:#56644d;max-width:240px;margin:12px 0 0;min-height:38px}.ds-plan>a{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:48px;padding:12px 16px;border:1px solid #273a24;border-radius:5px;background:#273a24;color:#fff;font-size:13px;font-weight:700;text-decoration:none;margin-top:20px;transition:background .2s}.ds-plan>a:hover{background:#3d5437}.ds-plan>a:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}@media(max-width:1100px){.ds-plan{padding:25px}.ds-plan h3{font-size:22px}}@media(max-width:760px){.ds-plan{padding:28px}.ds-plan h3{font-size:28px}.ds-plan-top{margin-bottom:22px}.ds-plan p{min-height:0;max-width:100%}.ds-plan>a{font-size:12px}}@media(prefers-reduced-motion:reduce){.ds-plan>a{transition:none!important}}"
+    },
+    {
+      "name": "Atuação da demonstração",
+      "kind": "custom",
+      "description": "Seleção de contexto comprador/fornecedor com estado semântico exposto.",
+      "html": "<div class=\"ds-role\" role=\"group\" aria-label=\"Atuação da demonstração\"><button aria-pressed=\"true\" type=\"button\">Comprador</button><button aria-pressed=\"false\" type=\"button\">Fornecedor</button></div>",
+      "css": ".ds-role{display:inline-flex;gap:3px;border:1px solid #dce3d4;border-radius:5px;background:#edf2e6;padding:3px;color:var(--sv-ink,#1c2323);font:400 12px/1.5 Manrope,Arial,sans-serif}.ds-role button{font:inherit;min-height:44px;padding:6px 10px;border:0;border-radius:3px;background:none;color:inherit;cursor:pointer}.ds-role button[aria-pressed=true]{background:#354c2e;color:#fff}.ds-role button:focus-visible{outline:3px solid var(--sv-orange,#e85d2d);outline-offset:5px}@media(max-width:760px){.ds-role button{padding-inline:14px}}"
+    },
+    {
+      "name": "Ação operacional",
+      "kind": "button",
+      "refersTo": "workspace-button-primary",
+      "description": "Ação principal de trabalho com densidade operacional, sem elevação pública.",
+      "html": "<button class=\"ds-work-action\" type=\"button\">Nova demanda</button>",
+      "css": ".ds-work-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border:1px solid var(--button-primary-border,#c94317);border-radius:6px;background:var(--button-primary-bg,#c94317);color:var(--button-primary-fg,#fff);font:700 .75rem Manrope,sans-serif;cursor:pointer;box-shadow:none}.ds-work-action:hover{background:var(--button-primary-hover-bg,#ae3610)}.ds-work-action:focus-visible{outline:3px solid var(--focus-ring,#a63815);outline-offset:3px}@media(max-width:680px){.ds-work-action{min-height:44px}}"
+    },
+    {
+      "name": "Período operacional",
+      "kind": "custom",
+      "refersTo": "workspace-period-active",
+      "description": "Recorte do seletor 30/60/90 dias; no produto a seleção altera os agregados.",
+      "html": "<div class=\"ds-work-period\" role=\"group\" aria-label=\"Período da atividade\"><button type=\"button\" aria-pressed=\"true\">30 dias</button><button type=\"button\" aria-pressed=\"false\">60 dias</button><button type=\"button\" aria-pressed=\"false\">90 dias</button></div>",
+      "css": ".ds-work-period{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--border-subtle,#e0e5da);border-radius:7px;background:var(--surface,#fff);color:var(--text-primary,#202920);font-family:Manrope,sans-serif}.ds-work-period button{min-height:36px;padding:5px 9px;border:0;border-radius:4px;background:transparent;color:inherit;font:400 .75rem Manrope,sans-serif;white-space:nowrap;cursor:pointer}.ds-work-period button[aria-pressed=true]{background:var(--text-primary,#202920);color:var(--surface,#fff)}.ds-work-period button:hover:not([aria-pressed=true]){background:var(--surface-raised,#f4f6f1)}.ds-work-period button:focus-visible{outline:2px solid var(--focus-ring,#a63815);outline-offset:4px}@media(max-width:680px){.ds-work-period button{min-height:44px;padding-inline:12px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Acordo em movimento",
+    "overview": "A indústria real ocupa a imagem; a relação comercial organiza a leitura. A apresentação pública combina vídeo de usinagem, fotografia de oficina, grafite profundo, papel claro, laranja de ação e verde nos fragmentos de operação. A escala ampla da Manrope dá presença à abertura, enquanto os registros e os formulários usam tipografia e controles mais contidos.\n\nEste documento registra a apresentação pública, o acesso e a operação autenticada. A mesma marca se expressa em três escopos independentes: `.sivi-public-ui`, `.sivi-auth-ui` e `.app-shell`. As utilidades Tailwind públicas usam o prefixo `pub`. A operação estende Acordo em movimento com moldura de navegação e folha de trabalho; a pessoa deve identificar a situação da empresa e o próximo passo em poucos segundos. Sua densidade e seus estados servem ao trabalho diário.\n\nA direção é code-led e deriva da escolha aprovada, com liberdade de composição, tipografia e botões. Os componentes fornecidos de preços e bento da 21st.dev foram adaptados para o contexto industrial. A raposa original permanece como marca; as mídias são reais. Os dados dos gráficos públicos são explicitamente ilustrativos e o pagamento do cadastro é demonstrativo. Na operação normal, os gráficos derivam apenas dos registros autorizados para a empresa. A prévia isolada usa dados sintéticos identificados, em memória e sem Firebase. A extensão preserva o fluxo industrial, os serviços, as permissões e os controles existentes.",
+    "keyCharacteristics": [
+      "Abertura cinematográfica com leitura e ação disponíveis durante a revelação curta.",
+      "Alternância entre apresentação ampla e fragmentos compactos de operação.",
+      "Laranja nas ações públicas e operacionais; verdes de acesso, seleção e feedback conforme o contexto.",
+      "Formulários discretos, rótulos visíveis e continuidade visual entre as etapas.",
+      "Movimento condicionado à preferência do dispositivo e controle manual do vídeo.",
+      "Operação em folha enquadrada, números escaneáveis, contornos finos e próximos passos reais.",
+      "Tema claro/escuro, texto ampliado, contraste e alternativas cromáticas preservam o trabalho."
+    ],
+    "rules": [
+      {
+        "name": "The Cascade Rule",
+        "body": "Usar o resultado dos arquivos na ordem de importação. Não recuperar uma cor ou um tamanho anterior apenas porque sua declaração aparece primeiro.",
+        "section": "colors"
+      },
+      {
+        "name": "The Scope Rule",
+        "body": "Compartilhar a marca preservando os três escopos; mudanças de operação não alteram o layout público nem substituem preferências herdadas.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Rule",
+        "body": "Títulos gerais e preços usam o tracking consolidado em `display`, `headline` e `price`. O título do bento mantém sua exceção em `data-title`; não reaplicar os valores mais apertados que foram corrigidos na revisão.",
+        "section": "typography"
+      },
+      {
+        "name": "The Text Scale Rule",
+        "body": "Preservar a escala operacional; não fixar texto de gráfico em unidades do SVG nem retirar `--text-scale` dos termos fluidos.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** preservar a raposa original, a Manrope e as mídias industriais reais.",
+      "**Do** manter `.sivi-public-ui`, `.sivi-auth-ui` e `.app-shell` isolados, compartilhando a marca e preservando os contratos de cada superfície.",
+      "**Do** consultar os estilos finais depois dos overrides de revisão antes de prolongar a interface.",
+      "**Do** preservar texto, rótulos, foco visível e alternativa textual dos gráficos quando houver movimento.",
+      "**Do** identificar dados ilustrativos, preços propostos e pagamento demonstrativo junto ao contexto correspondente.",
+      "**Do** manter a tabela dos gráficos, a pausa do vídeo e o formulário móvel legíveis e alcançáveis.",
+      "**Do** preservar tema escuro, contraste, texto ampliado, alternativas cromáticas herdadas e redução de movimento na operação.",
+      "**Do** usar registros autorizados nos gráficos reais e identificar dados sintéticos na prévia isolada."
+    ],
+    "donts": [
+      "**Don't** substituir o fundo final do CTA pelo token laranja anterior.",
+      "**Don't** recuperar o tracking anterior dos títulos e preços ou reduzir o select móvel da revisão.",
+      "**Don't** transformar todos os trechos editoriais em grades iguais de cartões; os planos e os dados possuem agrupamentos próprios.",
+      "**Don't** aplicar tokens públicos globalmente nem permitir que a extensão operacional altere o layout público.",
+      "**Don't** trocar a raposa por uma interpretação nova nem substituir a mídia real por imagens artificiais.",
+      "**Don't** converter gráficos de exemplo, pagamento de teste ou identificação fictícia em alegações de atividade, cobrança ou empresa registrada.",
+      "**Don't** chamar valor registrado em pedidos de receita ou pagamento recebido.",
+      "**Don't** retirar `--text-scale`, colocar rótulos escaláveis dentro do SVG ou congelar feedback contra a preferência cromática.",
+      "**Don't** adicionar sombras e deslocamento de hover aos registros ou animações que atrasem o trabalho."
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-30",
+  "workspace": "C:\\Users\\Kauan\\Desktop\\sivi",
+  "status": "verified-locally",
+  "backup": "C:\\Users\\Kauan\\Desktop\\sivi-backup-acessibilidade-20260930.zip",
+  "changes": {
+    "workspaceOriginalFox": true,
+    "publicAndAuthAlwaysLight": true,
+    "publicAppearanceControls": 0,
+    "workspacePreferences": ["theme", "textSize", "contrast", "colorVision", "vlibras"],
+    "removedOptions": ["motion", "density"],
+    "colorVisionModes": ["standard", "redGreen", "blueYellow"],
+    "vlibrasDefault": "off",
+    "vlibrasLazy": true,
+    "vlibrasScope": "app",
+    "logoSha256": "1E989A30DB9EC2E247C8B2E94D6730C0347D10F6671C87026B60C0D6A70ED730"
+  },
+  "preservation": {
+    "removedPreviousSourceFiles": [],
+    "commercialWorkflowChanged": false,
+    "rulesChanged": false,
+    "authenticationChanged": false,
+    "originalMapAndControlsPreserved": true
+  },
+  "verification": {
+    "unitPassed": 172,
+    "uniqueBrowserTestsPassed": 57,
+    "browserBatches": [
+      { "passed": 56, "failed": 0 },
+      { "passed": 8, "failed": 0, "note": "Preferências e VLibras após evitar novas tentativas involuntárias; um caso adicional, demais repetidos." }
+    ],
+    "realVLibrasSmoke": "Botão e tradutor carregados pelo SDK oficial; desativar fechou e tornou os controles ocultos e inertes; sem erros de página/requisição.",
+    "verifiedPaletteMinimumTextContrast": 6.4,
+    "preferencesVisualStates": 8,
+    "publicVisualStates": 4,
+    "visualErrors": [],
+    "visualOverflow": false,
+    "screenshots": "../../exports/design-acessibilidade-2026-09-30",
+    "published": false
+  },
+  "references": [
+    "https://vlibras.gov.br/doc/widget/installation/webpageintegration.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+  ]
+}

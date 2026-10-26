@@ -16,6 +16,12 @@ const demand = {
   }],
 };
 
+test('text matching tolerates accent and spacing variants without equating different technical grades', () => {
+  const profile = { categories: [' ENGRENAGENS '], processes: ['USINAGEM'], materials: ['ACO   1045'], regions: [' Campinas/SP '], certifications: ['ISO 9001'], capacity: 800 };
+  assert.equal(matchSupplierToDemand(demand, profile).status, 'compatible');
+  assert.equal(matchSupplierToDemand(demand, { ...profile, materials: ['ACO 1020'] }).criteria.find(item => item.id === 'material').state, 'unmet');
+});
+
 test("normalizes a dynamic supplier profile and explains a compatible match", () => {
   const profile = normalizeSupplierProfile({
     categories: "Engrenagens, Usinados",
@@ -27,6 +33,7 @@ test("normalizes a dynamic supplier profile and explains a compatible match", ()
     description: "Fornecedor acadêmico de componentes industriais.",
   }, { organizationId: "supplier-1", organizationName: "Vetor" });
   const result = matchSupplierToDemand(demand, profile);
+  assert.deepEqual(profile.materials, ['aço 1045']);
   assert.equal(result.status, "compatible");
   assert.equal(result.eligible, true);
   assert.ok(result.criteria.every(({ state }) => state === "met"));

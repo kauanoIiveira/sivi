@@ -2,7 +2,7 @@
 
 ## Usar o sistema
 
-Abra esta pasta no VS Code e abra `index.html` com Live Server. A configuração local usa `localhost:5500`. Alternativamente, com Node.js 22+:
+Abra esta pasta no VS Code e abra `index.html` com Live Server. O build público compilado está incluído. A configuração local usa `localhost:5500`. Alternativamente, com Node.js 22.12+:
 
 ```powershell
 npm ci
@@ -11,13 +11,15 @@ npm start
 
 Abra `http://127.0.0.1:4173`. A interface usa Firebase Authentication e Realtime Database. O domínio local precisa estar autorizado no Firebase. Os módulos Firebase e as fontes dependem de conexão com a internet.
 
-Crie uma conta, confirme o e-mail e cadastre uma empresa. A administração aprova o cadastro. Para configurar o primeiro administrador, consulte [a entrega funcional](docs/21-entrega-firebase-empresas-perfil-match.md).
+Escolha o plano e complete as três etapas do cadastro. Use o botão **Preencher dados de teste** na revisão: cartão 4242 4242 4242 4242, validade 12/30 e CVV 123. Somente a conclusão cria a conta; nenhum valor é cobrado. Confirme o e-mail e entre no mesmo navegador para retomar os dados empresariais por até sete dias. Revise e solicite a análise. Para configurar o primeiro administrador, consulte [a entrega funcional](docs/21-entrega-firebase-empresas-perfil-match.md).
 
 A abertura sem rota leva à página pública (`#/`). O login permanece em `#/acesso`. No cadastro empresarial, preencha os dados, revise e clique em **Solicitar acesso**. Consulte a solicitação em **Empresas e atuação** e use **Atualizar situação** para buscar a decisão da administração.
 
 Se houver correção solicitada, abra **Consultar cadastro**, leia o motivo e use **Corrigir e reenviar**. Uma solicitação recusada continua visível com seu motivo, mas não libera negociações.
 
-Abrir o HTML por duplo clique não executa os módulos corretamente. Não há build, React ou Vite.
+Abrir o HTML por duplo clique não executa os módulos corretamente. Para alterar os componentes React em `src/public/`, `src/components/ui/` ou `src/workspace/`, execute `npm run check:public` e `npm run build:public`. O build Vite atualiza os arquivos portáteis em `src/generated/public/`, incluindo os gráficos operacionais. Páginas e serviços operacionais JavaScript permanecem na estrutura existente; a nova fonte Manrope é local. Os módulos Firebase dependem de internet.
+
+Para avaliar a nova aparência interna com dados ilustrativos, abra `http://127.0.0.1:4173/tests/fixtures/workspace-preview.html?role=buyer#/app/comprador/inicio` após iniciar o servidor. A prévia permite trocar entre comprador, fornecedor e administração sem criar uma conta; suas alterações valem somente naquela página. A aplicação normal continua exigindo login e acesso autorizado à empresa. Detalhes em [36 — Repaginação interna](docs/36-repaginacao-interna.md).
 
 ## Portal administrativo
 
@@ -91,7 +93,7 @@ Consulte [Transferência e retomada](docs/25-transferencia-e-retomada.md) para o
 - Interface comum: `src/layouts/app-shell/`, `src/styles/` e `design-system/MASTER.md`.
 - Páginas: `src/pages/`.
 - Persistência: `src/repositories/` e `src/services/`.
-- Regras: `database.rules.json`.
+- Regras: `scripts/refresh-commercial-rules.mjs` e `scripts/database-rules.base.json`; gerar `database.rules.json` e validar em emuladores antes de publicar. A migração dos registros antigos está em [Fluxo, empresas e integridade](docs/34-fluxo-empresas-e-integridade.md).
 - Configuração pública Firebase: `src/config/firebase.js`.
 
 Nunca inclua credenciais administrativas no frontend. Para retomar o trabalho, leia [CONTINUE_AQUI.md](CONTINUE_AQUI.md).

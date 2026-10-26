@@ -1,4 +1,36 @@
-# Retomar o SIVI — 27/09/2026
+# Continuidade no GitHub — 25/10/2026
+
+A versão trabalhada em `C:\Users\Kauan\Desktop\sivi` foi sincronizada para o repositório Git em **`C:\Users\Kauan\Documents\SIVI`**. Esta é agora a pasta de continuidade versionada, na branch **master** de `https://github.com/kauanoIiveira/sivi`. A branch foi criada a partir do histórico remoto existente; a publicação desta entrega é direta, sem novo merge ou pull request. As referências abaixo à pasta Desktop e à ausência de Git descrevem entregas anteriores.
+
+Inclui a evolução funcional, apresentação pública em React/Motion, cadastro com pagamento demonstrativo, repaginação interna com gráficos reais e a alteração de 25/10 do rodapé para cinza claro. Código, documentação, recursos visuais, contratos de design e evidências visuais versionáveis acompanham a entrega. Dependências, caches, exports, credenciais e logs locais ficam fora do Git. Execute `npm ci` e `npm start` nesta pasta.
+
+---
+
+# Retomar o SIVI — 23/10/2026
+
+Atualização mais recente: [36 — Repaginação interna](docs/36-repaginacao-interna.md). O usuário ampliou o escopo para a área logada e autorizou prosseguir. Painéis comerciais agora incluem gráficos reais filtráveis e carteira atual; toda a operação usa a nova aparência compartilhada. Consulte a spec/plano `2026-10-23-repaginacao-interna` em `docs/superpowers/` e o ledger correspondente. A prévia de apresentação usa dados sintéticos identificados, sem Firebase, em `tests/fixtures/workspace-preview.html`. A aplicação normal mantém autenticação, vínculos e permissões.
+
+Comece por [35 — Repaginação pública](docs/35-repaginacao-publica.md), [PRODUCT.md](PRODUCT.md) e [DESIGN.md](DESIGN.md). A apresentação e o acesso agora usam React/TypeScript/Motion compilados; as páginas operacionais mantêm a estrutura anterior. Planos são propostas comerciais e o pagamento é de teste, sem cobrança. O cadastro final cria a conta; confirmação de e-mail e aprovação da empresa permanecem separadas. Verificação desta entrega: 203 testes unitários e 174 testes de navegador aprovados, além de typecheck e build. Para desenvolver, Node >=22.12, `npm ci` e `npm start`.
+
+As alterações estão em **C:\Users\Kauan\Desktop\sivi**, sem Git. A cópia em Documents não recebeu esta repaginação. Nenhuma implantação remota foi feita. Evidências e snapshot anterior: `.checks/public-redesign-20261023/`; revisão visual: `.impeccable/review/`. Histórico operacional abaixo continua útil para as regras e os dados existentes.
+
+## Estado operacional anterior — 01/10/2026
+
+O estado atual está em [34 — Fluxo, empresas e integridade](docs/34-fluxo-empresas-e-integridade.md). A pasta efetiva desta entrega é **C:\Users\Kauan\Desktop\sivi**, sem `.git`. O checkout em Documents não recebeu estas alterações; não tratar a referência histórica de branch abaixo como estado desta cópia.
+
+Conta, vínculo, empresa e atuação estão separados. A seleção aguarda a consulta de vínculos, uma atuação comercial entra após login e a troca explícita mantém o seletor. Os rascunhos podem ser incompletos; a publicação exige especificações completas. Avaliações estão concentradas na página própria. As regras locais protegem histórico, versão aceita, itens, certificações, inspeção integral, transições e primeira avaliação. O mapa e a identidade visual foram preservados.
+
+Execute `npm start` nesta pasta. Para testar localmente: defina `SIVI_JAVA_HOME` para um JDK compatível e execute `npm test`. Nesta máquina foi confirmado `C:\Program Files\Android\Android Studio\jbr`.
+
+**Não houve atualização do Firebase remoto.** Antes de publicar cliente e regras, revisar os registros antigos com o preparador offline descrito no documento 34. O gerador de regras é `scripts/refresh-commercial-rules.mjs`; não editar manualmente somente o arquivo gerado. A evidência final e os limites estão no documento 34.
+
+O backup anterior à execução é `C:\Users\Kauan\Desktop\sivi-backup-fluxo-20260930-212351.zip`. Próxima sessão: testar manualmente comprador e fornecedor, incorporar o retorno e preparar a atualização remota coordenada quando autorizada. Equipes, negociação por item, anexos, lotes e rastreio continuam separados desta entrega.
+
+---
+
+## Registro histórico de 27/09/2026
+
+O texto abaixo conserva a orientação da cópia anterior. Seus números de testes, branch, pendências de integridade e opções de aparência foram substituídos pelo estado descrito no documento 34.
 
 Comece por [32 — Evolução funcional e continuidade](docs/32-evolucao-e-continuidade.md) e [33 — Transferência e limpeza](docs/33-transferencia-e-limpeza.md). Eles descrevem a entrega mais recente, as funções aplicadas e o que permanece pendente. Os documentos 26 a 31 conservam as revisões anteriores.
 

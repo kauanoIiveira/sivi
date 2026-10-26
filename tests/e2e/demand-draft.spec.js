@@ -1,5 +1,24 @@
 import { expect, test } from '@playwright/test';
 
+test('an incomplete saved draft reopens with an empty quantity and can save a title change', async ({ page }) => {
+  await page.goto('/tests/fixtures/operations-lab.html');
+  await page.evaluate(async () => {
+    const { mountWorkflowView } = await import('/src/pages/operations/workflow-view.js');
+    const demand = { id: 'partial', title: 'Preparação', description: '', status: 'draft', requiredBy: '', destination: '', region: '', quantity: 0, revision: 1, updatedAt: 1, items: [{ id: 'item-1', description: 'Peça', quantity: 0, unit: 'un', category: '', material: '', process: '' }] };
+    const container = document.querySelector('main'); container.replaceChildren();
+    mountWorkflowView({ container, section: 'demands', suppliers: [], workspace: { id: 'buyer', organizationRole: 'buyer' }, workflow: {
+      read: () => ({ demands: [demand], proposals: [], orders: [] }),
+      updateDemand: async (_workspace, _id, values) => { window.savedPartialDraft = values; Object.assign(demand, values); },
+    } });
+  });
+  await page.getByText('Editar rascunho', { exact: true }).click();
+  const form = page.locator('.workflow-demand .workflow-editor form');
+  await expect(form.getByLabel('Quantidade', { exact: true })).toHaveValue('');
+  await form.getByLabel('Título da demanda').fill('Preparação revisada');
+  await form.getByRole('button', { name: 'Salvar alterações' }).click();
+  expect((await page.evaluate(() => window.savedPartialDraft)).title).toBe('Preparação revisada');
+});
+
 test('returning to demands restores filters and a direct record still opens outside the filter', async ({ page }) => {
   await page.goto('/tests/fixtures/operations-lab.html');
   await page.evaluate(async () => {

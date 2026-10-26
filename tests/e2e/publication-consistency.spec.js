@@ -57,7 +57,7 @@ async function stored(path) {
 test('a stale publication fails atomically, retains the newer draft and can retry after refresh', async () => {
   const { client, repository } = repositoryFor(fixture.buyer, 'buyer');
   const path = `demandsByBuyer/${fixture.buyer.organizationId}/${demand.id}`;
-  const edited = { ...demand, title: 'Eixos revisados em outra sessão', updatedAt: 2 };
+  const edited = { ...demand, title: 'Eixos revisados em outra sessão', updatedAt: 2, revision: 2 };
   const patch = client.patch;
   client.patch = async updates => {
     await client.write(path, edited);
@@ -96,7 +96,6 @@ test('publication remains compatible with a legacy client that has no revision m
 test('publication detects a newer revision even when both edits have the same timestamp', async () => {
   const { client, repository } = repositoryFor(fixture.buyer, 'buyer');
   const path = `demandsByBuyer/${fixture.buyer.organizationId}/${demand.id}`;
-  await client.write(path, { ...demand, revision: 1 });
   const patch = client.patch;
   client.patch = async updates => {
     await client.write(path, { ...demand, title: 'Revisão no mesmo instante', revision: 2 });

@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>VLibras: testes de estados</title></head>
+<body data-surface="public"><button type="button" data-toggle>Ativar VLibras</button><p>Componentes industriais.</p>
+<script type="module">
+  import { createVLibrasController } from '/src/theme/vlibras-controller.js';
+  window.vlibrasStates = [];
+  window.vlibrasTest = createVLibrasController({ onStateChange: state => window.vlibrasStates.push(state) });
+  document.querySelector('[data-toggle]').onclick = () => window.vlibrasTest.setEnabled(true);
+</script></body></html>

@@ -30,3 +30,19 @@ test("registration rejects non-admin, missing and unverified accounts without wr
     assert.equal(getUpdate(), undefined);
   }
 });
+
+test('admin registration recovers an unknown write instead of creating a second company', async () => {
+  const records = new Map();
+  let sequence = 0, interrupted = false;
+  const client = {
+    read: async path => path.startsWith('platformAdmins/') ? true : records.get(path) ?? null,
+    findUserByEmail: async () => ({ owner: { uid: 'owner', emailVerified: true } }),
+    newKey: () => `org-${++sequence}`,
+    patch: async updates => { Object.entries(updates).forEach(([key, value]) => records.set(key, value)); if (!interrupted) { interrupted = true; throw new Error('Conexão interrompida'); } },
+  };
+  const service = createFirebaseAdminService({ client, getUser: () => ({ uid: 'admin' }) });
+  const input = { name: 'Indústria', roles: ['buyer'], ownerEmail: 'owner@sivi.test' };
+  await assert.rejects(service.registerOrganization(input));
+  assert.equal((await service.registerOrganization(input)).id, 'org-1');
+  assert.equal(sequence, 1);
+});

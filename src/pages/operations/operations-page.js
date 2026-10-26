@@ -47,7 +47,7 @@ export function mountOperationsPage({ container, workspace, repository, section,
     header.append(copy, identity);
     page.append(header);
     clearWorkflow();
-    clearWorkflow = mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, suppliers: result.data.suppliers, onRefresh: () => repository.getOperations(workspace.id) });
+    clearWorkflow = mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, suppliers: result.data.suppliers, onRefresh: () => repository.getOperations(workspace.id), onReassess: repository.reassessDemand ? id => repository.reassessDemand(workspace.id, id) : null });
     onReady();
   }
   void load();

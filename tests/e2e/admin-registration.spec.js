@@ -3,7 +3,7 @@ import { createVerifiedUser, resetAuthEmulator, resetDatabaseEmulator, seedDatab
 import { captureUi } from "../helpers/ui-review.js";
 
 test("admin registers a company for another verified account and owner enters both roles", async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(process.env.SIVI_CAPTURE_UI ? 360_000 : 180_000);
   await resetAuthEmulator();
   await resetDatabaseEmulator();
   const password = "SiviPortal2026";
@@ -14,7 +14,7 @@ test("admin registers a company for another verified account and owner enters bo
   const login = async email => {
     await page.goto("/?authEmulator=1#/acesso");
     await expect(page.locator(".auth-shell")).toHaveAttribute("data-ui-ready", "true");
-    if (!(await page.locator("#login-email").isVisible())) await page.locator(".form-view--register [data-switch-mode='login']").click();
+    if (!(await page.locator("#login-email").isVisible())) await page.locator(".auth-shell [data-switch-mode='login']").click();
     await page.locator("#login-email").fill(email);
     await page.locator("#login-password").fill(password);
     await page.locator("#login-form button[type='submit']").click();
@@ -25,6 +25,10 @@ test("admin registers a company for another verified account and owner enters bo
   await page.getByText("Cadastrar empresa", { exact: true }).click();
   const form = page.locator("[data-admin-register]");
   await form.getByLabel("Nome da empresa").fill("Indústria Portal");
+  await form.getByLabel('CNPJ').fill('12.345.678/0001-90');
+  await form.getByLabel('Cidade').fill('Campinas');
+  await form.getByLabel('UF', { exact: true }).selectOption('SP');
+  await form.getByLabel('Telefone ou e-mail de contato').fill('contato@portal.test');
   await form.getByLabel("E-mail do responsável").fill("missing@sivi.test");
   await form.getByLabel("Compradora", { exact: true }).check();
   await form.getByLabel("Fornecedora", { exact: true }).check();
@@ -40,7 +44,7 @@ test("admin registers a company for another verified account and owner enters bo
   await card.getByLabel("Motivo para Indústria Portal").fill("Revisão cadastral");
   await card.getByRole("button", { name: "Bloquear", exact: true }).click();
   await expect(card).toContainText("Bloqueada");
-  await card.getByRole("button", { name: "Aprovar", exact: true }).click();
+  await card.getByRole("button", { name: "Reativar", exact: true }).click();
   await expect(card).toContainText("Ativa");
   await page.locator("[data-account-menu] summary").click();
   await page.locator("[data-logout]").click();
@@ -49,8 +53,8 @@ test("admin registers a company for another verified account and owner enters bo
   await expect(page.locator(".context-card", { hasText: "Administração SIVI" })).toHaveCount(0);
   await captureUi(page, "empresas-dupla-atuacao");
   await page.getByRole("button", { name: /Entrar como comprador/ }).click();
-  await expect(page.getByRole("heading", { name: "Visão do comprador" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Criar primeira demanda" })).toBeVisible();
+  await expect(page.locator('.buyer-overview')).toBeVisible();
+  await expect(page.getByRole("link", { name: /Criar primeira demanda/ })).toBeVisible();
   await expect(page.locator(".dashboard-next-actions")).toHaveCount(0);
   await page.getByRole("button", { name: "Trocar empresa", exact: true }).first().click();
   await page.getByRole("button", { name: /Entrar como fornecedor/ }).click();

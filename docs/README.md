@@ -2,6 +2,10 @@
 
 ## Estado atual
 
+**Repaginação interna — 23/10/2026:** [36 — Operação, painéis e gráficos](36-repaginacao-interna.md): extensão autorizada à área autenticada, novo tratamento visual compartilhado, indicadores maiores, gráficos derivados dos registros da empresa e prévia isolada para apresentação. Mantém regras comerciais, aprovação e acesso por empresa.
+
+**Repaginação pública — 23/10/2026:** [35 — Apresentação, planos e cadastro](35-repaginacao-publica.md): home com mídia industrial real, demonstração interativa, planos propostos, páginas institucionais e cadastro integrado em React. O pagamento é demonstrativo; a conta usa Firebase Auth e a empresa continua sujeita à aprovação. As decisões de oferta deste documento substituem o acesso gratuito descrito nas entregas anteriores.
+
 **Evolução funcional — 27/09/2026:** [32 — Evolução e continuidade](32-evolucao-e-continuidade.md): reutilizar demandas, filtros e ordenação, CSV, impressão, avisos de datas, publicação consistente e encerramento de oportunidades. Landing com fluxo interativo e referências profissionais. [33 — Transferência e limpeza](33-transferencia-e-limpeza.md) orienta a mudança de local e classifica os arquivos dispensáveis.
 
 **Minimalismo industrial — 27/09/2026:** [31 — Refinamento visual](31-minimalismo-industrial.md): painéis, navegação, formulários, empresas e jornada com menos molduras e decoração. 133 unitários e 112 testes de navegador/emuladores aprovados; 180 verificações de largura sem transbordamento da página.

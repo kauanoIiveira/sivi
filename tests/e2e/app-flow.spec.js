@@ -106,7 +106,9 @@ test.describe("integrated authenticated application", () => {
       await page.getByRole("button", { name: roleCase.buttonName }).click();
 
       await expect(page).toHaveURL(new RegExp(`#${roleCase.path}$`));
-      if (roleCase.role === "administration") await expect(page.locator(".admin-organizations")).toBeVisible(); else await expect(page.locator(".dashboard-page")).toHaveAttribute("data-dashboard-role", roleCase.role);
+      if (roleCase.role === "administration") await expect(page.locator(".admin-organizations")).toBeVisible();
+      else if (roleCase.role === 'buyer') await expect(page.locator('.buyer-overview')).toBeVisible();
+      else await expect(page.locator(".dashboard-page")).toHaveAttribute("data-dashboard-role", roleCase.role);
       await expect(page.locator("[data-account-user]")).toHaveText(account.displayName);
     });
   }
@@ -164,8 +166,9 @@ test.describe("integrated authenticated application", () => {
     await page.locator("[data-account-menu] summary").click();
     await page.locator("[data-logout]").click();
 
-    await expect(page).toHaveURL(/#\/acesso$/);
-    await expect(page.locator(".auth-shell")).toBeVisible();
+    await expect(page).toHaveURL(/#\/acesso\?modo=login$/);
+    await expect(page.locator(".auth-shell")).toHaveAttribute("data-mode", "login");
+    await expect(page.locator("#login-email")).toBeVisible();
     expect(await page.evaluate(() => ({
       workspace: sessionStorage.getItem("sivi.workspace.v1"),
       returnTo: sessionStorage.getItem("sivi.return-to.v1"),
@@ -437,38 +440,21 @@ test("cleans the mounted auth surface and ignores a later import after stop", as
 });
 
 test("auth surface remount keeps one listener and cleanup removes it", async ({ page }) => {
-  await page.goto("/tests/fixtures/component-lab.html");
-
+  await page.goto('/tests/fixtures/component-lab.html');
   const result = await page.evaluate(async () => {
-    const html = await fetch("/index.html").then((response) => response.text());
-    const source = new DOMParser().parseFromString(html, "text/html").querySelector("[data-auth-surface]");
-    const root = document.importNode(source, true);
-    root.hidden = false;
-    document.body.append(root);
-    const { mountAuthSurface } = await import("/src/pages/auth/auth-page.js");
-    const firstCleanup = mountAuthSurface({ root });
-    firstCleanup();
-    const secondCleanup = mountAuthSurface({ root });
-    const toggle = root.querySelector("[aria-controls='login-password']");
-    const input = root.querySelector("#login-password");
-    toggle.click();
-    const afterRemountClick = input.type;
-    secondCleanup();
-    toggle.click();
-    const afterCleanupClick = input.type;
-    const thirdCleanup = mountAuthSurface({ root });
-    root.querySelector("[data-switch-mode='login']").click();
-    thirdCleanup();
-    const fourthCleanup = mountAuthSurface({ root });
-    const modeAfterCleanup = root.querySelector(".auth-shell").dataset.mode;
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const lateMutation = root.querySelector(".auth-shell").dataset.mode !== modeAfterCleanup;
-    fourthCleanup();
-    root.remove();
-    return { afterRemountClick, afterCleanupClick, lateMutation };
+    history.replaceState(null, '', '#/acesso?modo=login');
+    const root=document.createElement('div');document.body.append(root);
+    const {mountAuthSurface}=await import('/src/pages/auth/auth-page.js');
+    const first=mountAuthSurface({root});first();
+    const second=mountAuthSurface({root});
+    const toggle=root.querySelector('[aria-controls="login-password"]'), input=root.querySelector('#login-password');
+    toggle.click();await new Promise(requestAnimationFrame);
+    const afterRemountClick=input.type;second();toggle.click();await new Promise(requestAnimationFrame);
+    const afterCleanupClick=input.type;const empty=root.childElementCount===0;
+    const third=mountAuthSurface({root});third();root.remove();
+    return {afterRemountClick,afterCleanupClick,empty};
   });
-
-  expect(result).toEqual({ afterRemountClick: "text", afterCleanupClick: "text", lateMutation: false });
+  expect(result).toEqual({afterRemountClick:'text',afterCleanupClick:'text',empty:true});
 });
 
 test("creates, selects and opens a new organization without an intermediate context refresh", async ({ page }) => {

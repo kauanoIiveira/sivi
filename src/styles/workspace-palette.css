@@ -1,0 +1,77 @@
+/* A marca mantém sua cor; controles de trabalho usam uma base neutra. */
+body:is([data-surface="app"], [data-surface="auth"]) {
+  --canvas: #f4f4f1;
+  --text-primary: #252525;
+  --text-muted: #62625e;
+  --text-subtle: #6c6c67;
+  --border-subtle: #deded8;
+  --border-control: #a4a49d;
+  --border-strong: #5e5e59;
+  --navigation-fg: #252525;
+  --navigation-muted: #62625e;
+  --navigation-hover: #f0f0ec;
+  --navigation-border: #deded8;
+  --surface-raised: #f0f0ec;
+  --surface-subtle: #f0f0ec;
+  --surface-hover: #e9e9e3;
+  --action-primary: #30302e;
+  --action-primary-hover: #171716;
+  --action-text: #41413d;
+  --interactive: #41413d;
+  --interactive-hover: #171716;
+  --brand-primary: #30302e;
+  --brand-primary-hover: #171716;
+  --button-primary-bg: #30302e;
+  --button-primary-hover-bg: #171716;
+  --button-primary-border: #30302e;
+  --button-primary-fg: #fafaf7;
+  --focus-ring: #4d4d47;
+  --focus-shadow: rgba(70, 70, 64, .2);
+  --control-hover: rgba(70, 70, 64, .08);
+}
+:root[data-theme="dark"] body:is([data-surface="app"], [data-surface="auth"]) {
+  --canvas: #101010;
+  --text-primary: #f5f5f3;
+  --text-muted: #b9b9b3;
+  --text-subtle: #a8a8a2;
+  --border-subtle: #383836;
+  --border-control: #60605b;
+  --border-strong: #9a9a94;
+  --navigation-fg: #f5f5f3;
+  --navigation-muted: #b9b9b3;
+  --navigation-hover: #2b2b29;
+  --navigation-border: #383836;
+  --surface-raised: #252523;
+  --surface-subtle: #252523;
+  --surface-hover: #30302d;
+  --action-primary: #e4e4dc;
+  --action-primary-hover: #fafaf7;
+  --action-text: #d4d4cc;
+  --interactive: #d4d4cc;
+  --interactive-hover: #fafaf7;
+  --brand-primary: #e4e4dc;
+  --brand-primary-hover: #fafaf7;
+  --button-primary-bg: #e4e4dc;
+  --button-primary-hover-bg: #fafaf7;
+  --button-primary-border: #e4e4dc;
+  --button-primary-fg: #20201e;
+  --focus-ring: #d4d4cc;
+  --focus-shadow: rgba(220, 220, 210, .22);
+  --control-hover: rgba(220, 220, 210, .1);
+}
+:root[data-contrast="more"] body:is([data-surface="app"], [data-surface="auth"]) {
+  --text-muted: #393936;
+  --text-subtle: #393936;
+  --border-control: #60605b;
+  --border-subtle: #85857e;
+}
+:root[data-theme="dark"][data-contrast="more"] body:is([data-surface="app"], [data-surface="auth"]) {
+  --text-muted: #deded8;
+  --text-subtle: #deded8;
+  --border-control: #b0b0a8;
+  --border-subtle: #85857e;
+}
+.app-shell:is([data-route-id="buyer-home"], [data-route-id="buyer-suppliers"], [data-route-id="buyer-reviews"]) { background: var(--canvas); }
+.app-shell__sidebar :focus-visible { outline-color: var(--focus-ring); }
+body[data-surface="app"] :is(.buyer-button--primary, .marketplace-button--primary, .reviews-button--primary) { background: var(--button-primary-bg); color: var(--button-primary-fg); border-color: var(--button-primary-border); }
+body[data-surface="app"] :is(.buyer-button--primary, .marketplace-button--primary, .reviews-button--primary):hover { background: var(--button-primary-hover-bg); }

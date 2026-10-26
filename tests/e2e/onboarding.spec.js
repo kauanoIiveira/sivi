@@ -22,14 +22,14 @@ async function fillApplication(page, name = 'Indústria Entrada') {
   await form.getByRole('button', { name: 'Revisar cadastro' }).click();
 }
 test('public entry, correction, resubmission, approval and refusal persist across sessions', async ({ browser, page }) => {
-  test.setTimeout(180000);
+  test.setTimeout(process.env.SIVI_CAPTURE_UI ? 360000 : 180000);
   page.setDefaultTimeout(15000);
   await resetAuthEmulator(); await resetDatabaseEmulator();
   const owner = await createVerifiedUser({ email: 'entrada@sivi.test', password, displayName: 'Responsável' });
   const admin = await createVerifiedUser({ email: 'entrada-admin@sivi.test', password, displayName: 'Admin' });
   await seedDatabaseEmulator(`platformAdmins/${admin.uid}`, true);
   await page.goto('/?authEmulator=1');
-  await expect(page.getByRole('heading', { name: /Sua próxima compra industrial/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /O próximo acordo começa aqui/ })).toBeVisible();
   await captureUi(page, 'pagina-publica');
   await page.getByRole('link', { name: 'Cadastrar empresa', exact: true }).first().click();
   await expect(page.locator('.auth-shell')).toHaveAttribute('data-mode', 'register');

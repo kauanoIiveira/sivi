@@ -72,4 +72,6 @@ Consulte o [guia de transferência e limpeza](33-transferencia-e-limpeza.md) e `
 
 ## Limites que permanecem
 
+**Atualização em 01/10/2026:** este documento conserva a revisão de 27/09. Consulte [34 — Fluxo, empresas e integridade](34-fluxo-empresas-e-integridade.md) para as proteções e correções aplicadas posteriormente e os requisitos de migração antes da atualização remota.
+
 O bloco 1B do documento 28 ficou parcialmente atendido. Ainda faltam aceite/criação autoritativos, idempotência para resposta de escrita desconhecida, conciliação de cópias preexistentes e validação completa das transições operacionais nas regras. Propostas por item, anexos, produção, estoque, lotes e QR continuam fora da entrega. A análise manual do responsável e a defesa do TCC devem distinguir esses itens do fluxo já implementado.

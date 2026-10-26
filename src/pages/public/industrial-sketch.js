@@ -1,0 +1,20 @@
+// A drawing of a machined component, kept as native vector artwork.
+export const industrialSketch = `<svg viewBox="0 0 540 440" role="img" aria-labelledby="industrial-sketch-title" class="industrial-sketch">
+  <title id="industrial-sketch-title">Desenho técnico de um componente industrial com vistas e linhas de dimensão</title>
+  <defs><pattern id="sketch-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><path d="M0 0v9" stroke="currentColor" stroke-width=".7" opacity=".2"/></pattern></defs>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="1" opacity=".23"><path d="M36 215h462M280 44v348" stroke-dasharray="8 8"/><path d="M72 83v44m347-44v114M72 94h347M63 86l18 16m329-16 18 16M440 135h33m-33 153h33M461 135v153m-8-160 16 15m-16 138 16 15"/></g>
+    <g stroke-width="2">
+      <path d="m113 206 83-64 207 67-82 66z" fill="url(#sketch-hatch)"/>
+      <path d="M113 206v61l208 69 82-66v-61M321 275v61M113 267l83-65 207 68"/>
+      <path d="m167 212 72-55 107 35-73 57zM167 212v24l106 35 73-55v-24M273 249v22"/>
+      <path d="m202 161-1-32 33-25 42 13v33m-75-21 43 14 32-26m-32 26v31"/>
+      <path d="m309 195 1-33 33-25 42 14v37m-75-26 43 14 32-25m-32 25v34"/>
+      <ellipse cx="253" cy="205" rx="25" ry="13" transform="rotate(17 253 205)"/>
+      <path d="M229 200c1 14 32 23 45 12M151 250v12m17-6v12m17-6v12m-34-24 35 12M360 292l22-18v12l-22 18z"/>
+      <path d="M108 202c-3 26-2 46 0 66m216 12c-1 18 0 36 1 51" opacity=".3"/>
+    </g>
+    <g stroke-width="1.2" opacity=".4"><path d="M78 365h113v31H78zM123 365v31M78 380h113M199 380h72M310 376h138M310 386h91M310 396h115"/><circle cx="235" cy="379" r="15"/></g>
+    <g class="industrial-sketch__accent" stroke-width="2"><path d="m72 65 34-1m-34 0 1 32M425 328l29-2-1-28M251 205l37-25 53 1"/><circle cx="253" cy="205" r="3" fill="currentColor" stroke="none"/></g>
+  </g>
+</svg>`;

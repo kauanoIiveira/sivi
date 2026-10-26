@@ -10,10 +10,9 @@ export async function captureUi(page, name, { widths = [360, 390, 768, 1440] } =
   const output = resolve(process.env.SIVI_CAPTURE_UI);
   await mkdir(output, { recursive: true });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const theme of ["light", "dark"]) {
-    if (await page.locator("html").getAttribute("data-theme") !== theme) {
-      await page.locator("[data-theme-toggle]:visible").first().click();
-    }
+  const publicSurface = await page.evaluate(() => ['public', 'auth'].includes(document.body.dataset.surface));
+  for (const theme of publicSurface ? ["light"] : ["light", "dark"]) {
+    await page.evaluate(async theme => { const { setThemePreference } = await import('/src/theme/theme-controller.js'); setThemePreference(theme); }, theme);
     await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
     for (const width of widths) {
       await page.setViewportSize({ width, height: 960 });
@@ -42,7 +41,5 @@ export async function captureUi(page, name, { widths = [360, 390, 768, 1440] } =
   const combined = new Map([...previous, ...checks].map(check => [`${check.name}:${check.theme}:${check.width}`, check]));
   await writeFile(report, JSON.stringify([...combined.values()], null, 2));
   await page.setViewportSize({ width: 1440, height: 960 });
-  if (await page.locator("html").getAttribute("data-theme") !== "light") {
-    await page.locator("[data-theme-toggle]:visible").first().click();
-  }
+  await page.evaluate(async () => { const { setThemePreference } = await import('/src/theme/theme-controller.js'); setThemePreference('light'); });
 }

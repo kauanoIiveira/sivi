@@ -1,4 +1,4 @@
-import { getAppearancePreferences, setAppearancePreference, resetAppearancePreferences } from './appearance-controller.js';
+import { getAppearancePreferences, setAppearancePreference, resetAppearancePreferences, getVLibrasState, retryVLibras } from './appearance-controller.js';
 
 let dialog;
 let returnFocus;
@@ -6,14 +6,23 @@ const definitions = [
   ['theme', 'Tema', 'Use a aparência do dispositivo ou escolha um tema.', [['system', 'Seguir o sistema'], ['light', 'Claro'], ['dark', 'Escuro']]],
   ['textSize', 'Tamanho do texto', 'Aumente o texto em todas as telas.', [['standard', 'Padrão'], ['large', 'Maior (125%)']]],
   ['contrast', 'Contraste', 'Reforce textos secundários e contornos dos campos.', [['standard', 'Padrão'], ['more', 'Reforçado']]],
-  ['motion', 'Movimento', 'A preferência por menos movimento do dispositivo é sempre respeitada.', [['system', 'Seguir o sistema'], ['reduce', 'Reduzir movimento']]],
-  ['density', 'Espaçamento', 'Ajuste o espaço entre os registros nas telas de trabalho.', [['comfortable', 'Confortável'], ['compact', 'Compacto']]],
+  ['colorVision', 'Daltonismo', 'Ajuste as cores das situações. Textos e símbolos continuam identificando cada estado.', [['standard', 'Padrão'], ['redGreen', 'Vermelho e verde'], ['blueYellow', 'Azul e amarelo']]],
+  ['vlibras', 'VLibras', 'Ative o assistente de tradução para Libras no sistema.', [['off', 'Desativado'], ['on', 'Ativado']]],
 ];
+
+function syncVLibras() {
+  if (!dialog) return;
+  const state = getVLibrasState();
+  const messages = { off: 'Desativado.', loading: 'Carregando VLibras…', ready: 'Ativado. O botão de Libras está disponível no canto da tela.', error: 'Não foi possível carregar o VLibras. Tente novamente.' };
+  dialog.querySelector('[data-vlibras-status]').textContent = messages[state.status] ?? messages.off;
+  dialog.querySelector('[data-retry-vlibras]').hidden = state.status !== 'error';
+}
 
 function sync() {
   if (!dialog) return;
   const values = getAppearancePreferences();
   dialog.querySelectorAll('select').forEach(select => { select.value = values[select.name]; });
+  syncVLibras();
 }
 
 function announce(saved) {
@@ -39,12 +48,18 @@ function createDialog() {
     options.forEach(([value, text]) => select.add(new Option(text, value)));
     select.addEventListener('change', () => announce(setAppearancePreference(key, select.value)));
     copy.append(label, description); row.append(copy, select); node.querySelector('.preferences-options').append(row);
+    if (key === 'vlibras') {
+      const state = document.createElement('p'); state.className = 'preferences-vlibras-status'; state.dataset.vlibrasStatus = ''; state.setAttribute('aria-live', 'polite'); state.setAttribute('aria-atomic', 'true');
+      const retry = document.createElement('button'); retry.type = 'button'; retry.className = 'preferences-retry'; retry.dataset.retryVlibras = ''; retry.textContent = 'Tentar carregar VLibras novamente'; retry.hidden = true;
+      retry.addEventListener('click', retryVLibras);
+      copy.append(state, retry);
+    }
   }
   node.querySelector('[data-close-preferences]').addEventListener('click', () => node.close());
   node.querySelector('[data-reset-preferences]').addEventListener('click', () => { announce(resetAppearancePreferences()); sync(); });
   node.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
-    const controls = [...node.querySelectorAll('button, select')];
+    const controls = [...node.querySelectorAll('button:not([disabled]), select:not([disabled])')].filter(control => control.checkVisibility());
     const first = controls[0]; const last = controls.at(-1);
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
@@ -56,7 +71,7 @@ function createDialog() {
 
 document.addEventListener('click', event => {
   const trigger = event.target.closest('[data-open-preferences]');
-  if (!trigger) return;
+  if (!trigger || document.body.dataset.surface !== 'app') return;
   const menu = trigger.closest('[data-account-menu]');
   returnFocus = menu?.querySelector('summary') ?? trigger;
   if (menu) menu.open = false;
@@ -66,3 +81,8 @@ document.addEventListener('click', event => {
 });
 window.addEventListener('sivi:themechange', sync);
 window.addEventListener('sivi:appearancechange', sync);
+window.addEventListener('sivi:vlibraschange', syncVLibras);
+const surfaceObserver = new MutationObserver(() => {
+  if (document.body.dataset.surface !== 'app' && dialog?.open) dialog.close();
+});
+surfaceObserver.observe(document.body, { attributes: true, attributeFilter: ['data-surface'] });

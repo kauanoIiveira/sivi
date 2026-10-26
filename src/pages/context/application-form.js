@@ -1,10 +1,10 @@
 import { normalizeApplication, states } from '../../domain/organization-application.js';
 
-export function mountApplicationForm({ container, initial = {}, onSubmit, onCancel }) {
+export function mountApplicationForm({ container, initial = {}, startAtReview = false, onSubmit, onCancel }) {
   container.innerHTML = `<form data-create-organization class="application-form">
     <p class="context-page__eyebrow" data-step-label>Etapa 1 de 2 · Dados da empresa</p>
     <h2 tabindex="-1">${initial.id ? 'Corrigir cadastro' : 'Cadastrar empresa'}</h2>
-    <p>O acesso é gratuito nesta fase. A administração analisará o cadastro antes de liberar as negociações.</p>
+    <p>Nenhuma cobrança é realizada nesta versão. A administração analisará o cadastro antes de liberar as negociações.</p>
     <div data-fields class="application-fields">
       <label>Nome da empresa<input name="name" maxlength="120" required autocomplete="organization"></label>
       <label>CNPJ<input name="cnpj" aria-label="CNPJ" aria-describedby="cnpj-help" maxlength="18" required placeholder="00.000.000/0000-00"><small id="cnpj-help">Identificação declarada, sem consulta automática à Receita Federal.</small></label>
@@ -19,7 +19,7 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
   </form>`;
   const form = container.querySelector('form');
   for (const field of ['name', 'cnpj', 'city', 'state', 'contact']) form.elements[field].value = initial[field] ?? '';
-  for (const check of form.querySelectorAll('[name="roles"]')) check.checked = initial.roles?.[check.value] === true;
+  for (const check of form.querySelectorAll('[name="roles"]')) check.checked = Array.isArray(initial.roles) ? initial.roles.includes(check.value) : initial.roles?.[check.value] === true;
   const error = form.querySelector('[role="alert"]');
   const submit = form.querySelector('[type="submit"]');
   let values, reviewing = false, disposed = false, sending = false, submitted = false;
@@ -33,6 +33,17 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
     submit.textContent = value ? (initial.id ? 'Corrigir e reenviar' : 'Solicitar acesso') : 'Revisar cadastro';
     form.querySelector('h2').focus();
   };
+  const prepareReview = () => {
+    const data = new FormData(form);
+    values = normalizeApplication({ ...Object.fromEntries(data), roles: data.getAll('roles') });
+    const dl = form.querySelector('[data-review] dl'); dl.replaceChildren();
+    for (const [label, value] of [['Empresa', values.name], ['CNPJ', values.cnpj], ['Localização', `${values.city}/${values.state}`], ['Contato', values.contact], ['Atuação', values.roles.map(role => role === 'buyer' ? 'Compradora' : 'Fornecedora').join(' e ')]]) {
+      const dt = document.createElement('dt'); dt.textContent = label;
+      const dd = document.createElement('dd'); dd.textContent = value; dl.append(dt, dd);
+    }
+    setStep(true);
+  };
+  if (startAtReview) { try { prepareReview(); } catch { setStep(false); } }
   form.querySelector('[data-back]').addEventListener('click', () => setStep(false));
   form.querySelector('[data-cancel]').addEventListener('click', onCancel);
   form.addEventListener('input', () => {
@@ -46,14 +57,7 @@ export function mountApplicationForm({ container, initial = {}, onSubmit, onCanc
     error.textContent = '';
     try {
       if (!reviewing) {
-        const data = new FormData(form);
-        values = normalizeApplication({ ...Object.fromEntries(data), roles: data.getAll('roles') });
-        const dl = form.querySelector('[data-review] dl'); dl.replaceChildren();
-        for (const [label, value] of [['Empresa', values.name], ['CNPJ', values.cnpj], ['Localização', `${values.city}/${values.state}`], ['Contato', values.contact], ['Atuação', values.roles.map(role => role === 'buyer' ? 'Compradora' : 'Fornecedora').join(' e ')]]) {
-          const dt = document.createElement('dt'); dt.textContent = label;
-          const dd = document.createElement('dd'); dd.textContent = value; dl.append(dt, dd);
-        }
-        setStep(true); return;
+        prepareReview(); return;
       }
       sending = true;
       form.setAttribute('aria-busy', 'true');

@@ -13,6 +13,11 @@ const mimeTypes = new Map([
   [".json", "application/json; charset=utf-8"],
   [".svg", "image/svg+xml"],
   [".webp", "image/webp"],
+  [".jpg", "image/jpeg"],
+  [".jpeg", "image/jpeg"],
+  [".webm", "video/webm"],
+  [".woff2", "font/woff2"],
+  [".ico", "image/x-icon"],
 ]);
 
 createServer(async (request, response) => {

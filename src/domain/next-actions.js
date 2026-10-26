@@ -3,7 +3,7 @@ import { daysUntil, describeRequestedDate } from './deadline.js';
 
 export function workflowLink(role, section, recordId) {
   const area = role === "buyer" ? "comprador" : "fornecedor";
-  const page = { demands: role === "buyer" ? "demandas" : "oportunidades", proposals: "propostas", orders: "pedidos" }[section];
+  const page = { demands: role === "buyer" ? "demandas" : "oportunidades", proposals: "propostas", orders: "pedidos", reviews: 'avaliacoes' }[section];
   const path = `#/app/${area}/${page}`;
   return recordId ? `${path}?registro=${encodeURIComponent(recordId)}` : path;
 }
@@ -27,7 +27,7 @@ export function buildNextActions(role, { demands, proposals, orders }, today = t
     const actionCount = actions.length;
     if (role === "buyer") {
       if (order.status === "dispatched") add("receive", order, "orders", "Conferir recebimento", "O fornecedor registrou a expedição. Confirme após receber.", 0);
-      if (order.status === "delivered" && !order.evaluation) add("evaluate", order, "orders", "Avaliar entrega", "Recebimento confirmado; sua avaliação está pendente.", 2);
+      if (order.status === "delivered" && !order.evaluation) add("evaluate", order, "reviews", "Avaliar entrega", "Recebimento confirmado; sua avaliação está pendente.", 2);
     } else {
       if (order.status === "blocked") add("reinspect", order, "orders", "Registrar reinspeção", "Pedido bloqueado pela qualidade. Registre uma nova inspeção após a correção.", 0);
       if (order.status === "accepted") add("inspect", order, "orders", "Registrar inspeção", "Pedido aceito; a inspeção é necessária para liberar a expedição.", 1);
@@ -58,7 +58,7 @@ export function buildNextActions(role, { demands, proposals, orders }, today = t
           return isCalendarDate(date) && date < today;
         })) add('review-expired', demand, 'proposals', 'Conferir propostas vencidas', 'As propostas recebidas estão fora da validade. Consulte as condições antes de continuar a negociação.', 3);
       }
-    } else if (demand.status === "published") {
+    } else if (demand.status === "published" && demand.match?.eligible !== false) {
       if (!replies.length) add("propose", demand, "proposals", "Preparar proposta", "Oportunidade disponível para sua empresa, ainda sem resposta.", 3);
       else if (replies.every(proposal => proposal.versions.at(-1)?.validUntil < today)) add("revise", demand, "proposals", "Revisar proposta", "Sua última proposta venceu. Atualize as condições se quiser continuar.", 3);
     }

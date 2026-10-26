@@ -33,6 +33,7 @@ export function buildLiveDashboard(workspace, data) {
     const acceptedValue = orders.reduce((sum, order) => sum + order.version.totalCents + order.version.freightCents, 0);
     return Object.freeze({
       role: "buyer",
+      activityRecords: data,
       organizationName: workspace.organizationName,
       title: "Visão do comprador",
       isFirstPurchase: demands.length === 0 && orders.length === 0,
@@ -51,6 +52,7 @@ export function buildLiveDashboard(workspace, data) {
   const blockedOrders = orders.filter(({ status }) => status === 'blocked');
   return Object.freeze({
     role: "supplier",
+    activityRecords: data,
     organizationName: workspace.organizationName,
     title: "Visão do fornecedor",
     showJourney: demands.length > 0 || orders.length > 0,

@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-01",
+  "workspace": "C:\\Users\\Kauan\\Desktop\\sivi",
+  "backup": "C:\\Users\\Kauan\\Desktop\\sivi-backup-fluxo-20260930-212351.zip",
+  "unit": {
+    "failed": 0,
+    "log": ".checks/fluxo-final-unit.log",
+    "skipped": 0,
+    "command": "npm run test:unit",
+    "exitCode": 0,
+    "passed": 195
+  },
+  "browser": {
+    "exitCode": 0,
+    "failed": 0,
+    "log": ".checks/fluxo-final-e2e.log",
+    "skipped": 0,
+    "command": "npx playwright test",
+    "passed": 170,
+    "environment": {
+      "SIVI_CAPTURE_UI": ".checks/fluxo-final",
+      "SIVI_JAVA_HOME": "C:\\Program Files\\Android\\Android Studio\\jbr"
+    }
+  },
+  "visual": {
+    "widthChecks": 174,
+    "states": 23,
+    "screenshots": 87,
+    "baseline": {
+      "compared": 28,
+      "changed": [
+        "src/pages/supplier/profile-page.css",
+        "src/styles/high-end-pages.css"
+      ],
+      "missing": []
+    },
+    "evidence": ".checks/fluxo-final",
+    "horizontalOverflow": 0
+  },
+  "integrity": {
+    "logoSha256": "1E989A30DB9EC2E247C8B2E94D6730C0347D10F6671C87026B60C0D6A70ED730",
+    "faviconSha256": "CD764AE3DC16F14A54F465EC9D348896BFC7E05A086FAB51E4445B02197B7FB5",
+    "rulesSha256": "1AD412931286F9F7529FF5F7F9136584B6702D203D816949343BA243DF3FA09E",
+    "concurrentWritesTest": "tests/e2e/marketplace-integrity.spec.js",
+    "migrationTest": "tests/e2e/flow-migration.spec.js",
+    "rulesBytes": 195068
+  },
+  "reviewedFixes": [
+    "Incomplete saved quantity reopens as blank",
+    "Email confirmation feedback survives auth emissions",
+    "Confirmed company notice clears after refresh",
+    "Legacy open records have an offline migration preparer",
+    "Mobile comparator keeps scrolling inside its region"
+  ],
+  "remote": {
+    "committed": false,
+    "gitInitialized": false,
+    "dataWritten": false,
+    "rulesDeployed": false,
+    "pushed": false
+  }
+}

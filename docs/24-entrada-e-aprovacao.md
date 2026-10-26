@@ -1,5 +1,7 @@
 # Entrada e aprovação de empresas — 18/09/2026
 
+**Atualização de 23/10/2026:** a [repaginação pública](35-repaginacao-publica.md) substitui a apresentação e antecipa os dados empresariais no cadastro integrado, com pagamento demonstrativo e planos propostos. A confirmação de e-mail, revisão empresarial e análise administrativa continuam obrigatórias. O texto abaixo registra a entrega histórica de setembro.
+
 Fluxo aprovado pelo usuário: página pública → conta verificada → cadastro empresarial → revisão → análise administrativa → primeiro acesso. Acesso gratuito nesta etapa, sem assinatura ou pagamento simulado.
 
 ## Implementação

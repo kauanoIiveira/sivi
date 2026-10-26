@@ -8,8 +8,12 @@ test("renders explicit demo context and persists theme", async ({ page }) => {
   await expect(page.locator("[data-notifications]")).toHaveCount(0);
   await page.locator("[data-account-menu] summary").click();
   await expect(page.locator("[data-logout]")).toBeVisible();
-  await page.locator("[data-theme-toggle]").click();
-  const selectedTheme = await page.locator("html").getAttribute("data-theme");
+  const selectedTheme = await page.locator("html").getAttribute("data-theme") === "dark" ? "light" : "dark";
+  await page.getByRole("button", { name: "Aparência e acessibilidade", exact: true }).click();
+  const preferences = page.getByRole("dialog", { name: "Aparência e acessibilidade" });
+  await preferences.getByLabel("Tema", { exact: true }).selectOption(selectedTheme);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", selectedTheme);
+  await preferences.getByRole("button", { name: "Fechar preferências" }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", selectedTheme);
 });
@@ -41,6 +45,10 @@ test("mobile drawer keeps closed navigation out of the tab order", async ({ page
   expect(await page.locator("[data-navigation-list] a").evaluate((element) => element === document.activeElement)).toBe(true);
   await page.keyboard.press("Tab");
   expect(await page.locator("[data-change-context-compact]").evaluate((element) => element === document.activeElement)).toBe(true);
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-open-preferences]")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("[data-account-menu] summary")).toBeFocused();
   await page.keyboard.press("Tab");
   expect(await page.locator("[data-navigation-list] a").evaluate((element) => element === document.activeElement)).toBe(true);
 });
@@ -157,7 +165,7 @@ test("account disclosure exposes its state and Escape returns focus to its trigg
   await trigger.click();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await page.keyboard.press("Tab");
-  await expect(page.locator("[data-open-preferences]")).toBeFocused();
+  await expect(page.locator("[data-open-account]")).toBeFocused();
 
   await page.keyboard.press("Escape");
   await expect(page.locator("[data-logout]")).toBeHidden();
@@ -177,7 +185,7 @@ test("account disclosure allows Tab to leave in either direction and closes", as
   const trigger = page.locator("[data-account-menu] summary");
   await trigger.click();
   await page.keyboard.press("Tab");
-  await expect(page.locator("[data-open-preferences]")).toBeFocused();
+  await expect(page.locator("[data-open-account]")).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(page.locator("[data-logout]")).toBeFocused();
   await page.keyboard.press("Tab");
@@ -186,7 +194,7 @@ test("account disclosure allows Tab to leave in either direction and closes", as
 
   await trigger.click();
   await page.keyboard.press("Shift+Tab");
-  await expect(page.locator("[data-theme-toggle]")).toBeFocused();
+  await expect(page.locator("[data-open-preferences]")).toBeFocused();
   await expect(page.locator("[data-logout]")).toBeHidden();
 });
 

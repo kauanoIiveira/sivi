@@ -85,7 +85,7 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
     const label = el("label", title);
     const input = el(type === "textarea" ? "textarea" : "input");
     if (type !== "textarea") input.type = type;
-    input.name = name; input.required = true; input.maxLength = name === 'description' ? 2000 : 160;
+    input.name = name; input.required = name === 'title'; input.maxLength = name === 'description' ? 2000 : 160;
     input.value = initial?.[name] ?? '';
     if (name === 'requiredBy' && initialValues) input.min = todayInSaoPaulo();
     if (type === "textarea" || name === 'title') label.className = "workflow-form__wide";
@@ -120,10 +120,11 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
       const label = el("label", title); const input = el("input");
       if (name === 'description' || name === 'certifications') label.className = 'workflow-form__wide';
       if (!required) { const optional = el('span', 'Opcional'); optional.className = 'workflow-optional'; optional.setAttribute('aria-hidden', 'true'); label.append(optional); }
-      input.name = name; input.type = type; input.required = required; input.maxLength = name === 'unit' ? 20 : ['category', 'material', 'process'].includes(name) ? 120 : 500;
+      input.name = name; input.type = type; input.required = false; input.maxLength = name === 'unit' ? 20 : ['category', 'material', 'process'].includes(name) ? 120 : 500;
       if (type === "number") { input.min = "1"; input.step = "1"; }
       if (name === "unit") input.value = "un";
       if (values[name] !== undefined) input.value = Array.isArray(values[name]) ? values[name].join(', ') : values[name];
+      if (name === 'quantity' && Number(values[name]) === 0) input.value = '';
       label.append(input); fieldset.append(label);
     }
     const remove = el("button", "Remover item"); remove.type = "button"; remove.className = "workflow-remove-item";
@@ -189,8 +190,8 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
   node.addEventListener("submit", async (event) => {
     event.preventDefault(); error.textContent = "";
     if (node.dataset.committed || node.getAttribute('aria-busy') === 'true' || !canSubmit(node)) return;
-    if (!isCalendarDate(baseInputs.get('requiredBy').value)) { error.textContent = 'Informe uma data válida.'; baseInputs.get('requiredBy').focus(); return; }
-    if (initialValues && baseInputs.get('requiredBy').value < todayInSaoPaulo()) { error.textContent = 'Informe um prazo a partir de hoje para a nova demanda.'; baseInputs.get('requiredBy').focus(); return; }
+    if (baseInputs.get('requiredBy').value && !isCalendarDate(baseInputs.get('requiredBy').value)) { error.textContent = 'Informe uma data válida.'; baseInputs.get('requiredBy').focus(); return; }
+    if (initialValues && baseInputs.get('requiredBy').value && baseInputs.get('requiredBy').value < todayInSaoPaulo()) { error.textContent = 'Informe um prazo a partir de hoje para a nova demanda.'; baseInputs.get('requiredBy').focus(); return; }
     try {
       // Read the top-level controls explicitly: items also contain a description.
       const base = Object.fromEntries([...baseInputs].map(([name, input]) => [name, input.value]));
@@ -224,7 +225,7 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
   return node;
 }
 
-export function mountWorkflowView({ container, workspace, workflow, section, suppliers, onRefresh, selectedRecordId = new URLSearchParams(window.location.hash.split("?")[1] ?? "").get("registro") }) {
+export function mountWorkflowView({ container, workspace, workflow, section, suppliers, onRefresh, onReassess, selectedRecordId = new URLSearchParams(window.location.hash.split("?")[1] ?? "").get("registro") }) {
   let storage;
   try { storage = window.sessionStorage; } catch {}
   const filters = createDemandFilters(workspace, storage);
@@ -367,6 +368,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
           if (workspace.organizationRole === "supplier" && demand.match) {
             const match = box(demand.match.status === "compatible" ? "Compatibilidade com o perfil" : "Critérios que precisam de conferência");
             match.classList.add("workflow-match");
+            if (demand.match.explanation) match.append(el('p', demand.match.explanation));
             (demand.match.criteria ?? []).forEach((criterion) => row(match, criterion.label, criterion.explanation));
             specification.append(match);
           }
@@ -393,10 +395,11 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
             });
             record.append(controls);
           }
-          if (workspace.organizationRole === "supplier" && demand.status === "published") {
+          if (workspace.organizationRole === "supplier" && demand.status === "published" && demand.match?.eligible !== false) {
             const link = el("a", "Enviar proposta"); link.href = workflowLink("supplier", "proposals", demand.id); record.append(link);
           }
           if (workspace.organizationRole === "buyer" && demand.status === "published") linkTo(record, "Acompanhar propostas", "proposals", demand.id);
+          if (workspace.organizationRole === 'buyer' && demand.status === 'published' && onReassess) action(record, 'Atualizar compatibilidade', () => onReassess(demand.id));
           if (workspace.organizationRole === 'buyer') {
             const reuse = el('button', 'Reutilizar como nova demanda'); reuse.type = 'button'; reuse.className = 'workflow-secondary-action workflow-reuse-action';
             reuse.addEventListener('click', () => {
@@ -436,9 +439,9 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
       };
       search.addEventListener("input", filterRecords); filter.addEventListener('change', filterRecords); show();
     } else if (section === "proposals") {
-      if (!data.demands.some((demand) => demand.status !== "draft")) root.append(emptyState('Nenhuma negociação disponível', workspace.organizationRole === 'buyer' ? 'Publique uma demanda para receber propostas.' : 'As demandas compatíveis aparecerão em Oportunidades. Mantenha seu perfil industrial atualizado.'));
+      if (!data.demands.some((demand) => demand.status !== "draft" && (workspace.organizationRole === 'buyer' || selectedRecordId || data.proposals.some(proposal => proposal.demandId === demand.id)))) root.append(emptyState(workspace.organizationRole === 'supplier' ? 'Nenhuma proposta enviada' : 'Nenhuma negociação disponível', workspace.organizationRole === 'buyer' ? 'Publique uma demanda para receber propostas.' : 'Abra Oportunidades para preparar sua primeira proposta. As propostas enviadas e suas revisões aparecerão aqui.'));
       const entries = [];
-      data.demands.filter((demand) => demand.status !== "draft").forEach((demand) => {
+      data.demands.filter((demand) => demand.status !== "draft" && (workspace.organizationRole === 'buyer' || selectedRecordId || data.proposals.some(proposal => proposal.demandId === demand.id))).forEach((demand) => {
         const record = box(demand.title); row(record, "Estado", labels[demand.status]);
         record.classList.add('workflow-negotiation');
         const reference = el('span', `Referência: ${demand.id}`); reference.className = 'workflow-reference'; record.prepend(reference);
@@ -466,7 +469,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
             versions.append(part);
           }); record.append(versions);
         });
-        if (workspace.organizationRole === "supplier" && demand.status === "published") {
+        if (workspace.organizationRole === "supplier" && demand.status === "published" && demand.match?.eligible !== false) {
           const editor = el("details"); editor.className = 'workflow-editor'; editor.append(el("summary", proposals.length ? "Enviar nova versão" : "Preparar proposta"));
           const previous = proposals[0]?.versions.at(-1);
           editor.append(form([["price", "Valor total dos itens (R$)", "number"], ["freight", "Frete (R$)", "number", "0"], ["leadTimeDays", "Prazo em dias", "number"], ["validUntil", "Válida até", "date"], ["manufacturer", "Fabricante real"], ["payment", "Condição de pagamento"], ["warranty", "Garantia e responsável"], ["technical", "Resposta à especificação", "textarea"]], "Enviar versão da proposta", (values) => workflow.sendProposal(workspace.id, demand.id, { ...values, totalCents: Math.round(Number(values.price) * 100), freightCents: Math.round(Number(values.freight) * 100) }), report, previous ? { ...previous, price: previous.totalCents / 100, freight: previous.freightCents / 100 } : {}, canContinue, runCommand));
@@ -518,7 +521,9 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
           if (order.status === "released") action(record, "Registrar expedição", () => workflow.dispatchOrder(workspace.id, order.id), true);
         } else {
           if (order.status === "dispatched") action(record, "Confirmar recebimento", () => workflow.confirmDelivery(workspace.id, order.id), true);
-          if (order.status === "delivered" && !order.evaluation) record.append(form([["score", "Nota de 1 a 5", "number"], ["comment", "Comentário sobre a entrega", "textarea"]], "Enviar avaliação", (values) => workflow.evaluateOrder(workspace.id, order.id, values), report, {}, canContinue, runCommand));
+          if (order.status === "delivered" && !order.evaluation) {
+            const review = el('a', 'Avaliar entrega'); review.href = `#/app/comprador/avaliacoes?registro=${encodeURIComponent(order.id)}`; record.append(review);
+          }
         }
         if (order.evaluation) row(record, "Avaliação da entrega", `${order.evaluation.score}/5 · ${order.evaluation.comment}`);
         const print = el('button', 'Imprimir resumo'); print.type = 'button'; print.className = 'workflow-secondary-action';

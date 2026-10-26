@@ -106,7 +106,7 @@ export function mountSupplierProfilePage({ container, workspace, supplierProfile
       setPhase("ready");
       savedValues = snapshot();
       delete form.dataset.dirty;
-      report("Perfil industrial salvo. Os dados serão usados na comparação de novas demandas.", false, true);
+      report("Perfil industrial salvo. Os compradores podem atualizar a compatibilidade das demandas abertas para considerar estas capacidades.", false, true);
     } catch (error) {
       if (disposed) return;
       setPhase("ready");

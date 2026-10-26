@@ -12,13 +12,14 @@ const password = "SiviReal2026";
 async function login(page, email) {
   await page.goto("/?authEmulator=1#/acesso");
   if (!(await page.locator("#login-email").isVisible())) {
-    await page.locator(".form-view--register [data-switch-mode='login']").click();
+    await page.locator(".auth-shell [data-switch-mode='login']").click();
   }
   await page.locator("#login-email").fill(email);
   await page.locator("#login-password").fill(password);
   await page.locator("#login-form button[type='submit']").click();
   await page.waitForURL(/#\/app\//);
-  await page.goto("/?authEmulator=1#/app/contexto");
+  await expect(page.locator('.context-company, [data-create-organization], [data-dashboard-status="ready"], .buyer-overview')).not.toHaveCount(0);
+  await page.getByRole('button', { name: 'Trocar empresa', exact: true }).click();
   await expect(page.getByRole("heading", { name: /Qual empresa você vai usar/ })).toBeVisible();
 }
 
@@ -43,8 +44,11 @@ async function selectOrganization(page, name, role) {
 }
 
 async function logout(page) {
-  await page.locator("[data-account-menu] summary").click();
-  await page.locator("[data-logout]").click();
+  await expect(async()=>{
+    if(await page.locator('.auth-shell').isVisible()) return;
+    if(!(await page.locator('[data-logout]').isVisible())) await page.locator('[data-account-menu] summary').click({timeout:1500});
+    await page.locator('[data-logout]').click({timeout:1500});
+  }).toPass({timeout:10000});
   await expect(page.locator(".auth-shell")).toHaveAttribute("data-ui-ready", "true");
 }
 
@@ -65,7 +69,7 @@ async function saveSupplierProfile(page, name) {
 }
 
 test("supports companies, negotiation, inspection and delivery in Firebase", async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(process.env.SIVI_CAPTURE_UI ? 360_000 : 180_000);
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await resetAuthEmulator();
@@ -150,16 +154,14 @@ test("supports companies, negotiation, inspection and delivery in Firebase", asy
   await editForm.getByLabel('Objetivo e observações').fill('Produção conforme desenho técnico revisado e aprovado.');
   await captureUi(page, 'editar-rascunho');
   if (process.env.SIVI_CAPTURE_UI) {
-    await page.locator('[data-account-menu] summary').click();
     await page.getByRole('button', { name: 'Aparência e acessibilidade', exact: true }).click();
     const preferences = page.getByRole('dialog', { name: 'Aparência e acessibilidade' });
     await preferences.getByLabel('Tamanho do texto').selectOption('large');
     await preferences.getByLabel('Contraste').selectOption('more');
-    await preferences.getByLabel('Espaçamento').selectOption('compact');
+    await preferences.getByLabel('Daltonismo').selectOption('redGreen');
     await preferences.getByRole('button', { name: 'Fechar preferências' }).click();
     await captureUi(page, 'editar-rascunho-texto-maior');
     await expect(editForm.getByLabel('Quantidade', { exact: true })).toHaveValue('500');
-    await page.locator('[data-account-menu] summary').click();
     await page.getByRole('button', { name: 'Aparência e acessibilidade', exact: true }).click();
     await preferences.getByRole('button', { name: 'Restaurar padrão' }).click();
     await preferences.getByRole('button', { name: 'Fechar preferências' }).click();
@@ -210,16 +212,16 @@ test("supports companies, negotiation, inspection and delivery in Firebase", asy
   await login(page, "competitor@sivi.test");
   await selectOrganization(page, "Fornecedor Horizonte", "Fornecedor");
   await page.getByRole("link", { name: "Minhas propostas", exact: true }).click();
-  await expect(page.getByText("500 engrenagens industriais", { exact: true })).toBeVisible();
+  await expect(page.locator('[data-workflow=proposals]')).toContainText('Nenhuma proposta enviada');
   await expect(page.getByText("Fornecedor Vetor", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Versão 1", { exact: true })).toHaveCount(0);
   await logout(page);
 
   await login(page, "buyer@sivi.test");
   await selectOrganization(page, "Compradora Alpha", "Comprador");
-  await expect(page.getByRole("link", { name: "Comparar propostas", exact: true })).toBeVisible();
+  await expect(page.locator('.buyer-alert').filter({ has: page.getByText('Comparar propostas', { exact: true }) })).toBeVisible();
   await captureUi(page, "comprador-pendencias");
-  await page.getByRole("link", { name: "Comparar propostas", exact: true }).click();
+  await page.locator('.buyer-alert').filter({ has: page.getByText('Comparar propostas', { exact: true }) }).click();
   await expect(page).toHaveURL(/comprador\/propostas\?registro=/);
   await expect(page.getByText("Fornecedor Vetor", { exact: true })).toBeVisible();
   await captureUi(page, "propostas");
@@ -234,8 +236,8 @@ test("supports companies, negotiation, inspection and delivery in Firebase", asy
   await expect(page.locator('.workflow-order > h3')).toHaveText('500 engrenagens industriais');
   await captureUi(page, "pedidos");
   if (process.env.SIVI_CAPTURE_UI) {
-    await page.getByRole("link", { name: "Visão do comprador", exact: true }).click();
-    await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
+    await page.getByRole("link", { name: "Visão geral", exact: true }).click();
+    await expect(page.locator('.buyer-overview')).toBeVisible();
     await captureUi(page, "comprador");
   }
   await logout(page);
@@ -263,10 +265,15 @@ test("supports companies, negotiation, inspection and delivery in Firebase", asy
   page.once("dialog", dialog => dialog.accept());
   await order.getByRole("button", { name: "Confirmar recebimento", exact: true }).click();
   await expect(order.locator("strong").filter({ hasText: /^Entrega confirmada$/ })).toBeVisible();
-  await order.getByLabel("Nota de 1 a 5").fill("5");
-  await order.getByLabel("Comentário sobre a entrega").fill("Entrega conferida");
-  await order.getByRole("button", { name: "Enviar avaliação", exact: true }).click();
-  await expect(order).toContainText("5/5 · Entrega conferida");
+  await order.getByRole('link', { name: 'Avaliar entrega', exact: true }).click();
+  await expect(page.locator('.reviews-preview form')).toBeVisible();
+  await captureUi(page, 'avaliacoes');
+  for (const criterion of ['quality', 'punctuality', 'communication', 'documentation']) await page.locator(`.reviews-preview input[name$="-${criterion}"][value="5"]`).check();
+  await page.locator('.reviews-preview textarea').fill('Entrega conferida');
+  await page.getByRole('button', { name: 'Enviar avaliação', exact: true }).click();
+  await expect(page.locator('.reviews-feedback')).toContainText('Avaliação enviada');
+  await page.getByRole('link', { name: 'Meus pedidos', exact: true }).click();
+  await expect(order).toContainText('5/5 · Entrega conferida');
   await page.reload();
   await expect(order).toContainText("5/5 · Entrega conferida");
   await expect(order).toContainText("Engrenagem industrial: 500/500 un");

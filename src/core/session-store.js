@@ -1,4 +1,6 @@
 const INITIAL = Object.freeze({ status: "loading", user: null, error: null });
+const SESSION_CHANGE = Object.freeze({ reason: "session" });
+const PROFILE_CHANGE = Object.freeze({ reason: "profile" });
 
 function summarizeUser(user) {
   if (!user) return null;
@@ -6,6 +8,7 @@ function summarizeUser(user) {
     uid: user.uid,
     email: user.email ?? "",
     displayName: user.displayName ?? user.email ?? "Usuário SIVI",
+    ...(typeof user.emailVerified === 'boolean' ? { emailVerified: user.emailVerified } : {}),
   });
 }
 
@@ -18,17 +21,17 @@ export function createSessionStore({ loadAuthModule }) {
   let generation = 0;
   const listeners = new Set();
 
-  const notifyListener = (listener) => {
+  const notifyListener = (listener, metadata = SESSION_CHANGE) => {
     try {
-      listener(snapshot);
+      listener(snapshot, metadata);
     } catch {
       // A falha de um consumidor não pode interromper o ciclo da sessão.
     }
   };
 
-  const publish = (next) => {
+  const publish = (next, metadata = SESSION_CHANGE) => {
     snapshot = Object.freeze(next);
-    listeners.forEach(notifyListener);
+    listeners.forEach((listener) => notifyListener(listener, metadata));
   };
 
   const getAuthModule = () => {
@@ -38,6 +41,11 @@ export function createSessionStore({ loadAuthModule }) {
 
   return {
     getSnapshot: () => snapshot,
+    updateProfile(user) {
+      if (snapshot.status !== "authenticated" || !user?.uid || user.uid !== snapshot.user.uid || user.isAnonymous) return false;
+      publish({ ...snapshot, user: summarizeUser(user) }, PROFILE_CHANGE);
+      return true;
+    },
     subscribe(listener) {
       listeners.add(listener);
       notifyListener(listener);
@@ -64,7 +72,7 @@ export function createSessionStore({ loadAuthModule }) {
             const onUser = (user) => {
               if (activeGeneration !== generation) return settle();
               publish({
-                status: user ? "authenticated" : "anonymous",
+                status: user && !user.isAnonymous ? user.emailVerified === false ? 'unverified' : "authenticated" : "anonymous",
                 user: summarizeUser(user),
                 error: null,
               });

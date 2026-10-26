@@ -1,3 +1,4 @@
+import "/src/generated/public/entry.js";
 import "/src/theme/theme-controller.js";
 import "/src/theme/preferences-dialog.js";
 import { DEMO_WORKSPACES } from "/tests/fixtures/data/workspaces.js";

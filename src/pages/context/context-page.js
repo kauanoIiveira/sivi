@@ -2,14 +2,15 @@ import { mountApplicationForm } from './application-form.js';
 import { applicationLabels, canResubmitApplication } from '../../domain/organization-application.js';
 
 const node = (tag, text, className) => { const el = document.createElement(tag); el.textContent = text; if (className) el.className = className; return el; };
-export function mountContextPage({ container, workspaces, onSelect, onCreate, onboarding }) {
+export function mountContextPage({ container, workspaces, workspaceState = { status: 'ready' }, currentWorkspace, preferredRole, notice, onSelect, onCreate, onboarding }) {
   container.innerHTML = `<section class="context-page" aria-labelledby="context-title">
-    <header class="context-page__header"><h1 id="context-title" data-page-title>Qual empresa você vai usar?</h1><p>Consulte seu cadastro ou escolha como deseja atuar na empresa.</p></header>
+    <header class="context-page__header"><h1 id="context-title" data-page-title>Qual empresa você vai usar?</h1><p>Sua conta pode acessar empresas diferentes. Escolha a empresa e o trabalho que deseja fazer: comprar ou fornecer.</p></header>
     <div class="application-actions"><button type="button" data-new>Cadastrar empresa</button><button type="button" data-refresh>Atualizar situação</button></div>
     <p role="status" data-feedback></p><div data-application-panel></div><div class="context-page__grid" data-workspace-options></div>
   </section>`;
   let disposed = false, detailRevision = 0;
   let cleanupForm = () => {};
+  const signupDraft = onboarding?.getSignupDraft?.();
   const panel = container.querySelector('[data-application-panel]');
   const feedback = container.querySelector('[data-feedback]');
   feedback.tabIndex = -1;
@@ -22,10 +23,10 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
     return true;
   };
   const closePanel = () => { detailRevision++; cleanupForm(); panel.replaceChildren(); };
-  const openForm = (initial = {}) => {
+  const openForm = (initial = { roles: preferredRole ? { [preferredRole]: true } : {} }) => {
     if (!canReplacePanel()) return;
     closePanel();
-    cleanupForm = mountApplicationForm({ container: panel, initial, onCancel: () => { if (canReplacePanel()) { closePanel(); container.querySelector('[data-new]').focus(); } }, onSubmit: async values => {
+    cleanupForm = mountApplicationForm({ container: panel, initial, startAtReview: Boolean(initial.signupDraftId), onCancel: () => { if (canReplacePanel()) { closePanel(); container.querySelector('[data-new]').focus(); } }, onSubmit: async values => {
       if (initial.id) {
         await onboarding.resubmitOrganization(initial.id, values);
         if (disposed) return;
@@ -33,7 +34,11 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
         try { await onboarding.refresh(); }
         catch { if (!disposed) feedback.textContent = 'Cadastro reenviado. Não foi possível atualizar a lista; use Atualizar situação.'; return; }
       }
-      else await onCreate(values);
+      else {
+        const organizationId = initial.signupDraftId ? onboarding.getSignupAttempt(initial.signupDraftId) : undefined;
+        await onCreate(values, organizationId ? { organizationId } : undefined);
+        if (initial.signupDraftId) onboarding.clearSignupDraft(initial.signupDraftId);
+      }
       if (!disposed) { closePanel(); feedback.textContent = 'Cadastro enviado para análise. Acompanhe a situação abaixo.'; }
     } });
     panel.querySelector('h2').focus();
@@ -48,7 +53,7 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
       feedback.textContent = 'Envie ou cancele o cadastro em preenchimento antes de atualizar a situação.'; feedback.focus(); return;
     }
     refresh.disabled = true; feedback.textContent = 'Consultando situação…';
-    try { await onboarding.refresh(); if (!disposed) feedback.textContent = 'Situação atualizada.'; }
+    try { await (workspaceState.status === 'error' ? onboarding.retry() : onboarding.refresh()); if (!disposed) feedback.textContent = 'Situação atualizada.'; }
     catch { if (!disposed) feedback.textContent = 'Não foi possível atualizar. Tente novamente.'; }
     finally { refresh.disabled = false; }
   });
@@ -62,7 +67,9 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
     const workspace = group[0];
     const card = node('article', '', 'context-company');
     card.dataset.status = workspace.organizationStatus ?? 'active';
-    card.append(node('span', applicationLabels[workspace.organizationStatus] ?? 'Empresa ativa', 'context-page__eyebrow'), node('h2', workspace.organizationName));
+    card.append(node('span', workspace.organizationRole === 'administration' ? 'Administração da plataforma' : applicationLabels[workspace.organizationStatus] ?? 'Empresa ativa', 'context-page__eyebrow'), node('h2', workspace.organizationName));
+    if (workspace.organizationRole === 'administration') card.append(node('p', 'Analise cadastros e acompanhe a plataforma. Este acesso não representa uma empresa compradora ou fornecedora.'));
+    else if (workspace.canEnter !== false) card.append(node('p', group.length > 1 ? 'Esta empresa compra e fornece. Você pode trocar de atuação nesta página sem criar outra conta.' : workspace.organizationRole === 'buyer' ? 'Crie demandas, compare propostas e acompanhe seus pedidos.' : 'Consulte oportunidades, envie propostas e execute seus pedidos.'));
     if (workspace.canEnter !== false) {
       const actions = node('div', '', 'application-actions');
       for (const role of group) {
@@ -70,6 +77,7 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
         const button = node('button', label, 'context-card');
         button.setAttribute('aria-label', `${label} — ${workspace.organizationName}`);
         button.type = 'button'; button.dataset.workspaceId = role.id;
+        if (currentWorkspace?.id === role.id) { button.setAttribute('aria-current', 'true'); card.append(node('p', `Em uso: ${role.organizationRole === 'buyer' ? 'comprador' : role.organizationRole === 'supplier' ? 'fornecedor' : 'administração'}.`)); }
         button.addEventListener('click', () => { if (canReplacePanel()) onSelect(role.id); }); actions.append(button);
       }
       card.append(actions);
@@ -105,6 +113,26 @@ export function mountContextPage({ container, workspaces, onSelect, onCreate, on
     }
     container.querySelector('[data-workspace-options]').append(card);
   }
-  if (!workspaces.length && typeof onCreate === 'function') openForm();
+  if (['idle', 'loading'].includes(workspaceState.status)) {
+    feedback.textContent = 'Consultando as empresas vinculadas à sua conta…';
+    container.querySelector('[data-new]').disabled = true;
+    refresh.disabled = true;
+  } else if (workspaceState.status === 'error') {
+    feedback.textContent = 'Não foi possível consultar suas empresas. Use Tentar novamente antes de cadastrar uma nova empresa.';
+    container.querySelector('[data-new]').disabled = true;
+    refresh.textContent = 'Tentar novamente';
+  } else if (!workspaces.length && typeof onCreate === 'function') {
+    feedback.textContent = 'Sua conta ainda não está vinculada a uma empresa. Cadastre a empresa pela qual você vai negociar. Se já existe um cadastro, consulte o responsável antes de enviar outro.';
+    if (signupDraft) {
+      feedback.textContent = 'Retomamos os dados informados no cadastro da conta. Confira antes de solicitar a análise. Nenhuma cobrança foi realizada.';
+      openForm({ ...signupDraft.organization, signupDraftId: signupDraft.id });
+    } else openForm();
+  }
+  if (signupDraft && workspaces.length && workspaceState.status === 'ready') {
+    const resume = node('button', 'Retomar empresa do cadastro inicial'); resume.type = 'button';
+    resume.addEventListener('click', () => openForm({ ...signupDraft.organization, signupDraftId: signupDraft.id }));
+    container.querySelector('.application-actions').append(resume);
+  }
+  if (workspaceState.status === 'ready' && notice) feedback.textContent = notice;
   return () => { disposed = true; closePanel(); container.replaceChildren(); };
 }

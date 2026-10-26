@@ -1,0 +1,190 @@
+/* Correções materiais do parecer visual independente de 23/10/2026. */
+:is(.sivi-public-ui, .sivi-auth-ui) :is(h1, h2, h3, h4) {
+  letter-spacing: -0.04em;
+}
+.sivi-public-ui .sv-hero h1 {
+  letter-spacing: -0.04em;
+}
+.sivi-public-ui .sv-price number-flow-react {
+  letter-spacing: -0.04em;
+}
+.sivi-public-ui .sv-button {
+  background: #c94317;
+}
+.sivi-public-ui .sv-button:hover {
+  background: #ae3610;
+}
+.sivi-public-ui .sv-skip {background:#c94317}
+.sivi-public-ui .sv-plan>p {color:#56644d}
+.sivi-public-ui .sv-plan p.sv-price-condition {font-size:12px;color:#56644d;min-height:40px}
+.sivi-public-ui .sv-plan-top>span,.sivi-public-ui .sv-plan-features>span {font-size:12px}
+.sivi-public-ui .sv-role-copy li:before {
+  content: none;
+}
+.sivi-public-ui .sv-role-copy li > svg {
+  margin-top: 3px;
+  color: #a84321;
+}
+.sivi-public-ui .sv-cta-symbol {
+  width: 270px;
+  height: 270px;
+  font-size: initial;
+}
+.sivi-public-ui .sv-demo-title {
+  flex-wrap: wrap;
+}
+.sivi-public-ui .sv-demo-title h3 {
+  letter-spacing: -0.03em;
+}
+.sivi-public-ui .sv-demo-header strong {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-demo-header strong span {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-example-label {
+  font-size: 11px;
+  color: #46583b;
+}
+.sivi-public-ui .sv-demo-sidebar {
+  font-size: 12px;
+  color: #56644d;
+}
+.sivi-public-ui .sv-demo-sidebar > div {
+  font-size: 11px;
+}
+.sivi-public-ui .sv-demo-sidebar small {
+  font-size: 12px;
+  color: #56644d;
+}
+.sivi-public-ui
+  :is(
+    .sv-demo-title small,
+    .sv-demo-cards > div > span,
+    .sv-demo-cards small,
+    .sv-chart p,
+    .sv-chart-axis,
+    .sv-data-table,
+    .sv-demo-record strong,
+    .sv-demo-record span,
+    .sv-demo-foot,
+    .sv-demo-detail-grid p,
+    .sv-demo-detail-grid > section > small,
+    .sv-demo-comparison li > div,
+    .sv-demo-comparison li strong,
+    .sv-demo-comparison li small,
+    .sv-demo-distribution li,
+    .sv-demo-distribution li > strong
+  ) {
+  font-size: 12px;
+  color: #56644d;
+}
+.sivi-public-ui :is(.sv-demo-role button, .sv-chart-filter button) {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-chart h4,
+.sivi-public-ui .sv-demo-detail-grid h4 {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-chart-filter button[aria-pressed="true"] {
+  color: #963910;
+}
+.sivi-public-ui .sv-demo-role button[aria-pressed="true"] {
+  color: #fff;
+}
+.sivi-public-ui .sv-demo-cards strong.sv-status {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-chart-axis {
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.sivi-public-ui .sv-data-table summary {
+  min-height: 44px;
+}
+.sivi-public-ui .sv-demo-comparison li > div {
+  flex-wrap: wrap;
+  gap: 3px 15px;
+}
+.sivi-public-ui .sv-demo-distribution li {
+  line-height: 1.8;
+}
+.sivi-public-ui .sv-footer-top nav {
+  font-size: 12px;
+}
+.sivi-public-ui :is(.sv-footer-identity, .sv-footer-bottom) {
+  font-size: 11px;
+}
+.sivi-auth-ui
+  :is(
+    .sa-legal,
+    .sa-login-help,
+    .sa-footer,
+    .sa-field > small,
+    .sa-review dt,
+    .sa-review dd > small,
+    .sa-review > p,
+    .sa-divider,
+    .sa-checkbox,
+    .sa-steps li
+  ) {
+  color: #56644d;
+}
+.sivi-auth-ui .sa-footer {
+  font-size: 11px;
+}
+.sivi-auth-ui .sa-form-heading>p:not(.sv-eyebrow),.sivi-auth-ui .sa-plan-summary>div>span,.sivi-auth-ui .sa-plan-summary small,.sivi-auth-ui .sa-plan-summary>span {color:#56644d}
+.sivi-auth-ui :is(.sa-form-heading h1, .sa-success h1) {
+  letter-spacing: -0.04em;
+}
+.sivi-auth-ui .sa-story-copy h2 {
+  letter-spacing: -0.04em;
+}
+.sivi-auth-ui .sa-field > small.sa-error {
+  color: #a13520;
+}
+@media (max-width: 1100px) {
+  .sivi-public-ui .sv-cta-symbol {
+    width: 210px;
+    height: 210px;
+  }
+}
+@media (max-width: 760px) {
+  .sivi-public-ui .sv-hero h1 {
+    font-size: clamp(40px, 10.5vw, 65px);
+    letter-spacing: -0.04em;
+  }
+  .sivi-public-ui .sv-cta-symbol {
+    display: none;
+  }
+  .sivi-public-ui .sv-demo-title h3 {
+    font-size: 22px;
+  }
+  .sivi-public-ui .sv-demo-cards > div {
+    padding: 14px 11px;
+  }
+  .sivi-public-ui .sv-demo-header {
+    padding: 14px;
+  }
+  .sivi-public-ui .sv-example-label {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-demo-record {
+    align-items: start;
+  }
+  .sivi-public-ui .sv-demo-record strong {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-demo-record span {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid > section {
+    padding: 20px 14px;
+  }
+  .sivi-public-ui .sv-chart-top {
+    gap: 16px;
+  }
+  .sivi-auth-ui .sa-review .sa-field select {
+    font-size: 16px;
+  }
+}

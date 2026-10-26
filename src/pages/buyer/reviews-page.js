@@ -72,13 +72,15 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
   let disposed = false;
   let clearState = () => {};
   let records = { orders: [] };
-  let selectedId = null;
+  let selectedId = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('registro');
+  const drafts = new Map();
+  const confirmed = new Set();
   let historyPage = 0;
   let filters = { supplier: "", period: "12", search: "" };
   let feedback = "";
   let feedbackState = "";
 
-  const pendingOrders = () => records.orders.filter((order) => order.status === "delivered" && !order.evaluation)
+  const pendingOrders = () => records.orders.filter((order) => order.status === "delivered" && !order.evaluation && !confirmed.has(order.id))
     .sort((a, b) => (dateValue(a.deliveredAt)?.getTime() ?? Infinity) - (dateValue(b.deliveredAt)?.getTime() ?? Infinity));
   const completedOrders = () => records.orders.filter((order) => order.evaluation)
     .sort((a, b) => (dateValue(b.evaluation.evaluatedAt ?? b.updatedAt)?.getTime() ?? 0) - (dateValue(a.evaluation.evaluatedAt ?? a.updatedAt)?.getTime() ?? 0));
@@ -222,6 +224,7 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
     if (feedback) main.append(notice);
 
     const selectOrder = (order) => {
+      if (container.querySelector('form[aria-busy=true]')) return;
       selectedId = order.id;
       render();
       container.querySelector(".reviews-preview input")?.focus();
@@ -251,18 +254,33 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
       comment.maxLength = 1000;
       comment.rows = 3;
       comment.placeholder = "Registre evidências sobre a entrega, inspeção ou documentação.";
+      const draft = drafts.get(selected.id);
+      if (draft) {
+        comment.value = draft.comment ?? '';
+        for (const [key, value] of Object.entries(draft.criteria)) form.querySelector(`input[name="${selected.id}-${key}"][value="${value}"]`)?.setAttribute('checked', '');
+        form.dataset.dirty = 'true';
+      }
       commentLabel.append(comment);
       const submit = make("button", "reviews-button reviews-button--primary", "Enviar avaliação");
       submit.type = "submit";
       form.append(commentLabel, make("small", "reviews-muted", "1 = Não atendeu · 3 = Atendeu · 5 = Superou"), submit);
+      form.addEventListener('input', () => {
+        drafts.set(selected.id, { criteria: Object.fromEntries(Object.keys(criteriaLabels).map(key => [key, Number(new FormData(form).get(`${selected.id}-${key}`))])), comment: comment.value });
+        form.dataset.dirty = 'true';
+      });
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if (confirmed.has(selected.id) || form.getAttribute('aria-busy') === 'true') return;
         const criteria = Object.fromEntries(Object.keys(criteriaLabels).map((key) => [key, Number(new FormData(form).get(`${selected.id}-${key}`))]));
         if (Object.values(criteria).some((value) => !value)) { form.reportValidity(); return; }
         submit.disabled = true;
+        form.setAttribute('aria-busy', 'true');
+        form.querySelectorAll('input, textarea').forEach(control => { control.disabled = true; });
         submit.textContent = "Salvando…";
         try {
           await repository.workflow.evaluateOrder(workspace.id, selected.id, { criteria, comment: comment.value });
+          confirmed.add(selected.id); drafts.delete(selected.id); delete form.dataset.dirty;
+          form.dataset.committed = 'true';
           if (disposed) return;
           const result = await repository.getOperations(workspace.id);
           if (result.status !== "ready") throw new Error("Avaliação salva, mas não foi possível atualizar a página. Atualize para conferir.");
@@ -273,17 +291,24 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
           render();
         } catch (error) {
           if (disposed) return;
-          submit.disabled = false;
-          submit.textContent = "Enviar avaliação";
+          const committed = confirmed.has(selected.id);
+          submit.disabled = committed;
+          submit.textContent = committed ? 'Avaliação salva' : "Enviar avaliação";
+          form.querySelectorAll('input, textarea').forEach(control => { control.disabled = committed; });
           const message = make("p", "reviews-feedback", error.message || "Não foi possível enviar a avaliação.");
           message.dataset.state = "error";
           form.append(message);
+        } finally {
+          form.removeAttribute('aria-busy');
         }
       });
       preview.append(form);
     } else preview.append(make("p", "reviews-empty", "Quando um pedido for recebido, você poderá avaliar a entrega aqui."));
 
     page.append(intro, metrics, main);
+    if ([...drafts.keys()].some(id => id !== selectedId)) {
+      const retained = make('form'); retained.hidden = true; retained.dataset.dirty = 'true'; page.append(retained);
+    }
     renderHistory(page);
     page.append(make("p", "reviews-page__note", "ⓘ  As avaliações são vinculadas a pedidos com entrega confirmada e registram a experiência da sua organização. O cadastro do fornecedor e a compatibilidade com a demanda seguem critérios próprios."));
     container.replaceChildren(page);

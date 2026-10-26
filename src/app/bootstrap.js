@@ -11,6 +11,7 @@ import { createFirebaseWorkspaceService } from "../services/firebase-workspace-s
 import { createFirebaseAdminService } from "../services/firebase-admin-service.js";
 import { createFirebaseSupplierProfileService } from "../services/firebase-supplier-profile-service.js";
 import { createFirebaseMarketplaceRepository } from "../repositories/firebase-marketplace-repository.js";
+import { signupDraftStore } from '../core/signup-draft-store.js';
 
 export function bootstrapApplication({ workspaceService: suppliedWorkspaceService, repository: suppliedRepository, administration: suppliedAdministration } = {}) {
   const surfaces = {
@@ -30,13 +31,15 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
   try { sessionStorage = window.sessionStorage; } catch { /* Stores keep their state in memory when browser storage is unavailable. */ }
   const workspaceStore = createWorkspaceStore({
     storage: sessionStorage,
-    key: "sivi.workspace.v1",
+    key: "sivi.workspace.v2",
+    legacyKey: "sivi.workspace.v1",
+    accountScoped: true,
     workspaces: [],
   });
   const client = createFirebaseDataClient(database);
   const getUser = () => auth.currentUser;
-  const workspaceService = suppliedWorkspaceService ?? createFirebaseWorkspaceService({ client, getUser });
-  const administration = suppliedAdministration ?? createFirebaseAdminService({ client, getUser });
+  const workspaceService = suppliedWorkspaceService ?? createFirebaseWorkspaceService({ client, getUser, storage: sessionStorage });
+  const administration = suppliedAdministration ?? createFirebaseAdminService({ client, getUser, storage: sessionStorage });
   const supplierProfiles = createFirebaseSupplierProfileService({
     client,
     getUser,
@@ -45,6 +48,7 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
   const repository = suppliedRepository ?? createFirebaseMarketplaceRepository({
     client,
     getUser,
+    storage: sessionStorage,
     getWorkspace: (id) => workspaceStore.list().find((workspace) => workspace.id === id),
   });
   let membershipRevision = 0;
@@ -71,51 +75,74 @@ export function bootstrapApplication({ workspaceService: suppliedWorkspaceServic
     administration,
     supplierProfiles,
     onboarding: {
+      getSignupDraft: () => signupDraftStore().read(getUser()),
+      getSignupAttempt: id => signupDraftStore().ensureAttempt(id, getUser()),
+      clearSignupDraft: id => signupDraftStore().remove(id, getUser()),
       getOrganization: id => workspaceService.getOrganization(id),
       resubmitOrganization: (id, input) => workspaceService.resubmitOrganization(id, input),
       refresh: async () => {
         const uid = sessionStore.getSnapshot().user?.uid;
+        const revision = ++membershipRevision;
         const workspaces = await workspaceService.listWorkspaces();
-        if (sessionStore.getSnapshot().user?.uid !== uid) return;
+        if (revision !== membershipRevision || sessionStore.getSnapshot().user?.uid !== uid) return;
         workspaceStore.replace(workspaces);
-        router.refresh();
+      },
+      retry: async () => {
+        const uid = sessionStore.getSnapshot().user?.uid;
+        const revision = ++membershipRevision;
+        workspaceStore.beginLoad(uid);
+        try {
+          const workspaces = await workspaceService.listWorkspaces();
+          if (revision === membershipRevision && sessionStore.getSnapshot().user?.uid === uid) workspaceStore.replace(workspaces);
+        } catch (error) {
+          if (revision === membershipRevision && sessionStore.getSnapshot().user?.uid === uid) workspaceStore.failLoad(error);
+          throw error;
+        }
       },
     },
     canLeavePage: () => unsavedChanges.canLeave(),
-    createOrganization: async (input) => {
+    createOrganization: async (input, options) => {
       membershipRevision += 1;
-      const created = await workspaceService.createOrganization(input);
-      const workspaces = await workspaceService.listWorkspaces();
-      return { ...created, workspaces };
+      const uid = sessionStore.getSnapshot().user?.uid;
+      const created = await workspaceService.createOrganization(input, options);
+      if (sessionStore.getSnapshot().user?.uid !== uid) throw new Error('A conta mudou durante o cadastro. Entre novamente para consultar a empresa criada.');
+      try {
+        const workspaces = await workspaceService.listWorkspaces();
+        if (sessionStore.getSnapshot().user?.uid !== uid) throw new Error('A conta mudou durante a consulta.');
+        return { ...created, workspaces };
+      } catch (error) {
+        if (sessionStore.getSnapshot().user?.uid !== uid) throw error;
+        return { ...created, workspaces: [...workspaceStore.list().filter(workspace => workspace.organizationId !== created.organizationId), ...created.workspaces], syncWarning: true };
+      }
     },
   });
 
-  controller.start();
-  router.start();
-  const unsubscribeMemberships = sessionStore.subscribe((snapshot) => {
+  const unsubscribeMemberships = sessionStore.subscribe((snapshot, { reason } = {}) => {
+    if (reason === "profile") return;
     const revision = ++membershipRevision;
     if (snapshot.status !== "authenticated") {
       activeUid = null;
+      workspaceStore.beginLoad(null);
+      Promise.resolve().then(() => repository.reset?.()).catch(error => console.warn('O estado local não pôde ser limpo.', error));
       return;
     }
     if (activeUid !== null && snapshot.user.uid !== activeUid) {
       activeUid = snapshot.user.uid;
-      workspaceStore.replace([]);
     } else if (activeUid === null) {
       activeUid = snapshot.user.uid;
     }
+    workspaceStore.beginLoad(snapshot.user.uid);
     workspaceService.listWorkspaces().then((workspaces) => {
       if (revision !== membershipRevision || sessionStore.getSnapshot().user?.uid !== snapshot.user.uid) return;
-      workspaceStore.replace(workspaces);
       const commercial = workspaces.filter(workspace => workspace.canEnter && workspace.organizationRole !== 'administration');
-      if (commercial.length === 1 && !workspaces.some(workspace => workspace.organizationRole === 'administration') && !workspaceStore.getCurrent()) {
-        workspaceStore.select(commercial[0].id);
-        if (['#/acesso', '#/app/contexto'].includes(window.location.hash.split('?')[0])) router.navigate(commercial[0].homeRoute, { replace: true });
-      }
+      const automatic = commercial.length === 1 && !workspaces.some(workspace => workspace.organizationRole === 'administration') ? commercial[0] : null;
+      workspaceStore.replace(workspaces, automatic?.id);
     }).catch((error) => {
-      console.warn("Os contextos da conta não puderam ser carregados.", error);
+      if (revision === membershipRevision && sessionStore.getSnapshot().user?.uid === snapshot.user.uid) workspaceStore.failLoad(error);
     });
   });
+  controller.start();
+  router.start();
   sessionStore.start().then(
     () => router.refresh(),
     () => router.refresh(),

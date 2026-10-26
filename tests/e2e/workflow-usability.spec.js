@@ -104,13 +104,13 @@ test('a cent-level proposal saves once, locks sibling forms and announces a conf
     mountWorkflowView({ container, section: 'proposals', selectedRecordId: null, suppliers: [],
       workspace: { id: 'supplier', organizationRole: 'supplier' },
       workflow: {
-        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: [], orders: [] }),
+        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: ['A', 'B'].map(id => ({ id: `p-${id}`, demandId: id, supplierId: 'supplier', supplierName: 'Fábrica', versions: [{ id: `v-${id}`, revision: 1, totalCents: 1000, freightCents: 0, leadTimeDays: 2, validUntil: '2099-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' }] })), orders: [] }),
         getSyncWarning: () => warning,
         sendProposal: async (...args) => { window.proposalCalls.push(args); await new Promise(resolve => { window.finishProposal = resolve; }); warning = 'Os dados foram salvos. A atualização da lista está pendente.'; },
       },
     });
   });
-  await page.getByText('Preparar proposta', { exact: true }).first().click();
+  await page.getByText('Enviar nova versão', { exact: true }).first().click();
   const form = page.locator('.workflow-form').first();
   for (const [name, value] of Object.entries({ price: '0.01', freight: '0', leadTimeDays: '2', validUntil: '2027-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' })) {
     await form.locator(`[name=${name}]`).fill(value);
@@ -135,14 +135,14 @@ test('saving one proposal preserves another unfinished form without asking to di
     mountWorkflowView({ container, section: 'proposals', selectedRecordId: null, suppliers: [],
       workspace: { id: 'supplier', organizationRole: 'supplier' },
       workflow: {
-        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: [], orders: [] }),
+        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: ['A', 'B'].map(id => ({ id: `p-${id}`, demandId: id, supplierId: 'supplier', supplierName: 'Fábrica', versions: [{ id: `v-${id}`, revision: 1, totalCents: 1000, freightCents: 0, leadTimeDays: 2, validUntil: '2099-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' }] })), orders: [] }),
         sendProposal: async (_workspace, id) => { window.savedProposals.push(id); },
       },
     });
   });
   const forms = page.locator('.workflow-form');
   for (let i = 0; i < 2; i++) {
-    await page.getByText('Preparar proposta', { exact: true }).nth(i).click();
+    await page.getByText('Enviar nova versão', { exact: true }).nth(i).click();
     for (const [name, value] of Object.entries({ price: '10', freight: '0', leadTimeDays: '2', validUntil: '2027-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: `Especificação ${i}` })) {
       await forms.nth(i).locator(`[name=${name}]`).fill(value);
     }

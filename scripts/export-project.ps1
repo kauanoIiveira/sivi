@@ -31,10 +31,14 @@ try {
     New-Item -ItemType Directory -Path $stage | Out-Null
     New-Item -ItemType Directory -Path $source | Out-Null
     # Explicit project roots keep local tooling, caches and credentials out of the snapshot.
-    $included = @('.vscode', 'design-system', 'docs', 'scripts', 'src', 'tests', '.firebaserc', '.gitignore', '.env.example', 'COMO_ABRIR.md', 'CONTINUE_AQUI.md', 'README.md', 'database.rules.json', 'firebase.json', 'index.html', 'package.json', 'package-lock.json', 'playwright.config.js')
+    $included = @('.vscode', 'assets', 'design-system', 'docs', 'scripts', 'src', 'tests', '.firebaserc', '.gitignore', '.env.example', 'COMO_ABRIR.md', 'CONTINUE_AQUI.md', 'README.md', 'PRODUCT.md', 'DESIGN.md', '.impeccable/design.json', 'components.json', 'vite.public.config.ts', 'tsconfig.json', 'tsconfig.public.json', 'database.rules.json', 'firebase.json', 'index.html', 'package.json', 'package-lock.json', 'playwright.config.js')
     foreach ($name in $included) {
         $path = Join-Path $projectRoot $name
-        if (Test-Path -LiteralPath $path) { Copy-ProjectItem (Get-Item -LiteralPath $path -Force) (Join-Path $source $name) }
+        if (Test-Path -LiteralPath $path) {
+            $target = Join-Path $source $name
+            New-Item -ItemType Directory -Path (Split-Path $target -Parent) -Force | Out-Null
+            Copy-ProjectItem (Get-Item -LiteralPath $path -Force) $target
+        }
     }
     $files = @(Get-ChildItem -LiteralPath $source -Recurse -File -Force | Sort-Object FullName)
     $manifest = foreach ($file in $files) {

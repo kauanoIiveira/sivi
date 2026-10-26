@@ -1,4 +1,5 @@
 import { normalizeApplication, canResubmitApplication } from '../domain/organization-application.js';
+import { createPendingCommands } from '../core/pending-commands.js';
 import {
   cleanOrganizationName,
   createAdministrationWorkspace,
@@ -13,7 +14,8 @@ function requireUser(getUser) {
   return user;
 }
 
-export function createFirebaseWorkspaceService({ client, getUser }) {
+export function createFirebaseWorkspaceService({ client, getUser, storage }) {
+  const pendingApplications = createPendingCommands({ storage, key: 'sivi.pending-companies.v1' });
   return Object.freeze({
     async getOrganization(id) {
       requireUser(getUser);
@@ -40,9 +42,12 @@ export function createFirebaseWorkspaceService({ client, getUser }) {
         client.read(`membershipsByUser/${user.uid}`),
         client.read(`platformAdmins/${user.uid}`),
       ]);
-      const workspaces = Object.entries(records ?? {})
-        .flatMap(([organizationId, membership]) =>
-          createOrganizationWorkspaces(user.uid, organizationId, membership));
+      const groups = await Promise.all(Object.entries(records ?? {}).map(async ([organizationId, membership]) => {
+        const organization = await client.read(`organizations/${organizationId}`);
+        const effective = { ...membership, organizationName: organization?.name ?? membership.organizationName, status: !organization ? 'blocked' : organization.status === 'active' ? membership.status : organization.status };
+        return createOrganizationWorkspaces(user.uid, organizationId, effective).filter(workspace => !organization?.roles || organization.roles[workspace.organizationRole] === true);
+      }));
+      const workspaces = groups.flat();
       if (administrator === true) workspaces.push(createAdministrationWorkspace(user.uid));
       return workspaces.sort((left, right) => {
         if (left.organizationRole === "administration") return -1;
@@ -51,11 +56,31 @@ export function createFirebaseWorkspaceService({ client, getUser }) {
           || left.organizationRole.localeCompare(right.organizationRole);
       });
     },
-    async createOrganization(input) {
+    async createOrganization(input, { organizationId: suppliedId } = {}) {
       const user = requireUser(getUser);
       const roles = normalizeOrganizationRoles(input?.roles ?? input?.role);
       const organizationName = cleanOrganizationName(input?.name);
-      const organizationId = client.newKey("organizations");
+      if (user.emailVerified === false) throw new Error('Confirme seu e-mail antes de cadastrar a empresa.');
+      const intent = JSON.stringify([user.uid, input]);
+      const pendingId = pendingApplications.get(intent);
+      if (suppliedId && !/^signup-[A-Za-z0-9_-]{1,100}$/.test(suppliedId)) throw new Error('O identificador do cadastro não é válido.');
+      const organizationId = suppliedId ?? pendingId ?? client.newKey("organizations");
+      pendingApplications.set(intent, organizationId);
+      if (pendingId || suppliedId) {
+        const existing = await client.read(`membershipsByUser/${user.uid}/${organizationId}`);
+        if (existing) {
+          if (suppliedId) {
+            const previous = await client.read(`organizations/${organizationId}`);
+            const expected = normalizeApplication(input);
+            const matches = previous?.createdBy === user.uid && ['name','cnpj','city','state','contact'].every(key => previous[key] === expected[key])
+              && JSON.stringify(normalizeOrganizationRoles(previous.roles).sort()) === JSON.stringify([...expected.roles].sort());
+            if (!matches) throw new Error('Este envio já foi registrado com dados diferentes. Consulte o cadastro existente antes de reenviar.');
+            existing.status = previous.status;
+          }
+          pendingApplications.delete(intent);
+          return { organizationId, status: existing.status, workspaces: createOrganizationWorkspaces(user.uid, organizationId, existing) };
+        }
+      }
       if (!organizationId) throw new Error("Não foi possível gerar o identificador da empresa.");
       const createdAt = client.timestamp?.() ?? Date.now();
       const organizationRoles = organizationRoleMap(roles);
@@ -89,6 +114,7 @@ export function createFirebaseWorkspaceService({ client, getUser }) {
           joinedAt: createdAt,
         },
       });
+      pendingApplications.delete(intent);
       return {
         organizationId,
         status: "pending",

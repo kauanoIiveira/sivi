@@ -1,0 +1,160 @@
+.sivi-public-ui .sv-demo-role {
+  display: flex;
+  gap: 3px;
+  border: 1px solid #dce3d4;
+  border-radius: 5px;
+  background: #edf2e6;
+  padding: 3px;
+}
+.sivi-public-ui .sv-demo-role button {
+  font-size: 10px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+.sivi-public-ui .sv-demo-role button[aria-pressed="true"] {
+  background: #354c2e;
+  color: white;
+}
+.sivi-public-ui .sv-demo-detail-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.sivi-public-ui .sv-demo-detail-grid > section {
+  padding: 20px 22px;
+  border: 1px solid #e1e5dc;
+  border-radius: 7px;
+  background: white;
+  min-width: 0;
+}
+.sivi-public-ui .sv-demo-detail-grid h4 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.5;
+}
+.sivi-public-ui .sv-demo-detail-grid p {
+  font-size: 9px;
+  color: #728066;
+  margin-top: 4px;
+}
+.sivi-public-ui .sv-demo-detail-grid ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.sivi-public-ui .sv-demo-detail-grid > section > small {
+  display: block;
+  margin-top: 17px;
+  font-size: 8px;
+  color: #718064;
+  line-height: 1.8;
+}
+.sivi-public-ui .sv-demo-comparison li + li {
+  margin-top: 15px;
+}
+.sivi-public-ui .sv-demo-comparison li > div {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9px;
+}
+.sivi-public-ui .sv-demo-comparison li strong {
+  font-size: 9px;
+  font-weight: 600;
+}
+.sivi-public-ui .sv-demo-comparison li small {
+  color: #748568;
+  font-size: 8px;
+}
+.sivi-public-ui .sv-quote-track {
+  display: block;
+  height: 5px;
+  background: #f1f3ee;
+  border-radius: 2px;
+  margin-top: 7px;
+  overflow: hidden;
+}
+.sivi-public-ui .sv-quote-track > i {
+  display: block;
+  height: 100%;
+  background: #e08a63;
+  border-radius: 2px;
+}
+.sivi-public-ui .sv-stage-bar {
+  display: flex;
+  gap: 3px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 22px;
+}
+.sivi-public-ui .sv-stage-bar > span {
+  flex-shrink: 1;
+}
+.sivi-public-ui .sv-demo-distribution li {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 9px;
+  line-height: 1.8;
+}
+.sivi-public-ui .sv-demo-distribution li + li {
+  margin-top: 6px;
+}
+.sivi-public-ui .sv-demo-distribution li > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sivi-public-ui .sv-demo-distribution li i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+}
+.sivi-public-ui .sv-demo-distribution li > strong {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+@media (max-width: 760px) {
+  .sivi-public-ui .sv-demo-title {
+    align-items: start;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .sivi-public-ui .sv-demo-title h3 {
+    max-width: 100%;
+  }
+  .sivi-public-ui .sv-demo-role button {
+    min-height: 44px;
+    font-size: 10px;
+    padding-inline: 14px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid > section {
+    padding: 18px 14px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid h4 {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid p {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-demo-detail-grid > section > small {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-demo-comparison li > div,
+  .sivi-public-ui .sv-demo-comparison li strong,
+  .sivi-public-ui .sv-demo-distribution li {
+    font-size: 10px;
+  }
+}

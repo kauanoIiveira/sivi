@@ -1,0 +1,6696 @@
+{
+ "url": "http://127.0.0.1:4173/?authEmulator=1#/",
+ "at": "2026-10-23T22:48:18.774Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 10,
+   "filled": [
+    1,
+    1,
+    1,
+    0.89,
+    0.95,
+    0.99,
+    1,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 18,
+    "css": 2,
+    "transitions": 0,
+    "scripted": 16,
+    "videos": 1,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 8470,
+     "screens": 9.4,
+     "words": 1001,
+     "img": 5,
+     "video": 1,
+     "canvas": 0,
+     "svg": 44,
+     "sections": 11,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 1,
+     "uiAbuse": false,
+     "realPictures": 3,
+     "videoCount": 1,
+     "uiPictures": 1,
+     "pictureSamples": [
+      "operador-torno.jpg",
+      "detalhe-torno.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "chars": 29,
+     "lines": 2,
+     "size": 90.7,
+     "vw": 6.3,
+     "font": "Manrope",
+     "weight": 550,
+     "tracking": -0.065,
+     "leading": 1.03,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.69,
+     "top": 284,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "lines": 2,
+     "size": 90.7,
+     "font": "Manrope"
+    },
+    "headings": [
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 2,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.03,
+      "top": 31,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "O próximo acordo começa aqui.",
+      "words": 5,
+      "chars": 29,
+      "lines": 2,
+      "size": 90.7,
+      "vw": 6.3,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": -0.065,
+      "leading": 1.03,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.69,
+      "top": 284,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Quem precisa encontra. Quem faz, acontece.",
+      "words": 6,
+      "chars": 42,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.48,
+      "top": 1152,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Veja o contexto. Decida com clareza.",
+      "words": 6,
+      "chars": 36,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 1577,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Uma compra. Cada etapa conectada.",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 3093,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo começa com uma necessidade.",
+      "words": 5,
+      "chars": 32,
+      "lines": 1,
+      "size": 29,
+      "vw": 2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.35,
+      "top": 3381,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua necessidade. O fornecedor certo para conversar.",
+      "words": 7,
+      "chars": 51,
+      "lines": 3,
+      "size": 50.4,
+      "vw": 3.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.39,
+      "top": 3860,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O que sua empresa faz pode ser o que outra precisa agora.",
+      "words": 12,
+      "chars": 57,
+      "lines": 3,
+      "size": 50.4,
+      "vw": 3.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.36,
+      "top": 4495,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O combinado não precisa ficar na memória.",
+      "words": 7,
+      "chars": 41,
+      "lines": 2,
+      "size": 53.3,
+      "vw": 3.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 5279,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O plano certo para o seu próximo passo.",
+      "words": 8,
+      "chars": 39,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 5777,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo às claras.",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 6963,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "↗",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 310,
+      "vw": 21.5,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.16,
+      "top": 7599,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua capacidade. Uma nova conexão.",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 79.2,
+      "vw": 5.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 7646,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 2,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.03,
+      "top": 8065,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 14,
+     "maxLines": 3,
+     "over2Lines": 2,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      21,
+      22,
+      23,
+      25,
+      29,
+      50,
+      53,
+      58,
+      79,
+      91,
+      310
+     ],
+     "sizeCount": 22,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 14,
+      "leading": 1.85,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.3
+     },
+     "measureChars": 142,
+     "max": {
+      "size": 310,
+      "vw": 21.5,
+      "font": "Manrope",
+      "text": "↗"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 17,
+     "microLabelShare": 0.064,
+     "microSamples": [
+      "Conexões que movem a indústria",
+      "INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE",
+      "Seu negócio tem dois lados. Nós conectam",
+      "O acordo merece mais que mensagens solta",
+      "UM FLUXO COMPARTILHADO",
+      "Do primeiro requisito ao último registro"
+     ],
+     "upperShare": 0.07,
+     "centerShare": 0.01,
+     "smallText": 84
+    },
+    "eyebrows": [
+     {
+      "text": "Conexões que movem a indústria",
+      "above": "O próximo acordo começa aqui.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 239
+     },
+     {
+      "text": "Seu negócio tem dois lados. Nós conectamos.",
+      "above": "Quem precisa encontra. Quem faz, acontec",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1115
+     },
+     {
+      "text": "O acordo merece mais que mensagens soltas",
+      "above": "Veja o contexto. Decida com clareza.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1540
+     },
+     {
+      "text": "Do primeiro requisito ao último registro",
+      "above": "Uma compra. Cada etapa conectada.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3056
+     },
+     {
+      "text": "Etapa 01 / 07",
+      "above": "Tudo começa com uma necessidade.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3344
+     },
+     {
+      "text": "Para compradores",
+      "above": "Sua necessidade. O fornecedor certo para",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3823
+     },
+     {
+      "text": "Para fornecedores",
+      "above": "O que sua empresa faz pode ser o que out",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 4458
+     },
+     {
+      "text": "Confiança se constrói nos detalhes",
+      "above": "O combinado não precisa ficar na memória",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5242
+     },
+     {
+      "text": "Uma plataforma. Sua forma de atuar.",
+      "above": "O plano certo para o seu próximo passo.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5740
+     },
+     {
+      "text": "Antes do próximo passo",
+      "above": "Tudo às claras.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 6926
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "Sua capacidade. Uma nova conexão.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 7609
+     }
+    ],
+    "numbered": [
+     {
+      "text": "01",
+      "size": 10,
+      "top": 3289
+     },
+     {
+      "text": "02",
+      "size": 10,
+      "top": 3348
+     },
+     {
+      "text": "03",
+      "size": 10,
+      "top": 3407
+     },
+     {
+      "text": "04",
+      "size": 10,
+      "top": 3466
+     },
+     {
+      "text": "05",
+      "size": 10,
+      "top": 3525
+     },
+     {
+      "text": "06",
+      "size": 10,
+      "top": 3584
+     },
+     {
+      "text": "07",
+      "size": 10,
+      "top": 3643
+     },
+     {
+      "text": "01",
+      "size": 12,
+      "top": 5220
+     },
+     {
+      "text": "02",
+      "size": 12,
+      "top": 5326
+     },
+     {
+      "text": "03",
+      "size": 12,
+      "top": 5433
+     }
+    ],
+    "color": {
+     "bodyBg": "#f3f4f4",
+     "bodyBgHsl": {
+      "h": 180,
+      "s": 0.04,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f7f7f2",
+       "top": 0,
+       "hsl": {
+        "h": 60,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#1f2622",
+       "top": 91,
+       "hsl": {
+        "h": 146,
+        "s": 0.1,
+        "l": 0.14
+       }
+      },
+      {
+       "color": "#e8ece3",
+       "top": 1448,
+       "hsl": {
+        "h": 87,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#fafbf8",
+       "top": 1751,
+       "hsl": {
+        "h": 80,
+        "s": 0.27,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#192120",
+       "top": 5076,
+       "hsl": {
+        "h": 172,
+        "s": 0.14,
+        "l": 0.11
+       }
+      },
+      {
+       "color": "#e0e8d6",
+       "top": 7519,
+       "hsl": {
+        "h": 87,
+        "s": 0.28,
+        "l": 0.87
+       }
+      },
+      {
+       "color": "#171f1b",
+       "top": 7997,
+       "hsl": {
+        "h": 150,
+        "s": 0.15,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#626963",
+       "share": 0.32
+      },
+      {
+       "color": "#1c2323",
+       "share": 0.18
+      },
+      {
+       "color": "#57684d",
+       "share": 0.04
+      },
+      {
+       "color": "#a6b69b",
+       "share": 0.03
+      },
+      {
+       "color": "#303a31",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#e85d2d",
+      "hsl": {
+       "h": 15,
+       "s": 0.8,
+       "l": 0.54
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": [
+      {
+       "text": "acontece.",
+       "ratio": 2.2,
+       "need": 3,
+       "size": 57.6,
+       "fg": "#a5aca2",
+       "bg": "#f7f7f2"
+      },
+      {
+       "text": "Ir para o conteúdo",
+       "ratio": 3.5,
+       "need": 4.5,
+       "size": 15,
+       "fg": "#ffffff",
+       "bg": "#e85d2d"
+      },
+      {
+       "text": "Acordos que viram registros",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#788271",
+       "bg": "#fafbf8"
+      },
+      {
+       "text": "No período ilustrativo selecionado",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Alumínio 6061 · 240 peças",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Condições aceitas preservadas",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 3,
+     "radius": 6,
+     "height": 48,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Ir para o conteúdo",
+      "Cadastrar empresa",
+      "Encontre seu plano"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 1,
+     "shadowOverlay": 1,
+     "shadowSamples": [
+      "div.sv-record-sheet → rgba(37, 53, 26, 0.04) 0px 7px 15px 0px"
+     ],
+     "gradients": 0,
+     "scrims": 1,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 22,
+     "hairlineSamples": [
+      "header.sv-header 1440px",
+      "div.sv-value-strip.sv-shell 1280px",
+      "div.sv-workflow-layout 1280px",
+      "ol 240px",
+      "div 371px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 13,
+     "boxRadius": 7,
+     "squareMedia": 1,
+     "roundedMedia": 2,
+     "mediaRadius": 7,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1914
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 5196
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.88
+     }
+    ],
+    "nav": {
+     "links": 7,
+     "fixed": false,
+     "height": 91,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "manrope"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 8470,
+    "margins": {
+     "left": 80,
+     "right": 87
+    },
+    "sections": [
+     {
+      "sel": "section.sv-hero",
+      "tag": "section",
+      "top": 91,
+      "height": 790,
+      "words": 60,
+      "media": 1,
+      "middle": 288,
+      "heading": {
+       "text": "O próximo acordo",
+       "size": 91,
+       "tag": "h1"
+      },
+      "left": 80,
+      "right": 80,
+      "textLeft": 80,
+      "textRight": 80,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-value-strip.sv-shell",
+      "tag": "div",
+      "top": 881,
+      "height": 124,
+      "words": 10,
+      "media": 0,
+      "middle": 304,
+      "heading": null,
+      "left": 80,
+      "right": 207,
+      "textLeft": 80,
+      "textRight": 207,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-intro.sv-shell",
+      "tag": "section",
+      "top": 1005,
+      "height": 443,
+      "words": 49,
+      "media": 0,
+      "middle": 232,
+      "heading": {
+       "text": "Quem precisa encontra.",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 141,
+      "textLeft": 80,
+      "textRight": 141,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-insights-section",
+      "tag": "section",
+      "top": 1448,
+      "height": 1498,
+      "words": 228,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Veja o contexto.",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 90,
+      "textLeft": 80,
+      "textRight": 90,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-workflow.sv-shell",
+      "tag": "section",
+      "top": 2946,
+      "height": 846,
+      "words": 101,
+      "media": 0,
+      "middle": 70,
+      "heading": {
+       "text": "Uma compra.",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 87,
+      "textLeft": 80,
+      "textRight": 87,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-role-section.sv-shell",
+      "tag": "section",
+      "top": 3791,
+      "height": 1285,
+      "words": 107,
+      "media": 2,
+      "middle": 44,
+      "heading": {
+       "text": "Sua necessidade.",
+       "size": 50,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 80,
+      "textLeft": 117,
+      "textRight": 239,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-trust",
+      "tag": "section",
+      "top": 5076,
+      "height": 554,
+      "words": 63,
+      "media": 0,
+      "middle": 192,
+      "heading": {
+       "text": "O combinado não",
+       "size": 53,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 273,
+      "textLeft": 80,
+      "textRight": 273,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-pricing.sv-shell",
+      "tag": "section",
+      "top": 5630,
+      "height": 1276,
+      "words": 196,
+      "media": 0,
+      "middle": 8,
+      "heading": {
+       "text": "O plano certo para",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 80,
+      "textLeft": 80,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-faq.sv-shell",
+      "tag": "section",
+      "top": 6906,
+      "height": 613,
+      "words": 257,
+      "media": 0,
+      "middle": 214,
+      "heading": {
+       "text": "Tudo às claras.",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 111,
+      "textLeft": 80,
+      "textRight": 111,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-final-cta",
+      "tag": "section",
+      "top": 7519,
+      "height": 478,
+      "words": 22,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Sua capacidade.",
+       "size": 79,
+       "tag": "h2"
+      },
+      "left": 80,
+      "right": 709,
+      "textLeft": 80,
+      "textRight": 709,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.sv-footer.public-footer",
+      "tag": "footer",
+      "top": 7997,
+      "height": 473,
+      "words": 88,
+      "media": 0,
+      "middle": 144,
+      "heading": {
+       "text": "SIVI",
+       "size": 29,
+       "tag": "span"
+      },
+      "left": 80,
+      "right": 80,
+      "textLeft": 80,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "O próximo acordo começa aqui.",
+      "size": 91,
+      "top": 284,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 80,
+      "n": 16
+     },
+     {
+      "x": 652,
+      "n": 7
+     },
+     {
+      "x": 888,
+      "n": 5
+     },
+     {
+      "x": 130,
+      "n": 4
+     },
+     {
+      "x": 798,
+      "n": 4
+     },
+     {
+      "x": 855,
+      "n": 2
+     },
+     {
+      "x": 1010,
+      "n": 2
+     },
+     {
+      "x": 111,
+      "n": 1
+     },
+     {
+      "x": 334,
+      "n": 1
+     },
+     {
+      "x": 396,
+      "n": 1
+     },
+     {
+      "x": 424,
+      "n": 1
+     },
+     {
+      "x": 544,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 46,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 9,
+   "filled": [
+    1,
+    1,
+    1,
+    0.86,
+    0.99,
+    1,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 16,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 15,
+    "videos": 1,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 8622,
+     "screens": 8.4,
+     "words": 971,
+     "img": 5,
+     "video": 1,
+     "canvas": 0,
+     "svg": 44,
+     "sections": 11,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 1,
+     "uiAbuse": false,
+     "realPictures": 3,
+     "videoCount": 1,
+     "uiPictures": 1,
+     "pictureSamples": [
+      "operador-torno.jpg",
+      "detalhe-torno.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "chars": 29,
+     "lines": 2,
+     "size": 60,
+     "vw": 7.8,
+     "font": "Manrope",
+     "weight": 550,
+     "tracking": -0.065,
+     "leading": 1.03,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.92,
+     "top": 316,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "lines": 2,
+     "size": 60,
+     "font": "Manrope"
+    },
+    "headings": [
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 3.8,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.06,
+      "top": 31,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "O próximo acordo começa aqui.",
+      "words": 5,
+      "chars": 29,
+      "lines": 2,
+      "size": 60,
+      "vw": 7.8,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": -0.065,
+      "leading": 1.03,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 316,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Quem precisa encontra. Quem faz, acontece.",
+      "words": 6,
+      "chars": 42,
+      "lines": 3,
+      "size": 40,
+      "vw": 5.2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.51,
+      "top": 1160,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Veja o contexto. Decida com clareza.",
+      "words": 6,
+      "chars": 36,
+      "lines": 3,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.38,
+      "top": 1679,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Uma compra. Cada etapa conectada.",
+      "words": 5,
+      "chars": 33,
+      "lines": 3,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.38,
+      "top": 3235,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo começa com uma necessidade.",
+      "words": 5,
+      "chars": 32,
+      "lines": 1,
+      "size": 29,
+      "vw": 3.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.64,
+      "top": 3522,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua necessidade. O fornecedor certo para conversar.",
+      "words": 7,
+      "chars": 51,
+      "lines": 3,
+      "size": 36,
+      "vw": 4.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 3969,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O que sua empresa faz pode ser o que outra precisa agora.",
+      "words": 12,
+      "chars": 57,
+      "lines": 5,
+      "size": 36,
+      "vw": 4.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 4521,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O combinado não precisa ficar na memória.",
+      "words": 7,
+      "chars": 41,
+      "lines": 3,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.45,
+      "top": 5306,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O plano certo para o seu próximo passo.",
+      "words": 8,
+      "chars": 39,
+      "lines": 2,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 5923,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo às claras.",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 40,
+      "vw": 5.2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 7156,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua capacidade. Uma nova conexão.",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 50,
+      "vw": 6.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 7862,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "↗",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 230,
+      "vw": 29.9,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.22,
+      "top": 7865,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 3.8,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.06,
+      "top": 8218,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 14,
+     "maxLines": 5,
+     "over2Lines": 6,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      21,
+      22,
+      23,
+      29,
+      36,
+      38,
+      40,
+      50,
+      60,
+      230
+     ],
+     "sizeCount": 20,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 14,
+      "leading": 1.85,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.3
+     },
+     "measureChars": 117,
+     "max": {
+      "size": 230,
+      "vw": 29.9,
+      "font": "Manrope",
+      "text": "↗"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 15,
+     "microLabelShare": 0.061,
+     "microSamples": [
+      "Conexões que movem a indústria",
+      "INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE",
+      "Seu negócio tem dois lados. Nós conectam",
+      "O acordo merece mais que mensagens solta",
+      "UM FLUXO COMPARTILHADO",
+      "Do primeiro requisito ao último registro"
+     ],
+     "upperShare": 0.07,
+     "centerShare": 0.01,
+     "smallText": 77
+    },
+    "eyebrows": [
+     {
+      "text": "Conexões que movem a indústria",
+      "above": "O próximo acordo começa aqui.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 271
+     },
+     {
+      "text": "Seu negócio tem dois lados. Nós conectamos.",
+      "above": "Quem precisa encontra. Quem faz, acontec",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1123
+     },
+     {
+      "text": "O acordo merece mais que mensagens soltas",
+      "above": "Veja o contexto. Decida com clareza.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1627
+     },
+     {
+      "text": "Do primeiro requisito ao último registro",
+      "above": "Uma compra. Cada etapa conectada.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3198
+     },
+     {
+      "text": "Etapa 01 / 07",
+      "above": "Tudo começa com uma necessidade.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3485
+     },
+     {
+      "text": "Para compradores",
+      "above": "Sua necessidade. O fornecedor certo para",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3932
+     },
+     {
+      "text": "Para fornecedores",
+      "above": "O que sua empresa faz pode ser o que out",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 4484
+     },
+     {
+      "text": "Confiança se constrói nos detalhes",
+      "above": "O combinado não precisa ficar na memória",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5269
+     },
+     {
+      "text": "Uma plataforma. Sua forma de atuar.",
+      "above": "O plano certo para o seu próximo passo.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5886
+     },
+     {
+      "text": "Antes do próximo passo",
+      "above": "Tudo às claras.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 7119
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "Sua capacidade. Uma nova conexão.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 7825
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "↗",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 7825
+     }
+    ],
+    "numbered": [
+     {
+      "text": "01",
+      "size": 10,
+      "top": 3430
+     },
+     {
+      "text": "02",
+      "size": 10,
+      "top": 3489
+     },
+     {
+      "text": "03",
+      "size": 10,
+      "top": 3548
+     },
+     {
+      "text": "04",
+      "size": 10,
+      "top": 3607
+     },
+     {
+      "text": "05",
+      "size": 10,
+      "top": 3666
+     },
+     {
+      "text": "06",
+      "size": 10,
+      "top": 3725
+     },
+     {
+      "text": "07",
+      "size": 10,
+      "top": 3784
+     },
+     {
+      "text": "01",
+      "size": 12,
+      "top": 5247
+     },
+     {
+      "text": "02",
+      "size": 12,
+      "top": 5398
+     },
+     {
+      "text": "03",
+      "size": 12,
+      "top": 5549
+     }
+    ],
+    "color": {
+     "bodyBg": "#f3f4f4",
+     "bodyBgHsl": {
+      "h": 180,
+      "s": 0.04,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f7f7f2",
+       "top": 0,
+       "hsl": {
+        "h": 60,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#1f2622",
+       "top": 91,
+       "hsl": {
+        "h": 146,
+        "s": 0.1,
+        "l": 0.14
+       }
+      },
+      {
+       "color": "#e8ece3",
+       "top": 1535,
+       "hsl": {
+        "h": 87,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#fafbf8",
+       "top": 1852,
+       "hsl": {
+        "h": 80,
+        "s": 0.27,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#192120",
+       "top": 5103,
+       "hsl": {
+        "h": 172,
+        "s": 0.14,
+        "l": 0.11
+       }
+      },
+      {
+       "color": "#e0e8d6",
+       "top": 7735,
+       "hsl": {
+        "h": 87,
+        "s": 0.28,
+        "l": 0.87
+       }
+      },
+      {
+       "color": "#171f1b",
+       "top": 8149,
+       "hsl": {
+        "h": 150,
+        "s": 0.15,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#626963",
+       "share": 0.32
+      },
+      {
+       "color": "#1c2323",
+       "share": 0.19
+      },
+      {
+       "color": "#57684d",
+       "share": 0.04
+      },
+      {
+       "color": "#a6b69b",
+       "share": 0.03
+      },
+      {
+       "color": "#303a31",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#e85d2d",
+      "hsl": {
+       "h": 15,
+       "s": 0.8,
+       "l": 0.54
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": [
+      {
+       "text": "Mensal",
+       "ratio": 1.2,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#ffffff",
+       "bg": "#e9ece4"
+      },
+      {
+       "text": "acontece.",
+       "ratio": 2.2,
+       "need": 3,
+       "size": 40,
+       "fg": "#a5aca2",
+       "bg": "#f7f7f2"
+      },
+      {
+       "text": "Ir para o conteúdo",
+       "ratio": 3.5,
+       "need": 4.5,
+       "size": 15,
+       "fg": "#ffffff",
+       "bg": "#e85d2d"
+      },
+      {
+       "text": "Acordos que viram registros",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#788271",
+       "bg": "#fafbf8"
+      },
+      {
+       "text": "No período ilustrativo selecionado",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Alumínio 6061 · 240 peças",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 7,
+     "inHero": 2,
+     "radius": 5,
+     "height": 69,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Ir para o conteúdo",
+      "Encontre seu plano"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 1,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 18,
+     "hairlineSamples": [
+      "header.sv-header 768px",
+      "div.sv-value-strip.sv-shell 704px",
+      "div.sv-workflow-layout 704px",
+      "ol 190px",
+      "a.sv-text-link 251px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 9,
+     "boxRadius": 7,
+     "squareMedia": 1,
+     "roundedMedia": 2,
+     "mediaRadius": 7,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 5223
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.77
+     }
+    ],
+    "nav": {
+     "links": 6,
+     "fixed": false,
+     "height": 91,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "manrope"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 8622,
+    "margins": {
+     "left": 32,
+     "right": 35
+    },
+    "sections": [
+     {
+      "sel": "section.sv-hero",
+      "tag": "section",
+      "top": 91,
+      "height": 790,
+      "words": 60,
+      "media": 1,
+      "middle": 80,
+      "heading": {
+       "text": "O próximo acordo",
+       "size": 60,
+       "tag": "h1"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 32,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-value-strip.sv-shell",
+      "tag": "div",
+      "top": 881,
+      "height": 132,
+      "words": 10,
+      "media": 0,
+      "middle": 139,
+      "heading": null,
+      "left": 32,
+      "right": 75,
+      "textLeft": 32,
+      "textRight": 75,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-intro.sv-shell",
+      "tag": "section",
+      "top": 1013,
+      "height": 522,
+      "words": 49,
+      "media": 0,
+      "middle": 95,
+      "heading": {
+       "text": "Quem precisa encontra.",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 35,
+      "textLeft": 32,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-insights-section",
+      "tag": "section",
+      "top": 1535,
+      "height": 1553,
+      "words": 228,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Veja o contexto.",
+       "size": 38,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 42,
+      "textLeft": 32,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-workflow.sv-shell",
+      "tag": "section",
+      "top": 3088,
+      "height": 844,
+      "words": 73,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Uma compra.",
+       "size": 38,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 39,
+      "textLeft": 32,
+      "textRight": 39,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-role-section.sv-shell",
+      "tag": "section",
+      "top": 3932,
+      "height": 1171,
+      "words": 107,
+      "media": 2,
+      "middle": 24,
+      "heading": {
+       "text": "Sua necessidade.",
+       "size": 36,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-trust",
+      "tag": "section",
+      "top": 5103,
+      "height": 674,
+      "words": 63,
+      "media": 0,
+      "middle": 83,
+      "heading": {
+       "text": "O combinado não",
+       "size": 38,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 36,
+      "textLeft": 32,
+      "textRight": 36,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-pricing.sv-shell",
+      "tag": "section",
+      "top": 5776,
+      "height": 1323,
+      "words": 196,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "O plano certo para",
+       "size": 38,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 32,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-faq.sv-shell",
+      "tag": "section",
+      "top": 7099,
+      "height": 636,
+      "words": 257,
+      "media": 0,
+      "middle": 75,
+      "heading": {
+       "text": "Tudo às claras.",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 60,
+      "textLeft": 32,
+      "textRight": 60,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-final-cta",
+      "tag": "section",
+      "top": 7735,
+      "height": 414,
+      "words": 22,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Sua capacidade.",
+       "size": 50,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 304,
+      "textLeft": 32,
+      "textRight": 304,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.sv-footer.public-footer",
+      "tag": "footer",
+      "top": 8149,
+      "height": 473,
+      "words": 88,
+      "media": 0,
+      "middle": 32,
+      "heading": {
+       "text": "SIVI",
+       "size": 29,
+       "tag": "span"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 32,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "O próximo acordo começa aqui.",
+      "size": 60,
+      "top": 316,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 32,
+      "n": 20
+     },
+     {
+      "x": 356,
+      "n": 7
+     },
+     {
+      "x": 241,
+      "n": 4
+     },
+     {
+      "x": 427,
+      "n": 4
+     },
+     {
+      "x": 503,
+      "n": 3
+     },
+     {
+      "x": 386,
+      "n": 2
+     },
+     {
+      "x": 474,
+      "n": 2
+     },
+     {
+      "x": 58,
+      "n": 1
+     },
+     {
+      "x": 209,
+      "n": 1
+     },
+     {
+      "x": 299,
+      "n": 1
+     },
+     {
+      "x": 539,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 46,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    1,
+    1,
+    1,
+    1,
+    0.93,
+    0.96,
+    0.97,
+    0.98,
+    1,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 15,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 14,
+    "videos": 1,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 11762,
+     "screens": 13.9,
+     "words": 969,
+     "img": 5,
+     "video": 1,
+     "canvas": 0,
+     "svg": 44,
+     "sections": 11,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 1,
+     "uiAbuse": false,
+     "realPictures": 3,
+     "videoCount": 1,
+     "uiPictures": 1,
+     "pictureSamples": [
+      "operador-torno.jpg",
+      "detalhe-torno.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 1,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "chars": 29,
+     "lines": 2,
+     "size": 44,
+     "vw": 11.3,
+     "font": "Manrope",
+     "weight": 550,
+     "tracking": -0.065,
+     "leading": 1.03,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.9,
+     "top": 279,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "lines": 2,
+     "size": 44,
+     "font": "Manrope"
+    },
+    "headings": [
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 26,
+      "vw": 6.7,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.11,
+      "top": 23,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "O próximo acordo começa aqui.",
+      "words": 5,
+      "chars": 29,
+      "lines": 2,
+      "size": 44,
+      "vw": 11.3,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": -0.065,
+      "leading": 1.03,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 279,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Quem precisa encontra. Quem faz, acontece.",
+      "words": 6,
+      "chars": 42,
+      "lines": 4,
+      "size": 42,
+      "vw": 10.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 1089,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Veja o contexto. Decida com clareza.",
+      "words": 6,
+      "chars": 36,
+      "lines": 2,
+      "size": 39,
+      "vw": 10,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 1651,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Uma compra. Cada etapa conectada.",
+      "words": 5,
+      "chars": 33,
+      "lines": 3,
+      "size": 39,
+      "vw": 10,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 3401,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "240 un.",
+      "words": 2,
+      "chars": 7,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.14,
+      "top": 3812,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo começa com uma necessidade.",
+      "words": 5,
+      "chars": 32,
+      "lines": 2,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 4101,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua necessidade. O fornecedor certo para conversar.",
+      "words": 7,
+      "chars": 51,
+      "lines": 3,
+      "size": 37,
+      "vw": 9.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 4852,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O que sua empresa faz pode ser o que outra precisa agora.",
+      "words": 12,
+      "chars": 57,
+      "lines": 4,
+      "size": 37,
+      "vw": 9.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 5738,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O combinado não precisa ficar na memória.",
+      "words": 7,
+      "chars": 41,
+      "lines": 3,
+      "size": 39,
+      "vw": 10,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 6391,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Seu e-mail, confirmado.",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 6729,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua empresa, apresentada.",
+      "words": 3,
+      "chars": 25,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 6834,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Seu contexto, definido.",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 6939,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "O plano certo para o seu próximo passo.",
+      "words": 8,
+      "chars": 39,
+      "lines": 2,
+      "size": 39,
+      "vw": 10,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 7178,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Compras",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 7559,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Fornecimento",
+      "words": 1,
+      "chars": 12,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 8136,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Integrado",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 8714,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo às claras.",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 9557,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua capacidade. Uma nova conexão.",
+      "words": 5,
+      "chars": 33,
+      "lines": 3,
+      "size": 48,
+      "vw": 12.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 10420,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 26,
+      "vw": 6.7,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.11,
+      "top": 10796,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Boas conexões. Acordos bem registrados.",
+      "words": 5,
+      "chars": 39,
+      "lines": 2,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 10852,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 21,
+     "maxLines": 4,
+     "over2Lines": 6,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      21,
+      22,
+      25,
+      26,
+      28,
+      30,
+      37,
+      39,
+      40,
+      42,
+      44,
+      48
+     ],
+     "sizeCount": 23,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 14,
+      "leading": 1.65,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.3
+     },
+     "measureChars": 58,
+     "max": {
+      "size": 48,
+      "vw": 12.3,
+      "font": "Manrope",
+      "text": "Sua capacidade.Uma nova"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 17,
+     "microLabelShare": 0.066,
+     "microSamples": [
+      "Conexões que movem a indústria",
+      "INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE",
+      "Seu negócio tem dois lados. Nós conectam",
+      "O acordo merece mais que mensagens solta",
+      "UM FLUXO COMPARTILHADO",
+      "Do primeiro requisito ao último registro"
+     ],
+     "upperShare": 0.07,
+     "centerShare": 0.01,
+     "smallText": 97
+    },
+    "eyebrows": [
+     {
+      "text": "Conexões que movem a indústria",
+      "above": "O próximo acordo começa aqui.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 241
+     },
+     {
+      "text": "Seu negócio tem dois lados. Nós conectamos.",
+      "above": "Quem precisa encontra. Quem faz, acontec",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 1059
+     },
+     {
+      "text": "O acordo merece mais que mensagens soltas",
+      "above": "Veja o contexto. Decida com clareza.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 1621
+     },
+     {
+      "text": "Do primeiro requisito ao último registro",
+      "above": "Uma compra. Cada etapa conectada.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 3371
+     },
+     {
+      "text": "Demanda",
+      "above": "240 un.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 9,
+      "top": 3744
+     },
+     {
+      "text": "Etapa 01 / 07",
+      "above": "Tudo começa com uma necessidade.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 4071
+     },
+     {
+      "text": "Para compradores",
+      "above": "Sua necessidade. O fornecedor certo para",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 4822
+     },
+     {
+      "text": "Para fornecedores",
+      "above": "O que sua empresa faz pode ser o que out",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 5708
+     },
+     {
+      "text": "Confiança se constrói nos detalhes",
+      "above": "O combinado não precisa ficar na memória",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 6361
+     },
+     {
+      "text": "Uma plataforma. Sua forma de atuar.",
+      "above": "O plano certo para o seu próximo passo.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 7148
+     },
+     {
+      "text": "As duas atuações",
+      "above": "Integrado",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 8670
+     },
+     {
+      "text": "Antes do próximo passo",
+      "above": "Tudo às claras.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 9527
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "Sua capacidade. Uma nova conexão.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 10390
+     }
+    ],
+    "numbered": [
+     {
+      "text": "01",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "02",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "03",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "04",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "05",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "06",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "07",
+      "size": 10,
+      "top": 3652
+     },
+     {
+      "text": "01",
+      "size": 12,
+      "top": 6727
+     },
+     {
+      "text": "02",
+      "size": 12,
+      "top": 6832
+     },
+     {
+      "text": "03",
+      "size": 12,
+      "top": 6937
+     }
+    ],
+    "color": {
+     "bodyBg": "#f3f4f4",
+     "bodyBgHsl": {
+      "h": 180,
+      "s": 0.04,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f7f7f2",
+       "top": 0,
+       "hsl": {
+        "h": 60,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#1f2622",
+       "top": 73,
+       "hsl": {
+        "h": 146,
+        "s": 0.1,
+        "l": 0.14
+       }
+      },
+      {
+       "color": "#e8ece3",
+       "top": 1561,
+       "hsl": {
+        "h": 87,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#fafbf8",
+       "top": 1867,
+       "hsl": {
+        "h": 80,
+        "s": 0.27,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2192,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#e9ece3",
+       "top": 3719,
+       "hsl": {
+        "h": 80,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#34413a",
+       "top": 4412,
+       "hsl": {
+        "h": 148,
+        "s": 0.11,
+        "l": 0.23
+       }
+      },
+      {
+       "color": "#192120",
+       "top": 6230,
+       "hsl": {
+        "h": 172,
+        "s": 0.14,
+        "l": 0.11
+       }
+      },
+      {
+       "color": "#e8eedf",
+       "top": 8641,
+       "hsl": {
+        "h": 84,
+        "s": 0.31,
+        "l": 0.9
+       }
+      },
+      {
+       "color": "#e0e8d6",
+       "top": 10308,
+       "hsl": {
+        "h": 87,
+        "s": 0.28,
+        "l": 0.87
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#626963",
+       "share": 0.33
+      },
+      {
+       "color": "#1c2323",
+       "share": 0.18
+      },
+      {
+       "color": "#57684d",
+       "share": 0.04
+      },
+      {
+       "color": "#a6b69b",
+       "share": 0.03
+      },
+      {
+       "color": "#303a31",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#e85d2d",
+      "hsl": {
+       "h": 15,
+       "s": 0.8,
+       "l": 0.54
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": [
+      {
+       "text": "acontece.",
+       "ratio": 2.2,
+       "need": 3,
+       "size": 42,
+       "fg": "#a5aca2",
+       "bg": "#f7f7f2"
+      },
+      {
+       "text": "Ir para o conteúdo",
+       "ratio": 3.5,
+       "need": 4.5,
+       "size": 15,
+       "fg": "#ffffff",
+       "bg": "#e85d2d"
+      },
+      {
+       "text": "Acordos que viram registros",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#788271",
+       "bg": "#fafbf8"
+      },
+      {
+       "text": "No período ilustrativo selecionado",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 8,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Alumínio 6061 · 240 peças",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 8,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "REGISTRO EM DESTAQUE",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 7,
+       "fg": "#77856c",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 14,
+     "inHero": 2,
+     "radius": 5,
+     "height": 44,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Ir para o conteúdo",
+      "Encontre seu plano"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 1,
+     "shadowOverlay": 2,
+     "shadowSamples": [
+      "div.sv-record-sheet → rgba(37, 53, 26, 0.04) 0px 7px 15px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.sv-hero-shade → linear-gradient(90deg, rgba(16, 32, 23, 0.91), rgba(16, 32, 23, 0.4)), linear-gradient(rgba(0, 0, 0, 0) 20%, r"
+     ],
+     "gradientText": 0,
+     "hairlines": 19,
+     "hairlineSamples": [
+      "header.sv-header 390px",
+      "div.sv-value-strip.sv-shell 350px",
+      "div 266px",
+      "a.sv-text-link 244px",
+      "div 350px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 12,
+     "boxRadius": 7,
+     "squareMedia": 1,
+     "roundedMedia": 2,
+     "mediaRadius": 7,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 6703
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.91
+     }
+    ],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 73,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "manrope"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 11762,
+    "margins": {
+     "left": 20,
+     "right": 21
+    },
+    "sections": [
+     {
+      "sel": "section.sv-hero",
+      "tag": "section",
+      "top": 73,
+      "height": 772,
+      "words": 55,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "O próximo acordo",
+       "size": 44,
+       "tag": "h1"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-value-strip.sv-shell",
+      "tag": "div",
+      "top": 845,
+      "height": 149,
+      "words": 10,
+      "media": 0,
+      "middle": 85,
+      "heading": null,
+      "left": 20,
+      "right": 74,
+      "textLeft": 20,
+      "textRight": 74,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-intro.sv-shell",
+      "tag": "section",
+      "top": 994,
+      "height": 567,
+      "words": 49,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Quem precisa encontra.",
+       "size": 42,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 30,
+      "textLeft": 20,
+      "textRight": 30,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-insights-section",
+      "tag": "section",
+      "top": 1561,
+      "height": 1745,
+      "words": 209,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Veja o contexto.",
+       "size": 39,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 21,
+      "textLeft": 20,
+      "textRight": 21,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-workflow.sv-shell",
+      "tag": "section",
+      "top": 3306,
+      "height": 1106,
+      "words": 101,
+      "media": 0,
+      "middle": 291,
+      "heading": {
+       "text": "Uma compra.",
+       "size": 39,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 0,
+      "textLeft": 20,
+      "textRight": -354,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role",
+      "tag": "article",
+      "top": 4412,
+      "height": 826,
+      "words": 55,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Sua necessidade.",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 21,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role.sv-role--reverse",
+      "tag": "article",
+      "top": 5298,
+      "height": 867,
+      "words": 52,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "O que sua empresa faz",
+       "size": 37,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 38,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-trust",
+      "tag": "section",
+      "top": 6230,
+      "height": 853,
+      "words": 63,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "O combinado não",
+       "size": 39,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 38,
+      "textLeft": 20,
+      "textRight": 38,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-section-heading",
+      "tag": "div",
+      "top": 7148,
+      "height": 191,
+      "words": 24,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "O plano certo para",
+       "size": 39,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 25,
+      "textLeft": 20,
+      "textRight": 25,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-plan-grid",
+      "tag": "div",
+      "top": 7486,
+      "height": 1716,
+      "words": 103,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Compras",
+       "size": 28,
+       "tag": "h3"
+      },
+      "left": 49,
+      "right": 56,
+      "textLeft": 49,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-faq.sv-shell",
+      "tag": "section",
+      "top": 9507,
+      "height": 801,
+      "words": 236,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Tudo às claras.",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 45,
+      "textLeft": 20,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-final-cta",
+      "tag": "section",
+      "top": 10308,
+      "height": 437,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.sv-footer.public-footer",
+      "tag": "footer",
+      "top": 10746,
+      "height": 1016,
+      "words": 88,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "SIVI",
+       "size": 26,
+       "tag": "span"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [
+     {
+      "top": 10320,
+      "height": 468
+     }
+    ],
+    "h1s": [
+     {
+      "text": "O próximo acordo começa aqui.",
+      "size": 44,
+      "top": 279,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 20,
+      "n": 35
+     },
+     {
+      "x": 49,
+      "n": 3
+     },
+     {
+      "x": 62,
+      "n": 3
+     },
+     {
+      "x": 173,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 42,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 360,
+   "height": 225,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 6,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 5,
+    "videos": 1,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 360,
+     "h": 225
+    },
+    "page": {
+     "height": 11925,
+     "screens": 53,
+     "words": 969,
+     "img": 5,
+     "video": 1,
+     "canvas": 0,
+     "svg": 44,
+     "sections": 11,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 1,
+     "uiAbuse": true,
+     "realPictures": 1,
+     "videoCount": 1,
+     "uiPictures": 1,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 1,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "chars": 29,
+     "lines": 2,
+     "size": 44,
+     "vw": 12.2,
+     "font": "Manrope",
+     "weight": 550,
+     "tracking": -0.065,
+     "leading": 1.03,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.89,
+     "top": 193,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "lines": 2,
+     "size": 44,
+     "font": "Manrope"
+    },
+    "headings": [
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 26,
+      "vw": 7.2,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.12,
+      "top": 23,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "O próximo acordo começa aqui.",
+      "words": 5,
+      "chars": 29,
+      "lines": 2,
+      "size": 44,
+      "vw": 12.2,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": -0.065,
+      "leading": 1.03,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 193,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Quem precisa encontra. Quem faz, acontece.",
+      "words": 6,
+      "chars": 42,
+      "lines": 4,
+      "size": 42,
+      "vw": 11.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 917,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Veja o contexto. Decida com clareza.",
+      "words": 6,
+      "chars": 36,
+      "lines": 3,
+      "size": 39,
+      "vw": 10.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 1479,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Uma compra. Cada etapa conectada.",
+      "words": 5,
+      "chars": 33,
+      "lines": 3,
+      "size": 39,
+      "vw": 10.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 3358,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "240 un.",
+      "words": 2,
+      "chars": 7,
+      "lines": 1,
+      "size": 22,
+      "vw": 6.1,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.15,
+      "top": 3772,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo começa com uma necessidade.",
+      "words": 5,
+      "chars": 32,
+      "lines": 2,
+      "size": 30,
+      "vw": 8.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 4061,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua necessidade. O fornecedor certo para conversar.",
+      "words": 7,
+      "chars": 51,
+      "lines": 3,
+      "size": 37,
+      "vw": 10.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 4834,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O que sua empresa faz pode ser o que outra precisa agora.",
+      "words": 12,
+      "chars": 57,
+      "lines": 5,
+      "size": 37,
+      "vw": 10.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 5720,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O combinado não precisa ficar na memória.",
+      "words": 7,
+      "chars": 41,
+      "lines": 3,
+      "size": 39,
+      "vw": 10.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 6414,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Seu e-mail, confirmado.",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 22,
+      "vw": 6.1,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.77,
+      "top": 6752,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua empresa, apresentada.",
+      "words": 3,
+      "chars": 25,
+      "lines": 1,
+      "size": 22,
+      "vw": 6.1,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.77,
+      "top": 6857,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Seu contexto, definido.",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 22,
+      "vw": 6.1,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.035,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.77,
+      "top": 6962,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "O plano certo para o seu próximo passo.",
+      "words": 8,
+      "chars": 39,
+      "lines": 3,
+      "size": 39,
+      "vw": 10.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 7223,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Compras",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.73,
+      "top": 7646,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Fornecimento",
+      "words": 1,
+      "chars": 12,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.73,
+      "top": 8224,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Integrado",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.8,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.73,
+      "top": 8822,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo às claras.",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 40,
+      "vw": 11.1,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 9666,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua capacidade. Uma nova conexão.",
+      "words": 5,
+      "chars": 33,
+      "lines": 4,
+      "size": 48,
+      "vw": 13.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 10531,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 26,
+      "vw": 7.2,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.12,
+      "top": 10959,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Boas conexões. Acordos bem registrados.",
+      "words": 5,
+      "chars": 39,
+      "lines": 2,
+      "size": 25,
+      "vw": 6.9,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 11015,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 21,
+     "maxLines": 5,
+     "over2Lines": 8,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      21,
+      22,
+      25,
+      26,
+      28,
+      30,
+      37,
+      39,
+      40,
+      42,
+      44,
+      48
+     ],
+     "sizeCount": 23,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 14,
+      "leading": 1.65,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.3
+     },
+     "measureChars": 53,
+     "max": {
+      "size": 48,
+      "vw": 13.3,
+      "font": "Manrope",
+      "text": "Sua capacidade.Uma nova"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 17,
+     "microLabelShare": 0.066,
+     "microSamples": [
+      "Conexões que movem a indústria",
+      "INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE",
+      "Seu negócio tem dois lados. Nós conectam",
+      "O acordo merece mais que mensagens solta",
+      "UM FLUXO COMPARTILHADO",
+      "Do primeiro requisito ao último registro"
+     ],
+     "upperShare": 0.07,
+     "centerShare": 0.01,
+     "smallText": 97
+    },
+    "eyebrows": [
+     {
+      "text": "Conexões que movem a indústria",
+      "above": "O próximo acordo começa aqui.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 155
+     },
+     {
+      "text": "Seu negócio tem dois lados. Nós conectamos.",
+      "above": "Quem precisa encontra. Quem faz, acontec",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 887
+     },
+     {
+      "text": "O acordo merece mais que mensagens soltas",
+      "above": "Veja o contexto. Decida com clareza.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 1449
+     },
+     {
+      "text": "Do primeiro requisito ao último registro",
+      "above": "Uma compra. Cada etapa conectada.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 3328
+     },
+     {
+      "text": "Demanda",
+      "above": "240 un.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 9,
+      "top": 3704
+     },
+     {
+      "text": "Etapa 01 / 07",
+      "above": "Tudo começa com uma necessidade.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 4031
+     },
+     {
+      "text": "Para compradores",
+      "above": "Sua necessidade. O fornecedor certo para",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 4804
+     },
+     {
+      "text": "Para fornecedores",
+      "above": "O que sua empresa faz pode ser o que out",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 5690
+     },
+     {
+      "text": "Confiança se constrói nos detalhes",
+      "above": "O combinado não precisa ficar na memória",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 6384
+     },
+     {
+      "text": "Uma plataforma. Sua forma de atuar.",
+      "above": "O plano certo para o seu próximo passo.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 7193
+     },
+     {
+      "text": "As duas atuações",
+      "above": "Integrado",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 8779
+     },
+     {
+      "text": "Antes do próximo passo",
+      "above": "Tudo às claras.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 9636
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "Sua capacidade. Uma nova conexão.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 8,
+      "top": 10501
+     }
+    ],
+    "numbered": [
+     {
+      "text": "01",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "02",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "03",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "04",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "05",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "06",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "07",
+      "size": 10,
+      "top": 3612
+     },
+     {
+      "text": "01",
+      "size": 12,
+      "top": 6750
+     },
+     {
+      "text": "02",
+      "size": 12,
+      "top": 6855
+     },
+     {
+      "text": "03",
+      "size": 12,
+      "top": 6960
+     }
+    ],
+    "color": {
+     "bodyBg": "#f3f4f4",
+     "bodyBgHsl": {
+      "h": 180,
+      "s": 0.04,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f7f7f2",
+       "top": 0,
+       "hsl": {
+        "h": 60,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#1f2622",
+       "top": 73,
+       "hsl": {
+        "h": 146,
+        "s": 0.1,
+        "l": 0.14
+       }
+      },
+      {
+       "color": "#e8ece3",
+       "top": 1389,
+       "hsl": {
+        "h": 87,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#fafbf8",
+       "top": 1738,
+       "hsl": {
+        "h": 80,
+        "s": 0.27,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2075,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#e9ece3",
+       "top": 3679,
+       "hsl": {
+        "h": 80,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#34413a",
+       "top": 4372,
+       "hsl": {
+        "h": 148,
+        "s": 0.11,
+        "l": 0.23
+       }
+      },
+      {
+       "color": "#192120",
+       "top": 6231,
+       "hsl": {
+        "h": 172,
+        "s": 0.14,
+        "l": 0.11
+       }
+      },
+      {
+       "color": "#e8eedf",
+       "top": 8749,
+       "hsl": {
+        "h": 84,
+        "s": 0.31,
+        "l": 0.9
+       }
+      },
+      {
+       "color": "#e0e8d6",
+       "top": 10419,
+       "hsl": {
+        "h": 87,
+        "s": 0.28,
+        "l": 0.87
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#626963",
+       "share": 0.33
+      },
+      {
+       "color": "#1c2323",
+       "share": 0.18
+      },
+      {
+       "color": "#57684d",
+       "share": 0.04
+      },
+      {
+       "color": "#a6b69b",
+       "share": 0.03
+      },
+      {
+       "color": "#303a31",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#e85d2d",
+      "hsl": {
+       "h": 15,
+       "s": 0.8,
+       "l": 0.54
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": [
+      {
+       "text": "acontece.",
+       "ratio": 2.2,
+       "need": 3,
+       "size": 42,
+       "fg": "#a5aca2",
+       "bg": "#f7f7f2"
+      },
+      {
+       "text": "Ir para o conteúdo",
+       "ratio": 3.5,
+       "need": 4.5,
+       "size": 15,
+       "fg": "#ffffff",
+       "bg": "#e85d2d"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 14,
+     "inHero": 1,
+     "radius": 5,
+     "height": 44,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Ir para o conteúdo"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 1,
+     "shadowOverlay": 2,
+     "shadowSamples": [
+      "div.sv-record-sheet → rgba(37, 53, 26, 0.04) 0px 7px 15px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.sv-hero-shade → linear-gradient(90deg, rgba(16, 32, 23, 0.91), rgba(16, 32, 23, 0.4)), linear-gradient(rgba(0, 0, 0, 0) 20%, r"
+     ],
+     "gradientText": 0,
+     "hairlines": 18,
+     "hairlineSamples": [
+      "header.sv-header 360px",
+      "div.sv-value-strip.sv-shell 320px",
+      "a.sv-text-link 244px",
+      "div 320px",
+      "div 320px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 10,
+     "boxRadius": 7,
+     "squareMedia": 1,
+     "roundedMedia": 2,
+     "mediaRadius": 7,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 6726
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.68
+     }
+    ],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 73,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "manrope"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 360,
+     "h": 225
+    },
+    "pageH": 11925,
+    "margins": {
+     "left": 20,
+     "right": 20
+    },
+    "sections": [
+     {
+      "sel": "video",
+      "tag": "video",
+      "top": 73,
+      "height": 600,
+      "words": 0,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-hero-shade",
+      "tag": "div",
+      "top": 73,
+      "height": 600,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-shell.sv-hero-inner",
+      "tag": "div",
+      "top": 73,
+      "height": 600,
+      "words": 55,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "O próximo acordo",
+       "size": 44,
+       "tag": "h1"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-value-strip.sv-shell",
+      "tag": "div",
+      "top": 673,
+      "height": 149,
+      "words": 10,
+      "media": 0,
+      "middle": 70,
+      "heading": null,
+      "left": 20,
+      "right": 59,
+      "textLeft": 20,
+      "textRight": 59,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div",
+      "tag": "div",
+      "top": 887,
+      "height": 215,
+      "words": 12,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Quem precisa encontra.",
+       "size": 42,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 94,
+      "textLeft": 20,
+      "textRight": 94,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div",
+      "tag": "div",
+      "top": 1126,
+      "height": 197,
+      "words": 36,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 20,
+      "right": 27,
+      "textLeft": 20,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-insights-section",
+      "tag": "section",
+      "top": 1389,
+      "height": 1852,
+      "words": 209,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Veja o contexto.",
+       "size": 39,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 22,
+      "textLeft": 20,
+      "textRight": 22,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-workflow.sv-shell",
+      "tag": "section",
+      "top": 3241,
+      "height": 1131,
+      "words": 76,
+      "media": 0,
+      "middle": 321,
+      "heading": null,
+      "left": 20,
+      "right": 0,
+      "textLeft": 20,
+      "textRight": -384,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role",
+      "tag": "article",
+      "top": 4372,
+      "height": 826,
+      "words": 4,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 20,
+      "right": 20,
+      "textLeft": 49,
+      "textRight": 188,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role.sv-role--reverse",
+      "tag": "article",
+      "top": 5258,
+      "height": 908,
+      "words": 3,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 20,
+      "right": 20,
+      "textLeft": 49,
+      "textRight": 151,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-trust",
+      "tag": "section",
+      "top": 6231,
+      "height": 875,
+      "words": 32,
+      "media": 0,
+      "middle": 28,
+      "heading": {
+       "text": "Seu e-mail, confirmado.",
+       "size": 22,
+       "tag": "h3"
+      },
+      "left": 20,
+      "right": 24,
+      "textLeft": 20,
+      "textRight": 24,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-pricing.sv-shell",
+      "tag": "section",
+      "top": 7106,
+      "height": 2488,
+      "words": 69,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 20,
+      "right": 27,
+      "textLeft": 20,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-faq.sv-shell",
+      "tag": "section",
+      "top": 9594,
+      "height": 825,
+      "words": 217,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 20,
+      "right": 45,
+      "textLeft": 20,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-final-cta",
+      "tag": "section",
+      "top": 10419,
+      "height": 490,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.sv-footer.public-footer",
+      "tag": "footer",
+      "top": 10909,
+      "height": 1016,
+      "words": 88,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "SIVI",
+       "size": 26,
+       "tag": "span"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [
+     {
+      "top": 788,
+      "height": 96
+     },
+     {
+      "top": 1312,
+      "height": 136
+     },
+     {
+      "top": 3192,
+      "height": 404
+     },
+     {
+      "top": 4756,
+      "height": 500
+     },
+     {
+      "top": 5640,
+      "height": 1108
+     },
+     {
+      "top": 7016,
+      "height": 420
+     },
+     {
+      "top": 7524,
+      "height": 1792
+     },
+     {
+      "top": 9528,
+      "height": 344
+     },
+     {
+      "top": 10456,
+      "height": 496
+     },
+     {
+      "top": 11556,
+      "height": 68
+     }
+    ],
+    "h1s": [
+     {
+      "text": "O próximo acordo começa aqui.",
+      "size": 44,
+      "top": 193,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 20,
+      "n": 19
+     },
+     {
+      "x": 62,
+      "n": 3
+     },
+     {
+      "x": 173,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 23,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 1265,
+   "height": 791,
+   "load": "load",
+   "screens": 11,
+   "filled": [
+    1,
+    1,
+    1,
+    1,
+    0.86,
+    0.94,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 16,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 15,
+    "videos": 1,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1265,
+     "h": 791
+    },
+    "page": {
+     "height": 8299,
+     "screens": 10.5,
+     "words": 1001,
+     "img": 5,
+     "video": 1,
+     "canvas": 0,
+     "svg": 44,
+     "sections": 11,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 1,
+     "uiAbuse": false,
+     "realPictures": 3,
+     "videoCount": 1,
+     "uiPictures": 1,
+     "pictureSamples": [
+      "operador-torno.jpg",
+      "detalhe-torno.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "chars": 29,
+     "lines": 2,
+     "size": 79.7,
+     "vw": 6.3,
+     "font": "Manrope",
+     "weight": 550,
+     "tracking": -0.065,
+     "leading": 1.03,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.79,
+     "top": 251,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "O próximo acordo começa aqui.",
+     "words": 5,
+     "lines": 2,
+     "size": 79.7,
+     "font": "Manrope"
+    },
+    "headings": [
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 2.3,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.04,
+      "top": 31,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "O próximo acordo começa aqui.",
+      "words": 5,
+      "chars": 29,
+      "lines": 2,
+      "size": 79.7,
+      "vw": 6.3,
+      "font": "Manrope",
+      "weight": 550,
+      "tracking": -0.065,
+      "leading": 1.03,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 251,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Quem precisa encontra. Quem faz, acontece.",
+      "words": 6,
+      "chars": 42,
+      "lines": 2,
+      "size": 50.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.49,
+      "top": 1063,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Veja o contexto. Decida com clareza.",
+      "words": 6,
+      "chars": 36,
+      "lines": 2,
+      "size": 50.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 1488,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Uma compra. Cada etapa conectada.",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 50.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 2988,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo começa com uma necessidade.",
+      "words": 5,
+      "chars": 32,
+      "lines": 2,
+      "size": 29,
+      "vw": 2.3,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.35,
+      "top": 3246,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua necessidade. O fornecedor certo para conversar.",
+      "words": 7,
+      "chars": 51,
+      "lines": 3,
+      "size": 44.3,
+      "vw": 3.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 3750,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O que sua empresa faz pode ser o que outra precisa agora.",
+      "words": 12,
+      "chars": 57,
+      "lines": 3,
+      "size": 44.3,
+      "vw": 3.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.36,
+      "top": 4385,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O combinado não precisa ficar na memória.",
+      "words": 7,
+      "chars": 41,
+      "lines": 2,
+      "size": 46.8,
+      "vw": 3.7,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.45,
+      "top": 5159,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "O plano certo para o seu próximo passo.",
+      "words": 8,
+      "chars": 39,
+      "lines": 2,
+      "size": 50.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 5643,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Tudo às claras.",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 50.6,
+      "vw": 4,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 6814,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "↗",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 310,
+      "vw": 24.5,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.18,
+      "top": 7449,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Sua capacidade. Uma nova conexão.",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 69.6,
+      "vw": 5.5,
+      "font": "Manrope",
+      "weight": 600,
+      "tracking": -0.055,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 7496,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "SIVI",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 29,
+      "vw": 2.3,
+      "font": "Manrope",
+      "weight": 800,
+      "tracking": -0.06,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.04,
+      "top": 7895,
+      "tag": "span",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 14,
+     "maxLines": 3,
+     "over2Lines": 2,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      21,
+      22,
+      23,
+      25,
+      29,
+      44,
+      47,
+      51,
+      70,
+      80,
+      310
+     ],
+     "sizeCount": 22,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 14,
+      "leading": 1.85,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.3
+     },
+     "measureChars": 142,
+     "max": {
+      "size": 310,
+      "vw": 24.5,
+      "font": "Manrope",
+      "text": "↗"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 17,
+     "microLabelShare": 0.064,
+     "microSamples": [
+      "Conexões que movem a indústria",
+      "INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE",
+      "Seu negócio tem dois lados. Nós conectam",
+      "O acordo merece mais que mensagens solta",
+      "UM FLUXO COMPARTILHADO",
+      "Do primeiro requisito ao último registro"
+     ],
+     "upperShare": 0.07,
+     "centerShare": 0.01,
+     "smallText": 84
+    },
+    "eyebrows": [
+     {
+      "text": "Conexões que movem a indústria",
+      "above": "O próximo acordo começa aqui.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 206
+     },
+     {
+      "text": "Seu negócio tem dois lados. Nós conectamos.",
+      "above": "Quem precisa encontra. Quem faz, acontec",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1026
+     },
+     {
+      "text": "O acordo merece mais que mensagens soltas",
+      "above": "Veja o contexto. Decida com clareza.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 1451
+     },
+     {
+      "text": "Do primeiro requisito ao último registro",
+      "above": "Uma compra. Cada etapa conectada.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 2951
+     },
+     {
+      "text": "Etapa 01 / 07",
+      "above": "Tudo começa com uma necessidade.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3209
+     },
+     {
+      "text": "Para compradores",
+      "above": "Sua necessidade. O fornecedor certo para",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 3713
+     },
+     {
+      "text": "Para fornecedores",
+      "above": "O que sua empresa faz pode ser o que out",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 4348
+     },
+     {
+      "text": "Confiança se constrói nos detalhes",
+      "above": "O combinado não precisa ficar na memória",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5122
+     },
+     {
+      "text": "Uma plataforma. Sua forma de atuar.",
+      "above": "O plano certo para o seu próximo passo.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 5606
+     },
+     {
+      "text": "Antes do próximo passo",
+      "above": "Tudo às claras.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 6777
+     },
+     {
+      "text": "O próximo acordo pode começar hoje",
+      "above": "Sua capacidade. Uma nova conexão.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 7459
+     }
+    ],
+    "numbered": [
+     {
+      "text": "01",
+      "size": 10,
+      "top": 3169
+     },
+     {
+      "text": "02",
+      "size": 10,
+      "top": 3228
+     },
+     {
+      "text": "03",
+      "size": 10,
+      "top": 3287
+     },
+     {
+      "text": "04",
+      "size": 10,
+      "top": 3346
+     },
+     {
+      "text": "05",
+      "size": 10,
+      "top": 3405
+     },
+     {
+      "text": "06",
+      "size": 10,
+      "top": 3464
+     },
+     {
+      "text": "07",
+      "size": 10,
+      "top": 3523
+     },
+     {
+      "text": "01",
+      "size": 12,
+      "top": 5101
+     },
+     {
+      "text": "02",
+      "size": 12,
+      "top": 5207
+     },
+     {
+      "text": "03",
+      "size": 12,
+      "top": 5313
+     }
+    ],
+    "color": {
+     "bodyBg": "#f3f4f4",
+     "bodyBgHsl": {
+      "h": 180,
+      "s": 0.04,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f7f7f2",
+       "top": 0,
+       "hsl": {
+        "h": 60,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#1f2622",
+       "top": 91,
+       "hsl": {
+        "h": 146,
+        "s": 0.1,
+        "l": 0.14
+       }
+      },
+      {
+       "color": "#e8ece3",
+       "top": 1359,
+       "hsl": {
+        "h": 87,
+        "s": 0.19,
+        "l": 0.91
+       }
+      },
+      {
+       "color": "#fafbf8",
+       "top": 1647,
+       "hsl": {
+        "h": 80,
+        "s": 0.27,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 1948,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#192120",
+       "top": 4957,
+       "hsl": {
+        "h": 172,
+        "s": 0.14,
+        "l": 0.11
+       }
+      },
+      {
+       "color": "#e0e8d6",
+       "top": 7369,
+       "hsl": {
+        "h": 87,
+        "s": 0.28,
+        "l": 0.87
+       }
+      },
+      {
+       "color": "#171f1b",
+       "top": 7826,
+       "hsl": {
+        "h": 150,
+        "s": 0.15,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#626963",
+       "share": 0.32
+      },
+      {
+       "color": "#1c2323",
+       "share": 0.18
+      },
+      {
+       "color": "#57684d",
+       "share": 0.04
+      },
+      {
+       "color": "#a6b69b",
+       "share": 0.03
+      },
+      {
+       "color": "#303a31",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#e85d2d",
+      "hsl": {
+       "h": 15,
+       "s": 0.8,
+       "l": 0.54
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": [
+      {
+       "text": "acontece.",
+       "ratio": 2.2,
+       "need": 3,
+       "size": 50.6,
+       "fg": "#a5aca2",
+       "bg": "#f7f7f2"
+      },
+      {
+       "text": "Ir para o conteúdo",
+       "ratio": 3.5,
+       "need": 4.5,
+       "size": 15,
+       "fg": "#ffffff",
+       "bg": "#e85d2d"
+      },
+      {
+       "text": "Acordos que viram registros",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#788271",
+       "bg": "#fafbf8"
+      },
+      {
+       "text": "No período ilustrativo selecionado",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Alumínio 6061 · 240 peças",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      },
+      {
+       "text": "Condições aceitas preservadas",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#7a8375",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 3,
+     "radius": 6,
+     "height": 48,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Ir para o conteúdo",
+      "Cadastrar empresa",
+      "Encontre seu plano"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 1,
+     "shadowOverlay": 1,
+     "shadowSamples": [
+      "div.sv-record-sheet → rgba(37, 53, 26, 0.04) 0px 7px 15px 0px"
+     ],
+     "gradients": 0,
+     "scrims": 1,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 22,
+     "hairlineSamples": [
+      "header.sv-header 1265px",
+      "div.sv-value-strip.sv-shell 1153px",
+      "div.sv-workflow-layout 1153px",
+      "ol 240px",
+      "div 311px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 13,
+     "boxRadius": 7,
+     "squareMedia": 1,
+     "roundedMedia": 2,
+     "mediaRadius": 7,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1809
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 5077
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.88
+     }
+    ],
+    "nav": {
+     "links": 7,
+     "fixed": false,
+     "height": 91,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "manrope"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1265,
+     "h": 791
+    },
+    "pageH": 8299,
+    "margins": {
+     "left": 56,
+     "right": 56
+    },
+    "sections": [
+     {
+      "sel": "section.sv-hero",
+      "tag": "section",
+      "top": 91,
+      "height": 701,
+      "words": 60,
+      "media": 1,
+      "middle": 241,
+      "heading": {
+       "text": "O próximo acordo",
+       "size": 80,
+       "tag": "h1"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 56,
+      "textRight": 56,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.sv-value-strip.sv-shell",
+      "tag": "div",
+      "top": 792,
+      "height": 124,
+      "words": 10,
+      "media": 0,
+      "middle": 267,
+      "heading": null,
+      "left": 56,
+      "right": 152,
+      "textLeft": 56,
+      "textRight": 152,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-intro.sv-shell",
+      "tag": "section",
+      "top": 916,
+      "height": 443,
+      "words": 49,
+      "media": 0,
+      "middle": 227,
+      "heading": {
+       "text": "Quem precisa encontra.",
+       "size": 51,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 66,
+      "textLeft": 56,
+      "textRight": 66,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-insights-section",
+      "tag": "section",
+      "top": 1359,
+      "height": 1482,
+      "words": 228,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Veja o contexto.",
+       "size": 51,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 66,
+      "textLeft": 56,
+      "textRight": 66,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-workflow.sv-shell",
+      "tag": "section",
+      "top": 2841,
+      "height": 830,
+      "words": 101,
+      "media": 0,
+      "middle": 79,
+      "heading": {
+       "text": "Uma compra.",
+       "size": 51,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 56,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role",
+      "tag": "article",
+      "top": 3672,
+      "height": 540,
+      "words": 55,
+      "media": 1,
+      "middle": 100,
+      "heading": {
+       "text": "Sua necessidade.",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 183,
+      "textLeft": 93,
+      "textRight": 183,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "article.sv-role.sv-role--reverse",
+      "tag": "article",
+      "top": 4307,
+      "height": 540,
+      "words": 52,
+      "media": 1,
+      "middle": 129,
+      "heading": {
+       "text": "O que sua empresa faz",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 106,
+      "right": 56,
+      "textLeft": 106,
+      "textRight": 388,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-trust",
+      "tag": "section",
+      "top": 4957,
+      "height": 540,
+      "words": 63,
+      "media": 0,
+      "middle": 191,
+      "heading": {
+       "text": "O combinado não",
+       "size": 47,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 191,
+      "textLeft": 56,
+      "textRight": 191,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-pricing.sv-shell",
+      "tag": "section",
+      "top": 5496,
+      "height": 1261,
+      "words": 196,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "O plano certo para",
+       "size": 51,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 56,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-faq.sv-shell",
+      "tag": "section",
+      "top": 6757,
+      "height": 613,
+      "words": 257,
+      "media": 0,
+      "middle": 207,
+      "heading": {
+       "text": "Tudo às claras.",
+       "size": 51,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 93,
+      "textLeft": 56,
+      "textRight": 93,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.sv-final-cta",
+      "tag": "section",
+      "top": 7369,
+      "height": 457,
+      "words": 22,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Sua capacidade.",
+       "size": 70,
+       "tag": "h2"
+      },
+      "left": 56,
+      "right": 637,
+      "textLeft": 56,
+      "textRight": 637,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.sv-footer.public-footer",
+      "tag": "footer",
+      "top": 7826,
+      "height": 473,
+      "words": 88,
+      "media": 0,
+      "middle": 117,
+      "heading": {
+       "text": "SIVI",
+       "size": 29,
+       "tag": "span"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 56,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [
+     {
+      "top": 4848,
+      "height": 248
+     }
+    ],
+    "h1s": [
+     {
+      "text": "O próximo acordo começa aqui.",
+      "size": 80,
+      "top": 251,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 56,
+      "n": 16
+     },
+     {
+      "x": 577,
+      "n": 7
+     },
+     {
+      "x": 794,
+      "n": 5
+     },
+     {
+      "x": 106,
+      "n": 4
+     },
+     {
+      "x": 708,
+      "n": 4
+     },
+     {
+      "x": 859,
+      "n": 3
+     },
+     {
+      "x": 771,
+      "n": 2
+     },
+     {
+      "x": 87,
+      "n": 1
+     },
+     {
+      "x": 280,
+      "n": 1
+     },
+     {
+      "x": 334,
+      "n": 1
+     },
+     {
+      "x": 358,
+      "n": 1
+     },
+     {
+      "x": 477,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 46,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 1440,
+   "message": "2 headline(s) wrap past two lines at 1440px: \"Sua necessidade. O fornecedor certo para convers\" → 3 lines (7 words, 50.4px); \"O que sua empresa faz pode ser o que outra preci\" → 3 lines (12 words, 50.4px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 36px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "11 eyebrow/kicker label(s) above headings: \"Conexões que movem a indústria\" above \"O próximo acordo começa aqui.\"; \"Seu negócio tem dois lados. Nós conectamos.\" above \"Quem precisa encontra. Quem faz, acontec\"; \"O acordo merece mais que mensagens soltas\" above \"Veja o contexto. Decida com clareza.\"; \"Do primeiro requisito ao último registro\" above \"Uma compra. Cada etapa conectada.\"; \"Etapa 01 / 07\" above \"Tudo começa com uma necessidade.\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "numbering",
+   "width": 1440,
+   "message": "Decorative index numbers: \"01\", \"02\", \"03\", \"04\", \"05\", \"06\"",
+   "fix": "Remove them. If order truly matters, write it into the words (\"First, …\") or use a real <ol>.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "micro-label",
+   "width": 1440,
+   "message": "17 tiny uppercase letter-spaced labels (e.g. \"Conexões que movem a indústria\", \"INDÚSTRIA REAL.RELAÇÕES QUE FAZEM ACONTE\", \"Seu negócio tem dois lados. Nós conectam\", \"O acordo merece mais que mensagens solta\").",
+   "fix": "Use sentence-case text at a readable size, or delete the label.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "shadow",
+   "width": 1440,
+   "message": "1 box-shadow(s) on elements at rest: div.sv-record-sheet → rgba(37, 53, 26, 0.04) 0px 7px 15px 0px",
+   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
+   "alsoAt": [
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "hairline",
+   "width": 1440,
+   "message": "22 thin rule(s)/divider line(s): header.sv-header 1440px | div.sv-value-strip.sv-shell 1280px | div.sv-workflow-layout 1280px | ol 240px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "outlined-box",
+   "width": 1440,
+   "message": "4 boxes drawn with a 1px outline.",
+   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "card-rows",
+   "width": 1440,
+   "message": "2 rows of identical boxed cards.",
+   "fix": "Vary the composition; not every section is a card grid.",
+   "alsoAt": [
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "palette-claude",
+   "width": 1440,
+   "message": "Cream + terracotta palette (section #f7f7f2, button #e85d2d).",
+   "fix": "Re-draw the palette from the library. This pairing reads as an assistant brand, not yours.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "contrast",
+   "width": 1440,
+   "message": "Unreadable text: \"acontece.\" 2.2:1 (#a5aca2 on #f7f7f2)",
+   "fix": "Raise contrast to at least 4.5:1 for text, 3:1 for large display.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "22 different font sizes (7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 25, 29, 50, 53, 58, 79, 91, 310).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "body-size",
+   "width": 1440,
+   "message": "Body text is 14px (the size most of the running text is set in).",
+   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "grey-body",
+   "width": 1440,
+   "message": "The running text is a soft grey on its ground (5.3:1).",
+   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "measure",
+   "width": 1440,
+   "message": "Longest paragraph runs about 142 characters per line.",
+   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch).",
+   "alsoAt": [
+    768,
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "small-text",
+   "width": 1440,
+   "message": "84 text blocks under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    768,
+    390,
+    360,
+    1265
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "lopsided",
+   "width": 1440,
+   "message": "A section keeps its content on one side and leaves 709px of the width empty: \"Sua capacidade.\".",
+   "fix": "Fill the other side with what the section has (its picture, a second column, the figure), or defend the void in one sentence.",
+   "alsoAt": [
+    1265
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 768,
+   "message": "6 headline(s) wrap past two lines at 768px: \"Quem precisa encontra. Quem faz, acontece.\" → 3 lines (6 words, 40px); \"Veja o contexto. Decida com clareza.\" → 3 lines (6 words, 38px); \"Uma compra. Cada etapa conectada.\" → 3 lines (5 words, 38px); \"Sua necessidade. O fornecedor certo para convers\" → 3 lines (7 words, 36px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 32px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 390,
+   "message": "6 headline(s) wrap past two lines at 390px: \"Quem precisa encontra. Quem faz, acontece.\" → 4 lines (6 words, 42px); \"Uma compra. Cada etapa conectada.\" → 3 lines (5 words, 39px); \"Sua necessidade. O fornecedor certo para convers\" → 3 lines (7 words, 37px); \"O que sua empresa faz pode ser o que outra preci\" → 4 lines (12 words, 37px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 24px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "gradient",
+   "width": 390,
+   "message": "1 gradient fill(s): div.sv-hero-shade → linear-gradient(90deg, rgba(16, 32, 23, 0.91), rgba(16, 32, 23, 0.4)), linear-gradient(rgba(0, 0, 0, 0) 20%, r",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+   "alsoAt": [
+    360
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "side-scroll",
+   "width": 390,
+   "message": "1 row(s) scroll sideways with content past their edge.",
+   "fix": "Jurors and most visitors read a row cut at the edge as clipped, not as scrollable. Wrap it onto more lines, or end it inside the grid.",
+   "alsoAt": [
+    360
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "blank-gap",
+   "width": 390,
+   "message": "A 468px stretch at 10320px holds nothing.",
+   "fix": "Check that it is a deliberate rest (once per page at most); otherwise close it to the normal section gap."
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 360,
+   "message": "8 headline(s) wrap past two lines at 360px: \"Quem precisa encontra. Quem faz, acontece.\" → 4 lines (6 words, 42px); \"Veja o contexto. Decida com clareza.\" → 3 lines (6 words, 39px); \"Uma compra. Cada etapa conectada.\" → 3 lines (5 words, 39px); \"Sua necessidade. O fornecedor certo para convers\" → 3 lines (7 words, 37px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 24px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "ui-wrapper",
+   "width": 360,
+   "message": "A data-ui element wraps a heading or more than a screen and a half of the page.",
+   "fix": "data-ui marks a cropped interface fragment only. Remove it from page-level wrappers."
+  },
+  {
+   "level": "FAIL",
+   "id": "blank-gap",
+   "width": 360,
+   "message": "9 stretch(es) of the page hold nothing at all: 136px at 1312px; 404px at 3192px; 500px at 4756px; 1108px at 5640px (the screen is 225px tall).",
+   "fix": "Close the gap: a section gap is 120–240px on desktop and 72–112px on a phone. Look for a min-height: 100vh on a short section, an empty grid row, a hidden element still holding its space, or a reveal that never fired. A deliberate rest is a placed picture or colour field, not nothing."
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 1265,
+   "message": "2 headline(s) wrap past two lines at 1265px: \"Sua necessidade. O fornecedor certo para convers\" → 3 lines (7 words, 44.3px); \"O que sua empresa faz pode ser o que outra preci\" → 3 lines (12 words, 44.3px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 36px or less."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-fold.jpg",
+   "pages": [
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-01.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-02.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-03.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\tablet-fold.jpg",
+   "pages": [
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\tablet-page-01.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\tablet-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-fold.jpg",
+   "pages": [
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-page-01.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 360,
+   "fold": "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-fold.jpg",
+   "pages": [
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-page-01.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\mobile-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "desktop",
+   "width": 1265,
+   "fold": "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-fold.jpg",
+   "pages": [
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-01.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-02.jpg",
+    "C:\\Users\\Kauan\\Desktop\\sivi\\.taste-skill\\after-home\\desktop-page-03.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

@@ -63,13 +63,25 @@ test('orders filter and sort, remember choices and export only visible frozen re
   await expect(page.locator('.workflow-order > h3')).toHaveText('Eixos de aço');
 });
 
-test('filtering cannot hide an unfinished evaluation and preserves its text', async ({ page }) => {
+test('orders lead to one evaluation page and history filters preserve an unfinished evaluation', async ({ page }) => {
   await openWorkspace(page);
-  await page.getByLabel('Comentário sobre a entrega').fill('Entrega em conferência');
-  await page.getByLabel('Buscar pedidos').fill('aco');
-  await expect(page.getByLabel('Buscar pedidos')).toHaveValue('');
-  await expect(page.getByLabel('Comentário sobre a entrega')).toHaveValue('Entrega em conferência');
-  await expect(page.locator('.workflow-feedback')).toContainText('Salve ou cancele');
+  const destination = page.getByRole('link', { name: 'Avaliar entrega', exact: true });
+  await expect(destination).toHaveAttribute('href', '#/app/comprador/avaliacoes?registro=P-2');
+  await expect(page.getByLabel('Comentário sobre a entrega')).toHaveCount(0);
+  await destination.click();
+  await page.evaluate(async () => {
+    const { mountBuyerReviewsPage } = await import('/src/pages/buyer/reviews-page.js');
+    mountBuyerReviewsPage({ container: document.querySelector('main'), workspace: { id: 'buyer' }, repository: {
+      getOperations: async () => ({ status: 'ready', data: window.productivityData }), workflow: {},
+    } });
+  });
+  const comment = page.locator('.reviews-form textarea');
+  await comment.fill('Entrega em conferência');
+  await page.getByLabel('Buscar avaliações').fill('aco');
+  await expect(page.getByLabel('Buscar avaliações')).toHaveValue('aco');
+  await expect(comment).toHaveValue('Entrega em conferência');
+  await expect(page.locator('.reviews-form')).toHaveAttribute('data-dirty', 'true');
+  await expect(page.locator('.reviews-preview')).toContainText('P-2');
 });
 
 test('reusing a demand requires review and persists a separate draft without IDs', async ({ page }) => {
@@ -112,4 +124,21 @@ test('collection controls fit mobile and remain usable with storage unavailable'
   await page.getByLabel('Buscar pedidos').fill('eixos');
   await expect(page.locator('.workflow-order')).toHaveCount(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('the proposal comparator scrolls inside its region on the actual narrow grid layout', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await openWorkspace(page, 'proposals');
+  await page.evaluate(async () => {
+    const styles = document.createElement('link'); styles.rel = 'stylesheet'; styles.href = '/src/styles/high-end-pages.css';
+    document.head.append(styles); await new Promise(resolve => { styles.onload = resolve; });
+  });
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const comparison = page.getByRole('region', { name: 'Comparador de propostas, com rolagem horizontal' }).first();
+  expect(await comparison.evaluate(node => node.scrollWidth > node.clientWidth)).toBe(true);
+  await comparison.focus();
+  await comparison.press('ArrowRight');
+  await expect.poll(() => comparison.evaluate(node => node.scrollLeft)).toBeGreaterThan(0);
+  await expect(comparison.locator('table')).toContainText('Condições da oferta');
+  await expect(comparison.locator('table')).toContainText('Garantia');
 });
