@@ -3,6 +3,7 @@ import { renderPageState } from "../../components/page-state/page-state.js";
 import { mountIndustrialRail } from "../../visualizations/industrial-rail/industrial-rail.js";
 import { workflowLink } from '../../domain/next-actions.js';
 import { quantitySummary } from '../../domain/quantity.js';
+import { mountWorkspaceAnalytics } from '../../generated/public/entry.js';
 
 const dateTime = new Intl.DateTimeFormat("pt-BR", {
   dateStyle: "short",
@@ -194,6 +195,7 @@ export function mountDashboardPage({
   let retryInFlight = false;
   let clearPageState = () => {};
   let clearJourney = () => {};
+  let clearInsights = () => {};
 
   const renderStatus = (status, onRetry) => {
     clearJourney();
@@ -219,6 +221,7 @@ export function mountDashboardPage({
   };
 
   const load = async () => {
+    clearInsights();
     const currentLoad = ++loadVersion;
     renderStatus("loading");
 
@@ -243,10 +246,6 @@ export function mountDashboardPage({
         journeyResult = { status: "error" };
       }
       if (!active || currentLoad !== loadVersion) return;
-      if (journeyResult.status !== "ready") {
-        renderStatus(journeyResult.status, retry);
-        return;
-      }
 
       const data = dashboardResult.data;
       let missingProfile = false;
@@ -298,15 +297,23 @@ export function mountDashboardPage({
       metrics.setAttribute("aria-label", "Resumo da empresa");
       data.metrics.forEach((metric) => metrics.append(renderMetric(metric)));
 
+      page.append(metricsHeader, metrics);
+      const insightsSlot = element('div', 'workspace-analytics-slot');
+      if (data.activityRecords && ['buyer', 'supplier'].includes(data.role)) page.append(insightsSlot);
+      page.append(renderRole(data));
       if (data.nextActions?.length) page.append(renderNextActions(data));
-      page.append(metricsHeader, metrics, renderRole(data));
       container.append(page);
+      if (data.activityRecords && ['buyer', 'supplier'].includes(data.role)) clearInsights = mountWorkspaceAnalytics(insightsSlot, { records: data.activityRecords, role: data.role });
       if (data.showJourney !== false) {
         const railPanel = renderRailPanel();
-        const context = journeyResult.data.find(step => step.id === 'demand');
+        const context = journeyResult.data?.find(step => step.id === 'demand');
         if (context?.href) railPanel.section.querySelector('.dashboard-panel__heading').append(element('p', 'dashboard-panel__note', context.summary));
         page.append(railPanel.section);
-        clearJourney = mountJourney(railPanel.slot, journeyResult.data, journeyResult.meta) ?? (() => {});
+        if (journeyResult.status === 'ready') clearJourney = mountJourney(railPanel.slot, journeyResult.data, journeyResult.meta) ?? (() => {});
+        else {
+          railPanel.slot.append(element('p', '', 'Não foi possível carregar o acompanhamento deste pedido.'));
+          const refreshJourney = element('button', 'dashboard-primary', 'Atualizar acompanhamento'); refreshJourney.type = 'button'; refreshJourney.addEventListener('click', retry); railPanel.slot.append(refreshJourney);
+        }
       }
       container.dataset.dashboardStatus = "ready";
       onReady();
@@ -319,6 +326,7 @@ export function mountDashboardPage({
   load();
   return () => {
     active = false;
+    clearInsights();
     loadVersion += 1;
     clearJourney();
     clearPageState();

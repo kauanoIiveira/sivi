@@ -17,10 +17,6 @@
   transition: none !important;
   scroll-behavior: auto !important;
 }
-:root[data-density="compact"] .operations-page .workflow-record { padding: 16px; margin-block: 12px; }
-:root[data-density="compact"] .workflow-facts { padding-block: 8px; gap: 12px; margin-top: 10px; }
-:root[data-density="compact"] .workflow-metric { padding-block: 12px; }
-:root[data-density="compact"] .operations-page :is(th, td) { padding-block: 10px; }
 
 .preferences-dialog {
   width: min(640px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px);
@@ -36,6 +32,8 @@
 .preferences-row { display: grid; grid-template-columns: minmax(0, 1fr) 210px; align-items: center; gap: 24px; padding: 20px 0; border-top: 1px solid var(--border-subtle); }
 .preferences-row label { font-size: .9375rem; font-weight: 600; }
 .preferences-row p { margin: 6px 0 0; }
+.preferences-vlibras-status { color: var(--text-muted); font-size: .8125rem; }
+.preferences-retry { margin-top: 10px; }
 .preferences-dialog :is(select, button) { min-height: 44px; font: inherit; font-size: .875rem; border: 1px solid var(--border-control); border-radius: 5px; color: var(--text-primary); background: var(--surface); padding: 10px 12px; }
 .preferences-dialog select { width: 100%; min-width: 0; }
 .preferences-dialog button { cursor: pointer; }
@@ -45,7 +43,6 @@
 .preferences-dialog footer p { margin: 0; }
 .preferences-dialog footer button { flex-shrink: 0; }
 .preferences-link { min-height: 44px; padding: 10px 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: .875rem; text-align: left; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-.auth-preferences { display: block; margin: 16px auto 0; color: var(--text-muted); }
 @media (max-width: 560px) {
   .preferences-dialog { padding: 20px; }
   .preferences-row { grid-template-columns: minmax(0, 1fr); gap: 12px; padding-block: 16px; }

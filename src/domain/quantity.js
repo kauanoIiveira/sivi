@@ -1,8 +1,13 @@
 const number = new Intl.NumberFormat('pt-BR');
+const standardUnits = new Map([
+  ...['un', 'un.', 'und', 'und.', 'unidade', 'unidades'].map(name => [name, 'un']),
+  ...['kg', 'g', 'mg', 't', 'l', 'ml', 'm', 'cm', 'mm', 'm²', 'm³'].map(name => [name, name]),
+  ['m2', 'm²'], ['m3', 'm³'], ['quilo', 'kg'], ['quilos', 'kg'],
+]);
 
 export function normalizeUnit(value = 'un') {
-  const unit = String(value).trim();
-  return ['un', 'un.', 'und', 'und.', 'unidade', 'unidades'].includes(unit.toLocaleLowerCase('pt-BR')) ? 'un' : unit || 'un';
+  const unit = String(value ?? '').trim();
+  return standardUnits.get(unit.toLocaleLowerCase('pt-BR')) ?? (unit || 'un');
 }
 
 export function quantitiesByUnit(records) {

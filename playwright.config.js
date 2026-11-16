@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+const applicationUrl = `http://127.0.0.1:${Number(process.env.SIVI_TEST_PORT ?? 4173)}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -6,7 +7,7 @@ export default defineConfig({
   workers: 1,
   reporter: "line",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: applicationUrl,
     browserName: "chromium",
     channel: process.env.SIVI_BROWSER_CHANNEL || undefined,
     trace: "retain-on-failure",
@@ -14,7 +15,7 @@ export default defineConfig({
   webServer: [
     {
       command: "npm run serve:test",
-      url: "http://127.0.0.1:4173",
+      url: applicationUrl,
       reuseExistingServer: process.env.CI !== "true",
       timeout: 120_000,
     },

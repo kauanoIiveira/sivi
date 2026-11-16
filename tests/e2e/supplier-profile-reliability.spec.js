@@ -1,7 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-test.use({ baseURL: "http://127.0.0.1:4173" });
-
 const profile = {
   categories: ["engrenagens"], materials: ["aço 1045"], processes: ["usinagem"],
   regions: ["Campinas/SP"], certifications: [], capacity: 800, leadTimeDays: 15,

@@ -13,7 +13,7 @@ function Copy-ProjectItem([System.IO.FileSystemInfo]$Item, [string]$Target) {
     if ($Item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
         throw "Link de arquivo ou pasta precisa ser revisado antes da exportacao: $($Item.FullName)"
     }
-    if ($Item.Name -in @('.git', '.worktrees', 'node_modules', 'exports', 'test-results', 'playwright-report', 'coverage', '.firebase', '.superpowers', '__pycache__')) { return }
+    if ($Item.Name -in @('.git', '.worktrees', 'node_modules', 'exports', '_arquivo', 'test-results', 'playwright-report', 'coverage', '.firebase', '.superpowers', '.checks', '__pycache__')) { return }
     if ($Item.Name -like '*.log' -or $Item.Name -in @('.DS_Store', 'Thumbs.db')) { return }
     if ($Item.Name -like '.env*' -and $Item.Name -ne '.env.example') { return }
     if ($Item.Name -match '(?i)(service.?account|adminsdk|credentials).*\.json$|\.(pem|key|pfx|p12)$') { return }
@@ -31,10 +31,14 @@ try {
     New-Item -ItemType Directory -Path $stage | Out-Null
     New-Item -ItemType Directory -Path $source | Out-Null
     # Explicit project roots keep local tooling, caches and credentials out of the snapshot.
-    $included = @('.vscode', 'design-system', 'docs', 'scripts', 'src', 'tests', '.firebaserc', '.gitignore', '.env.example', 'COMO_ABRIR.md', 'CONTINUE_AQUI.md', 'README.md', 'database.rules.json', 'firebase.json', 'index.html', 'package.json', 'package-lock.json', 'playwright.config.js')
+    $included = @('.vscode', 'assets', 'docs', 'scripts', 'src', 'tests', '.firebaserc', '.gitignore', '.env.example', 'README.md', 'components.json', 'vite.public.config.ts', 'tsconfig.json', 'tsconfig.public.json', 'database.rules.json', 'firebase.json', 'index.html', 'package.json', 'package-lock.json', 'playwright.config.js', 'playwright.design.config.js')
     foreach ($name in $included) {
         $path = Join-Path $projectRoot $name
-        if (Test-Path -LiteralPath $path) { Copy-ProjectItem (Get-Item -LiteralPath $path -Force) (Join-Path $source $name) }
+        if (Test-Path -LiteralPath $path) {
+            $target = Join-Path $source $name
+            New-Item -ItemType Directory -Path (Split-Path $target -Parent) -Force | Out-Null
+            Copy-ProjectItem (Get-Item -LiteralPath $path -Force) $target
+        }
     }
     $files = @(Get-ChildItem -LiteralPath $source -Recurse -File -Force | Sort-Object FullName)
     $manifest = foreach ($file in $files) {
@@ -63,13 +67,13 @@ try {
         "Gerado em: $(Get-Date -Format o)"
         "Arquivos do projeto: $($files.Count)"
         'Snapshot: conteudo atual da pasta, incluindo alteracoes ainda nao commitadas.'
-        'Inicio: extraia a pasta SIVI e leia COMO_ABRIR.md e CONTINUE_AQUI.md.'
+        'Inicio: extraia a pasta SIVI e leia README.md, docs/guias/COMO_ABRIR.md e docs/guias/CONTINUE_AQUI.md.'
         'Integridade: SIVI/SHA256SUMS.txt lista o SHA-256 de cada arquivo incluido.'
         'Verifique antes de editar: na pasta SIVI, execute node scripts/verify-transfer.mjs .'
-        'Dependencias, logs, resultados de testes, credenciais locais e .git nao integram o snapshot.'
+        'Dependencias, logs, resultados de testes, credenciais locais, _arquivo e .git nao integram o snapshot.'
         "Historico Git opcional incluido: $($IncludeGitHistory.IsPresent). Inclui HEAD e branches locais; alteracoes nao commitadas estao no snapshot."
         'A pasta de continuidade e preservada ao lado do ZIP. Nenhum arquivo anterior e excluido.'
-        'Restauracao do Git sem substituir o snapshot: veja docs/25-transferencia-e-retomada.md.'
+        'Restauracao do Git sem substituir o snapshot: veja docs/historico/25-transferencia-e-retomada.md.'
     ) | Set-Content -LiteralPath (Join-Path $stage 'LEIA-ME-TRANSFERENCIA.txt') -Encoding utf8
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $destination)

@@ -1,0 +1,114 @@
+/* Alternativas para os estados do sistema, sem filtros sobre a marca ou imagens.
+   Rótulos e símbolos continuam sendo a indicação principal de cada estado.
+   Referência: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color */
+:root[data-color-vision="redGreen"] body[data-surface="app"] {
+  --feedback-success: #14547a;
+  --feedback-success-bg: #edf5fa;
+  --feedback-success-border: #14547a;
+  --feedback-warning: #795100;
+  --feedback-warning-bg: #fff4df;
+  --feedback-warning-border: #795100;
+  --feedback-danger: #6d356f;
+  --feedback-danger-bg: #f8edf9;
+  --feedback-danger-border: #6d356f;
+  --feedback-info: #3f474b;
+  --feedback-info-bg: #f0f2f3;
+  --feedback-info-border: #3f474b;
+}
+:root[data-theme="dark"][data-color-vision="redGreen"] body[data-surface="app"] {
+  --feedback-success: #86c5ed;
+  --feedback-success-bg: #183449;
+  --feedback-success-border: #86c5ed;
+  --feedback-warning: #e4bc6e;
+  --feedback-warning-bg: #3b2f18;
+  --feedback-warning-border: #e4bc6e;
+  --feedback-danger: #d9a9da;
+  --feedback-danger-bg: #3f2641;
+  --feedback-danger-border: #d9a9da;
+  --feedback-info: #ced3d6;
+  --feedback-info-bg: #2a3033;
+  --feedback-info-border: #ced3d6;
+}
+:root[data-color-vision="blueYellow"] body[data-surface="app"] {
+  --feedback-success: #22643d;
+  --feedback-success-bg: #edf5f0;
+  --feedback-success-border: #22643d;
+  --feedback-warning: #6b3f75;
+  --feedback-warning-bg: #f5edf7;
+  --feedback-warning-border: #6b3f75;
+  --feedback-danger: #8a3558;
+  --feedback-danger-bg: #f9edf1;
+  --feedback-danger-border: #8a3558;
+  --feedback-info: #37463e;
+  --feedback-info-bg: #edf1ef;
+  --feedback-info-border: #37463e;
+}
+:root[data-theme="dark"][data-color-vision="blueYellow"] body[data-surface="app"] {
+  --feedback-success: #9bd0ab;
+  --feedback-success-bg: #1e3528;
+  --feedback-success-border: #9bd0ab;
+  --feedback-warning: #d4addf;
+  --feedback-warning-bg: #37273d;
+  --feedback-warning-border: #d4addf;
+  --feedback-danger: #eab0bd;
+  --feedback-danger-bg: #41282e;
+  --feedback-danger-border: #eab0bd;
+  --feedback-info: #c5cfca;
+  --feedback-info-bg: #28322c;
+  --feedback-info-border: #c5cfca;
+}
+
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] {
+  --input-error-bg: var(--feedback-danger-bg);
+  --danger-focus-shadow: color-mix(in srgb, var(--feedback-danger) 25%, transparent);
+}
+
+/* Estas páginas ainda têm cores literais. Os estados seguem os mesmos tokens
+   usados pelos formulários, pedidos e pelo mapa industrial. */
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-badge--green, .buyer-supplier-card__approved,
+  .reviews-feedback[data-state="success"]
+) {
+  color: var(--feedback-success);
+  background: var(--feedback-success-bg);
+  border-color: var(--feedback-success-border);
+}
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-supplier-card__approved strong, .buyer-supplier-card__approved small,
+  .buyer-supplier-card__explain span, .reviews-table td .reviews-success
+) { color: var(--feedback-success); }
+
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-badge--amber, .buyer-alert--amber,
+  .reviews-metric--pending .reviews-metric__icon
+) {
+  color: var(--feedback-warning);
+  background: var(--feedback-warning-bg);
+  border-color: var(--feedback-warning-border);
+}
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-alert--amber .buyer-alert__icon, .buyer-alert--amber small,
+  .reviews-metric--pending > small
+) { color: var(--feedback-warning); }
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] .reviews-metric--pending {
+  border-left-color: var(--feedback-warning-border);
+}
+
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .reviews-feedback[data-state="error"]
+) {
+  color: var(--feedback-danger);
+  background: var(--feedback-danger-bg);
+  border-color: var(--feedback-danger-border);
+}
+
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-badge--blue, .buyer-alert--blue
+) {
+  color: var(--feedback-info);
+  background: var(--feedback-info-bg);
+  border-color: var(--feedback-info-border);
+}
+:root:is([data-color-vision="redGreen"], [data-color-vision="blueYellow"]) body[data-surface="app"] :is(
+  .buyer-alert--blue .buyer-alert__icon, .buyer-alert--blue small, .buyer-priority__count
+) { color: var(--feedback-info); }

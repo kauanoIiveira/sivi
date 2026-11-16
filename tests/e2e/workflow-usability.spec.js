@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('a new demand can be recovered after reload, or discarded explicitly', async ({ page }) => {
   await page.goto('/tests/fixtures/operations-lab.html');
-  await page.getByText('Nova demanda', { exact: true }).click();
+  await page.getByRole('button', { name: 'Criar nova demanda', exact: true }).click();
   const form = page.locator('.workflow-demand-form').first();
   await form.getByLabel('Título da demanda').fill('Compra ainda em preparação');
   await form.getByLabel('Objetivo e observações').fill('Preservar todas as especificações');
@@ -57,7 +57,7 @@ test('refresh updates records but preserves a form with unsaved input', async ({
   await openDemands(page);
   await page.getByRole('button', { name: 'Atualizar registros', exact: true }).click();
   expect(await page.evaluate(() => window.refreshCalls)).toBe(2);
-  await page.getByText('Nova demanda', { exact: true }).click();
+  await page.getByRole('button', { name: 'Criar nova demanda', exact: true }).click();
   await page.locator('.workflow-demand-form').first().getByLabel('Título da demanda').fill('Não apagar');
   await page.getByRole('button', { name: 'Atualizar registros', exact: true }).click();
   await expect(page.locator('.workflow-feedback')).toContainText('Salve ou cancele');
@@ -68,7 +68,7 @@ test('refresh updates records but preserves a form with unsaved input', async ({
 test('blocked recovery storage is explained without preventing input', async ({ page }) => {
   await page.addInitScript(() => { Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('Blocked'); } }); });
   await page.goto('/tests/fixtures/operations-lab.html');
-  await page.getByText('Nova demanda', { exact: true }).click();
+  await page.getByRole('button', { name: 'Criar nova demanda', exact: true }).click();
   const form = page.locator('.workflow-demand-form').first();
   await form.getByLabel('Título da demanda').fill('Compra local');
   await expect(form.getByRole('status')).toContainText('não guardado pelo navegador');
@@ -87,7 +87,7 @@ test('a refresh error leaves the existing records visible and the retry availabl
   });
   await page.getByRole('button', { name: 'Atualizar registros' }).click();
   await expect(page.locator('.workflow-feedback')).toContainText('Não foi possível atualizar');
-  await expect(page.locator('.workflow-demand > h3')).toHaveText('Registro preservado');
+  await expect(page.locator('.workflow-demand .workspace-record__heading h3')).toHaveText('Registro preservado');
   await expect(page.getByRole('button', { name: 'Atualizar registros' })).toBeEnabled();
   await page.getByRole('button', { name: 'Atualizar registros' }).click();
   await expect(page.locator('.workflow-feedback')).toHaveText('Registros atualizados.');
@@ -104,13 +104,13 @@ test('a cent-level proposal saves once, locks sibling forms and announces a conf
     mountWorkflowView({ container, section: 'proposals', selectedRecordId: null, suppliers: [],
       workspace: { id: 'supplier', organizationRole: 'supplier' },
       workflow: {
-        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: [], orders: [] }),
+        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: ['A', 'B'].map(id => ({ id: `p-${id}`, demandId: id, supplierId: 'supplier', supplierName: 'Fábrica', versions: [{ id: `v-${id}`, revision: 1, totalCents: 1000, freightCents: 0, leadTimeDays: 2, validUntil: '2099-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' }] })), orders: [] }),
         getSyncWarning: () => warning,
         sendProposal: async (...args) => { window.proposalCalls.push(args); await new Promise(resolve => { window.finishProposal = resolve; }); warning = 'Os dados foram salvos. A atualização da lista está pendente.'; },
       },
     });
   });
-  await page.getByText('Preparar proposta', { exact: true }).first().click();
+  await page.getByText('Enviar nova versão', { exact: true }).first().click();
   const form = page.locator('.workflow-form').first();
   for (const [name, value] of Object.entries({ price: '0.01', freight: '0', leadTimeDays: '2', validUntil: '2027-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' })) {
     await form.locator(`[name=${name}]`).fill(value);
@@ -135,14 +135,14 @@ test('saving one proposal preserves another unfinished form without asking to di
     mountWorkflowView({ container, section: 'proposals', selectedRecordId: null, suppliers: [],
       workspace: { id: 'supplier', organizationRole: 'supplier' },
       workflow: {
-        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: [], orders: [] }),
+        read: () => ({ demands: ['A', 'B'].map(id => ({ id, title: id, status: 'published', quantity: 1 })), proposals: ['A', 'B'].map(id => ({ id: `p-${id}`, demandId: id, supplierId: 'supplier', supplierName: 'Fábrica', versions: [{ id: `v-${id}`, revision: 1, totalCents: 1000, freightCents: 0, leadTimeDays: 2, validUntil: '2099-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: 'Conforme desenho' }] })), orders: [] }),
         sendProposal: async (_workspace, id) => { window.savedProposals.push(id); },
       },
     });
   });
   const forms = page.locator('.workflow-form');
   for (let i = 0; i < 2; i++) {
-    await page.getByText('Preparar proposta', { exact: true }).nth(i).click();
+    await page.getByText('Enviar nova versão', { exact: true }).nth(i).click();
     for (const [name, value] of Object.entries({ price: '10', freight: '0', leadTimeDays: '2', validUntil: '2027-12-20', manufacturer: 'Fábrica', payment: 'À vista', warranty: '12 meses', technical: `Especificação ${i}` })) {
       await forms.nth(i).locator(`[name=${name}]`).fill(value);
     }

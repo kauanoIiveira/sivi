@@ -33,6 +33,14 @@ test("canonicalizes an empty hash to the public home", () => {
   assert.equal(fakeWindow.location.hash, "#/");
 });
 
+test('dispatches both the canonical route and its original record parameters', () => {
+  const fakeWindow = new FakeWindow('#/app/comprador/propostas?registro=demand-a');
+  let payload;
+  createHashRouter({ windowObject: fakeWindow, routes: APP_ROUTES, onRoute: value => { payload = value; }, onNotFound() {} }).start();
+  assert.equal(payload.path, '/app/comprador/propostas');
+  assert.equal(payload.fullPath, '/app/comprador/propostas?registro=demand-a');
+});
+
 test("starts, navigates, replaces and stops without losing the query string", () => {
   const fakeWindow = new FakeWindow("#/acesso");
   const visited = [];

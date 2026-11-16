@@ -4,6 +4,7 @@ import {
   resetDatabaseEmulator,
   seedDatabaseEmulator,
 } from "./auth-emulator.js";
+import { proposalExpiry } from '../../src/domain/proposal-expiry.js';
 
 // Fixed local endpoints: these tests must never write to a remote project.
 export async function createMarketplaceRuleFixture() {
@@ -21,6 +22,7 @@ export async function createMarketplaceRuleFixture() {
     if (!response.ok) throw new Error(`Fixture sign-in failed: ${response.status}`);
     const { idToken: token } = await response.json();
     const organizationId = `integrity-${name}`;
+    await seedDatabaseEmulator(`organizations/${organizationId}`, { id: organizationId, name, roles: { [role]: true }, status: 'active', createdBy: user.uid, createdAt: 1, updatedAt: 1 });
     await seedDatabaseEmulator(`membershipsByUser/${user.uid}/${organizationId}`, {
       organizationName: name, organizationRoles: { [role]: true }, status: "active",
       userRoles: ["owner"], permissions: { [role]: ["orders:write"] }, createdAt: 1,
@@ -33,7 +35,8 @@ export async function createMarketplaceRuleFixture() {
   const demand = {
     id: "demand-1", buyerId: buyer.organizationId, buyerName: "Comprador",
     title: "Eixos de aço", description: "Usinagem conforme desenho",
-    items: [{ id: "item-1", description: "Eixo", quantity: 10, unit: "un" }],
+    items: [{ id: "item-1", position: 0, cumulativeQuantity: 10, description: "Eixo", category: 'Peças', material: 'Aço', process: 'Usinagem', quantity: 10, unit: "un" }],
+    itemCount: 1, revision: 1, createdBy: buyer.uid,
     quantity: 10, requiredBy: "2027-12-01", destination: "Diadema", region: "SP",
     status: "ordered", createdAt: 1, updatedAt: 1,
   };
@@ -46,6 +49,7 @@ export async function createMarketplaceRuleFixture() {
       id: "version-1", revision: 1, totalCents: 10000, freightCents: 500,
       leadTimeDays: 10, manufacturer: "Fornecedor", payment: "30 dias",
       warranty: "12 meses", technical: "Conforme desenho", validUntil: "2027-11-01", createdAt: 1,
+      expiry: proposalExpiry('2027-11-01'),
     },
     status: "accepted", createdAt: 1, updatedAt: 1,
   };

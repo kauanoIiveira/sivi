@@ -132,3 +132,40 @@ test("unchanged memberships do not remount a form being filled", () => {
   store.replace(structuredClone(DEMO_WORKSPACES));
   assert.equal(calls, 2);
 });
+
+test("separates a pending or failed membership query from an empty account", () => {
+  const store = createWorkspaceStore({ storage: memoryStorage(), workspaces: [] });
+  store.beginLoad('account-a');
+  assert.equal(store.getSnapshot().status, 'loading');
+  store.failLoad(new Error('offline'));
+  assert.equal(store.getSnapshot().status, 'error');
+  assert.equal(store.getSnapshot().error.message, 'offline');
+  store.beginLoad('account-a');
+  store.replace([]);
+  assert.equal(store.getSnapshot().status, 'ready');
+});
+
+test("invalidates identity immediately and restores selection by company and activity", () => {
+  const storage = memoryStorage();
+  const buyer = { ...DEMO_WORKSPACES[0], memberUid: 'account-a' };
+  const store = createWorkspaceStore({ storage, workspaces: [], accountScoped: true });
+  store.beginLoad('account-a');
+  store.replace([buyer]);
+  store.select(buyer.id);
+  const restarted = createWorkspaceStore({ storage, workspaces: [], accountScoped: true });
+  restarted.beginLoad('account-a');
+  restarted.replace([{ ...buyer, id: `${buyer.organizationId}:buyer` }]);
+  assert.equal(restarted.getCurrent()?.organizationRole, 'buyer');
+  restarted.beginLoad('account-b');
+  assert.equal(restarted.getCurrent(), null);
+  assert.deepEqual(restarted.list(), []);
+  restarted.replace([{ ...buyer, memberUid: 'account-b' }]);
+  assert.equal(restarted.getCurrent(), null);
+  assert.throws(() => restarted.replace([buyer]), /conta/);
+});
+
+test("rejects an invalid preferred context without changing the available companies", () => {
+  const store = createWorkspaceStore({ storage: memoryStorage(), workspaces: DEMO_WORKSPACES });
+  assert.throws(() => store.replace([], 'missing'), /não encontrado/);
+  assert.equal(store.list().length, DEMO_WORKSPACES.length);
+});

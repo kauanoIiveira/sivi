@@ -21,7 +21,15 @@ function readPreference() {
   }
 }
 
-const resolveTheme = () => resolveThemePreference(preference, systemTheme.matches);
+function isPublicSurface() {
+  const surface = document.body.dataset.surface;
+  if (surface === 'public' || surface === 'auth') return true;
+  if (surface === 'app') return false;
+  const path = window.location.hash.slice(1).split('?')[0] || '/';
+  return path === '/' || path === '/acesso';
+}
+
+const resolveTheme = () => isPublicSurface() ? 'light' : resolveThemePreference(preference, systemTheme.matches);
 
 const currentTheme = () => (THEMES.includes(root.dataset.theme) ? root.dataset.theme : resolveTheme());
 
@@ -89,6 +97,11 @@ themeToggleObserver.observe(document.body, {
   attributes: true,
   attributeFilter: ["data-theme-toggle"],
 });
+
+const surfaceObserver = new MutationObserver(() => applyTheme(resolveTheme()));
+surfaceObserver.observe(document.body, { attributes: true, attributeFilter: ['data-surface'] });
+
+window.addEventListener('hashchange', () => applyTheme(resolveTheme()));
 
 systemTheme.addEventListener("change", () => {
   if (preference === null) applyTheme(resolveTheme());

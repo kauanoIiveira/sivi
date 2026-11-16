@@ -1,6 +1,11 @@
+import { uiIcon } from '../../components/ui-icon.js';
+import { createAccountDialog } from '../../components/account-dialog.js';
+const brandLogo = new URL('../../assets/brand/raposa.svg', import.meta.url).href;
+
 const focusableSelector = [
   "a[href]",
   "button:not([disabled])",
+  "summary",
   "input:not([disabled])",
   "select:not([disabled])",
   "textarea:not([disabled])",
@@ -12,25 +17,26 @@ const accountSourceLabels = Object.freeze({
   test: "Conta de teste",
 });
 
-const icons = {
-  home: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',
-  demands: '<path d="M7 3h10v4H7zM5 5H3v16h18V5h-2M7 12h10M7 16h7"/>',
-  proposals: '<path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h5"/>',
-  orders: '<path d="m3 7 9-4 9 4v11l-9 4-9-4zM3 7l9 4 9-4M12 11v11M7 5l10 4"/>',
-  profile: '<path d="M3 21V9l6 3V7l6 3V3h6v18zM7 16h1M12 16h1M17 16h1"/>',
-  context: '<path d="M3 21V3h12v18M15 9h6v12M7 7h4M7 12h4M7 17h4M1 21h22"/>',
-  suppliers: '<path d="M3 21V8l6 3V7l6 3V3h6v18zM7 16h2M13 16h2M18 10h2"/>',
-  reviews: '<path d="m12 2 3.1 6.3 7 .9-5.1 5 .9 7-5.9-3.2-5.9 3.2.9-7-5.1-5 7-.9z"/>',
+const navigationIcons = {
+  home: 'home',
+  demands: 'demands',
+  proposals: 'document',
+  orders: 'order',
+  profile: 'factory',
+  context: 'context',
+  suppliers: 'factory',
+  reviews: 'reviews',
+  conversations: 'proposals',
 };
-const icon = (name) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.home}</svg>`;
 
-export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) {
+export function createAppShell({ root, onNavigate, onLogout, onChangeContext, onAccountUpdated = () => {} }) {
   root.innerHTML = `
     <div class="app-shell" data-app-shell data-drawer-open="false">
       <a class="app-shell__skip" href="#app-content">Pular para o conteúdo</a>
       <div class="app-shell__overlay" data-drawer-overlay hidden></div>
       <aside class="app-shell__sidebar" id="app-sidebar" data-app-sidebar aria-label="Navegação principal">
         <div class="app-shell__brand">
+          <img src="${brandLogo}" width="32" height="32" alt="" />
           <span><strong>SIVI<span class="app-shell__brand-dot" aria-hidden="true">.</span></strong><small>Vendas industriais</small></span>
         </div>
         <span class="app-shell__nav-label">Área de trabalho</span>
@@ -39,30 +45,24 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
           <strong data-organization-name>Escolha uma empresa</strong>
           <span data-context-role>Atuação não selecionada</span>
           <span data-user-name>Usuário SIVI</span>
-          <button class="app-shell__context-action app-shell__text-button" type="button" data-change-context-compact>Trocar empresa</button>
+          <button class="app-shell__context-action app-shell__text-button" type="button" data-change-context data-change-context-compact>${uiIcon('switch')}<span>Trocar empresa</span></button>
         </div>
-      </aside>
-      <div class="app-shell__workspace">
-        <header class="app-shell__header">
-          <button class="app-shell__icon-button" type="button" data-drawer-trigger aria-label="Abrir menu" aria-controls="app-sidebar" aria-expanded="false">☰</button>
-          <div class="app-shell__route-meta">
-            <span data-breadcrumbs>Início</span>
-            <strong data-route-title>Carregando</strong>
-          </div>
           <div class="app-shell__actions">
-            <button class="app-shell__text-button" type="button" data-change-context>Trocar empresa</button>
-            <button class="app-shell__icon-button" type="button" data-theme-toggle aria-label="Alternar tema">◐</button>
+            <button class="app-shell__text-button" type="button" data-open-preferences aria-label="Aparência e acessibilidade">${uiIcon('settings')}<span>Preferências</span></button>
             <details class="app-shell__account" data-account-menu>
-              <summary class="app-shell__text-button" aria-label="Menu da conta" aria-controls="account-options" aria-expanded="false">Conta</summary>
+              <summary class="app-shell__text-button" aria-label="Menu da conta" aria-controls="account-options" aria-expanded="false">${uiIcon('user')}<span>Minha conta</span></summary>
               <div class="app-shell__account-popover" id="account-options">
                 <strong data-account-user>Usuário SIVI</strong>
                 <span data-account-source>Conta autenticada</span>
-                <button class="app-shell__text-button" type="button" data-open-preferences>Aparência e acessibilidade</button>
-                <button class="app-shell__text-button" type="button" data-logout>Sair</button>
+                <button class="app-shell__text-button" type="button" data-open-account>${uiIcon('user')}<span>Editar perfil</span></button>
+                <button class="app-shell__text-button" type="button" data-logout>${uiIcon('logout')}<span>Sair</span></button>
               </div>
             </details>
           </div>
-        </header>
+      </aside>
+      <button class="app-shell__icon-button app-shell__mobile-menu" type="button" data-drawer-trigger aria-label="Abrir menu" aria-controls="app-sidebar" aria-expanded="false">${uiIcon('menu')}</button>
+      <div class="app-shell__workspace">
+        <div class="app-shell__workspace-toolbar" aria-label="Localização na plataforma"><span data-breadcrumbs>Início</span><strong data-route-title>Carregando</strong></div>
         <main class="app-shell__content" id="app-content" tabindex="-1" data-app-outlet></main>
       </div>
       <div class="sr-only" aria-live="polite" aria-atomic="true" data-app-announcer></div>
@@ -81,6 +81,9 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   const accountTrigger = accountMenu.querySelector("summary");
   const compactDrawer = window.matchMedia("(max-width: 899px)");
   let drawerReturnTarget = drawerTrigger;
+  let identityUser = null;
+  let pointerInProgress = false;
+  const accountDialog = createAccountDialog({ getUser: () => identityUser, onUpdated: onAccountUpdated });
 
   const syncAccountState = () => {
     accountTrigger.setAttribute("aria-expanded", String(accountMenu.open));
@@ -94,8 +97,11 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   };
 
   const onAccountOutsideInteraction = (event) => {
+    if (event.type === 'focusin' && pointerInProgress) return;
     if (!accountMenu.contains(event.target)) closeAccount();
   };
+  const onPointerDown = () => { pointerInProgress = true; };
+  const onPointerEnd = () => { pointerInProgress = false; };
 
   const closeDrawer = ({ restoreFocus = false } = {}) => {
     shell.dataset.drawerOpen = "false";
@@ -124,6 +130,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   };
 
   const onKeydown = (event) => {
+    if (document.querySelector('dialog[open]')) return;
     if (event.key === "Escape" && accountMenu.open) {
       event.preventDefault();
       closeAccount({ restoreFocus: true });
@@ -136,7 +143,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
       return;
     }
     if (event.key !== "Tab") return;
-    const focusable = [...sidebar.querySelectorAll(focusableSelector)];
+    const focusable = [...sidebar.querySelectorAll(focusableSelector)].filter((element) => element.checkVisibility());
     if (focusable.length === 0) return;
     const first = focusable[0];
     const last = focusable.at(-1);
@@ -172,9 +179,9 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
     closeAccount({ restoreFocus: true });
     onLogout();
   });
-  root.querySelector("[data-change-context]").addEventListener("click", () => {
+  root.querySelector('[data-open-account]').addEventListener('click', () => {
     closeAccount();
-    onChangeContext();
+    void accountDialog.open(accountTrigger);
   });
   root.querySelector("[data-change-context-compact]").addEventListener("click", () => {
     closeAccount();
@@ -184,6 +191,9 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   document.addEventListener("keydown", onKeydown);
   document.addEventListener("click", onAccountOutsideInteraction);
   document.addEventListener("focusin", onAccountOutsideInteraction);
+  document.addEventListener('pointerdown', onPointerDown);
+  document.addEventListener('pointerup', onPointerEnd);
+  document.addEventListener('pointercancel', onPointerEnd);
   compactDrawer.addEventListener("change", syncDrawerAvailability);
   syncDrawerAvailability();
   window.dispatchEvent(new Event("sivi:theme-refresh"));
@@ -191,6 +201,8 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
   return {
     outlet,
     setIdentity({ user, workspace, accountSource = "firebase" }) {
+      identityUser = user;
+      accountDialog.syncSession();
       closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
       const userName = user?.displayName ?? user?.email ?? "Usuário SIVI";
       shell.dataset.workspaceRole = workspace?.organizationRole ?? "none";
@@ -212,7 +224,7 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
         const link = document.createElement("a");
         link.href = `#${item.path}`;
         link.dataset.routeId = item.id;
-        link.innerHTML = icon(item.id.split("-").at(-1));
+        link.innerHTML = uiIcon(navigationIcons[item.id.split("-").at(-1)] ?? 'home');
         const label = document.createElement("span");
         label.textContent = item.label;
         link.append(label);
@@ -230,7 +242,6 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
     setRouteMeta({ title, breadcrumbs, routeId }) {
       closeAccount({ restoreFocus: accountMenu.contains(document.activeElement) });
       shell.dataset.routeId = routeId ?? "";
-      accountTrigger.textContent = ["buyer-home", "buyer-suppliers", "buyer-reviews"].includes(routeId) ? root.querySelector("[data-account-user]").textContent : "Conta";
       root.querySelector("[data-route-title]").textContent = title;
       root.querySelector("[data-breadcrumbs]").textContent = breadcrumbs.join(" / ");
       document.title = `${title} — SIVI`;
@@ -249,9 +260,13 @@ export function createAppShell({ root, onNavigate, onLogout, onChangeContext }) 
       title.focus({ preventScroll: true });
     },
     destroy() {
+      accountDialog.destroy();
       document.removeEventListener("keydown", onKeydown);
       document.removeEventListener("click", onAccountOutsideInteraction);
       document.removeEventListener("focusin", onAccountOutsideInteraction);
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('pointerup', onPointerEnd);
+      document.removeEventListener('pointercancel', onPointerEnd);
       accountMenu.removeEventListener("toggle", syncAccountState);
       compactDrawer.removeEventListener("change", syncDrawerAvailability);
       closeAccount();

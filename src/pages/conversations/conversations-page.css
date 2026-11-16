@@ -1,0 +1,159 @@
+.app-shell .conversations-page {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+}
+
+.conversations-page h1 { margin: 0; font-size: clamp(1.65rem, 2.5vw, 2rem); line-height: 1.2; }
+.conversations-page .workspace-page__header p { margin: 8px 0 0; color: var(--text-muted); }
+
+.app-shell .workspace-panel.conversations-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 1fr) minmax(0, 2.5fr);
+  padding: 0;
+}
+
+.conversations-inbox { min-width: 0; border-inline-end: 1px solid var(--border-subtle); }
+.conversations-inbox-content { max-height: 590px; overflow: auto; }
+.conversations-panel-header {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.conversations-contacts, .conversations-messages { margin: 0; padding: 0; list-style: none; }
+.conversations-contacts > li + li { border-top: 1px solid var(--border-subtle); }
+.conversations-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 20px;
+  color: var(--text-primary);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.conversations-contact:hover { background: var(--surface-hover); }
+.conversations-contact[aria-current] {
+  background: var(--surface-selected);
+  box-shadow: inset 3px 0 var(--button-primary-bg);
+}
+.conversations-contact[data-unread] { font-weight: 600; }
+.conversations-unread {
+  margin-inline-start: auto;
+  color: var(--action-text);
+  font-size: .75rem;
+  font-weight: 400;
+}
+.conversations-contact:focus-visible { outline-offset: -4px; }
+
+.conversations-avatar, .conversations-symbol {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--action-text);
+  background: var(--surface);
+}
+.conversations-avatar { font-size: .85rem; font-weight: 600; }
+.conversations-symbol { width: 48px; height: 48px; }
+
+.conversations-thread {
+  min-width: 0;
+  min-height: 490px;
+  display: flex;
+  flex-direction: column;
+}
+.conversations-thread-header { justify-content: space-between; flex-wrap: wrap; }
+.conversations-counterpart { display: flex; align-items: center; gap: 12px; min-width: 0; overflow-wrap: anywhere; }
+.conversations-back { display: none; color: var(--action-text); }
+.conversations-notice {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  margin: auto;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.conversations-notice p { margin: 0; }
+.conversations-notice .conversations-notice-title { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
+.conversations-inbox-empty { margin: 0; padding: 18px 20px; color: var(--text-muted); }
+.conversations-history {
+  height: clamp(290px, 52vh, 530px);
+  padding: 20px;
+  overflow: auto;
+  background: var(--surface);
+  overflow-anchor: none;
+}
+.conversations-history-empty { margin: 18px 0; color: var(--text-muted); text-align: center; }
+.conversations-older { margin: 0 auto 16px; }
+.conversations-older:not([hidden]) { display: flex; }
+.conversations-messages { display: grid; gap: 14px; }
+.conversations-message {
+  width: fit-content;
+  max-width: min(85%, 640px);
+  min-width: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px 10px 10px 3px;
+  padding: 9px 12px;
+  background: var(--surface-raised);
+}
+.conversations-message[data-own="true"] {
+  justify-self: end;
+  border-radius: 10px 10px 3px 10px;
+  background: color-mix(in srgb, var(--surface-raised) 93%, var(--button-primary-bg));
+}
+.conversations-message-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  color: var(--text-muted);
+  font-size: .75rem;
+  overflow-wrap: anywhere;
+}
+.conversations-message p { margin: 4px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.conversations-compose {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  align-items: end;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+.conversations-compose label, .conversations-feedback { grid-column: 1 / -1; color: var(--text-muted); }
+.conversations-compose textarea {
+  min-width: 0;
+  width: 100%;
+  resize: vertical;
+  min-height: 52px;
+  max-height: 220px;
+  padding: 8px 10px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-control);
+  border-radius: 6px;
+  font: inherit;
+}
+.conversations-feedback { margin: 0; font-size: .8125rem; }
+.conversations-feedback:empty { display: none; }
+.conversations-compose > button:last-child { justify-self: start; }
+
+@media (max-width: 760px) {
+  .app-shell .workspace-panel.conversations-layout { grid-template-columns: minmax(0, 1fr); }
+  .conversations-inbox { border: 0; }
+  .conversations-thread { min-height: 0; border-top: 1px solid var(--border-subtle); }
+  .conversations-page[data-thread-open="true"] .conversations-inbox { display: none; }
+  .conversations-page[data-thread-open="true"] .conversations-thread { border: 0; }
+  .conversations-back { display: block; padding-block: 8px; flex-basis: 100%; font-size: .875rem; }
+  .conversations-thread > .conversations-back { padding-inline: 16px; }
+  .conversations-panel-header, .conversations-compose, .conversations-history { padding-inline: 12px; }
+  .conversations-message { max-width: 94%; }
+}

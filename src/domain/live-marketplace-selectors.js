@@ -26,13 +26,14 @@ export function buildLiveDashboard(workspace, data) {
         latestTotalDisplay: currency.format(((latest?.totalCents ?? 0) + (latest?.freightCents ?? 0)) / 100),
         leadTimeDays: latest?.leadTimeDays ?? 0,
         historicalQuality: Object.freeze({ acceptedLotsPercent: null, sampleSize: 0 }),
-        decisionLabel: accepted ? "Versão aceita" : orders.some(order => order.demandId === proposal.demandId) ? "Não selecionada" : !isCalendarDate(latest?.validUntil) ? 'Validade não informada' : latest.validUntil < todayInSaoPaulo() ? 'Proposta vencida' : "Aguardando decisão",
+        decisionLabel: accepted ? "Versão aceita" : orders.some(order => order.demandId === proposal.demandId) ? "Não selecionada" : demands.some(demand => demand.id === proposal.demandId && demand.status === 'closed') ? 'Demanda encerrada' : !isCalendarDate(latest?.validUntil) ? 'Validade não informada' : latest.validUntil < todayInSaoPaulo() ? 'Proposta vencida' : "Aguardando decisão",
         accepted,
       });
     });
     const acceptedValue = orders.reduce((sum, order) => sum + order.version.totalCents + order.version.freightCents, 0);
     return Object.freeze({
       role: "buyer",
+      activityRecords: data,
       organizationName: workspace.organizationName,
       title: "Visão do comprador",
       isFirstPurchase: demands.length === 0 && orders.length === 0,
@@ -51,6 +52,7 @@ export function buildLiveDashboard(workspace, data) {
   const blockedOrders = orders.filter(({ status }) => status === 'blocked');
   return Object.freeze({
     role: "supplier",
+    activityRecords: data,
     organizationName: workspace.organizationName,
     title: "Visão do fornecedor",
     showJourney: demands.length > 0 || orders.length > 0,

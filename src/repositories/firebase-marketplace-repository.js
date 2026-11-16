@@ -1,8 +1,12 @@
 import { buildLiveDashboard, buildLiveJourney } from "../domain/live-marketplace-selectors.js";
-import { matchSupplierToDemand } from "../domain/match-engine.js";
+import { isSupplierIdentifier, matchSupplierToDemand } from "../domain/match-engine.js";
 import { isCalendarDate, todayInSaoPaulo } from "../domain/calendar-date.js";
 import { createRepositoryResult } from "./repository-result.js";
 import { inspectionQuantities } from '../domain/inspection.js';
+import { normalizeUnit } from '../domain/quantity.js';
+import { proposalExpiry } from '../domain/proposal-expiry.js';
+import { createPendingCommands } from '../core/pending-commands.js';
+import { createFirebaseConversations } from "./firebase-conversations.js";
 
 const clone = (value) => structuredClone(value);
 const fail = (message) => { throw new Error(message); };
@@ -27,7 +31,8 @@ const listText = (value, label, max = 120) => {
     .map((item) => text(item, label, max));
   return [...new Set(items)];
 };
-const demandItems = (input) => {
+const draftText = (value, label, max, complete) => !complete && (value == null || String(value).trim() === '') ? '' : text(value, label, max);
+const demandItems = (input, complete) => {
   const candidates = Array.isArray(input?.items) && input.items.length
     ? input.items
     : [{
@@ -49,33 +54,43 @@ const demandItems = (input) => {
     usedIds.add(id);
     return id;
   };
-  return candidates.map((item, index) => ({
+  let cumulativeQuantity = 0;
+  return candidates.map((item, index) => {
+    const quantity = !complete && (item.quantity == null || item.quantity === '') ? 0 : integer(item.quantity, `quantidade do item ${index + 1}`, complete ? 1 : 0);
+    const certifications = listText(item.certifications ?? item.certification ?? [], 'certificação', 120);
+    cumulativeQuantity += quantity;
+    return {
     id: item.id ? text(item.id, "identificação do item", 120) : nextId(),
-    description: text(item.description, `descrição do item ${index + 1}`, 500),
-    category: text(item.category, `categoria do item ${index + 1}`, 120),
-    material: text(item.material, `material do item ${index + 1}`, 120),
-    process: text(item.process, `processo do item ${index + 1}`, 120),
-    certifications: listText(item.certifications ?? item.certification ?? [], "certificação", 120),
-    quantity: integer(item.quantity, `quantidade do item ${index + 1}`),
-    unit: text(item.unit, `unidade do item ${index + 1}`, 20),
-  }));
+    position: index,
+    cumulativeQuantity,
+    description: draftText(item.description, `descrição do item ${index + 1}`, 500, complete),
+    category: draftText(item.category, `categoria do item ${index + 1}`, 120, complete),
+    material: draftText(item.material, `material do item ${index + 1}`, 120, complete),
+    process: draftText(item.process, `processo do item ${index + 1}`, 120, complete),
+    certifications,
+    certificationCount: certifications.length,
+    certificationPositions: certifications.map((_, position) => position),
+    quantity,
+    unit: normalizeUnit(draftText(item.unit ?? 'un', `unidade do item ${index + 1}`, 20, complete)),
+  }; });
 };
-const demandFields = (input) => {
-  const items = demandItems(input);
+const demandFields = (input, { complete = false } = {}) => {
+  const items = demandItems(input, complete);
   return {
     title: text(input.title, "título", 160),
-    description: text(input.description, "objetivo e observações da demanda"),
+    description: draftText(input.description, "objetivo e observações da demanda", 2000, complete),
     items,
-    quantity: integer(items.reduce((sum, item) => sum + item.quantity, 0), "quantidade total"),
-    requiredBy: date(input.requiredBy),
-    destination: text(input.destination, "destino", 160),
-    region: text(input.region ?? input.destination, "região de entrega", 160),
+    itemCount: items.length,
+    quantity: integer(items.reduce((sum, item) => sum + item.quantity, 0), "quantidade total", complete ? 1 : 0),
+    requiredBy: !complete && !input.requiredBy ? '' : date(input.requiredBy),
+    destination: draftText(input.destination, "destino", 160, complete),
+    region: draftText(input.region ?? input.destination, "região de entrega", 160, complete),
   };
 };
 const values = (record) => record && typeof record === "object" ? Object.values(record) : [];
 const timestamp = (client) => client.timestamp?.() ?? Date.now();
 const supplierIdentifier = (value) => {
-  if (typeof value !== 'string' || !value || value.length > 120 || value !== value.trim() || /[.#$\[\]/\u0000-\u001f\u007f]/.test(value)) {
+  if (!isSupplierIdentifier(value)) {
     fail('Identificação de fornecedor inválida. Atualize os perfis antes de publicar.');
   }
   return value;
@@ -115,9 +130,12 @@ function meta() {
   });
 }
 
-export function createFirebaseMarketplaceRepository({ client, getUser, getWorkspace }) {
+export function createFirebaseMarketplaceRepository({ client, getUser, getWorkspace, storage }) {
   const cache = new Map();
   const syncWarnings = new Map();
+  const pendingCreations = createPendingCommands({ storage, key: 'sivi.pending-demands.v1' });
+  const pendingProposals = createPendingCommands({ storage, key: 'sivi.pending-proposals.v1' });
+  const pendingInspections = createPendingCommands({ storage, key: 'sivi.pending-inspections.v1' });
   const workspace = (workspaceId, role) => {
     const current = getWorkspace(workspaceId);
     const user = getUser?.();
@@ -126,24 +144,44 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
   };
   const scopedPath = (kind, current) => `${kind}By${current.organizationRole === "buyer" ? "Buyer" : "Supplier"}/${current.organizationId}`;
 
+  async function supplierDemandStates(demands) {
+    const open = demands.filter(demand => demand.status === 'published');
+    const lookup = async (ids, path) => new Map(await Promise.all([...new Set(ids)].map(async id =>
+      [id, await client.read(path(id))])));
+    const [states, buyers] = await Promise.all([
+      lookup(open.map(demand => demand.id), id => `publishedDemands/${id}/status`),
+      lookup(open.map(demand => demand.buyerId), id => `organizations/${id}/status`),
+    ]);
+    return demands.map(demand => {
+      const status = states.get(demand.id);
+      if (status === 'closed' || status === 'ordered') return { ...demand, status };
+      const buyer = buyers.get(demand.buyerId);
+      return buyer && buyer !== 'active' && demand.status === 'published' ? { ...demand, status: 'unavailable' } : demand;
+    });
+  }
+
   async function load(workspaceId) {
     const current = workspace(workspaceId);
     if (!["buyer", "supplier"].includes(current.organizationRole)) fail("Contexto indisponível.");
-    const [demandRecords, proposalRecords, orderRecords] = await Promise.all([
+    const [demandRecords, proposalRecords, orderRecords, profile] = await Promise.all([
       client.read(current.organizationRole === "buyer" ? `demandsByBuyer/${current.organizationId}` : `opportunitiesBySupplier/${current.organizationId}`),
       client.read(scopedPath("proposals", current)),
       client.read(scopedPath("orders", current)),
+      current.organizationRole === 'supplier' ? client.read(`supplierProfiles/${current.organizationId}`).catch(() => null) : null,
     ]);
     const proposals = values(proposalRecords).map(normalizeProposal);
     const orders = values(orderRecords).map(normalizeOrder);
     // Suppliers can read their own orders, but not publishedDemands. An accepted
     // order closes the corresponding opportunity even if its old copy remains.
     const contractedDemands = new Set(orders.map(order => order.demandId));
-    const demands = values(demandRecords)
+    const projectedDemands = values(demandRecords)
       .filter(demand => current.organizationRole === "buyer" || demand.buyerId !== current.organizationId)
       .map(demand => current.organizationRole === "supplier" && contractedDemands.has(demand.id)
         ? { ...demand, status: "ordered" }
-        : demand);
+        : current.organizationRole === 'supplier' && profile && demand.status === 'published'
+          ? { ...demand, match: { ...matchSupplierToDemand(demand, profile), eligible: demand.match?.eligible === true && matchSupplierToDemand(demand, profile).eligible } }
+          : demand);
+    const demands = current.organizationRole === 'supplier' ? await supplierDemandStates(projectedDemands) : projectedDemands;
     const suppliers = new Map();
     proposals.forEach((item) => suppliers.set(item.supplierId, { id: item.supplierId, name: item.supplierName }));
     orders.forEach((item) => suppliers.set(item.supplierId, { id: item.supplierId, name: item.supplierName }));
@@ -175,6 +213,7 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
     }
   }
   async function updateOrder(workspaceId, order, fields) {
+    fields.operationRevision = (order.operationRevision ?? 0) + 1;
     await client.patch(orderOperationUpdates(order, fields));
     await refreshAfterCommit(workspaceId, { orders: [normalizeOrder({ ...order, ...fields })] });
   }
@@ -190,20 +229,31 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
     getSyncWarning: (workspaceId) => syncWarnings.get(workspaceId) ?? null,
     async createDemand(workspaceId, input) {
       const current = workspace(workspaceId, "buyer");
-      const demandId = client.newKey(`demandsByBuyer/${current.organizationId}`);
+      const fields = demandFields(input);
+      const intent = JSON.stringify([getUser().uid, current.organizationId, input.operationId ?? fields]);
+      const retryId = pendingCreations.get(intent);
+      const demandId = retryId ?? client.newKey(`demandsByBuyer/${current.organizationId}`);
+      pendingCreations.set(intent, demandId);
+      if (retryId) {
+        const existing = await client.read(`demandsByBuyer/${current.organizationId}/${demandId}`);
+        if (existing?.createdBy === getUser().uid) {
+          pendingCreations.delete(intent); await refreshAfterCommit(workspaceId, { demands: [existing] }); return demandId;
+        }
+      }
       const now = timestamp(client);
       const demand = {
         id: demandId,
         buyerId: current.organizationId,
         buyerName: current.organizationName,
         createdBy: getUser().uid,
-        ...demandFields(input),
+        ...fields,
         status: "draft",
         revision: 1,
         createdAt: now,
         updatedAt: now,
       };
       await client.write(`demandsByBuyer/${current.organizationId}/${demandId}`, demand);
+      pendingCreations.delete(intent);
       await refreshAfterCommit(workspaceId, { demands: [demand] });
       return demandId;
     },
@@ -239,8 +289,9 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       await refresh(workspaceId);
       const demand = getDemand(workspaceId, demandId);
       if (demand.buyerId !== current.organizationId || demand.status !== "draft") fail("Somente um rascunho da sua empresa pode ser publicado.");
+      const completeSpecification = demandFields(demand, { complete: true });
       if (!Number.isFinite(demand.updatedAt)) fail("Atualize o rascunho para carregar a versão atual antes de publicar.");
-      const published = { ...publicDemand(demand), status: "published", updatedAt: timestamp(client), publicationSourceUpdatedAt: demand.updatedAt, publicationSourceRevision: demand.revision ?? 0 };
+      const published = { ...publicDemand(demand), ...completeSpecification, status: "published", updatedAt: timestamp(client), publicationSourceUpdatedAt: demand.updatedAt, publicationSourceRevision: demand.revision ?? 0 };
       const profiles = values(await client.read("supplierProfiles"))
         .filter((profile) => profile.organizationStatus === "active" && profile.organizationId !== current.organizationId);
       const matches = profiles.map((profile) => {
@@ -278,14 +329,24 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       if (validUntil < todayInSaoPaulo()) fail("A validade da proposta deve ser hoje ou uma data futura.");
       await refresh(workspaceId);
       const demand = getDemand(workspaceId, demandId);
-      if (demand.status !== "published" || demand.buyerId === current.organizationId || demand.match?.eligible !== true) fail("Esta demanda não está aberta para propostas.");
       const proposalId = `${demandId}_${current.organizationId}`;
       const existing = read(workspaceId).proposals.find((item) => item.id === proposalId);
-      const versionId = client.newKey(`proposalsBySupplier/${current.organizationId}/${proposalId}/versions`);
+      const intent = JSON.stringify([getUser().uid, current.organizationId, demandId, input]);
+      const pending = pendingProposals.get(intent);
+      if (pending && existing?.versions.some(version => version.id === pending.id)) {
+        pendingProposals.delete(intent); return pending.id;
+      }
+      if (demand.status !== "published" || demand.buyerId === current.organizationId || demand.match?.eligible !== true) fail("Esta demanda não está aberta para propostas.");
+      const revision = Math.max(existing?.revision ?? 0, ...(existing?.versions ?? []).map(version => version.revision), 0) + 1;
+      if (pending && pending.revision !== revision) {
+        pendingProposals.delete(intent);
+        fail('A proposta mudou em outra sessão. Confira a versão atual antes de reenviar.');
+      }
+      const versionId = pending?.id ?? client.newKey(`proposalsBySupplier/${current.organizationId}/${proposalId}/versions`);
       const now = timestamp(client);
       const version = {
         id: versionId,
-        revision: (existing?.versions.length ?? 0) + 1,
+        revision,
         totalCents: integer(input.totalCents, "valor dos itens em centavos"),
         freightCents: integer(input.freightCents, "frete em centavos", 0),
         leadTimeDays: integer(input.leadTimeDays, "prazo em dias"),
@@ -294,6 +355,7 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
         warranty: text(input.warranty, "garantia", 500),
         technical: text(input.technical, "resposta técnica"),
         validUntil,
+        expiry: proposalExpiry(validUntil),
         createdAt: now,
       };
       const proposal = {
@@ -304,15 +366,40 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
         supplierId: current.organizationId,
         supplierName: current.organizationName,
         updatedAt: now,
+        revision: version.revision,
+        latestVersionId: versionId,
       };
       const updates = {};
       for (const base of [`proposalsByBuyer/${demand.buyerId}/${proposalId}`, `proposalsBySupplier/${current.organizationId}/${proposalId}`]) {
-        Object.entries(proposal).forEach(([key, value]) => { updates[`${base}/${key}`] = value; });
+        Object.entries(proposal).filter(([key]) => !existing || ['revision', 'latestVersionId', 'updatedAt'].includes(key)).forEach(([key, value]) => { updates[`${base}/${key}`] = value; });
         updates[`${base}/versions/${versionId}`] = version;
       }
-      await client.patch(updates);
+      pendingProposals.set(intent, { id: versionId, revision });
+      try { await client.patch(updates); }
+      catch (error) {
+        if (/permission[_ -]?denied/i.test(`${error?.code} ${error?.message}`)) {
+          pendingProposals.delete(intent);
+          fail('Não foi possível enviar: a proposta, a oportunidade ou o acesso da empresa mudou. Atualize e confira as condições antes de tentar novamente.');
+        }
+        throw error;
+      }
+      pendingProposals.delete(intent);
       await refreshAfterCommit(workspaceId, { proposals: [{ ...existing, ...proposal, versions: [...(existing?.versions ?? []), version] }] });
       return versionId;
+    },
+    async closeDemand(workspaceId, demandId, reason) {
+      const current = workspace(workspaceId, "buyer");
+      await refresh(workspaceId);
+      const demand = getDemand(workspaceId, demandId);
+      if (demand.status === 'closed') return;
+      if (demand.buyerId !== current.organizationId || demand.status !== 'published') fail('Somente uma demanda publicada e sem pedido pode ser encerrada.');
+      const closedReason = text(reason, 'o motivo do encerramento', 300);
+      if (closedReason.length < 3) fail('Informe um motivo com pelo menos 3 caracteres.');
+      const now = timestamp(client);
+      const fields = { status: 'closed', closedReason, closedBy: getUser().uid, closedAt: now, updatedAt: now };
+      const paths = [`demandsByBuyer/${current.organizationId}/${demandId}`, `publishedDemands/${demandId}`];
+      await client.patch(Object.fromEntries(paths.flatMap(path => Object.entries(fields).map(([key, value]) => [`${path}/${key}`, value]))));
+      await refreshAfterCommit(workspaceId, { demands: [{ ...demand, ...fields }] });
     },
     async acceptProposal(workspaceId, proposalId, versionId) {
       const current = workspace(workspaceId, "buyer");
@@ -336,19 +423,21 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
         id: orderId,
         demandId: demand.id,
         buyerId: current.organizationId,
-        buyerName: current.organizationName,
+        buyerName: demand.buyerName,
         supplierId: proposal.supplierId,
         supplierName: proposal.supplierName,
         sourceProposalId: proposal.id,
         title: demand.title,
         description: demand.description,
-        items: clone(demand.items ?? []),
+        items: clone(demand.items ?? []).map((item, position) => ({ ...item, position })),
+        itemCount: demand.items?.length ?? 0,
         quantity: demand.quantity,
         destination: demand.destination,
         region: demand.region ?? demand.destination,
         requiredBy: demand.requiredBy,
         version: clone(version),
         status: "accepted",
+        operationRevision: 0,
         createdAt: now,
         updatedAt: now,
       };
@@ -356,8 +445,10 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       const updates = {
         [`ordersByBuyer/${current.organizationId}/${orderId}`]: order,
         [`ordersBySupplier/${proposal.supplierId}/${orderId}`]: order,
-        [`demandsByBuyer/${current.organizationId}/${demand.id}`]: orderedDemand,
-        [`publishedDemands/${demand.id}`]: publicDemand(orderedDemand),
+        [`demandsByBuyer/${current.organizationId}/${demand.id}/status`]: 'ordered',
+        [`demandsByBuyer/${current.organizationId}/${demand.id}/updatedAt`]: now,
+        [`publishedDemands/${demand.id}/status`]: 'ordered',
+        [`publishedDemands/${demand.id}/updatedAt`]: now,
       };
       // New publications retain every recipient. For older records, close the
       // opportunities known from proposals without guessing private paths.
@@ -387,31 +478,58 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
     async recordInspection(workspaceId, orderId, input) {
       const current = workspace(workspaceId, "supplier");
       const order = await getOrder(workspaceId, orderId);
+      const intent = JSON.stringify([getUser().uid, current.organizationId, orderId, input]);
+      const pending = pendingInspections.get(intent);
+      if (pending && order.inspections.some(inspection => inspection.id === pending.id)) {
+        pendingInspections.delete(intent); return;
+      }
+      if (pending && pending.revision !== (order.operationRevision ?? 0) + 1) {
+        pendingInspections.delete(intent);
+        fail('O pedido mudou em outra sessão. Consulte a inspeção atual antes de registrar outra.');
+      }
       if (order.supplierId !== current.organizationId || !["accepted", "blocked"].includes(order.status)) fail("Pedido indisponível para inspeção.");
       const { approved, itemApprovals, complete } = inspectionQuantities(order, input);
-      const inspectionId = client.newKey(`ordersBySupplier/${current.organizationId}/${orderId}/inspections`);
-      const inspections = Object.fromEntries([
-        ...(order.inspections ?? []).map((inspection) => [inspection.id, inspection]),
-        [inspectionId, { id: inspectionId, approved, itemApprovals, plan: text(input.plan, "plano e versão", 160), evidence: text(input.evidence, "resultado da inspeção"), createdAt: timestamp(client) }],
-      ]);
-      await updateOrder(workspaceId, order, { inspections, status: complete ? "released" : "blocked", updatedAt: timestamp(client) });
+      const inspectionId = pending?.id ?? client.newKey(`ordersBySupplier/${current.organizationId}/${orderId}/inspections`);
+      let runningApproved = 0, completeThrough = true;
+      const proofs = itemApprovals.map((entry, index) => {
+        runningApproved += entry.approved;
+        completeThrough &&= entry.approved === Number(order.items?.[index]?.quantity ?? order.quantity);
+        return { ...entry, position: index, runningApproved, completeThrough };
+      });
+      const inspection = { id: inspectionId, approved, itemApprovals: proofs, lastItemIndex: proofs.length - 1, complete, plan: text(input.plan, "plano e versão", 160), evidence: text(input.evidence, "resultado da inspeção"), createdAt: timestamp(client) };
+      const fields = { status: complete ? 'released' : 'blocked', operationRevision: (order.operationRevision ?? 0) + 1, latestInspectionId: inspectionId, updatedAt: timestamp(client) };
+      const updates = orderOperationUpdates(order, fields);
+      for (const base of [`ordersByBuyer/${order.buyerId}/${order.id}`, `ordersBySupplier/${order.supplierId}/${order.id}`]) updates[`${base}/inspections/${inspectionId}`] = inspection;
+      pendingInspections.set(intent, { id: inspectionId, revision: fields.operationRevision });
+      try { await client.patch(updates); }
+      catch (error) {
+        if (/permission[_ -]?denied/i.test(`${error?.code} ${error?.message}`)) {
+          pendingInspections.delete(intent);
+          fail('O pedido ou o acesso da empresa mudou. Atualize e confira a inspeção antes de tentar novamente.');
+        }
+        throw error;
+      }
+      pendingInspections.delete(intent);
+      await refreshAfterCommit(workspaceId, { orders: [normalizeOrder({ ...order, ...fields, inspections: Object.fromEntries([...(order.inspections ?? []).map(item => [item.id, item]), [inspectionId, inspection]]) })] });
     },
     async dispatchOrder(workspaceId, orderId) {
       const current = workspace(workspaceId, "supplier");
       const order = await getOrder(workspaceId, orderId);
+      if (order.supplierId === current.organizationId && ['dispatched', 'delivered'].includes(order.status)) return;
       if (order.supplierId !== current.organizationId || order.status !== "released") fail("A expedição exige um pedido liberado da sua empresa.");
       await updateOrder(workspaceId, order, { status: "dispatched", dispatchedAt: timestamp(client), updatedAt: timestamp(client) });
     },
     async confirmDelivery(workspaceId, orderId) {
       const current = workspace(workspaceId, "buyer");
       const order = await getOrder(workspaceId, orderId);
+      if (order.buyerId === current.organizationId && order.status === 'delivered') return;
       if (order.buyerId !== current.organizationId || order.status !== "dispatched") fail("Somente pedidos expedidos da sua empresa podem ser recebidos.");
       await updateOrder(workspaceId, order, { status: "delivered", deliveredAt: timestamp(client), updatedAt: timestamp(client) });
     },
     async evaluateOrder(workspaceId, orderId, input) {
       const current = workspace(workspaceId, "buyer");
       const order = await getOrder(workspaceId, orderId);
-      if (order.buyerId !== current.organizationId || order.status !== "delivered" || order.evaluation) fail("Avaliação indisponível.");
+      if (order.buyerId !== current.organizationId || order.status !== "delivered") fail("Avaliação indisponível.");
       let evaluation;
       if (input.criteria) {
         const criteria = Object.fromEntries(["quality", "punctuality", "communication", "documentation"].map((key) => {
@@ -428,12 +546,19 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
         if (score > 5) fail("A nota deve ser de 1 a 5.");
         evaluation = { score, comment: text(input.comment, "comentário", 1000) };
       }
+      if (order.evaluation) {
+        const same = order.evaluation.score === evaluation.score && order.evaluation.comment === evaluation.comment
+          && ['quality','punctuality','communication','documentation'].every(key => order.evaluation.criteria?.[key] === evaluation.criteria?.[key]);
+        if (same) return;
+        fail('Avaliação indisponível. Este pedido já foi avaliado.');
+      }
       await updateOrder(workspaceId, order, { evaluation, updatedAt: timestamp(client) });
     },
   });
 
   return Object.freeze({
     workflow,
+    conversations: createFirebaseConversations(client, workspace),
     async getOperations(workspaceId) {
       try {
         const data = await load(workspaceId);
@@ -453,16 +578,17 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
       }
     },
     async getBuyerRecommendations(workspaceId) {
-      workspace(workspaceId, "buyer");
+      const current = workspace(workspaceId, "buyer");
       const published = read(workspaceId).demands
         .filter((demand) => demand.status === "published")
         .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
       if (!published) return [];
       const profiles = values(await client.read("supplierProfiles"))
-        .filter((profile) => profile.organizationStatus === "active");
+        .filter((profile) => profile.organizationStatus === "active" && profile.organizationId !== current.organizationId);
       return profiles.map((profile) => ({ profile, match: matchSupplierToDemand(published, profile) }))
         .filter(({ match }) => match.eligible)
-        .sort((a, b) => b.match.criteria.filter((item) => item.state === "met").length - a.match.criteria.filter((item) => item.state === "met").length);
+        .sort((a, b) => Number(b.match.status === "compatible") - Number(a.match.status === "compatible") ||
+          b.match.criteria.filter(item => item.state === "met").length - a.match.criteria.filter(item => item.state === "met").length);
     },
     async listSupplierProfiles(workspaceId) {
       const current = workspace(workspaceId, "buyer");
@@ -470,12 +596,42 @@ export function createFirebaseMarketplaceRepository({ client, getUser, getWorksp
         .filter((profile) => profile.organizationStatus === "active" && profile.organizationId !== current.organizationId)
         .sort((a, b) => String(a.organizationName).localeCompare(String(b.organizationName), "pt-BR"));
     },
+    async getBuyerSupplierProfile(workspaceId, supplierId) {
+      const current = workspace(workspaceId, "buyer");
+      const id = supplierIdentifier(supplierId);
+      if (id === current.organizationId) return null;
+      const profile = await client.read(`supplierProfiles/${id}`);
+      return profile?.organizationStatus === "active" && profile.organizationId === id ? profile : null;
+    },
     async getBuyerInvitations(workspaceId, demandId) {
       const current = workspace(workspaceId, "buyer");
       const demand = getDemand(workspaceId, demandId);
       if (demand.buyerId !== current.organizationId || demand.status !== "published") fail("Demanda indisponível.");
       const invited = await client.read(`invitedSuppliersByBuyer/${current.organizationId}/${demandId}`);
       return [...new Set([...values(demand.opportunitySupplierIds), ...Object.keys(invited ?? {})])];
+    },
+    async reassessDemand(workspaceId, demandId) {
+      const current = workspace(workspaceId, 'buyer');
+      await refresh(workspaceId);
+      const demand = getDemand(workspaceId, demandId);
+      if (demand.status !== 'published' || demand.buyerId !== current.organizationId) fail('Atualize a compatibilidade somente de uma demanda publicada e aberta da sua empresa.');
+      const [profiles, invitations] = await Promise.all([client.read('supplierProfiles'), client.read(`invitedSuppliersByBuyer/${current.organizationId}/${demandId}`)]);
+      const known = new Set([...values(demand.opportunitySupplierIds), ...Object.keys(invitations ?? {})]);
+      const updates = {};
+      let eligible = 0;
+      for (const profile of values(profiles)) {
+        if (profile.organizationId === current.organizationId) continue;
+        const id = supplierIdentifier(profile.organizationId);
+        const calculated = matchSupplierToDemand(demand, profile);
+        const match = { ...clone(calculated), ...(profile.organizationStatus === 'active' ? {} : { eligible: false, status: 'ineligible', explanation: 'O fornecedor não está ativo para novas negociações.' }), buyerId: current.organizationId, createdAt: timestamp(client) };
+        if (match.eligible) eligible++;
+        if (!match.eligible && !known.has(id)) continue;
+        updates[`matchesByDemand/${demandId}/${id}`] = match;
+        updates[`opportunitiesBySupplier/${id}/${demandId}`] = { ...publicDemand(demand), match };
+        if (match.eligible && !known.has(id)) updates[`invitedSuppliersByBuyer/${current.organizationId}/${demandId}/${id}`] = true;
+      }
+      if (Object.keys(updates).length) await client.patch(updates);
+      return { eligible };
     },
     async inviteSupplierToDemand(workspaceId, demandId, supplierId) {
       const current = workspace(workspaceId, "buyer");

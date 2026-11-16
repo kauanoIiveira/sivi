@@ -1,19 +1,40 @@
 import { quantitiesByUnit } from './quantity.js';
+import { states } from './organization-application.js';
 
-const normalize = (value) => String(value ?? "").trim().toLocaleLowerCase("pt-BR");
+const stateCodes = new Set(states.map(state => state.toLowerCase()));
+
+export function isSupplierIdentifier(value) {
+  return typeof value === 'string' && value.length > 0 && value.length <= 120 &&
+    value === value.trim() && !/[.#$\[\]/\u0000-\u001f\u007f]/.test(value);
+}
+
+const declared = value => String(value ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR');
+const normalize = value => declared(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const declaredList = value => (Array.isArray(value) ? value : String(value ?? '').split(',')).map(declared).filter(Boolean);
 const list = (value) => (Array.isArray(value) ? value : String(value ?? "").split(","))
   .map(normalize)
   .filter(Boolean);
 
-function listCriterion(id, label, requiredValues, offeredValues, { required = false } = {}) {
+function listCriterion(id, label, requiredValues, offeredValues, { required = false, covers = (offer, need) => offer === need } = {}) {
   const expected = list(requiredValues);
-  const offered = new Set(list(offeredValues));
+  const offered = list(offeredValues);
   if (!expected.length) return { id, label, state: "not_informed", explanation: "A demanda não informou este critério." };
-  if (!offered.size) return { id, label, state: required ? "unmet" : "not_informed", requiresConfirmation: true, explanation: "O fornecedor ainda não informou este critério solicitado pela demanda." };
-  const missing = expected.filter((value) => !offered.has(value));
+  if (!offered.length) return { id, label, state: required ? "unmet" : "not_informed", requiresConfirmation: true, explanation: "O fornecedor ainda não informou este critério solicitado pela demanda." };
+  const missing = expected.filter(value => !offered.some(offer => covers(offer, value)));
   return missing.length
     ? { id, label, state: "unmet", explanation: `Não atende: ${missing.join(", ")}.` }
     : { id, label, state: "met", explanation: `Atende: ${expected.join(", ")}.` };
+}
+
+function coversRegion(offer, need) {
+  const region = text => {
+    if (stateCodes.has(text)) return { state: text, city: null };
+    const match = text.match(/^(.+?)(?:\s*\/\s*|\s+-\s+)([a-z]{2})$/);
+    return match && stateCodes.has(match[2]) ? { state: match[2], city: match[1] } : { city: text };
+  };
+  const from = region(offer);
+  const to = region(need);
+  return from.state === to.state && (from.city === to.city || from.city === null);
 }
 export function normalizeSupplierProfile(input, { organizationId, organizationName }) {
   const capacity = Number(input?.capacity);
@@ -21,7 +42,7 @@ export function normalizeSupplierProfile(input, { organizationId, organizationNa
   const description = String(input?.description ?? "").trim();
   if (description.length < 10 || description.length > 1000) throw new Error("Descreva a capacidade industrial em 10 a 1000 caracteres.");
   const requiredLists = ["categories", "materials", "processes", "regions"];
-  const normalized = Object.fromEntries(requiredLists.map((key) => [key, list(input?.[key])]));
+  const normalized = Object.fromEntries(requiredLists.map((key) => [key, declaredList(input?.[key])]));
   if (requiredLists.some((key) => normalized[key].length === 0)) {
     throw new Error("Informe categorias, materiais, processos e regiões atendidas.");
   }
@@ -29,7 +50,7 @@ export function normalizeSupplierProfile(input, { organizationId, organizationNa
     organizationId,
     organizationName,
     ...normalized,
-    certifications: list(input?.certifications),
+    certifications: declaredList(input?.certifications),
     capacity,
     leadTimeDays: Number.isSafeInteger(Number(input?.leadTimeDays)) && Number(input.leadTimeDays) > 0
       ? Number(input.leadTimeDays)
@@ -60,7 +81,7 @@ export function matchSupplierToDemand(demand, profile) {
     listCriterion("process", "Processo", requiredProcesses, profile?.processes, { required: true }),
     listCriterion("material", "Material", requiredMaterials, profile?.materials),
     listCriterion("certification", "Certificação", requiredCertifications, profile?.certifications),
-    listCriterion("region", "Região", demand?.region ?? demand?.destination, profile?.regions),
+    listCriterion("region", "Região", demand?.region ?? demand?.destination, profile?.regions, { covers: coversRegion }),
     !comparableCapacity
       ? { id: 'capacity', label: 'Capacidade', state: 'not_informed', explanation: 'Confirme a capacidade para os itens solicitados. O perfil informa capacidade em unidades.' }
       : Number(profile?.capacity) >= totalQuantity
@@ -76,6 +97,7 @@ export function matchSupplierToDemand(demand, profile) {
     demandId: demand?.id,
     status,
     eligible: status !== "ineligible",
+    explanation: mandatoryFailed ? 'Categoria e processo precisam atender a todos os itens.' : allMet ? 'Os critérios declarados atendem à demanda; confirme disponibilidade antes de contratar.' : 'Categoria e processo atendidos. Os demais requisitos indicados precisam de confirmação antes do aceite.',
     criteria: Object.freeze(criteria.map(Object.freeze)),
   });
 }

@@ -1,0 +1,894 @@
+{
+  "date": "2026-09-26",
+  "outcome": "improvements_implemented_cleanup_blocked",
+  "remoteDeployed": false,
+  "remoteCommercialDataAccessed": false,
+  "verification": {
+    "unitPassed": 111,
+    "browserPassed": 98,
+    "failed": 0,
+    "skipped": 0,
+    "command": "npm test",
+    "javaHome": "C:/Program Files/Android/Android Studio/jbr",
+    "focusedUsabilityPassed": 10,
+    "persistedJourneyRecapturePassed": 1,
+    "diffCheckPassed": true
+  },
+  "visualReview": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      360,
+      390,
+      768,
+      1440
+    ],
+    "recoveryTextScale": "125%",
+    "recoveryHorizontalOverflow": false,
+    "recoveryPageErrors": [],
+    "captures": "exports/revisao-integrada-2026-09-26",
+    "reviewed": [
+      "Demandas desktop claro",
+      "Pedidos desktop escuro",
+      "Edicao de rascunho com texto ampliado no celular",
+      "Recuperacao desktop e celular"
+    ],
+    "recoveryUsesSyntheticFixture": true,
+    "latestPersistedJourneyChecks": 112,
+    "horizontalOverflowChecksFailed": 0
+  },
+  "independentFinalReview": "Nao concluida por limite de uso; integracao revisada na sessao principal. Revisoes das tarefas delegadas concluidas.",
+  "cleanup": {
+    "status": "blocked_by_automatic_approval_review",
+    "reason": "blocked by policy",
+    "removedFiles": 0,
+    "candidateFiles": 201,
+    "candidateBytes": 26599984,
+    "candidates": [
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/diff-check.log",
+        "bytes": 3733
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/full-suite.log",
+        "bytes": 19279
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/green-integrity.log",
+        "bytes": 2917
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/green-orders.log",
+        "bytes": 2571
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/progress.md",
+        "bytes": 3540
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/red-demands.log",
+        "bytes": 24632
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/red-orders.log",
+        "bytes": 128281
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/update-demand-rules.mjs",
+        "bytes": 741
+      },
+      {
+        "path": ".superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/update-order-rules.mjs",
+        "bytes": 1952
+      },
+      {
+        "path": "test-results/.last-run.json",
+        "bytes": 45
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/acesso-texto-200-1440.png",
+        "bytes": 714100
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/acesso-texto-200-360.png",
+        "bytes": 289368
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/acesso-texto-maior-1440.png",
+        "bytes": 604097
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/acesso-texto-maior-390.png",
+        "bytes": 141510
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/preferencias-dark-1440.png",
+        "bytes": 148104
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/preferencias-dark-390.png",
+        "bytes": 63523
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/preferencias-light-1440.png",
+        "bytes": 152543
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/preferencias-light-390.png",
+        "bytes": 71972
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/publica-texto-maior-1440.png",
+        "bytes": 561180
+      },
+      {
+        "path": "exports/acessibilidade-2026-09-26/publica-texto-maior-390.png",
+        "bytes": 415026
+      },
+      {
+        "path": "exports/revisao-2026-09-26/acesso-dark-1440.png",
+        "bytes": 611561
+      },
+      {
+        "path": "exports/revisao-2026-09-26/acesso-dark-390.png",
+        "bytes": 172128
+      },
+      {
+        "path": "exports/revisao-2026-09-26/acesso-light-1440.png",
+        "bytes": 605119
+      },
+      {
+        "path": "exports/revisao-2026-09-26/acesso-light-390.png",
+        "bytes": 142324
+      },
+      {
+        "path": "exports/revisao-2026-09-26/administracao-dark-1440.png",
+        "bytes": 146529
+      },
+      {
+        "path": "exports/revisao-2026-09-26/administracao-dark-390.png",
+        "bytes": 125061
+      },
+      {
+        "path": "exports/revisao-2026-09-26/administracao-light-1440.png",
+        "bytes": 148898
+      },
+      {
+        "path": "exports/revisao-2026-09-26/administracao-light-390.png",
+        "bytes": 127367
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-dark-1440.png",
+        "bytes": 155025
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-dark-390.png",
+        "bytes": 102807
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-light-1440.png",
+        "bytes": 158707
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-light-390.png",
+        "bytes": 105234
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-pendencias-dark-1440.png",
+        "bytes": 154267
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-pendencias-dark-390.png",
+        "bytes": 103042
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-pendencias-light-1440.png",
+        "bytes": 157952
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-pendencias-light-390.png",
+        "bytes": 105489
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-vazio-dark-1440.png",
+        "bytes": 147402
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-vazio-dark-390.png",
+        "bytes": 105977
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-vazio-light-1440.png",
+        "bytes": 151664
+      },
+      {
+        "path": "exports/revisao-2026-09-26/comprador-vazio-light-390.png",
+        "bytes": 108427
+      },
+      {
+        "path": "exports/revisao-2026-09-26/demandas-dark-1440.png",
+        "bytes": 98299
+      },
+      {
+        "path": "exports/revisao-2026-09-26/demandas-dark-390.png",
+        "bytes": 62750
+      },
+      {
+        "path": "exports/revisao-2026-09-26/demandas-light-1440.png",
+        "bytes": 101228
+      },
+      {
+        "path": "exports/revisao-2026-09-26/demandas-light-390.png",
+        "bytes": 65290
+      },
+      {
+        "path": "exports/revisao-2026-09-26/editar-rascunho-dark-1440.png",
+        "bytes": 163928
+      },
+      {
+        "path": "exports/revisao-2026-09-26/editar-rascunho-dark-390.png",
+        "bytes": 132357
+      },
+      {
+        "path": "exports/revisao-2026-09-26/editar-rascunho-light-1440.png",
+        "bytes": 173493
+      },
+      {
+        "path": "exports/revisao-2026-09-26/editar-rascunho-light-390.png",
+        "bytes": 139521
+      },
+      {
+        "path": "exports/revisao-2026-09-26/empresas-dark-1440.png",
+        "bytes": 88474
+      },
+      {
+        "path": "exports/revisao-2026-09-26/empresas-dark-390.png",
+        "bytes": 70504
+      },
+      {
+        "path": "exports/revisao-2026-09-26/empresas-light-1440.png",
+        "bytes": 89941
+      },
+      {
+        "path": "exports/revisao-2026-09-26/empresas-light-390.png",
+        "bytes": 71881
+      },
+      {
+        "path": "exports/revisao-2026-09-26/fornecedor-dark-1440.png",
+        "bytes": 151511
+      },
+      {
+        "path": "exports/revisao-2026-09-26/fornecedor-dark-390.png",
+        "bytes": 114947
+      },
+      {
+        "path": "exports/revisao-2026-09-26/fornecedor-light-1440.png",
+        "bytes": 156646
+      },
+      {
+        "path": "exports/revisao-2026-09-26/fornecedor-light-390.png",
+        "bytes": 116828
+      },
+      {
+        "path": "exports/revisao-2026-09-26/pedidos-dark-1440.png",
+        "bytes": 107426
+      },
+      {
+        "path": "exports/revisao-2026-09-26/pedidos-dark-390.png",
+        "bytes": 72648
+      },
+      {
+        "path": "exports/revisao-2026-09-26/pedidos-light-1440.png",
+        "bytes": 108520
+      },
+      {
+        "path": "exports/revisao-2026-09-26/pedidos-light-390.png",
+        "bytes": 73729
+      },
+      {
+        "path": "exports/revisao-2026-09-26/perfil-industrial-dark-1440.png",
+        "bytes": 83658
+      },
+      {
+        "path": "exports/revisao-2026-09-26/perfil-industrial-dark-390.png",
+        "bytes": 61682
+      },
+      {
+        "path": "exports/revisao-2026-09-26/perfil-industrial-light-1440.png",
+        "bytes": 82988
+      },
+      {
+        "path": "exports/revisao-2026-09-26/perfil-industrial-light-390.png",
+        "bytes": 61462
+      },
+      {
+        "path": "exports/revisao-2026-09-26/propostas-dark-1440.png",
+        "bytes": 115194
+      },
+      {
+        "path": "exports/revisao-2026-09-26/propostas-dark-390.png",
+        "bytes": 65761
+      },
+      {
+        "path": "exports/revisao-2026-09-26/propostas-light-1440.png",
+        "bytes": 116587
+      },
+      {
+        "path": "exports/revisao-2026-09-26/propostas-light-390.png",
+        "bytes": 67324
+      },
+      {
+        "path": "exports/revisao-2026-09-26/ui-checks.json",
+        "bytes": 15716
+      },
+      {
+        "path": "exports/ux-2026-09-26/01-demandas.png",
+        "bytes": 44005
+      },
+      {
+        "path": "exports/ux-2026-09-26/02-formulario.png",
+        "bytes": 45391
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/acesso-dark-1440.png",
+        "bytes": 605484
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/acesso-dark-390.png",
+        "bytes": 175292
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/acesso-light-1440.png",
+        "bytes": 587934
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/acesso-light-390.png",
+        "bytes": 145241
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/administracao-dark-1440.png",
+        "bytes": 145935
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/administracao-dark-390.png",
+        "bytes": 124441
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/administracao-light-1440.png",
+        "bytes": 148269
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/administracao-light-390.png",
+        "bytes": 126790
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/analise-administrativa-dark-1440.png",
+        "bytes": 83992
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/analise-administrativa-dark-390.png",
+        "bytes": 63619
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/analise-administrativa-light-1440.png",
+        "bytes": 85231
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/analise-administrativa-light-390.png",
+        "bytes": 64874
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-em-analise-dark-1440.png",
+        "bytes": 62676
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-em-analise-dark-390.png",
+        "bytes": 42834
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-em-analise-light-1440.png",
+        "bytes": 64062
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-em-analise-light-390.png",
+        "bytes": 43634
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-empresa-dark-1440.png",
+        "bytes": 88270
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-empresa-dark-390.png",
+        "bytes": 70504
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-empresa-light-1440.png",
+        "bytes": 89805
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/cadastro-empresa-light-390.png",
+        "bytes": 71881
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-dark-1440.png",
+        "bytes": 155064
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-dark-390.png",
+        "bytes": 103059
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-light-1440.png",
+        "bytes": 158776
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-light-390.png",
+        "bytes": 105472
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-pendencias-dark-1440.png",
+        "bytes": 154347
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-pendencias-dark-390.png",
+        "bytes": 103203
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-pendencias-light-1440.png",
+        "bytes": 158074
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-pendencias-light-390.png",
+        "bytes": 105660
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-vazio-dark-1440.png",
+        "bytes": 147471
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-vazio-dark-390.png",
+        "bytes": 106041
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-vazio-light-1440.png",
+        "bytes": 151775
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/comprador-vazio-light-390.png",
+        "bytes": 108601
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/correcao-solicitada-dark-1440.png",
+        "bytes": 93556
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/correcao-solicitada-dark-390.png",
+        "bytes": 74125
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/correcao-solicitada-light-1440.png",
+        "bytes": 95343
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/correcao-solicitada-light-390.png",
+        "bytes": 75562
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/demandas-dark-1440.png",
+        "bytes": 98007
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/demandas-dark-390.png",
+        "bytes": 62754
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/demandas-light-1440.png",
+        "bytes": 101186
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/demandas-light-390.png",
+        "bytes": 65382
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-dark-1440.png",
+        "bytes": 175608
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-dark-390.png",
+        "bytes": 138925
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-light-1440.png",
+        "bytes": 184787
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-light-390.png",
+        "bytes": 145035
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-texto-maior-dark-1440.png",
+        "bytes": 215023
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-texto-maior-dark-390.png",
+        "bytes": 171889
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-texto-maior-light-1440.png",
+        "bytes": 219420
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/editar-rascunho-texto-maior-light-390.png",
+        "bytes": 176647
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dark-1440.png",
+        "bytes": 88474
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dark-390.png",
+        "bytes": 70504
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dupla-atuacao-dark-1440.png",
+        "bytes": 59245
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dupla-atuacao-dark-390.png",
+        "bytes": 41088
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dupla-atuacao-light-1440.png",
+        "bytes": 60350
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-dupla-atuacao-light-390.png",
+        "bytes": 42044
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-light-1440.png",
+        "bytes": 89941
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/empresas-light-390.png",
+        "bytes": 71881
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/fornecedor-dark-1440.png",
+        "bytes": 151578
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/fornecedor-dark-390.png",
+        "bytes": 115136
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/fornecedor-light-1440.png",
+        "bytes": 156774
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/fornecedor-light-390.png",
+        "bytes": 116997
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-dark-1440.png",
+        "bytes": 470935
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-dark-390.png",
+        "bytes": 335253
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-light-1440.png",
+        "bytes": 475511
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-light-390.png",
+        "bytes": 341261
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-dark-1440.png",
+        "bytes": 470877
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-dark-1920.png",
+        "bytes": 481302
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-dark-390.png",
+        "bytes": 335253
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-light-1440.png",
+        "bytes": 475511
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-light-1920.png",
+        "bytes": 486776
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pagina-publica-refinada-light-390.png",
+        "bytes": 341261
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pedidos-dark-1440.png",
+        "bytes": 107870
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pedidos-dark-390.png",
+        "bytes": 72831
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pedidos-light-1440.png",
+        "bytes": 108982
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/pedidos-light-390.png",
+        "bytes": 73838
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/perfil-industrial-dark-1440.png",
+        "bytes": 83658
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/perfil-industrial-dark-390.png",
+        "bytes": 61682
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/perfil-industrial-light-1440.png",
+        "bytes": 82988
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/perfil-industrial-light-390.png",
+        "bytes": 61462
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/portal-admin-cadastro-dark-1440.png",
+        "bytes": 82998
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/portal-admin-cadastro-dark-390.png",
+        "bytes": 63577
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/portal-admin-cadastro-light-1440.png",
+        "bytes": 87978
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/portal-admin-cadastro-light-390.png",
+        "bytes": 67257
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/propostas-dark-1440.png",
+        "bytes": 115143
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/propostas-dark-390.png",
+        "bytes": 65688
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/propostas-light-1440.png",
+        "bytes": 116388
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/propostas-light-390.png",
+        "bytes": 67221
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/revisao-cadastro-dark-1440.png",
+        "bytes": 93293
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/revisao-cadastro-dark-390.png",
+        "bytes": 75932
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/revisao-cadastro-light-1440.png",
+        "bytes": 95366
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/revisao-cadastro-light-390.png",
+        "bytes": 77023
+      },
+      {
+        "path": "exports/ux-suave-2026-09-26/ui-checks.json",
+        "bytes": 17046
+      },
+      {
+        "path": "database-debug.log",
+        "bytes": 588
+      },
+      {
+        "path": "e2e-after.log",
+        "bytes": 16208
+      },
+      {
+        "path": "e2e-cleanup.log",
+        "bytes": 1537
+      },
+      {
+        "path": "firebase-debug.log",
+        "bytes": 556342
+      },
+      {
+        "path": "firebase-fixed.log",
+        "bytes": 2949
+      },
+      {
+        "path": "firebase-focus.log",
+        "bytes": 2375
+      },
+      {
+        "path": "firebase-journey.log",
+        "bytes": 354
+      },
+      {
+        "path": "footer-width-after.log",
+        "bytes": 1853
+      },
+      {
+        "path": "footer-width-before.log",
+        "bytes": 3724
+      },
+      {
+        "path": "footer-width-final.log",
+        "bytes": 1852
+      },
+      {
+        "path": "journey-deploy.log",
+        "bytes": 384
+      },
+      {
+        "path": "journey-verification.log",
+        "bytes": 15664
+      },
+      {
+        "path": "journey-visual.log",
+        "bytes": 2036
+      },
+      {
+        "path": "onboarding-backup.log",
+        "bytes": 0
+      },
+      {
+        "path": "onboarding-deploy.log",
+        "bytes": 384
+      },
+      {
+        "path": "onboarding-diff-warnings.log",
+        "bytes": 0
+      },
+      {
+        "path": "onboarding-final.log",
+        "bytes": 2184
+      },
+      {
+        "path": "onboarding-focus.log",
+        "bytes": 3954
+      },
+      {
+        "path": "onboarding-full.log",
+        "bytes": 16250
+      },
+      {
+        "path": "onboarding-readback.log",
+        "bytes": 0
+      },
+      {
+        "path": "onboarding-test.log",
+        "bytes": 2010
+      },
+      {
+        "path": "onboarding-unit.log",
+        "bytes": 6849
+      },
+      {
+        "path": "onboarding-visual.log",
+        "bytes": 1763
+      },
+      {
+        "path": "operations-after.log",
+        "bytes": 245
+      },
+      {
+        "path": "public-polish.log",
+        "bytes": 1745
+      },
+      {
+        "path": "public-regression.log",
+        "bytes": 3567
+      },
+      {
+        "path": "rules-red.log",
+        "bytes": 2330
+      },
+      {
+        "path": "unit-after.log",
+        "bytes": 5936
+      },
+      {
+        "path": "unit-baseline.log",
+        "bytes": 5664
+      },
+      {
+        "path": "verification.log",
+        "bytes": 14656
+      },
+      {
+        "path": "visual-check.log",
+        "bytes": 1572
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-173528-247.zip",
+        "bytes": 509567
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-173528-247.zip.sha256",
+        "bytes": 110
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-212655-875.zip",
+        "bytes": 509673
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-212655-875.zip.sha256",
+        "bytes": 110
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-212841-522.zip",
+        "bytes": 509679
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-212841-522.zip.sha256",
+        "bytes": 110
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-213331-040.zip",
+        "bytes": 994134
+      },
+      {
+        "path": "exports/SIVI-transferencia-20260920-213331-040.zip.sha256",
+        "bytes": 110
+      }
+    ],
+    "preserve": [
+      "docs completo",
+      "src",
+      "tests",
+      "node_modules",
+      "configuracoes",
+      "backup de historico .bundle",
+      "capturas atuais"
+    ],
+    "beforeRemoval": [
+      "Preservar .superpowers/sdd/2026-09-26-proteger-condicoes-aceitas/progress.md em docs/reviews.",
+      "Gerar e validar um pacote de transferencia atual antes de substituir os anteriores."
+    ]
+  },
+  "limitations": [
+    "Backend autoritativo e concorrencia de publicacao/aceite pendentes.",
+    "Encerramento de oportunidades dos concorrentes pendente.",
+    "Quantidades por unidade corrigidas nos resumos; indicadores, match e inspecao ainda agregados.",
+    "Recuperacao apenas para nova demanda na mesma aba; nao inclui outras edicoes apos sair da pagina.",
+    "Escrita de resultado desconhecido ainda requer idempotencia autoritativa.",
+    "Sem certificacao de acessibilidade nem validacao com leitores de tela."
+  ],
+  "sha256": {
+    "src/pages/operations/workflow-view.js": "27057f510df4192eb411b3d5165e18a2408877d590282a1f302a17f76583278b",
+    "src/pages/operations/workflow-components.js": "ccebe7c2e58069a042436d260017fd95b62dec9b0b6b89991bc9855622f83831",
+    "src/pages/operations/operations-page.js": "0bcaa047a4550ae1ef01d781654be6c4766fa582d1890803430f014285094237",
+    "src/pages/operations/operations-page.css": "b1be5d1fb65c9dd89046646ae0cec5a5f97a9778999d4b9ded58f75149d06074",
+    "src/pages/operations/demand-recovery.js": "437404b23b4d0c5ea14f60455abe0eda400a8d919a8a580eb4f1055293f59a83",
+    "src/domain/calendar-date.js": "1b412bfa39fa9d1e971b29d40a4a2ed49ceb65d6a2ee453fe87e82f0950d487d",
+    "src/repositories/firebase-marketplace-repository.js": "04f930c4ec324c5f98ad551289945a3856503b325b90e92a6d05c91b67378b2c",
+    "src/layouts/app-shell/app-shell.js": "43ebffdc9de260eb5aef21fc39883ae86123775045e5adbc5006fc4d70f311c9",
+    "src/layouts/app-shell/app-shell.css": "9ed5c30ccac9af6a0d220689afc68eab22a5c600275ce48734eaeb1c76168a89",
+    "tests/e2e/workflow-usability.spec.js": "804b0a26be84a6972dff46b0df3f58edc743403cac7b88d2621a5e7bbf5345e1",
+    "tests/e2e/app-shell.spec.js": "a453bee0f147d8fcefbc6fc195bc3fa25b639c094f50528e1896f9d9e7933719",
+    "tests/unit/demand-recovery.test.js": "7ee071c3ac98099ea112891b3265665b5d8d8e9fdb8aec3c286af2eb4fd8e828",
+    "tests/unit/firebase-marketplace.test.js": "fd1b449ea71ac17f09853b8dc0e4fd12eb69664a3d01bceb5843b84e3969005a",
+    "tests/helpers/ui-review.js": "3603ece6ec206ab6fe1904bc54536112399fd13f0655caa106c55fb3c93441d9",
+    "database.rules.json": "ba9fc6e48574932642fd34f2c2cabef547df58417879c6cded95b5dad817afe4"
+  }
+}

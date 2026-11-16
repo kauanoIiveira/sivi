@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-09-26T15:52:17.646Z",
+  "environment": "local Firebase emulators only",
+  "purpose": "Characterization for roadmap; not a passing regression suite",
+  "facts": [
+    {
+      "id": "mixed-units-and-date",
+      "quantities": [
+        "10 un",
+        "20 m"
+      ],
+      "aggregate": 30,
+      "storedDate": "2027-02-31"
+    },
+    {
+      "id": "write-success-refresh-failure",
+      "errorsReported": 2,
+      "persistedRecords": 2
+    },
+    {
+      "id": "publish-after-concurrent-edit",
+      "concurrentTitle": "Edição salva por outra sessão",
+      "finalTitle": "Revisão local da negociação"
+    },
+    {
+      "id": "opportunity-after-acceptance",
+      "opportunityStatus": "published",
+      "anotherProposalRejected": true
+    },
+    {
+      "id": "accepted-terms-and-release-rules",
+      "response": 200,
+      "saved": true,
+      "originalTotalCents": 10000,
+      "requestedTotalCents": 1,
+      "inspectionProvided": false
+    },
+    {
+      "id": "ordered-demand-status-reversal",
+      "response": 200,
+      "saved": true
+    }
+  ]
+}

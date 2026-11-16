@@ -27,6 +27,7 @@ export function comparison(proposals, supplierName, appendDecision, captionText 
   const wrap = element('div', undefined, 'workflow-comparison');
   wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'Comparador de propostas, com rolagem horizontal');
   const table = element('table');
+  table.style.setProperty('--workflow-offers', String(proposals.length));
   const caption = element('caption', captionText); table.append(caption);
   const head = element('thead'); const headings = element('tr');
   const corner = element('th', 'Condições da oferta'); corner.scope = 'col'; headings.append(corner);

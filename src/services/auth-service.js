@@ -13,6 +13,19 @@ import {
 import { ref, runTransaction, serverTimestamp, set, update } from "firebase/database";
 import { auth, database } from "../config/firebase.js";
 import { runtimeConfig } from "../config/runtime-config.js";
+import { createAccountProfileUpdater } from "./account-profile.js";
+import { createFirebaseDataClient } from "./firebase-data-client.js";
+
+export const updateAccountProfile = createAccountProfileUpdater({
+  getUser: () => auth.currentUser,
+  saveAuthProfile: updateProfile,
+  client: createFirebaseDataClient(database),
+  persistUserProfile: runtimeConfig?.persistUserProfile === true,
+});
+
+export function getCurrentAccount() {
+  return auth.currentUser;
+}
 
 async function persistProfile(user, profile, { forceCreate = false } = {}) {
   if (!runtimeConfig.persistUserProfile) return;
@@ -162,6 +175,14 @@ export async function loginWithProvider(providerName) {
 
   const provider = createProvider();
   const credential = await signInWithPopup(auth, provider);
+
+  if (!credential.user.emailVerified) {
+    try { await sendEmailVerification(credential.user); } catch { /* O acesso permanece bloqueado até a confirmação. */ }
+    try { await firebaseSignOut(auth); } catch { /* A store também bloqueia a sessão não confirmada. */ }
+    const error = new Error('Confirme seu e-mail antes de acessar o SIVI.');
+    error.code = 'auth/email-not-verified';
+    throw error;
+  }
 
   try {
     await persistProfile(credential.user, {

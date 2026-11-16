@@ -10,7 +10,7 @@ try {
     if (role === 'supplier' && section === 'proposals') assert.equal(await page.getByText('Horizonte Usinagem').count(), 0);
   }
   await page.goto('http://127.0.0.1:4173/tests/fixtures/operations-lab.html');
-  await page.getByText('Nova demanda', { exact: true }).click();
+  await page.getByRole('button', { name: 'Criar nova demanda', exact: true }).click();
   await page.getByLabel('Título da demanda', { exact: true }).fill('Eixo de teste');
   await page.getByLabel('Prazo solicitado', { exact: true }).fill('2026-10-01');
   await page.getByLabel('Destino de entrega').fill('São Paulo');

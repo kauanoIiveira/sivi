@@ -1,11 +1,11 @@
 export const APPEARANCE_STORAGE_KEY = 'sivi.appearance.v1';
 export const APPEARANCE_OPTIONS = Object.freeze({
-  motion: ['system', 'reduce'],
   textSize: ['standard', 'large'],
-  density: ['comfortable', 'compact'],
   contrast: ['standard', 'more'],
+  colorVision: ['standard', 'redGreen', 'blueYellow'],
+  vlibras: ['off', 'on'],
 });
-export const APPEARANCE_DEFAULTS = Object.freeze({ motion: 'system', textSize: 'standard', density: 'comfortable', contrast: 'standard' });
+export const APPEARANCE_DEFAULTS = Object.freeze({ textSize: 'standard', contrast: 'standard', colorVision: 'standard', vlibras: 'off' });
 
 export function normalizeAppearance(value) {
   return Object.fromEntries(Object.entries(APPEARANCE_OPTIONS).map(([key, options]) => [

@@ -28,6 +28,11 @@ test("supplier sees execution and unanswered opportunities, never buyer actions"
 test("empty companies and administration do not receive fictional tasks", () => {
   for (const role of ["buyer", "supplier", "administration"]) assert.deepEqual(buildNextActions(role, { demands: [], proposals: [], orders: [] }, today), []);
 });
+
+test('an opportunity that no longer meets the essential profile does not suggest a new proposal', () => {
+  const actions = buildNextActions('supplier', { demands: [{ id: 'withdrawn', status: 'published', match: { eligible: false } }], proposals: [], orders: [] }, today);
+  assert.deepEqual(actions, []);
+});
 test("record links encode identifiers instead of interpreting route separators", () => {
   assert.equal(workflowLink("supplier", "proposals", "x&registro=y#"), "#/app/fornecedor/propostas?registro=x%26registro%3Dy%23");
 });

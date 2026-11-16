@@ -21,3 +21,10 @@ ui-debug.log*
 *.p12
 .DS_Store
 Thumbs.db
+
+# Evidências locais e caches de ferramentas
+.checks/
+__pycache__/
+_arquivo/
+.impeccable/review/
+.taste-skill/

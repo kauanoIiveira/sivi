@@ -1,22 +1,37 @@
 import { workflowLink } from '../../domain/next-actions.js';
+import { ROUTE_PATHS } from '../../app/routes.js';
+import { isSupplierIdentifier } from '../../domain/match-engine.js';
 import { createDemandFilters } from './demand-filters.js';
 import { createDemandRecovery } from './demand-recovery.js';
-import { createRecordFilters } from './record-filters.js';
+import { createRecordFilters, negotiationStatus } from './record-filters.js';
 import { recordCollection } from './record-collection.js';
 import { demandCopyInput } from './demand-copy.js';
 import { downloadOrdersCsv } from './orders-csv.js';
 import { printOrder } from './order-print.js';
 import { isCalendarDate, todayInSaoPaulo } from '../../domain/calendar-date.js';
 import { inspectionSummary } from '../../domain/inspection.js';
+import { normalizeUnit } from '../../domain/quantity.js';
 import { money, metrics, emptyState, comparison, orderProgress, quantitySummary } from './workflow-components.js';
-const labels = { draft: "Rascunho", published: "Publicada", ordered: "Pedido gerado", accepted: "Aguardando inspeção", blocked: "Bloqueado — reinspeção necessária", released: "Liberado para expedição", dispatched: "Expedido", delivered: "Entrega confirmada" };
+const labels = { draft: "Rascunho", published: "Publicada", closed: "Encerrada", unavailable: "Comprador indisponível", ordered: "Pedido gerado", accepted: "Aguardando inspeção", blocked: "Bloqueado — reinspeção necessária", released: "Liberado para expedição", dispatched: "Expedido", delivered: "Entrega confirmada" };
 const el = (tag, text) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; return node; };
 const box = (title) => { const node = el("article"); node.className = "workflow-record"; node.append(el("h3", title)); return node; };
+function commercialChat(parent, role, buyerId, supplierId, kind, recordId) {
+  const isBuyer = role === 'buyer';
+  const peer = isBuyer ? supplierId : buyerId;
+  if (!isSupplierIdentifier(peer) || (!isBuyer && !isSupplierIdentifier(recordId))) return;
+  const params = new URLSearchParams({ registro: peer });
+  if (!isBuyer) params.set(kind, recordId);
+  const link = el('a', isBuyer ? 'Conversar com fornecedor' : 'Conversar com comprador');
+  link.className = 'workflow-related-link';
+  link.href = `#${isBuyer ? ROUTE_PATHS.buyerConversations : ROUTE_PATHS.supplierConversations}?${params}`;
+  parent.append(link);
+}
 const row = (container, label, value) => {
   const item = el('p'); item.className = 'workflow-field';
   item.append(el('span', `${label}: `), el('strong', String(value)));
   if (label === 'Estado') { item.classList.add('workflow-state'); item.dataset.state = Object.keys(labels).find(key => labels[key] === value) ?? ''; }
   container.append(item);
+  return item;
 };
 
 function form(fields, label, action, report, defaults = {}, canSubmit = () => true, run = command => command()) {
@@ -27,7 +42,8 @@ function form(fields, label, action, report, defaults = {}, canSubmit = () => tr
     if (type !== "textarea") input.type = type;
     input.name = name; input.required = true; input.value = defaults[name] ?? value;
     if (type === 'textarea') field.className = 'workflow-form__wide';
-    input.maxLength = { manufacturer: 160, payment: 300, warranty: 500, plan: 160, comment: 1000 }[name] ?? 2000;
+    input.maxLength = { manufacturer: 160, payment: 300, warranty: 500, plan: 160, comment: 1000, closedReason: 300 }[name] ?? 2000;
+    if (name === 'closedReason') input.minLength = 3;
     if (type === "number") { input.min = name === "freight" || name.startsWith("approved") ? "0" : name === 'price' ? '0.01' : "1"; input.step = name === "price" || name === "freight" ? "0.01" : "1"; }
     if (name === 'validUntil') input.min = todayInSaoPaulo();
     if (name === "score") input.max = "5";
@@ -85,8 +101,9 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
     const label = el("label", title);
     const input = el(type === "textarea" ? "textarea" : "input");
     if (type !== "textarea") input.type = type;
-    input.name = name; input.required = true; input.maxLength = name === 'description' ? 2000 : 160;
+    input.name = name; input.required = name === 'title'; input.maxLength = name === 'description' ? 2000 : 160;
     input.value = initial?.[name] ?? '';
+    if (name === 'region') input.placeholder = 'Ex.: Campinas/SP';
     if (name === 'requiredBy' && initialValues) input.min = todayInSaoPaulo();
     if (type === "textarea" || name === 'title') label.className = "workflow-form__wide";
     baseInputs.set(name, input);
@@ -120,10 +137,11 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
       const label = el("label", title); const input = el("input");
       if (name === 'description' || name === 'certifications') label.className = 'workflow-form__wide';
       if (!required) { const optional = el('span', 'Opcional'); optional.className = 'workflow-optional'; optional.setAttribute('aria-hidden', 'true'); label.append(optional); }
-      input.name = name; input.type = type; input.required = required; input.maxLength = name === 'unit' ? 20 : ['category', 'material', 'process'].includes(name) ? 120 : 500;
+      input.name = name; input.type = type; input.required = false; input.maxLength = name === 'unit' ? 20 : ['category', 'material', 'process'].includes(name) ? 120 : 500;
       if (type === "number") { input.min = "1"; input.step = "1"; }
       if (name === "unit") input.value = "un";
       if (values[name] !== undefined) input.value = Array.isArray(values[name]) ? values[name].join(', ') : values[name];
+      if (name === 'quantity' && Number(values[name]) === 0) input.value = '';
       label.append(input); fieldset.append(label);
     }
     const remove = el("button", "Remover item"); remove.type = "button"; remove.className = "workflow-remove-item";
@@ -189,8 +207,8 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
   node.addEventListener("submit", async (event) => {
     event.preventDefault(); error.textContent = "";
     if (node.dataset.committed || node.getAttribute('aria-busy') === 'true' || !canSubmit(node)) return;
-    if (!isCalendarDate(baseInputs.get('requiredBy').value)) { error.textContent = 'Informe uma data válida.'; baseInputs.get('requiredBy').focus(); return; }
-    if (initialValues && baseInputs.get('requiredBy').value < todayInSaoPaulo()) { error.textContent = 'Informe um prazo a partir de hoje para a nova demanda.'; baseInputs.get('requiredBy').focus(); return; }
+    if (baseInputs.get('requiredBy').value && !isCalendarDate(baseInputs.get('requiredBy').value)) { error.textContent = 'Informe uma data válida.'; baseInputs.get('requiredBy').focus(); return; }
+    if (initialValues && baseInputs.get('requiredBy').value && baseInputs.get('requiredBy').value < todayInSaoPaulo()) { error.textContent = 'Informe um prazo a partir de hoje para a nova demanda.'; baseInputs.get('requiredBy').focus(); return; }
     try {
       // Read the top-level controls explicitly: items also contain a description.
       const base = Object.fromEntries([...baseInputs].map(([name, input]) => [name, input.value]));
@@ -224,13 +242,14 @@ function demandForm(action, report, { draft = null, initialValues = null, onCanc
   return node;
 }
 
-export function mountWorkflowView({ container, workspace, workflow, section, suppliers, onRefresh, selectedRecordId = new URLSearchParams(window.location.hash.split("?")[1] ?? "").get("registro") }) {
+export function mountWorkflowView({ container, workspace, workflow, section, suppliers, onRefresh, onReassess, headerActions, selectedRecordId = new URLSearchParams(window.location.hash.split("?")[1] ?? "").get("registro") }) {
   let storage;
   try { storage = window.sessionStorage; } catch {}
   const filters = createDemandFilters(workspace, storage);
   const recovery = createDemandRecovery(workspace, storage);
   const recordsFilter = section === 'demands' ? null : createRecordFilters(section, workspace, storage);
   const root = el("section"); root.dataset.workflow = section; container.append(root);
+  let createDemandOpen = Boolean(recovery.read()) || new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('nova') === '1';
   const status = el("p"); status.setAttribute("role", "status");
   status.setAttribute('aria-atomic', 'true'); status.tabIndex = -1;
   status.className = 'workflow-feedback';
@@ -238,7 +257,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
   const runCommand = async (command) => {
     if (inFlight) throw new Error('Aguarde a conclusão da ação em andamento.');
     inFlight = true; root.setAttribute('aria-busy', 'true');
-    const controls = [...root.querySelectorAll('input, textarea, select, button')].filter(control => !control.disabled);
+    const controls = [...root.querySelectorAll('input, textarea, select, button'), ...(headerActions?.querySelectorAll('button') ?? [])].filter(control => !control.disabled);
     controls.forEach(control => { control.disabled = true; });
     try { return await command(); }
     finally { inFlight = false; root.removeAttribute('aria-busy'); controls.forEach(control => { control.disabled = false; }); }
@@ -267,6 +286,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
       catch (cause) { status.dataset.tone = 'error'; status.textContent = cause?.message ?? "Não foi possível concluir a ação."; status.focus(); }
       finally { button.disabled = false; button.textContent = previousLabel; }
     });
+    return button;
   }
   const report = (message, savedForm) => {
     if (!root.isConnected) return;
@@ -279,6 +299,25 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
     const link = el("a", label); link.className = "workflow-related-link";
     link.href = workflowLink(workspace.organizationRole, targetSection, id); parent.append(link);
   };
+  const statusRow = (record, id, state, proposalCount, offerState) => {
+    const reference = el('span', `Referência: ${id}`); reference.className = 'workflow-reference';
+    if (!headerActions) { record.prepend(reference); row(record, 'Estado', labels[state]); return; }
+
+    record.classList.add('workspace-record');
+    const identity = el('div'); identity.className = 'workflow-record__identity';
+    identity.append(record.firstElementChild, reference);
+    const meta = el('div'); meta.className = 'workflow-record__meta';
+    row(meta, 'Estado', labels[state]);
+    if (proposalCount !== undefined) meta.append(el('span', `${proposalCount} ${proposalCount === 1 ? 'proposta' : 'propostas'}`));
+    if (offerState === 'active') {
+      const valid = el('span', 'Com proposta válida');
+      valid.className = 'workflow-offer-valid';
+      meta.append(valid);
+    }
+    const header = el('div'); header.className = 'workspace-record__heading';
+    header.append(identity, meta);
+    record.prepend(header);
+  };
   function render() {
     const original = workflow.read(workspace.id);
     if (original.suppliers) suppliers = original.suppliers;
@@ -288,16 +327,28 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
     const collection = section === "orders" ? "orders" : "demands";
     if (selectedRecordId) data[collection] = original[collection].filter(record => record.id === selectedRecordId);
     if (selectedRecordId && section === 'proposals') data.proposals = original.proposals.filter(record => record.demandId === selectedRecordId);
-    const active = data.demands.filter(item => item.status === 'published').length;
+    const active = original.demands.filter(item => item.status === 'published').length;
     const stats = section === 'demands'
-      ? [['Demandas da empresa', data.demands.length, 'Necessidades registradas'], ['Abertas para propostas', active, 'Negociação em andamento'], ['Pedidos gerados', data.orders.length, 'Propostas aceitas']]
+      ? [['Demandas da empresa', original.demands.length, 'Necessidades registradas'], ['Abertas para propostas', active, 'Negociação em andamento'], ['Pedidos gerados', original.orders.length, 'Propostas aceitas']]
       : section === 'proposals'
-        ? [['Propostas', data.proposals.length, workspace.organizationRole === 'buyer' ? 'Condições para comparar' : 'Negociações da empresa'], [workspace.organizationRole === 'buyer' ? 'Versões recebidas' : 'Versões enviadas', data.proposals.reduce((sum, item) => sum + item.versions.length, 0), 'Histórico preservado'], ['Pedidos gerados', data.orders.length, 'Decisões confirmadas']]
-        : [['Pedidos', data.orders.length, 'Compromissos da empresa'], ['Em execução', data.orders.filter(item => item.status !== 'delivered').length, 'Acompanhe os próximos passos'], ['Entregues', data.orders.filter(item => item.status === 'delivered').length, 'Recebimento confirmado']];
+        ? [['Propostas', original.proposals.length, workspace.organizationRole === 'buyer' ? 'Condições para comparar' : 'Negociações da empresa'], [workspace.organizationRole === 'buyer' ? 'Versões recebidas' : 'Versões enviadas', original.proposals.reduce((sum, item) => sum + item.versions.length, 0), 'Histórico preservado'], ['Pedidos gerados', original.orders.length, 'Decisões confirmadas']]
+        : [['Pedidos', original.orders.length, 'Compromissos da empresa'], ['Em execução', original.orders.filter(item => item.status !== 'delivered').length, 'Acompanhe os próximos passos'], ['Entregues', original.orders.filter(item => item.status === 'delivered').length, 'Recebimento confirmado']];
     root.replaceChildren(status);
-    if (section !== 'demands' || data.demands.length) root.prepend(metrics(stats));
+    headerActions?.replaceChildren();
+    if (headerActions || section !== 'demands' || data.demands.length) {
+      const summary = metrics(stats);
+      if (headerActions) summary.classList.add('workspace-page__metrics');
+      root.prepend(summary);
+    }
+    const content = headerActions ? el('section') : root;
+    if (headerActions) { content.className = 'workspace-panel workflow-panel'; root.append(content); }
     const sectionHeading = el('div'); sectionHeading.className = 'workflow-section-heading';
-    sectionHeading.append(el('h2', section === 'demands' ? workspace.organizationRole === 'buyer' ? 'Minhas demandas' : 'Oportunidades disponíveis' : section === 'proposals' ? 'Negociações da empresa' : 'Acompanhamento de pedidos'));
+    sectionHeading.append(el('h2', section === 'demands' ? workspace.organizationRole === 'buyer' ? headerActions ? 'Demandas da empresa' : 'Minhas demandas' : 'Oportunidades disponíveis' : section === 'proposals' ? 'Negociações por demanda' : 'Acompanhamento de pedidos'));
+    const panelActions = headerActions ? el('div') : sectionHeading;
+    if (headerActions) {
+      panelActions.className = 'workflow-panel__actions';
+      sectionHeading.append(panelActions);
+    }
     if (onRefresh) {
       const refresh = el('button', 'Atualizar registros'); refresh.type = 'button'; refresh.className = 'workflow-secondary-action';
       refresh.addEventListener('click', async () => {
@@ -311,35 +362,59 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         } catch (cause) { status.dataset.tone = 'error'; status.textContent = cause.message; status.focus(); }
         finally { refresh.disabled = false; refresh.textContent = 'Atualizar registros'; }
       });
-      sectionHeading.append(refresh);
+      panelActions.append(refresh);
     }
-    root.append(sectionHeading);
+    content.append(sectionHeading);
     if (selectedRecordId) {
-      linkTo(root, "← Ver lista completa", section);
+      linkTo(content, "← Ver lista completa", section);
       if (!data[collection].length) {
-        root.append(emptyState("Registro indisponível", "Este registro não está disponível para a empresa e atuação selecionadas. Volte à lista para continuar."));
+        content.append(emptyState("Registro indisponível", "Este registro não está disponível para a empresa e atuação selecionadas. Volte à lista para continuar."));
         return;
       }
     }
     if (section === "demands") {
       if (workspace.organizationRole === "buyer" && !selectedRecordId) {
-        const panel = el("details"); panel.className = 'workflow-editor'; panel.append(el("summary", "Nova demanda"));
-        panel.open = Boolean(recovery.read()) || new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('nova') === '1';
+        const panel = el(headerActions ? 'section' : 'details'); panel.className = 'workflow-editor';
+        if (headerActions) {
+          panel.classList.add('workspace-panel', 'workflow-create-panel');
+          panel.id = 'nova-demanda';
+          const heading = el('h2', 'Nova demanda'); heading.tabIndex = -1;
+          panel.append(heading);
+          const trigger = el('button', 'Criar nova demanda');
+          trigger.type = 'button'; trigger.className = 'workspace-primary';
+          trigger.setAttribute('aria-controls', panel.id);
+          const update = () => {
+            panel.hidden = !createDemandOpen;
+            trigger.setAttribute('aria-expanded', String(createDemandOpen));
+          };
+          trigger.addEventListener('click', () => {
+            createDemandOpen = !createDemandOpen;
+            update();
+            if (createDemandOpen) heading.focus();
+          });
+          update(); headerActions.append(trigger); root.insertBefore(panel, content);
+        } else {
+          panel.append(el('summary', 'Nova demanda'));
+          panel.open = Boolean(recovery.read()) || createDemandOpen;
+          root.append(panel);
+        }
         panel.append(el('p', 'Descreva o que sua empresa precisa. Salve um rascunho e publique quando as informações estiverem prontas.'));
-        panel.append(demandForm((values) => runCommand(() => workflow.createDemand(workspace.id, values)), report, { recovery, canSubmit: canContinue }));
-        root.append(panel);
+        panel.append(demandForm((values) => runCommand(() => workflow.createDemand(workspace.id, values)), (message, savedForm) => {
+          createDemandOpen = false;
+          report(message, savedForm);
+        }, { recovery, canSubmit: canContinue }));
       }
-      if (!data.demands.length) root.append(emptyState(workspace.organizationRole === 'buyer' ? 'Nenhuma demanda cadastrada' : 'Nenhuma oportunidade disponível', workspace.organizationRole === 'buyer' ? 'Crie sua primeira demanda com especificação, quantidade e prazo. Os fornecedores poderão responder com suas condições.' : 'Mantenha seu perfil industrial atualizado para encontrar demandas compatíveis.'));
+      if (!data.demands.length) content.append(emptyState(workspace.organizationRole === 'buyer' ? 'Nenhuma demanda cadastrada' : 'Nenhuma oportunidade disponível', workspace.organizationRole === 'buyer' ? 'Crie sua primeira demanda com especificação, quantidade e prazo. Os fornecedores poderão responder com suas condições.' : 'Mantenha seu perfil industrial atualizado para encontrar demandas compatíveis.'));
       const toolbar = el('div'); toolbar.className = 'workflow-toolbar';
       const searchLabel = el("label", "Buscar demandas"); const search = el("input"); search.type = "search"; search.placeholder = 'Título, referência, material ou destino'; searchLabel.append(search); toolbar.append(searchLabel);
       const filterLabel = el('label', 'Situação'); const filter = el('select'); filter.setAttribute('aria-label', 'Situação');
-      [['', 'Todas as situações'], ...(workspace.organizationRole === 'buyer' ? [['draft', 'Rascunho']] : []), ['published', 'Publicada'], ['ordered', 'Pedido gerado']].forEach(([value, label]) => { const option = el('option', label); option.value = value; filter.append(option); }); filterLabel.append(filter); toolbar.append(filterLabel);
-      if (!selectedRecordId && data.demands.length) root.append(toolbar);
+      [['', 'Todas as situações'], ...(workspace.organizationRole === 'buyer' ? [['draft', 'Rascunho']] : [['unavailable', 'Comprador indisponível']]), ['published', 'Publicada'], ['closed', 'Encerrada'], ['ordered', 'Pedido gerado']].forEach(([value, label]) => { const option = el('option', label); option.value = value; filter.append(option); }); filterLabel.append(filter); toolbar.append(filterLabel);
+      if (!selectedRecordId && data.demands.length) content.append(toolbar);
       const count = el('p'); count.dataset.resultCount = ''; count.className = 'workflow-result-count'; count.setAttribute('role', 'status'); count.setAttribute('aria-atomic', 'true');
-      if (!selectedRecordId && data.demands.length) root.append(count);
+      if (!selectedRecordId && data.demands.length) content.append(count);
       search.maxLength = 200;
       if (!selectedRecordId) { const remembered = filters.read(); search.value = remembered.search; filter.value = remembered.status; }
-      const list = el("div"); list.className = 'workflow-record-list'; root.append(list);
+      const list = el("div"); list.className = 'workflow-record-list'; content.append(list);
       const show = () => {
         if (!selectedRecordId) filters.save(search.value, filter.value);
         list.replaceChildren();
@@ -353,24 +428,33 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         if (data.demands.length && !demands.length) { list.append(el("p", "Nenhum registro corresponde à busca.")); const clear = el('button', 'Limpar filtros'); clear.type = 'button'; clear.addEventListener('click', () => { search.value = ''; filter.value = ''; show(); search.focus(); }); list.append(clear); }
         demands.forEach((demand) => {
           const record = box(demand.title); record.classList.add('workflow-demand');
-          const reference = el('span', `Referência: ${demand.id}`); reference.className = 'workflow-reference'; record.prepend(reference);
-          row(record, "Estado", labels[demand.status]);
+          const recordActions = headerActions ? el('div') : record;
+          if (headerActions) recordActions.className = 'workflow-record__actions';
+          statusRow(record, demand.id, demand.status);
           const info = el('div'); info.className = 'workflow-facts';
-          row(info, "Quantidade por unidade", quantitySummary(demand)); row(info, "Prazo", demand.requiredBy.split('-').reverse().join('/')); row(info, "Destino", demand.destination); record.append(info);
+          if (demand.closedReason) {
+            const closedAt = Number.isFinite(demand.closedAt) ? new Intl.DateTimeFormat('pt-BR', {
+              dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo',
+            }).format(demand.closedAt) : null;
+            if (closedAt) row(info, 'Encerrada em', closedAt);
+            row(info, 'Motivo do encerramento', demand.closedReason);
+          }
+          row(info, "Prazo", demand.requiredBy ? demand.requiredBy.split('-').reverse().join('/') : 'Não informado'); row(info, "Quantidade por unidade", quantitySummary(demand)); row(info, "Destino", demand.destination || 'Não informado'); record.append(info);
           const itemCount = demand.items?.length || 1;
           const specification = el('details'); specification.className = 'workflow-specification'; specification.append(el('summary', `Ver especificação técnica · ${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`), el('p', demand.description));
           (demand.items ?? []).forEach((item, index) => {
             const itemDetail = box(`Item ${index + 1} · ${item.description}`);
-            row(itemDetail, "Categoria", item.category); row(itemDetail, "Material", item.material); row(itemDetail, "Processo", item.process); row(itemDetail, "Quantidade", `${item.quantity} ${item.unit}`); row(itemDetail, "Certificações", item.certifications?.join(", ") || "Não informadas");
+            row(itemDetail, "Categoria", item.category); row(itemDetail, "Material", item.material); row(itemDetail, "Processo", item.process); row(itemDetail, "Quantidade", `${item.quantity} ${normalizeUnit(item.unit)}`); row(itemDetail, "Certificações", item.certifications?.join(", ") || "Não informadas");
             specification.append(itemDetail);
           });
           if (workspace.organizationRole === "supplier" && demand.match) {
             const match = box(demand.match.status === "compatible" ? "Compatibilidade com o perfil" : "Critérios que precisam de conferência");
             match.classList.add("workflow-match");
+            if (demand.match.explanation) match.append(el('p', demand.match.explanation));
             (demand.match.criteria ?? []).forEach((criterion) => row(match, criterion.label, criterion.explanation));
             specification.append(match);
           }
-          record.append(specification);
+          if (!headerActions) record.append(specification);
           if (demand.status === "draft" && workspace.organizationRole === 'buyer') {
             const editor = el('details'); editor.className = 'workflow-editor';
             const summary = el('summary', 'Editar rascunho'); editor.append(summary);
@@ -383,7 +467,8 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
                 { draft: demand, canSubmit: canContinue, onCancel: () => { resetEditor(); editor.open = false; summary.focus(); } },
               ));
             };
-            resetEditor(); record.append(editor);
+            resetEditor();
+            if (!headerActions) record.append(editor);
             const controls = el('div'); controls.className = 'workflow-draft-actions';
             action(controls, 'Publicar demanda', () => workflow.publishDemand(workspace.id, demand.id), 'Publicar a última versão salva desta demanda para os fornecedores compatíveis?');
             const note = el('p', 'Salve ou cancele a edição antes de publicar.'); note.hidden = true; controls.append(note);
@@ -391,12 +476,24 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
               controls.querySelector('button').disabled = editor.open;
               note.hidden = !editor.open;
             });
-            record.append(controls);
+            recordActions.append(controls);
+            if (headerActions) record.append(recordActions, editor);
           }
-          if (workspace.organizationRole === "supplier" && demand.status === "published") {
+          if (workspace.organizationRole === "supplier" && demand.status === "published" && demand.match?.eligible !== false) {
             const link = el("a", "Enviar proposta"); link.href = workflowLink("supplier", "proposals", demand.id); record.append(link);
           }
-          if (workspace.organizationRole === "buyer" && demand.status === "published") linkTo(record, "Acompanhar propostas", "proposals", demand.id);
+          if (workspace.organizationRole === "buyer" && demand.status === "published") linkTo(recordActions, "Acompanhar propostas", "proposals", demand.id);
+          if (workspace.organizationRole === 'buyer' && demand.status === 'published' && onReassess) {
+            action(recordActions, 'Atualizar compatibilidade', () => onReassess(demand.id)).className = 'workflow-secondary-action';
+          }
+          if (workspace.organizationRole === 'buyer' && demand.status === 'published' && workflow.closeDemand) {
+            const closure = el('details'); closure.className = 'workflow-editor';
+            closure.append(el('summary', 'Encerrar demanda'), el('p', 'O encerramento bloqueia novas propostas e mantém o histórico da negociação.'));
+            closure.append(form([['closedReason', 'Motivo do encerramento', 'textarea']], 'Confirmar encerramento',
+              ({ closedReason }) => workflow.closeDemand(workspace.id, demand.id, closedReason),
+              report, {}, canContinue, runCommand));
+            record.append(closure);
+          }
           if (workspace.organizationRole === 'buyer') {
             const reuse = el('button', 'Reutilizar como nova demanda'); reuse.type = 'button'; reuse.className = 'workflow-secondary-action workflow-reuse-action';
             reuse.addEventListener('click', () => {
@@ -419,10 +516,14 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
               copyForm.dataset.dirty = 'true'; panel.append(copyForm); record.append(panel); reuse.hidden = true;
               copyForm.querySelector('[name=title]').focus();
             });
-            record.append(reuse);
+            recordActions.append(reuse);
           }
           const order = data.orders.find(item => item.demandId === demand.id);
-          if (order) linkTo(record, "Acompanhar pedido", "orders", order.id);
+          if (order) linkTo(recordActions, "Acompanhar pedido", "orders", order.id);
+          if (headerActions) {
+            if (!recordActions.parentElement) record.append(recordActions);
+            record.append(specification);
+          }
           list.append(record);
         });
       };
@@ -436,13 +537,13 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
       };
       search.addEventListener("input", filterRecords); filter.addEventListener('change', filterRecords); show();
     } else if (section === "proposals") {
-      if (!data.demands.some((demand) => demand.status !== "draft")) root.append(emptyState('Nenhuma negociação disponível', workspace.organizationRole === 'buyer' ? 'Publique uma demanda para receber propostas.' : 'As demandas compatíveis aparecerão em Oportunidades. Mantenha seu perfil industrial atualizado.'));
+      if (!data.demands.some((demand) => demand.status !== "draft" && (workspace.organizationRole === 'buyer' || selectedRecordId || data.proposals.some(proposal => proposal.demandId === demand.id)))) content.append(emptyState(workspace.organizationRole === 'supplier' ? 'Nenhuma proposta enviada' : 'Nenhuma negociação disponível', workspace.organizationRole === 'buyer' ? 'Publique uma demanda para receber propostas.' : 'Abra Oportunidades para preparar sua primeira proposta. As propostas enviadas e suas revisões aparecerão aqui.'));
       const entries = [];
-      data.demands.filter((demand) => demand.status !== "draft").forEach((demand) => {
-        const record = box(demand.title); row(record, "Estado", labels[demand.status]);
+      data.demands.filter((demand) => demand.status !== "draft" && (workspace.organizationRole === 'buyer' || selectedRecordId || data.proposals.some(proposal => proposal.demandId === demand.id))).forEach((demand) => {
+        const record = box(demand.title);
         record.classList.add('workflow-negotiation');
-        const reference = el('span', `Referência: ${demand.id}`); reference.className = 'workflow-reference'; record.prepend(reference);
         const proposals = data.proposals.filter((proposal) => proposal.demandId === demand.id);
+        statusRow(record, demand.id, demand.status, proposals.length, headerActions ? negotiationStatus(demand, data) : undefined);
         const acceptedOrder = data.orders.find(order => order.demandId === demand.id);
         linkTo(record, "Ver requisitos da demanda", "demands", demand.id);
         if (acceptedOrder) linkTo(record, "Acompanhar pedido", "orders", acceptedOrder.id);
@@ -451,6 +552,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         if (workspace.organizationRole === 'buyer' && proposals.length) record.append(comparison(comparisonEntries, name, (cell, proposal) => {
           const version = proposal.versions.at(-1);
           if (acceptedOrder) { cell.append(el('strong', acceptedOrder.supplierId === proposal.supplierId ? 'Proposta aceita' : 'Não selecionada')); return; }
+          if (demand.status !== 'published') { cell.append(el('span', labels[demand.status] ?? 'Negociação indisponível')); return; }
           if (!isCalendarDate(version.validUntil) || version.validUntil < todayInSaoPaulo()) { cell.append(el('span', 'Proposta vencida ou sem validade informada')); return; }
           action(cell, 'Aceitar versão e gerar pedido', () => workflow.acceptProposal(workspace.id, proposal.id, version.id), `Confirmar aceite da versão ${version.revision}?\n\n${name(proposal.supplierId)}\n${demand.title}\nQuantidade: ${quantitySummary(demand)}\nTotal com frete: ${money(version.totalCents + version.freightCents)}\nPrazo: ${version.leadTimeDays} dias\nPagamento: ${version.payment}\nGarantia: ${version.warranty}\n\nEsta decisão criará um único pedido para a demanda.`);
         }, acceptedOrder ? 'Condições da negociação, com a versão aceita preservada no pedido' : undefined));
@@ -458,6 +560,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         proposals.forEach((proposal) => {
           const current = proposal.versions.at(-1);
           const versions = el("details"); versions.className = 'workflow-proposal-history'; versions.append(el("summary", `${name(proposal.supplierId)} · ${proposal.versions.length} ${proposal.versions.length === 1 ? 'versão' : 'versões'}`)); versions.open = workspace.organizationRole === 'supplier';
+          commercialChat(versions, workspace.organizationRole, demand.buyerId, proposal.supplierId, 'proposta', proposal.id);
           [...proposal.versions].reverse().forEach((version) => {
             const part = box(`Versão ${version.revision}`);
             const versionState = el('span', version.id === current.id ? 'Versão atual' : 'Substituída'); versionState.className = 'workflow-version-label'; part.append(versionState);
@@ -466,7 +569,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
             versions.append(part);
           }); record.append(versions);
         });
-        if (workspace.organizationRole === "supplier" && demand.status === "published") {
+        if (workspace.organizationRole === "supplier" && demand.status === "published" && demand.match?.eligible !== false) {
           const editor = el("details"); editor.className = 'workflow-editor'; editor.append(el("summary", proposals.length ? "Enviar nova versão" : "Preparar proposta"));
           const previous = proposals[0]?.versions.at(-1);
           editor.append(form([["price", "Valor total dos itens (R$)", "number"], ["freight", "Frete (R$)", "number", "0"], ["leadTimeDays", "Prazo em dias", "number"], ["validUntil", "Válida até", "date"], ["manufacturer", "Fabricante real"], ["payment", "Condição de pagamento"], ["warranty", "Garantia e responsável"], ["technical", "Resposta à especificação", "textarea"]], "Enviar versão da proposta", (values) => workflow.sendProposal(workspace.id, demand.id, { ...values, totalCents: Math.round(Number(values.price) * 100), freightCents: Math.round(Number(values.freight) * 100) }), report, previous ? { ...previous, price: previous.totalCents / 100, freight: previous.freightCents / 100 } : {}, canContinue, runCommand));
@@ -474,32 +577,42 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         }
         entries.push({ record: demand, node: record });
       });
-      root.append(recordCollection({ section, entries, data, filters: recordsFilter, selectedRecordId, canFilter: canContinue }));
+      content.append(recordCollection({ section, entries, data, filters: recordsFilter, selectedRecordId, canFilter: canContinue }));
     } else {
-      if (!data.orders.length) root.append(emptyState('Nenhum pedido registrado', workspace.organizationRole === 'buyer' ? 'Aceite uma proposta para criar o pedido e acompanhar a entrega.' : 'Os pedidos aparecem aqui quando o comprador aceita uma proposta da sua empresa.'));
+      if (!data.orders.length) content.append(emptyState('Nenhum pedido registrado', workspace.organizationRole === 'buyer' ? 'Aceite uma proposta para criar o pedido e acompanhar a entrega.' : 'Os pedidos aparecem aqui quando o comprador aceita uma proposta da sua empresa.'));
       const entries = [];
       data.orders.forEach((order) => {
-        const record = box(order.title); const reference = el('span', `Referência: ${order.id}`); reference.className = 'workflow-reference'; record.prepend(reference);
-        row(record, "Estado", labels[order.status]);
+        const record = box(order.title);
+        statusRow(record, order.id, order.status);
         const summary = workspace.organizationRole === 'buyer' ? el('div') : record;
         if (summary !== record) summary.className = 'workflow-order-highlights';
+        const total = money(order.version.totalCents + order.version.freightCents);
+        if (headerActions) row(summary, "Total com frete", total).classList.add('workflow-order-total');
         row(summary, workspace.organizationRole === 'buyer' ? "Fornecedor" : "Comprador", workspace.organizationRole === 'buyer' ? name(order.supplierId) : order.buyerName ?? order.buyerId);
         row(summary, "Quantidade por unidade", quantitySummary(order));
         row(summary, "Versão preservada", order.version.revision);
-        row(summary, "Total com frete", money(order.version.totalCents + order.version.freightCents));
+        if (!headerActions) row(summary, "Total com frete", total);
         if (summary !== record) record.append(summary);
-        record.classList.add('workflow-order'); record.append(orderProgress(order));
+        record.classList.add('workflow-order');
         const hints = workspace.organizationRole === "buyer"
           ? { accepted: "O fornecedor deve registrar a inspeção.", blocked: "O fornecedor deve corrigir e reinspecionar o pedido.", released: "Aguardando o fornecedor registrar a expedição.", dispatched: "Confira a entrega e confirme o recebimento abaixo.", delivered: order.evaluation ? "Jornada concluída. A avaliação está registrada." : "Recebimento confirmado. Registre sua avaliação abaixo." }
           : { accepted: "Registre a inspeção para liberar a expedição.", blocked: "Após a correção, registre uma nova inspeção.", released: "Registre a expedição quando o pedido sair para entrega.", dispatched: "Aguardando o comprador confirmar o recebimento.", delivered: "O comprador confirmou o recebimento." };
-        const hint = el("p", hints[order.status] ?? "Consulte a situação do pedido."); hint.className = "workflow-next-step"; record.append(hint);
-        if (original.demands.some(demand => demand.id === order.demandId)) linkTo(record, "Consultar negociação", "proposals", order.demandId);
-        if (order.destination) row(record, 'Destino de entrega', order.destination);
-        if (order.requiredBy) row(record, 'Prazo solicitado', order.requiredBy.split('-').reverse().join('/'));
-        row(record, "Prazo contratado", `${order.version.leadTimeDays} dias`);
-        row(record, "Pagamento", order.version.payment);
-        row(record, "Garantia", order.version.warranty);
-        (order.inspections ?? []).forEach((inspection, index) => row(record, `Inspeção ${index + 1}`, `${inspectionSummary(order, inspection)} · ${inspection.plan} · ${inspection.evidence}`));
+        const hint = el("p", hints[order.status] ?? "Consulte a situação do pedido."); hint.className = "workflow-next-step";
+        if (headerActions) hint.prepend(el('span', 'Próximo passo'));
+        const details = headerActions ? el('details') : record;
+        if (headerActions) {
+          record.append(hint);
+          details.className = 'workflow-order-details';
+          details.append(el('summary', 'Ver detalhes e histórico do pedido'));
+        }
+        details.append(orderProgress(order));
+        if (!headerActions) record.append(hint);
+        if (order.destination) row(details, 'Destino de entrega', order.destination);
+        if (order.requiredBy) row(details, 'Prazo solicitado', order.requiredBy.split('-').reverse().join('/'));
+        row(details, "Prazo contratado", `${order.version.leadTimeDays} dias`);
+        row(details, "Pagamento", order.version.payment);
+        row(details, "Garantia", order.version.warranty);
+        (order.inspections ?? []).forEach((inspection, index) => row(details, `Inspeção ${index + 1}`, `${inspectionSummary(order, inspection)} · ${inspection.plan} · ${inspection.evidence}`));
         if (workspace.organizationRole === "supplier") {
           if (["accepted", "blocked"].includes(order.status)) {
             const inspection = el("details"); inspection.append(el("summary", "Registrar inspeção / reinspeção"));
@@ -518,9 +631,14 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
           if (order.status === "released") action(record, "Registrar expedição", () => workflow.dispatchOrder(workspace.id, order.id), true);
         } else {
           if (order.status === "dispatched") action(record, "Confirmar recebimento", () => workflow.confirmDelivery(workspace.id, order.id), true);
-          if (order.status === "delivered" && !order.evaluation) record.append(form([["score", "Nota de 1 a 5", "number"], ["comment", "Comentário sobre a entrega", "textarea"]], "Enviar avaliação", (values) => workflow.evaluateOrder(workspace.id, order.id, values), report, {}, canContinue, runCommand));
+          if (order.status === "delivered" && !order.evaluation) {
+            const review = el('a', 'Avaliar entrega'); review.href = `#/app/comprador/avaliacoes?registro=${encodeURIComponent(order.id)}`; record.append(review);
+          }
         }
-        if (order.evaluation) row(record, "Avaliação da entrega", `${order.evaluation.score}/5 · ${order.evaluation.comment}`);
+        if (order.evaluation) row(details, "Avaliação da entrega", `${order.evaluation.score}/5 · ${order.evaluation.comment}`);
+        if (headerActions) record.append(details);
+        if (original.demands.some(demand => demand.id === order.demandId)) linkTo(record, "Consultar negociação", "proposals", order.demandId);
+        commercialChat(record, workspace.organizationRole, order.buyerId, order.supplierId, 'pedido', order.id);
         const print = el('button', 'Imprimir resumo'); print.type = 'button'; print.className = 'workflow-secondary-action';
         print.addEventListener('click', () => {
           try { printOrder(order); }
@@ -529,7 +647,7 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
         record.append(print);
         entries.push({ record: order, node: record });
       });
-      root.append(recordCollection({ section, entries, data, filters: recordsFilter, selectedRecordId, canFilter: canContinue, onExport: orders => {
+      content.append(recordCollection({ section, entries, data, filters: recordsFilter, selectedRecordId, canFilter: canContinue, headerActions: headerActions ? panelActions : null, onExport: orders => {
         try {
           downloadOrdersCsv(orders);
           status.dataset.tone = 'success'; status.textContent = `CSV preparado com ${orders.length} ${orders.length === 1 ? 'pedido' : 'pedidos'} da lista atual.`;
@@ -540,5 +658,5 @@ export function mountWorkflowView({ container, workspace, workflow, section, sup
   status.textContent = workflow.getSyncWarning?.(workspace.id) ?? '';
   if (status.textContent) status.dataset.tone = 'warning';
   render();
-  return () => root.remove();
+  return () => { headerActions?.replaceChildren(); root.remove(); };
 }

@@ -10,12 +10,12 @@ const account = Object.freeze({
 
 const roleCases = Object.freeze([
   {
-    buttonName: /Indústrias Alpha/,
+    buttonName: /^Entrar como comprador — Indústrias Alpha$/,
     path: "/app/comprador/inicio",
     role: "buyer",
   },
   {
-    buttonName: /Vetor Componentes Industriais/,
+    buttonName: /^Entrar como fornecedor — Vetor Componentes Industriais$/,
     path: "/app/fornecedor/inicio",
     role: "supplier",
   },
@@ -34,7 +34,7 @@ async function login(page) {
   await page.locator("#login-email").fill(account.email);
   await page.locator("#login-password").fill(account.password);
   await page.locator("#login-form button[type='submit']").click();
-  await expect(page.getByRole("heading", { name: /Qual empresa você vai usar/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Empresas e atuação/ })).toBeVisible();
 }
 
 test.describe("integrated authenticated application", () => {
@@ -63,7 +63,7 @@ test.describe("integrated authenticated application", () => {
       .toBe("/app/comprador/inicio");
 
     await login(page);
-    await page.getByRole("button", { name: /Indústrias Alpha/ }).click();
+    await page.getByRole("button", { name: /^Entrar como comprador — Indústrias Alpha$/ }).click();
 
     await expect(page).toHaveURL(/#\/app\/comprador\/inicio$/);
     await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
@@ -74,7 +74,7 @@ test.describe("integrated authenticated application", () => {
   test("discards an incompatible protected destination and uses the selected home", async ({ page }) => {
     await page.goto("/?authEmulator=1#/app/fornecedor/inicio");
     await login(page);
-    await page.getByRole("button", { name: /Indústrias Alpha/ }).click();
+    await page.getByRole("button", { name: /^Entrar como comprador — Indústrias Alpha$/ }).click();
 
     await expect(page).toHaveURL(/#\/app\/comprador\/inicio$/);
     expect(await page.evaluate(() => sessionStorage.getItem("sivi.return-to.v1"))).toBeNull();
@@ -92,7 +92,7 @@ test.describe("integrated authenticated application", () => {
       }, unsafeReturnTo);
       await page.goto("/?authEmulator=1#/acesso");
       await login(page);
-      await page.getByRole("button", { name: /Indústrias Alpha/ }).click();
+      await page.getByRole("button", { name: /^Entrar como comprador — Indústrias Alpha$/ }).click();
 
       await expect(page).toHaveURL(/#\/app\/comprador\/inicio$/);
       expect(await page.evaluate(() => sessionStorage.getItem("sivi.return-to.v1"))).toBeNull();
@@ -106,7 +106,9 @@ test.describe("integrated authenticated application", () => {
       await page.getByRole("button", { name: roleCase.buttonName }).click();
 
       await expect(page).toHaveURL(new RegExp(`#${roleCase.path}$`));
-      if (roleCase.role === "administration") await expect(page.locator(".admin-organizations")).toBeVisible(); else await expect(page.locator(".dashboard-page")).toHaveAttribute("data-dashboard-role", roleCase.role);
+      if (roleCase.role === "administration") await expect(page.locator(".admin-organizations")).toBeVisible();
+      else if (roleCase.role === 'buyer') await expect(page.locator('.buyer-overview')).toBeVisible();
+      else await expect(page.locator(".dashboard-page")).toHaveAttribute("data-dashboard-role", roleCase.role);
       await expect(page.locator("[data-account-user]")).toHaveText(account.displayName);
     });
   }
@@ -114,11 +116,11 @@ test.describe("integrated authenticated application", () => {
   test("changes demo context without changing the Firebase identity", async ({ page }) => {
     await page.goto("/?authEmulator=1#/acesso");
     await login(page);
-    await page.getByRole("button", { name: /Indústrias Alpha/ }).click();
+    await page.getByRole("button", { name: /^Entrar como comprador — Indústrias Alpha$/ }).click();
     await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
 
     await page.locator("[data-change-context]").click();
-    await page.getByRole("button", { name: /Vetor Componentes Industriais/ }).click();
+    await page.getByRole("button", { name: /^Entrar como fornecedor — Vetor Componentes Industriais$/ }).click();
 
     await expect(page).toHaveURL(/#\/app\/fornecedor\/inicio$/);
     await expect(page.locator("[data-organization-name]")).toHaveText("Vetor Componentes Industriais");
@@ -129,7 +131,7 @@ test.describe("integrated authenticated application", () => {
   test("shows an authenticated unknown route inside the persistent shell with safe path text", async ({ page }) => {
     await page.goto("/?authEmulator=1#/acesso");
     await login(page);
-    await page.getByRole("button", { name: /Indústrias Alpha/ }).click();
+    await page.getByRole("button", { name: /^Entrar como comprador — Indústrias Alpha$/ }).click();
     await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
 
     await page.evaluate(() => {
@@ -147,7 +149,7 @@ test.describe("integrated authenticated application", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/?authEmulator=1#/acesso");
     await login(page);
-    await page.getByRole("button", { name: /Vetor Componentes Industriais/ }).click();
+    await page.getByRole("button", { name: /^Entrar como fornecedor — Vetor Componentes Industriais$/ }).click();
 
     await expect(page.locator("[data-dashboard-status]")).toHaveAttribute("data-dashboard-status", "ready");
     await expect(page.locator("[data-page-title]")).toBeFocused();
@@ -164,8 +166,9 @@ test.describe("integrated authenticated application", () => {
     await page.locator("[data-account-menu] summary").click();
     await page.locator("[data-logout]").click();
 
-    await expect(page).toHaveURL(/#\/acesso$/);
-    await expect(page.locator(".auth-shell")).toBeVisible();
+    await expect(page).toHaveURL(/#\/acesso\?modo=login$/);
+    await expect(page.locator(".auth-shell")).toHaveAttribute("data-mode", "login");
+    await expect(page.locator("#login-email")).toBeVisible();
     expect(await page.evaluate(() => ({
       workspace: sessionStorage.getItem("sivi.workspace.v1"),
       returnTo: sessionStorage.getItem("sivi.return-to.v1"),
@@ -437,38 +440,21 @@ test("cleans the mounted auth surface and ignores a later import after stop", as
 });
 
 test("auth surface remount keeps one listener and cleanup removes it", async ({ page }) => {
-  await page.goto("/tests/fixtures/component-lab.html");
-
+  await page.goto('/tests/fixtures/component-lab.html');
   const result = await page.evaluate(async () => {
-    const html = await fetch("/index.html").then((response) => response.text());
-    const source = new DOMParser().parseFromString(html, "text/html").querySelector("[data-auth-surface]");
-    const root = document.importNode(source, true);
-    root.hidden = false;
-    document.body.append(root);
-    const { mountAuthSurface } = await import("/src/pages/auth/auth-page.js");
-    const firstCleanup = mountAuthSurface({ root });
-    firstCleanup();
-    const secondCleanup = mountAuthSurface({ root });
-    const toggle = root.querySelector("[aria-controls='login-password']");
-    const input = root.querySelector("#login-password");
-    toggle.click();
-    const afterRemountClick = input.type;
-    secondCleanup();
-    toggle.click();
-    const afterCleanupClick = input.type;
-    const thirdCleanup = mountAuthSurface({ root });
-    root.querySelector("[data-switch-mode='login']").click();
-    thirdCleanup();
-    const fourthCleanup = mountAuthSurface({ root });
-    const modeAfterCleanup = root.querySelector(".auth-shell").dataset.mode;
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const lateMutation = root.querySelector(".auth-shell").dataset.mode !== modeAfterCleanup;
-    fourthCleanup();
-    root.remove();
-    return { afterRemountClick, afterCleanupClick, lateMutation };
+    history.replaceState(null, '', '#/acesso?modo=login');
+    const root=document.createElement('div');document.body.append(root);
+    const {mountAuthSurface}=await import('/src/pages/auth/auth-page.js');
+    const first=mountAuthSurface({root});first();
+    const second=mountAuthSurface({root});
+    const toggle=root.querySelector('[aria-controls="login-password"]'), input=root.querySelector('#login-password');
+    toggle.click();await new Promise(requestAnimationFrame);
+    const afterRemountClick=input.type;second();toggle.click();await new Promise(requestAnimationFrame);
+    const afterCleanupClick=input.type;const empty=root.childElementCount===0;
+    const third=mountAuthSurface({root});third();root.remove();
+    return {afterRemountClick,afterCleanupClick,empty};
   });
-
-  expect(result).toEqual({ afterRemountClick: "text", afterCleanupClick: "text", lateMutation: false });
+  expect(result).toEqual({afterRemountClick:'text',afterCleanupClick:'text',empty:true});
 });
 
 test("creates, selects and opens a new organization without an intermediate context refresh", async ({ page }) => {

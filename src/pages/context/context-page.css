@@ -46,12 +46,11 @@
 .context-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .context-company, .application-form, .application-detail { padding: 24px; background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 6px; overflow-wrap: anywhere; }
 .context-company { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
-.context-company h2 { font-size: 1.375rem; font-weight: 600; letter-spacing: -.025em; margin: 0; }
 .context-company p { margin: 0; }
-.context-company > .context-page__eyebrow { padding: 5px 9px; border-radius: 4px; background: var(--surface-raised); }
-.context-company[data-status="active"] > .context-page__eyebrow { color: var(--feedback-success); background: var(--feedback-success-bg); }
-.context-company:is([data-status="changes_requested"], [data-status="pending"]) > .context-page__eyebrow { color: var(--feedback-warning); background: var(--feedback-warning-bg); }
-.context-company:is([data-status="rejected"], [data-status="blocked"]) > .context-page__eyebrow { color: var(--feedback-danger); background: var(--feedback-danger-bg); }
+.context-company .context-page__eyebrow { padding: 5px 9px; border-radius: 4px; background: var(--surface); }
+.context-company[data-status="active"] .context-page__eyebrow { color: var(--feedback-success); background: var(--feedback-success-bg); }
+.context-company:is([data-status="changes_requested"], [data-status="pending"]) .context-page__eyebrow { color: var(--feedback-warning); background: var(--feedback-warning-bg); }
+.context-company:is([data-status="rejected"], [data-status="blocked"]) .context-page__eyebrow { color: var(--feedback-danger); background: var(--feedback-danger-bg); }
 .application-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .context-page button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--border-control); border-radius: 5px; background: var(--surface); color: var(--text-primary); cursor: pointer; font: inherit; font-size: .875rem; font-weight: 500; }
 .context-page button:hover { border-color: var(--action-text); }
@@ -59,7 +58,7 @@
 .context-company .context-card { min-height: 44px; display: block; padding: 10px 16px; color: var(--text-primary); margin: 0; }
 .context-page button[type="submit"], .context-page [data-new] { background: var(--action-primary); color: var(--button-primary-fg); border-color: transparent; }
 .application-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.application-fields label { display: grid; gap: 8px; font-size: .875rem; font-weight: 500; align-content: start; }
+.application-fields label { display: grid; gap: 8px; font-size: .875rem; font-weight: 400; align-content: start; }
 .application-fields input:not([type="checkbox"]), .application-fields select { min-width: 0; width: 100%; min-height: 48px; border: 1px solid var(--border-control); border-radius: 5px; padding: 10px 12px; background: var(--surface); color: var(--text-primary); font: inherit; font-size: 1rem; font-weight: 400; }
 .application-fields small { font-weight: 400; color: var(--text-muted); line-height: 1.5; }
 .application-wide { grid-column: 1 / -1; }

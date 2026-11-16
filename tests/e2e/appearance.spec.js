@@ -10,7 +10,8 @@ async function capture(page, name) {
 }
 
 async function openPreferences(page) {
-  await page.locator('[data-account-menu] summary').click();
+  const drawer = page.locator('[data-drawer-trigger]');
+  if (await drawer.isVisible() && await drawer.getAttribute('aria-expanded') === 'false') await drawer.click();
   await page.getByRole('button', { name: 'Aparência e acessibilidade', exact: true }).click();
   return page.getByRole('dialog', { name: 'Aparência e acessibilidade' });
 }
@@ -22,19 +23,24 @@ test('preferences apply immediately, survive reload and reset to the system', as
   const dialog = await openPreferences(page);
   await dialog.getByLabel('Tema', { exact: true }).selectOption('dark');
   await dialog.getByLabel('Tamanho do texto').selectOption('large');
-  await dialog.getByLabel('Movimento').selectOption('reduce');
   await dialog.getByLabel('Contraste').selectOption('more');
-  await dialog.getByLabel('Espaçamento').selectOption('compact');
+  await dialog.getByLabel('Daltonismo').selectOption('redGreen');
+  await dialog.getByLabel('VLibras').selectOption('off');
+  await expect(dialog.getByLabel('Movimento', { exact: true })).toHaveCount(0);
+  await expect(dialog.getByLabel('Espaçamento', { exact: true })).toHaveCount(0);
   await page.keyboard.press('Escape');
-  await expect(page.locator('[data-account-menu] summary')).toBeFocused();
+  await expect(page.locator('[data-app-sidebar] [data-open-preferences]')).toBeFocused();
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduce');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');
+  await expect(page.locator('html')).toHaveAttribute('data-color-vision', 'redGreen');
   const largeSize = await page.locator('[data-page-title]').evaluate(el => parseFloat(getComputedStyle(el).fontSize));
   expect(largeSize).toBeGreaterThan(originalSize * 1.2);
   await openPreferences(page);
   await dialog.getByRole('button', { name: 'Restaurar padrão' }).click();
   await expect(dialog.getByLabel('Tema', { exact: true })).toHaveValue('system');
+  await expect(dialog.getByLabel('Daltonismo')).toHaveValue('standard');
+  await expect(dialog.getByLabel('VLibras')).toHaveValue('off');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
@@ -68,39 +74,34 @@ test('preferences work in memory when local storage is blocked', async ({ page }
   await expect(dialog.getByRole('status')).toContainText('nesta aba');
 });
 
-test('public and access screens expose preferences and reflow with enlarged text', async ({ page }) => {
-  await page.goto('/?authEmulator=1#/');
-  await page.getByRole('button', { name: 'Aparência e acessibilidade', exact: true }).click();
-  const dialog = page.getByRole('dialog', { name: 'Aparência e acessibilidade' });
-  await dialog.getByLabel('Tamanho do texto').selectOption('large');
-  await dialog.getByLabel('Contraste').selectOption('more');
-  await dialog.getByLabel('Movimento').selectOption('reduce');
-  for (const theme of ['light', 'dark']) {
-    await dialog.getByLabel('Tema', { exact: true }).selectOption(theme);
-    for (const width of [360, 390, 768, 1440]) {
-      await page.setViewportSize({ width, height: 960 });
-      expect(await dialog.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
-      if ([390, 1440].includes(width)) await capture(page, `preferencias-${theme}-${width}`);
-    }
-  }
-  await dialog.getByRole('button', { name: 'Fechar preferências' }).click();
-  for (const path of ['/', '/acesso?modo=register']) {
+test('public and access screens stay light without preferences and reflow with browser enlargement', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('sivi.theme.v1', 'dark');
+    window.localStorage.setItem('sivi.appearance.v1', JSON.stringify({ textSize: 'large', contrast: 'more', colorVision: 'redGreen', vlibras: 'off', motion: 'reduce', density: 'compact' }));
+  });
+  for (const path of ['/', '/acesso?modo=login', '/acesso?modo=register']) {
     await page.goto(`/?authEmulator=1#${path}`);
-    await expect(page.getByRole('button', { name: 'Aparência e acessibilidade', exact: true })).toBeVisible();
+    await expect(page.locator('[data-open-preferences]')).toHaveCount(0);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(page.locator('html')).toHaveAttribute('data-text-size', 'standard');
+    await expect(page.locator('html')).toHaveAttribute('data-contrast', 'standard');
+    await expect(page.locator('html')).toHaveAttribute('data-color-vision', 'standard');
     if (path !== '/') await expect(page.locator('.auth-shell')).toHaveAttribute('data-ui-ready', 'true');
     for (const width of [360, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 960 });
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-      if ([390, 1440].includes(width)) await capture(page, `${path === '/' ? 'publica' : 'acesso'}-texto-maior-${width}`);
+      if ([390, 1440].includes(width)) await capture(page, `${path === '/' ? 'publica' : 'acesso'}-claro-${width}`);
     }
   }
   await page.addStyleTag({ content: 'html { font-size: 200% !important; --text-scale: 2; }' });
   for (const width of [360, 1440]) {
     await page.setViewportSize({ width, height: 960 });
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    const story = await page.locator('.story-copy.is-active').boundingBox();
-    const brand = await page.locator('.story-panel__topbar').boundingBox();
-    expect(story.y).toBeGreaterThanOrEqual(brand.y + brand.height);
+    if (width > 760) {
+      const story=await page.locator('.sa-story-copy').boundingBox();
+      const brand=await page.locator('.sa-story-top').boundingBox();
+      expect(story.y).toBeGreaterThanOrEqual(brand.y+brand.height);
+    } else await expect(page.locator('.sa-mobile-brand')).toBeVisible();
     for (const field of await page.locator('.form-view.is-active input').all()) {
       await field.scrollIntoViewIfNeeded();
       const bounds = await field.boundingBox();

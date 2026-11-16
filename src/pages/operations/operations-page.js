@@ -16,6 +16,8 @@ export function mountOperationsPage({ container, workspace, repository, section,
   const page = element("section", undefined, "operations-page");
   page.dataset.operationRole = workspace.organizationRole;
   page.dataset.operationSection = section;
+  const buyer = workspace.organizationRole === "buyer";
+  if (buyer) page.classList.add("workspace-page");
   container.replaceChildren(page);
   async function load() {
     clearState();
@@ -31,10 +33,10 @@ export function mountOperationsPage({ container, workspace, repository, section,
       return;
     }
     page.replaceChildren();
-    const buyer = workspace.organizationRole === "buyer";
     const header = element("header", undefined, "operations-heading");
     const copy = element("div");
-    const title = element("h1", buyer && section === "proposals" ? "Propostas recebidas" : buyer && section === "orders" ? "Meus pedidos" : section === "demands" && !buyer ? "Oportunidades" : titles[section]);
+    const buyerTitles = { demands: "Minhas demandas", proposals: "Propostas recebidas", orders: "Meus pedidos" };
+    const title = element("h1", buyer ? buyerTitles[section] : section === "demands" ? "Oportunidades" : titles[section]);
     title.dataset.pageTitle = "";
     const descriptions = {
       demands: buyer ? "Especificações, quantidades e prazos para sua próxima compra." : "Demandas publicadas para a capacidade da sua empresa.",
@@ -42,12 +44,19 @@ export function mountOperationsPage({ container, workspace, repository, section,
       orders: "Acompanhe inspeções, liberação e entrega de cada pedido.",
     };
     copy.append(title, element("p", descriptions[section]));
-    const identity = element("div", undefined, "operations-identity");
-    identity.append(element("span", buyer ? 'Empresa compradora' : 'Empresa fornecedora'), element("strong", workspace.organizationName));
-    header.append(copy, identity);
+    header.append(copy);
+    const headerActions = buyer ? element("div", undefined, "workspace-page__actions") : null;
+    if (buyer) {
+      header.classList.add("workspace-page__header");
+      header.append(headerActions);
+    } else {
+      const identity = element("div", undefined, "operations-identity");
+      identity.append(element("span", "Empresa fornecedora"), element("strong", workspace.organizationName));
+      header.append(identity);
+    }
     page.append(header);
     clearWorkflow();
-    clearWorkflow = mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, suppliers: result.data.suppliers, onRefresh: () => repository.getOperations(workspace.id) });
+    clearWorkflow = mountWorkflowView({ container: page, workspace, workflow: repository.workflow, section, headerActions, suppliers: result.data.suppliers, onRefresh: () => repository.getOperations(workspace.id), onReassess: repository.reassessDemand ? id => repository.reassessDemand(workspace.id, id) : null });
     onReady();
   }
   void load();

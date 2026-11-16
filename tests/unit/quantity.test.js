@@ -3,7 +3,7 @@ import test from 'node:test';
 import { quantitySummary, quantitiesByUnit } from '../../src/domain/quantity.js';
 
 test('quantities combine equivalent unit spelling without combining different dimensions', () => {
-  const record = { quantity: 999, items: [{ quantity: 4, unit: ' UN ' }, { quantity: 6, unit: 'unidades' }, { quantity: 20, unit: 'm' }, { quantity: 3, unit: 'kg' }] };
+  const record = { quantity: 999, items: [{ quantity: 4, unit: ' UN ' }, { quantity: 6, unit: 'unidades' }, { quantity: 20, unit: 'm' }, { quantity: 2, unit: 'KG' }, { quantity: 1, unit: 'kg' }] };
   assert.equal(quantitySummary(record), '10 un · 20 m · 3 kg');
   assert.deepEqual(quantitiesByUnit([record, { quantity: 2 }]), [{ unit: 'un', quantity: 12 }, { unit: 'm', quantity: 20 }, { unit: 'kg', quantity: 3 }]);
 });

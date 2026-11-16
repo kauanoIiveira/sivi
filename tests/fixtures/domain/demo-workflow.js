@@ -73,6 +73,15 @@ export function createDemoWorkflow(workspaces) {
       if (demand.buyerId !== buyerId || demand.status !== "draft") fail("Somente um rascunho da sua empresa pode ser publicado.");
       demand.status = "published";
     },
+    closeDemand(workspaceId, demandId, reason) {
+      const buyerId = actor(workspaceId, "buyer");
+      const demand = getDemand(demandId);
+      if (demand.buyerId !== buyerId || demand.status !== 'published') fail('Demanda indisponível para encerramento.');
+      demand.closedReason = text(reason, 'o motivo', 300);
+      demand.closedAt = Date.now();
+      demand.updatedAt = demand.closedAt;
+      demand.status = 'closed';
+    },
     sendProposal(workspaceId, demandId, input) {
       const supplierId = actor(workspaceId, "supplier"); const demand = getDemand(demandId);
       if (demand.status !== "published" || demand.buyerId === supplierId) fail("Esta demanda não está aberta para propostas.");
@@ -119,10 +128,21 @@ export function createDemoWorkflow(workspaces) {
       const buyerId = actor(workspaceId, "buyer"); const order = getOrder(orderId);
       if (order.buyerId !== buyerId || order.status !== "dispatched") fail("Somente pedidos expedidos da sua empresa podem ser recebidos.");
       order.status = "delivered";
+      order.deliveredAt = Date.now();
     },
     evaluateOrder(workspaceId, orderId, input) {
       const buyerId = actor(workspaceId, "buyer"); const order = getOrder(orderId);
       if (order.buyerId !== buyerId || order.status !== "delivered" || order.evaluation) fail("Avaliação indisponível.");
+      if (input.criteria) {
+        const criteria = Object.fromEntries(["quality", "punctuality", "communication", "documentation"].map(key => {
+          const value = integer(input.criteria[key], `nota de ${key}`);
+          if (value > 5) fail("Cada critério deve receber uma nota de 1 a 5.");
+          return [key, value];
+        }));
+        const score = Math.round(Object.values(criteria).reduce((sum, value) => sum + value, 0) / 4 * 10) / 10;
+        order.evaluation = { score, criteria, comment: String(input.comment ?? "").trim(), evaluatedAt: Date.now() };
+        return;
+      }
       const score = integer(input.score, "nota"); if (score > 5) fail("A nota deve ser de 1 a 5.");
       order.evaluation = { score, comment: text(input.comment, "comentário", 1000) };
     },

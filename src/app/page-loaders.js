@@ -3,6 +3,7 @@ const definitions = Object.freeze({
   context: Object.freeze({ path: "../pages/context/context-page.js", exportName: "mountContextPage" }),
   "buyer-home": Object.freeze({ path: "../pages/dashboard/buyer-dashboard-page.js", exportName: "mountBuyerDashboardPage" }),
   "buyer-suppliers": Object.freeze({ path: "../pages/buyer/suppliers-page.js", exportName: "mountBuyerSuppliersPage" }),
+  "buyer-supplier-profile": Object.freeze({ path: "../pages/buyer/supplier-detail-page.js", exportName: "mountBuyerSupplierDetailPage" }),
   "buyer-reviews": Object.freeze({ path: "../pages/buyer/reviews-page.js", exportName: "mountBuyerReviewsPage" }),
   "supplier-home": Object.freeze({ path: "../pages/dashboard/supplier-dashboard-page.js", exportName: "mountSupplierDashboardPage" }),
   "admin-home": Object.freeze({ path: "../pages/dashboard/admin-dashboard-page.js", exportName: "mountAdminDashboardPage" }),
@@ -35,6 +36,10 @@ export function loadAuthSurface() {
 }
 
 export async function loadPageMount(routeId) {
+  if (routeId === "buyer-conversations" || routeId === "supplier-conversations") {
+    const { mountConversationsPage } = await import("../pages/conversations/conversations-page.js");
+    return mountConversationsPage;
+  }
   if (/^(buyer|supplier)-(demands|proposals|orders)$/.test(routeId)) {
     const { mountOperationsPage } = await import("../pages/operations/operations-page.js");
     return (options) => mountOperationsPage({ ...options, section: routeId.split("-")[1] });

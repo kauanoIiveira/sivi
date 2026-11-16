@@ -20,8 +20,8 @@ test("resolves system, explicit and invalid theme preferences", () => {
 });
 
 test("dark surfaces are neutral and ordered consistently across buyer pages", async () => {
-  const [tokens, components] = await Promise.all([
-    read("src/styles/theme-tokens.css"), read("src/styles/dark-components.css"),
+  const [tokens, components, workspace] = await Promise.all([
+    read("src/styles/theme-tokens.css"), read("src/styles/dark-components.css"), read("src/styles/workspace-redesign.css"),
   ]);
   const dark = tokens.split(':root[data-theme="dark"]')[1];
   const values = ["canvas", "navigation-bg", "surface", "surface-raised", "surface-interactive"]
@@ -34,7 +34,7 @@ test("dark surfaces are neutral and ordered consistently across buyer pages", as
       return red;
     });
   assert.ok(values.every((value, index) => index === 0 || value > values[index - 1]));
-  assert.match(components, /\.buyer-metric.*\.marketplace-card.*\.reviews-panel/s);
+  assert.match(workspace, /\.workspace-panel\s*\{[^}]*background:\s*var\(--surface-raised\)/);
   assert.match(components, /\.reviews-filters input/);
 });
 

@@ -151,7 +151,7 @@ test('company registration survives local navigation attempts and sends only onc
   await page.getByRole('button', { name: 'Atualizar situação', exact: true }).click();
   await expect(page.locator('#context-test [data-feedback]')).toContainText('Envie ou cancele');
   expect(await page.evaluate(() => window.companyRefreshes)).toBe(0);
-  await form.getByLabel('CNPJ', { exact: true }).fill('12.345.678/0001-90');
+  await form.getByLabel('CNPJ', { exact: true }).fill('12.345.678/0001-95');
   await form.getByLabel('Cidade', { exact: true }).fill('Campinas');
   await form.getByLabel('UF', { exact: true }).selectOption('SP');
   await form.getByLabel('Telefone ou e-mail de contato').fill('contato@empresa.test');

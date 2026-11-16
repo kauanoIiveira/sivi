@@ -51,6 +51,8 @@ function detailDialog(order) {
   const dialog = make("dialog", "reviews-dialog");
   const head = make("div", "reviews-dialog__head");
   const title = make("h2", "", `Avaliação de ${order.supplierName || "fornecedor"}`);
+  title.id = `review-detail-${encodeURIComponent(order.id)}`;
+  dialog.setAttribute("aria-labelledby", title.id);
   const close = make("button", "reviews-button reviews-button--outline", "Fechar");
   close.type = "button";
   close.addEventListener("click", () => dialog.close());
@@ -72,13 +74,17 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
   let disposed = false;
   let clearState = () => {};
   let records = { orders: [] };
-  let selectedId = null;
+  let selectedId = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('registro');
+  let unavailableOrder = "";
+  let historyOpen;
+  const drafts = new Map();
+  const confirmed = new Set();
   let historyPage = 0;
   let filters = { supplier: "", period: "12", search: "" };
   let feedback = "";
   let feedbackState = "";
 
-  const pendingOrders = () => records.orders.filter((order) => order.status === "delivered" && !order.evaluation)
+  const pendingOrders = () => records.orders.filter((order) => order.status === "delivered" && !order.evaluation && !confirmed.has(order.id))
     .sort((a, b) => (dateValue(a.deliveredAt)?.getTime() ?? Infinity) - (dateValue(b.deliveredAt)?.getTime() ?? Infinity));
   const completedOrders = () => records.orders.filter((order) => order.evaluation)
     .sort((a, b) => (dateValue(b.evaluation.evaluatedAt ?? b.updatedAt)?.getTime() ?? 0) - (dateValue(a.evaluation.evaluatedAt ?? a.updatedAt)?.getTime() ?? 0));
@@ -86,11 +92,13 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
   function renderHistory(page) {
     const completed = completedOrders();
     const suppliers = [...new Set(completed.map((order) => order.supplierName).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR"));
-    const controls = make("section", "reviews-panel reviews-history-controls");
-    const heading = make("div", "reviews-panel__heading");
-    heading.append(make("h2", "", "Histórico de avaliações enviadas"));
-    controls.append(heading, make("p", "reviews-muted", "Consulte notas, critérios e comentários registrados pela sua organização."));
-    const filterRow = make("div", "reviews-filters");
+    const controls = make("details", "reviews-panel reviews-history-controls workspace-panel");
+    controls.open = historyOpen ?? !window.matchMedia("(max-width: 1200px)").matches;
+    const heading = make("summary", "reviews-history__heading");
+    heading.append(make("h2", "", "Histórico"));
+    heading.addEventListener("click", () => { historyOpen = !controls.open; });
+    controls.append(heading);
+    const filterRow = make("div", "reviews-filters workspace-panel__controls");
     const supplier = make("select");
     supplier.setAttribute("aria-label", "Filtrar por fornecedor");
     supplier.append(new Option("Todos os fornecedores", ""));
@@ -109,19 +117,10 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
     reset.type = "button";
     filterRow.append(supplier, period, search, reset);
     controls.append(filterRow);
-    const tablePanel = make("section", "reviews-panel reviews-table-panel");
-    const tableWrap = make("div", "reviews-table-wrap");
-    const table = make("table", "reviews-table");
-    const thead = make("thead");
-    const headerRow = make("tr");
-    ["PERÍODO", "FORNECEDOR / PEDIDO", "NOTA", "CRITÉRIOS OBJETIVOS / COMENTÁRIO", "AÇÃO"].forEach((label) => headerRow.append(make("th", "", label)));
-    thead.append(headerRow);
-    const tbody = make("tbody");
+    const results = make("div", "reviews-history__results workspace-records");
     const pager = make("div", "reviews-pagination");
-    table.append(thead, tbody);
-    tableWrap.append(table);
-    tablePanel.append(tableWrap, pager);
-    page.append(controls, tablePanel);
+    controls.append(results, pager);
+    page.append(controls);
 
     const draw = () => {
       filters = { supplier: supplier.value, period: period.value, search: search.value.trim() };
@@ -135,34 +134,24 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
       });
       const pages = Math.max(1, Math.ceil(visible.length / 5));
       historyPage = Math.min(historyPage, pages - 1);
-      tbody.replaceChildren();
+      results.replaceChildren();
       visible.slice(historyPage * 5, historyPage * 5 + 5).forEach((order) => {
-        const row = make("tr");
-        const periodCell = make("td");
-        periodCell.append(make("strong", "", formatDate(order.evaluation.evaluatedAt ?? order.updatedAt)), make("small", "reviews-success", "Concluída"));
-        const supplierCell = make("td");
-        supplierCell.append(make("strong", "", order.supplierName || "Fornecedor"), make("small", "", `${order.id || "Pedido"} · ${order.demandId || "Demanda não informada"}`));
-        const scoreCell = make("td");
-        scoreCell.append(make("strong", "reviews-score", `${score(order.evaluation.score)} ★`), make("small", "", "Nota geral"));
-        const criteriaCell = make("td", "reviews-table__criteria");
-        const criteria = order.evaluation.criteria;
-        criteriaCell.append(make("strong", "", criteria ? Object.entries(criteriaLabels).map(([key, label]) => `${label.split(" ")[0]} ${criteria[key]}`).join(" · ") : "Nota geral registrada"), make("small", "", order.evaluation.comment || "Sem comentário."));
-        const actionCell = make("td");
+        const row = make("article", "workspace-record");
+        const lead = make("div", "workspace-record__heading");
+        lead.append(make("h3", "", order.supplierName || "Fornecedor"), make("span", "reviews-score", `${score(order.evaluation.score)} / 5`));
+        const reference = make("p", "reviews-muted", `${order.title || "Pedido"} · ${order.id || "Sem referência"}`);
+        const date = make("p", "reviews-muted", formatDate(order.evaluation.evaluatedAt ?? order.updatedAt));
         const details = make("button", "reviews-link", "Ver detalhes");
         details.type = "button";
         const dialog = detailDialog(order);
         details.addEventListener("click", () => dialog.showModal());
-        actionCell.append(details, dialog);
-        row.append(periodCell, supplierCell, scoreCell, criteriaCell, actionCell);
-        tbody.append(row);
+        row.append(lead, reference, date, details, dialog);
+        results.append(row);
       });
       if (!visible.length) {
-        const row = make("tr");
-        const cell = make("td", "reviews-table__empty", completed.length ? "Nenhuma avaliação corresponde aos filtros." : "Nenhuma avaliação enviada até agora.");
-        cell.colSpan = 5;
-        row.append(cell);
-        tbody.append(row);
+        results.append(make("p", "reviews-empty", completed.length ? "Nenhuma avaliação corresponde aos filtros." : "Nenhuma avaliação enviada até agora."));
       }
+      pager.hidden = pages === 1;
       pager.replaceChildren();
       pager.append(make("span", "", `Exibindo ${visible.length ? historyPage * 5 + 1 : 0}–${Math.min(visible.length, (historyPage + 1) * 5)} de ${visible.length} avaliações`));
       const actions = make("div");
@@ -186,83 +175,112 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
   }
 
   function render() {
-    const page = make("div", "reviews-page");
+    const page = make("div", "reviews-page workspace-page");
     page.dataset.pageState = "success";
-    const intro = make("header", "reviews-page__intro");
+    const intro = make("header", "reviews-page__intro workspace-page__header");
     const title = make("h1", "", "Avaliações");
     title.dataset.pageTitle = "";
-    intro.append(title, make("p", "", "Avalie entregas concluídas e consulte o histórico de desempenho dos seus fornecedores."));
+    const introCopy = make("div");
+    introCopy.append(title, make("p", "", "Avalie entregas concluídas e consulte o histórico de desempenho dos seus fornecedores."));
+    intro.append(introCopy);
     const pending = pendingOrders();
+    const selected = unavailableOrder ? null : pending.find((order) => order.id === selectedId) ?? pending[0];
+    selectedId = selected?.id ?? null;
     const completed = completedOrders();
     const lags = completed.map((order) => {
       const delivered = dateValue(order.deliveredAt);
       const evaluated = dateValue(order.evaluation.evaluatedAt);
       return delivered && evaluated && evaluated >= delivered ? (evaluated - delivered) / 86400000 : null;
     }).filter((value) => value !== null);
-    const metrics = make("div", "reviews-metrics");
+    const metrics = make("div", "reviews-metrics workspace-page__metrics");
     metrics.append(
       metric("Avaliações pendentes", String(pending.length).padStart(2, "0"), "Pedidos entregues sem avaliação", "◷", true),
       metric("Avaliações concluídas", String(completed.length).padStart(2, "0"), "Registros desta organização", "☑"),
       metric("Prazo médio para avaliar", lags.length ? `${score(lags.reduce((sum, value) => sum + value, 0) / lags.length)} dias` : "—", lags.length ? "Da entrega até a avaliação" : "Disponível para novas avaliações", "▦"),
     );
-    const main = make("section", "reviews-panel reviews-pending");
+    const main = make("section", "reviews-panel reviews-pending workspace-panel");
     const heading = make("div", "reviews-panel__heading");
     const headingText = make("div");
-    headingText.append(make("h2", "", "Pedidos entregues aguardando avaliação"), make("p", "reviews-muted", "Priorize os pedidos recebidos há mais tempo. Cada avaliação fica vinculada ao pedido concluído."));
+    headingText.append(make("h2", "", "Avaliações pendentes"), make("p", "reviews-muted", "Pedidos entregues que aguardam avaliação."));
     const ordersLink = make("a", "reviews-link", "Ver todos os pedidos");
     ordersLink.href = "#/app/comprador/pedidos";
     heading.append(headingText, ordersLink);
     const columns = make("div", "reviews-pending__columns");
     const list = make("div", "reviews-pending__list");
     const preview = make("div", "reviews-preview");
+    preview.id = "avaliar-entrega";
     columns.append(list, preview);
-    main.append(heading, columns);
-    const notice = make("p", "reviews-feedback", feedback);
+    main.append(heading);
+    const notice = make("p", "reviews-feedback", unavailableOrder || feedback);
+    notice.setAttribute("role", "status");
+    notice.tabIndex = -1;
     notice.dataset.state = feedbackState;
-    if (feedback) main.append(notice);
+    if (unavailableOrder || feedback) main.append(notice);
+    main.append(columns);
 
     const selectOrder = (order) => {
+      if (container.querySelector('form[aria-busy=true]')) return;
+      unavailableOrder = "";
       selectedId = order.id;
       render();
-      container.querySelector(".reviews-preview input")?.focus();
+      container.querySelector(".reviews-preview h3")?.focus();
     };
     if (!pending.length) list.append(make("p", "reviews-empty", "Nenhum pedido entregue aguarda avaliação."));
     pending.forEach((order) => {
       const item = make("article", `reviews-order${selectedId === order.id ? " reviews-order--selected" : ""}`);
       const info = make("div");
-      info.append(make("h3", "", order.supplierName || "Fornecedor"), make("strong", "", order.title || "Pedido concluído"), make("small", "", `${order.id || "Pedido"} · ${order.demandId || "Demanda não informada"}`));
+      info.append(make("h3", "", order.supplierName || "Fornecedor"), make("p", "", order.title || "Pedido concluído"), make("small", "", `${order.id || "Pedido"} · ${order.demandId || "Demanda não informada"}`));
       const dates = make("div", "reviews-order__dates");
-      dates.append(make("span", "", `ENTREGA CONFIRMADA\n${formatDate(order.deliveredAt)}`), make("span", "", ageDays(order.deliveredAt) === null ? "Aguardando avaliação" : `RECEBIDO HÁ\n${ageDays(order.deliveredAt)} dias`));
-      const button = make("button", "reviews-button reviews-button--primary", "☆  Avaliar pedido");
+      dates.append(make("span", "", `Entrega confirmada\n${formatDate(order.deliveredAt)}`), make("span", "", ageDays(order.deliveredAt) === null ? "Aguardando avaliação" : `Recebido há\n${ageDays(order.deliveredAt)} dias`));
+      const isSelected = selectedId === order.id;
+      const button = make("button", `reviews-button reviews-button--${isSelected ? 'primary' : 'outline'}`, "Avaliar pedido");
       button.type = "button";
+      button.setAttribute("aria-controls", preview.id);
+      button.setAttribute("aria-pressed", String(isSelected));
+      if (isSelected) info.append(make("span", "reviews-order__selection", "Selecionado"));
       button.addEventListener("click", () => selectOrder(order));
       item.append(info, button, dates);
       list.append(item);
     });
-    const selected = pending.find((order) => order.id === selectedId) || pending[0];
     if (selected) {
-      selectedId = selected.id;
-      preview.append(make("h3", "", "Avaliar entrega"), make("p", "reviews-muted", `${selected.supplierName || "Fornecedor"} · ${selected.id}`));
+      const formTitle = make("h3", "", "Avaliar entrega");
+      formTitle.tabIndex = -1;
+      preview.append(formTitle, make("p", "reviews-muted", `${selected.title || "Pedido"} · ${selected.supplierName || "Fornecedor"} · ${selected.id}`));
       const form = make("form", "reviews-form");
       Object.keys(criteriaLabels).forEach((key) => form.append(ratingRow(key, selected.id)));
-      const commentLabel = make("label", "reviews-form__comment", "COMENTÁRIO OPCIONAL");
+      const commentLabel = make("label", "reviews-form__comment", "Comentário opcional");
       const comment = make("textarea");
       comment.name = "comment";
       comment.maxLength = 1000;
       comment.rows = 3;
       comment.placeholder = "Registre evidências sobre a entrega, inspeção ou documentação.";
+      const draft = drafts.get(selected.id);
+      if (draft) {
+        comment.value = draft.comment ?? '';
+        for (const [key, value] of Object.entries(draft.criteria)) form.querySelector(`input[name="${selected.id}-${key}"][value="${value}"]`)?.setAttribute('checked', '');
+        form.dataset.dirty = 'true';
+      }
       commentLabel.append(comment);
       const submit = make("button", "reviews-button reviews-button--primary", "Enviar avaliação");
       submit.type = "submit";
       form.append(commentLabel, make("small", "reviews-muted", "1 = Não atendeu · 3 = Atendeu · 5 = Superou"), submit);
+      form.addEventListener('input', () => {
+        drafts.set(selected.id, { criteria: Object.fromEntries(Object.keys(criteriaLabels).map(key => [key, Number(new FormData(form).get(`${selected.id}-${key}`))])), comment: comment.value });
+        form.dataset.dirty = 'true';
+      });
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if (confirmed.has(selected.id) || form.getAttribute('aria-busy') === 'true') return;
         const criteria = Object.fromEntries(Object.keys(criteriaLabels).map((key) => [key, Number(new FormData(form).get(`${selected.id}-${key}`))]));
         if (Object.values(criteria).some((value) => !value)) { form.reportValidity(); return; }
         submit.disabled = true;
+        form.setAttribute('aria-busy', 'true');
+        form.querySelectorAll('input, textarea').forEach(control => { control.disabled = true; });
         submit.textContent = "Salvando…";
         try {
           await repository.workflow.evaluateOrder(workspace.id, selected.id, { criteria, comment: comment.value });
+          confirmed.add(selected.id); drafts.delete(selected.id); delete form.dataset.dirty;
+          form.dataset.committed = 'true';
           if (disposed) return;
           const result = await repository.getOperations(workspace.id);
           if (result.status !== "ready") throw new Error("Avaliação salva, mas não foi possível atualizar a página. Atualize para conferir.");
@@ -271,20 +289,32 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
           feedback = "Avaliação enviada e vinculada ao pedido.";
           feedbackState = "success";
           render();
+          container.querySelector(".reviews-pending > [role=status]")?.focus();
         } catch (error) {
           if (disposed) return;
-          submit.disabled = false;
-          submit.textContent = "Enviar avaliação";
+          const committed = confirmed.has(selected.id);
+          submit.disabled = committed;
+          submit.textContent = committed ? 'Avaliação salva' : "Enviar avaliação";
+          form.querySelectorAll('input, textarea').forEach(control => { control.disabled = committed; });
           const message = make("p", "reviews-feedback", error.message || "Não foi possível enviar a avaliação.");
           message.dataset.state = "error";
+          message.setAttribute("role", "alert");
+          form.querySelector(".reviews-feedback")?.remove();
           form.append(message);
+        } finally {
+          form.removeAttribute('aria-busy');
         }
       });
       preview.append(form);
-    } else preview.append(make("p", "reviews-empty", "Quando um pedido for recebido, você poderá avaliar a entrega aqui."));
+    } else preview.hidden = true;
 
-    page.append(intro, metrics, main);
-    renderHistory(page);
+    const panels = make("div", "workspace-page__split");
+    panels.append(main);
+    renderHistory(panels);
+    page.append(intro, metrics, panels);
+    if ([...drafts.keys()].some(id => id !== selectedId)) {
+      const retained = make('form'); retained.hidden = true; retained.dataset.dirty = 'true'; page.append(retained);
+    }
     page.append(make("p", "reviews-page__note", "ⓘ  As avaliações são vinculadas a pedidos com entrega confirmada e registram a experiência da sua organização. O cadastro do fornecedor e a compatibilidade com a demanda seguem critérios próprios."));
     container.replaceChildren(page);
   }
@@ -303,6 +333,11 @@ export function mountBuyerReviewsPage({ container, workspace, repository, onRead
     }
     clearState();
     records = result.data;
+    if (selectedId && !pendingOrders().some(order => order.id === selectedId)) {
+      unavailableOrder = records.orders.some(order => order.id === selectedId && order.evaluation)
+        ? "Este pedido já foi avaliado. Consulte o histórico ou escolha outro pedido pendente."
+        : "O pedido deste link não está disponível para avaliação. Escolha um pedido na lista de pendências.";
+    }
     render();
     onReady();
   }

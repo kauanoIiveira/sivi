@@ -1,6 +1,5 @@
 import { DEMO_WORKSPACES } from "/tests/fixtures/data/workspaces.js";
 import { createDemoRepository } from "/tests/fixtures/repositories/demo-repository.js";
-import { mountBuyerDashboardPage } from "/src/pages/dashboard/buyer-dashboard-page.js";
 import { mountSupplierDashboardPage } from "/src/pages/dashboard/supplier-dashboard-page.js";
 import { mountDashboardPage } from "/src/pages/dashboard/dashboard-view.js";
 
@@ -17,7 +16,9 @@ const workspace = DEMO_WORKSPACES.find(({ organizationRole }) => organizationRol
 const repository = createDemoRepository();
 await repository.setSimulationMode(state);
 const mounts = {
-  buyer: mountBuyerDashboardPage,
+  // This lab exercises the original dashboard/rail contract and its scenario fixture.
+  // The live buyer overview uses a separate operations contract.
+  buyer: mountDashboardPage,
   supplier: mountSupplierDashboardPage,
   administration: mountDashboardPage,
 };

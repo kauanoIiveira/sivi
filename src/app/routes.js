@@ -4,8 +4,11 @@ export const ROUTE_PATHS = Object.freeze({
   context: "/app/contexto",
   buyerHome: "/app/comprador/inicio",
   buyerSuppliers: "/app/comprador/fornecedores",
+  buyerSupplierProfile: "/app/comprador/fornecedores/perfil",
   buyerReviews: "/app/comprador/avaliacoes",
+  buyerConversations: "/app/comprador/conversas",
   supplierHome: "/app/fornecedor/inicio",
+  supplierConversations: "/app/fornecedor/conversas",
   adminHome: "/app/administracao/inicio",
 });
 
@@ -19,8 +22,11 @@ export const APP_ROUTES = Object.freeze([
   route({ id: "context", path: ROUTE_PATHS.context, surface: "app", access: "authenticated", title: "Empresas e atuação" }),
   route({ id: "buyer-home", path: ROUTE_PATHS.buyerHome, surface: "app", access: "authenticated", workspaceRole: "buyer", title: "Visão geral" }),
   route({ id: "buyer-suppliers", path: ROUTE_PATHS.buyerSuppliers, surface: "app", access: "authenticated", workspaceRole: "buyer", title: "Fornecedores" }),
+  route({ id: "buyer-supplier-profile", path: ROUTE_PATHS.buyerSupplierProfile, surface: "app", access: "authenticated", workspaceRole: "buyer", title: "Perfil do fornecedor" }),
   route({ id: "buyer-reviews", path: ROUTE_PATHS.buyerReviews, surface: "app", access: "authenticated", workspaceRole: "buyer", title: "Avaliações" }),
+  route({ id: "buyer-conversations", path: ROUTE_PATHS.buyerConversations, surface: "app", access: "authenticated", workspaceRole: "buyer", title: "Conversas" }),
   route({ id: "supplier-home", path: ROUTE_PATHS.supplierHome, surface: "app", access: "authenticated", workspaceRole: "supplier", title: "Visão do fornecedor" }),
+  route({ id: "supplier-conversations", path: ROUTE_PATHS.supplierConversations, surface: "app", access: "authenticated", workspaceRole: "supplier", title: "Conversas" }),
   route({ id: "admin-home", path: ROUTE_PATHS.adminHome, surface: "app", access: "authenticated", workspaceRole: "administration", title: "Visão administrativa" }),
 ]);
 

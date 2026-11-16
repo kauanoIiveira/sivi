@@ -5,6 +5,7 @@ const expectedMountNames = Object.freeze({
   context: "mountContextPage",
   "buyer-home": "mountBuyerDashboardPage",
   "buyer-suppliers": "mountBuyerSuppliersPage",
+  "buyer-supplier-profile": "mountBuyerSupplierDetailPage",
   "buyer-reviews": "mountBuyerReviewsPage",
   "supplier-home": "mountSupplierDashboardPage",
   "admin-home": "mountAdminDashboardPage",

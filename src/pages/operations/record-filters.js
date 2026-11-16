@@ -1,7 +1,7 @@
 import { isCalendarDate, todayInSaoPaulo } from '../../domain/calendar-date.js';
 
 export const recordStatuses = {
-  proposals: [['', 'Todas as negociações'], ['awaiting', 'Sem propostas'], ['active', 'Com proposta válida'], ['expired', 'Propostas vencidas'], ['ordered', 'Pedido gerado']],
+  proposals: [['', 'Todas as negociações'], ['awaiting', 'Sem propostas'], ['active', 'Com proposta válida'], ['expired', 'Propostas vencidas'], ['ordered', 'Pedido gerado'], ['closed', 'Encerrada'], ['unavailable', 'Comprador indisponível']],
   orders: [['', 'Todas as situações'], ['accepted', 'Aguardando inspeção'], ['blocked', 'Reinspeção necessária'], ['released', 'Liberado para expedição'], ['dispatched', 'Expedido'], ['delivered', 'Entrega confirmada']],
 };
 export const recordSorts = [['recent', 'Atualização mais recente'], ['title', 'Título de A a Z'], ['deadline', 'Prazo solicitado mais próximo'], ['total', 'Menor total com frete'], ['total-desc', 'Maior total com frete']];
@@ -29,6 +29,7 @@ const proposalsFor = (record, data) => (data.proposals ?? []).filter(proposal =>
 
 export function negotiationStatus(record, data, today = todayInSaoPaulo()) {
   if (record.status === 'ordered' || (data.orders ?? []).some(order => order.demandId === record.id)) return 'ordered';
+  if (['closed', 'unavailable'].includes(record.status)) return record.status;
   const proposals = proposalsFor(record, data);
   if (!proposals.length) return 'awaiting';
   return proposals.some(proposal => {

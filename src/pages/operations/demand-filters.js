@@ -5,7 +5,7 @@ export function createDemandFilters(workspace, storage) {
   try {
     const stored = JSON.parse(storage.getItem(key));
     if (typeof stored?.search === 'string') value.search = stored.search.slice(0, 200);
-    if (['', 'draft', 'published', 'ordered'].includes(stored?.status)) value.status = stored.status;
+    if (['', 'draft', 'published', 'ordered', 'closed', 'unavailable'].includes(stored?.status)) value.status = stored.status;
   } catch { /* Filters still work when storage is unavailable. */ }
   return {
     read: () => ({ ...value }),

@@ -1,269 +1,266 @@
 import { renderPageState } from "../../components/page-state/page-state.js";
 import { matchSupplierToDemand } from "../../domain/match-engine.js";
+import { button, compareSuppliers, createListings, createSupplierDialog, element, icon } from "./supplier-marketplace-view.js";
 
-const node = (tag, className, value) => {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (value !== undefined) element.textContent = String(value);
-  return element;
-};
-const normalize = (value) => String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR");
-const list = (value) => Array.isArray(value) ? value : [];
-const listNames = Object.freeze({ categories: "Categoria", materials: "Material", processes: "Processo", certifications: "Certificação", regions: "Região" });
-const criteriaNames = Object.freeze({ met: "ATENDIDO", unmet: "NÃO ATENDIDO", not_informed: "NÃO INFORMADO" });
+const matchOrder = { compatible: 0, partial: 1, ineligible: 2 };
 
-function selectField(name, label, profiles) {
-  const select = node("select", "marketplace-filter");
-  select.name = name;
-  select.setAttribute("aria-label", `Filtrar por ${label.toLowerCase()}`);
-  select.append(new Option(label, ""));
-  const values = [...new Set(profiles.flatMap((profile) => list(profile[name])))].sort((a, b) => a.localeCompare(b, "pt-BR"));
-  values.forEach((value) => select.append(new Option(value, value)));
-  return select;
-}
-
-function chips(values) {
-  const wrap = node("div", "marketplace-chips");
-  values.forEach((value) => wrap.append(node("span", "", value)));
-  return wrap;
-}
-
-function profileDialog(profile) {
-  const dialog = node("dialog", "marketplace-dialog");
-  const header = node("div", "marketplace-dialog__heading");
-  header.append(node("h2", "", profile.organizationName));
-  const close = node("button", "marketplace-button marketplace-button--outline", "Fechar");
-  close.type = "button";
-  close.addEventListener("click", () => dialog.close());
-  header.append(close);
-  dialog.append(header, node("p", "", profile.description || "O fornecedor ainda não informou uma descrição adicional."));
-  const details = node("dl");
-  for (const [label, value] of [
-    ["Categorias", list(profile.categories).join(", ")],
-    ["Processos", list(profile.processes).join(", ")],
-    ["Materiais", list(profile.materials).join(", ")],
-    ["Certificações declaradas", list(profile.certifications).join(", ")],
-    ["Regiões atendidas", list(profile.regions).join(", ")],
-    ["Capacidade declarada", `${profile.capacity} unidades por pedido`],
-    ["Prazo indicativo", profile.leadTimeDays ? `${profile.leadTimeDays} dias` : "Não informado"],
-  ]) details.append(node("dt", "", label), node("dd", "", value || "Não informado"));
-  dialog.append(details);
-  dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
-  return dialog;
-}
-
-function supplierCard(profile, demand, invited, invitationsAvailable, onInvite) {
-  const card = node("article", "marketplace-card");
-  const heading = node("div", "marketplace-card__heading");
-  const identity = node("div");
-  identity.append(node("h2", "", profile.organizationName), node("p", "", `Regiões atendidas: ${list(profile.regions).join(", ") || "não informadas"}`));
-  heading.append(identity, node("span", "marketplace-card__type", list(profile.processes)[0] ?? "Fornecedor industrial"));
-  const active = node("div", "marketplace-card__active");
-  active.append(node("strong", "", "✓ Organização ativa no SIVI"), node("small", "", "As capacidades abaixo foram declaradas pelo fornecedor no perfil industrial."));
-
-  const specs = node("section", "marketplace-card__section");
-  specs.append(node("h3", "", "ESPECIFICAÇÕES DECLARADAS"), node("small", "", "Categorias e processos"), chips([...list(profile.categories), ...list(profile.processes)]), node("small", "", "Materiais e certificações"), chips([...list(profile.materials), ...list(profile.certifications)]));
-
-  const compatibility = node("section", "marketplace-card__section marketplace-card__compatibility");
-  const compatibilityHeading = node("div", "marketplace-card__section-heading");
-  compatibilityHeading.append(node("h3", "", "COMPATIBILIDADE EXPLICADA"), node("small", "", demand ? "Demanda selecionada" : "Selecione uma demanda"));
-  compatibility.append(compatibilityHeading);
-  const match = demand ? matchSupplierToDemand(demand, profile) : null;
-  if (match) {
-    const rows = node("div", "marketplace-criteria");
-    match.criteria.forEach((criterion) => {
-      const row = node("div", "marketplace-criterion");
-      const tone = criterion.state === "met" ? "met" : criterion.state === "unmet" ? "unmet" : "unknown";
-      const stateLabel = criterion.id === "capacity" && criterion.state === "unmet" && match.eligible ? "PARCIAL" : criteriaNames[criterion.state] ?? "CONFERIR";
-      row.append(node("strong", "", criterion.label), node("span", `marketplace-criterion__state marketplace-criterion__state--${tone}`, stateLabel), node("span", "", criterion.explanation));
-      rows.append(row);
-    });
-    compatibility.append(rows);
-  } else compatibility.append(node("p", "marketplace-muted", "Publique ou selecione uma demanda para comparar os critérios."));
-
-  const history = node("section", "marketplace-card__section marketplace-card__history");
-  history.append(node("h3", "", "HISTÓRICO E CONFIANÇA"), node("p", "", "Histórico público de pedidos avaliados ainda não disponível nesta plataforma."));
-  const footer = node("div", "marketplace-card__footer");
-  if (profile.updatedAt) {
-    const date = new Date(profile.updatedAt);
-    if (!Number.isNaN(date.getTime())) footer.append(node("small", "", `Perfil atualizado em: ${new Intl.DateTimeFormat("pt-BR").format(date)}`));
-  }
-  const actions = node("div", "marketplace-card__actions");
-  const view = node("button", "marketplace-button marketplace-button--outline", "Ver perfil");
-  view.type = "button";
-  const dialog = profileDialog(profile);
-  view.addEventListener("click", () => dialog.showModal());
-  const invite = node("button", "marketplace-button marketplace-button--primary", invited ? "Já disponível para esta demanda" : "Convidar para esta demanda");
-  invite.type = "button";
-  invite.disabled = !demand || invited || !match?.eligible || !invitationsAvailable;
-  if (!demand) invite.textContent = "Selecione uma demanda";
-  else if (!match?.eligible) invite.textContent = "Fora dos critérios essenciais";
-  else if (!invitationsAvailable) invite.textContent = "Convites indisponíveis";
-  invite.addEventListener("click", async () => {
-    invite.disabled = true;
-    invite.textContent = "Enviando convite…";
-    await onInvite(profile, demand, invite);
-  });
-  actions.append(view, invite);
-  footer.append(actions);
-  card.append(heading, active, specs, compatibility, history, footer, dialog);
-  return card;
+function marketplaceTab(id, label, symbol) {
+  const tab = element("button", "marketplace-tab");
+  tab.type = "button";
+  tab.setAttribute("role", "tab");
+  tab.id = `marketplace-tab-${id}`;
+  tab.append(icon(symbol), element("span", "", label));
+  const panel = element("section", "marketplace-tabpanel");
+  panel.id = `marketplace-panel-${id}`;
+  panel.setAttribute("role", "tabpanel");
+  panel.setAttribute("aria-labelledby", tab.id);
+  tab.setAttribute("aria-controls", panel.id);
+  return { tab, panel };
 }
 
 export function mountBuyerSuppliersPage({ container, workspace, repository, onReady = () => {} }) {
   let disposed = false;
   let clearState = () => {};
-  let records = null;
-  let profiles = [];
-  let selectedDemand = null;
-  let invited = new Set();
-  let invitationsAvailable = true;
-  let invitationRevision = 0;
-  let page;
+  const params = new URLSearchParams(window.location.hash.split("?")[1] ?? "");
+  const returnKey = `sivi.supplier-catalog.v1:${JSON.stringify([workspace.memberUid, workspace.id])}`;
+  let previous;
+  try { previous = JSON.parse(window.sessionStorage.getItem(returnKey)); } catch { /* Storage is optional. */ }
 
-  const renderCards = () => {
-    if (!page || disposed) return;
-    const search = normalize(page.querySelector("[data-supplier-search]").value.trim());
-    const selected = Object.fromEntries([...page.querySelectorAll(".marketplace-filter")].map((field) => [field.name, field.value]));
-    const capacity = Number(selected.capacity || 0);
-    const visible = profiles.filter((profile) => {
-      const searchable = [profile.organizationName, profile.description, ...Object.keys(listNames).flatMap((key) => list(profile[key]))].join(" ");
-      if (search && !normalize(searchable).includes(search)) return false;
-      if (Object.entries(listNames).some(([key]) => selected[key] && !list(profile[key]).includes(selected[key]))) return false;
-      return !capacity || Number(profile.capacity) >= capacity;
-    });
-    const active = page.querySelector("[data-active-filters]");
-    active.replaceChildren();
-    Object.entries(selected).filter(([, value]) => value).forEach(([key, value]) => {
-      const chip = node("button", "marketplace-active-filter", `${key === "capacity" ? "Capacidade" : listNames[key]}: ${key === "capacity" ? `≥ ${value} unidades` : value} ×`);
-      chip.type = "button";
-      chip.addEventListener("click", () => { page.querySelector(`[name="${key}"]`).value = ""; renderCards(); });
-      active.append(chip);
-    });
-    active.parentElement.hidden = active.childElementCount === 0;
-    const count = page.querySelector("[data-result-count]");
-    count.textContent = `${visible.length} ${visible.length === 1 ? "fornecedor encontrado" : "fornecedores encontrados"}`;
-    const grid = page.querySelector("[data-supplier-grid]");
-    grid.replaceChildren();
-    if (!visible.length) {
-      grid.append(node("p", "marketplace-empty", "Nenhum fornecedor corresponde à busca. Ajuste os filtros para ver outros perfis."));
-      return;
-    }
-    visible.forEach((profile) => grid.append(supplierCard(profile, selectedDemand, invited.has(profile.organizationId), invitationsAvailable, async (supplier, demand, button) => {
-      const feedback = page.querySelector("[data-marketplace-feedback]");
-      try {
-        const result = await repository.inviteSupplierToDemand(workspace.id, demand.id, supplier.organizationId);
-        if (disposed) return;
-        invited.add(supplier.organizationId);
-        button.textContent = "Já disponível para esta demanda";
-        feedback.textContent = result.alreadyAvailable ? `${supplier.organizationName} já tinha acesso a esta demanda.` : `A demanda foi disponibilizada para ${supplier.organizationName}.`;
-        feedback.dataset.state = "success";
-      } catch (error) {
-        if (disposed) return;
-        button.disabled = false;
-        button.textContent = "Convidar para esta demanda";
-        feedback.textContent = error?.message ?? "Não foi possível convidar o fornecedor. Tente novamente.";
-        feedback.dataset.state = "error";
-      }
-    })));
-  };
-
-  const syncDemand = async (id) => {
-    const revision = ++invitationRevision;
-    selectedDemand = records.demands.find((demand) => demand.id === id && demand.status === "published") ?? null;
-    invited = new Set();
-    invitationsAvailable = true;
-    const banner = page.querySelector("[data-selected-demand]");
-    banner.textContent = selectedDemand ? `Demanda ativa: ${selectedDemand.title}` : "Selecione uma demanda publicada para analisar a compatibilidade";
-    if (selectedDemand) {
-      try {
-        const ids = await repository.getBuyerInvitations(workspace.id, selectedDemand.id);
-        if (disposed || revision !== invitationRevision) return;
-        invited = new Set(ids);
-      } catch {
-        if (disposed || revision !== invitationRevision) return;
-        invitationsAvailable = false;
-        page.querySelector("[data-marketplace-feedback]").textContent = "Não foi possível conferir convites anteriores. Atualize a página antes de convidar.";
-        page.querySelector("[data-marketplace-feedback]").dataset.state = "error";
-      }
-    }
-    renderCards();
-  };
-
-  const render = () => {
-    page = node("section", "marketplace-page");
-    const header = node("header", "marketplace-page__header");
-    const title = node("h1", "", "Marketplace de fornecedores");
+  function render(profiles) {
+    const page = element("section", "marketplace-page workspace-page");
+    const header = element("header", "marketplace-page__header workspace-page__header");
+    const title = element("h1", "", "Fornecedores");
     title.dataset.pageTitle = "";
-    header.append(title, node("p", "", "Encontre empresas com perfis industriais para atender à sua demanda."));
-    const analysis = node("section", "marketplace-analysis");
-    const analysisHeading = node("div", "marketplace-analysis__heading");
-    analysisHeading.append(node("strong", "", "⚙  ANALISAR COMPATIBILIDADE COM MINHA DEMANDA"), node("span", "", "Critérios de correspondência ativos"));
-    const demandRow = node("div", "marketplace-analysis__demand");
-    const demandSelect = node("select");
-    demandSelect.setAttribute("aria-label", "Selecione uma demanda publicada");
-    demandSelect.append(new Option("Selecione uma demanda publicada", ""));
-    const published = records.demands.filter((demand) => demand.status === "published").sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
-    published.forEach((demand) => demandSelect.append(new Option(demand.title, demand.id)));
-    const selectedTag = node("span", "marketplace-analysis__tag", "");
-    selectedTag.dataset.selectedDemand = "";
-    demandRow.append(selectedTag, demandSelect, node("p", "", "A comparação usa categoria, processo, material, capacidade, certificações e região informados. Ela orienta a triagem e não seleciona o fornecedor automaticamente."));
-    analysis.append(analysisHeading, demandRow);
-    const filters = node("section", "marketplace-search");
-    const searchRow = node("div", "marketplace-search__row");
-    const search = node("input");
-    search.type = "search";
-    search.placeholder = "Buscar por empresa, produto ou processo industrial específico...";
-    search.setAttribute("aria-label", "Buscar fornecedores");
-    search.dataset.supplierSearch = "";
-    const reset = node("button", "marketplace-button marketplace-button--outline", "Limpar busca");
-    reset.type = "button";
-    searchRow.append(search, reset);
-    const filterRow = node("div", "marketplace-search__filters");
-    for (const [key, label] of Object.entries(listNames)) filterRow.append(selectField(key, label, profiles));
-    const capacity = node("select", "marketplace-filter");
-    capacity.name = "capacity";
-    capacity.setAttribute("aria-label", "Filtrar por capacidade");
-    capacity.append(new Option("Capacidade", ""));
-    [...new Set([100, 200, 500, 1000, Number(selectedDemand?.quantity)].filter((value) => Number.isFinite(value) && value > 0))].sort((a, b) => a - b).forEach((value) => capacity.append(new Option(`≥ ${value} unidades`, String(value))));
-    filterRow.insertBefore(capacity, filterRow.children[3]);
-    const active = node("div", "marketplace-search__active");
-    active.append(node("strong", "", "FILTROS ATIVOS:"));
-    const activeItems = node("div"); activeItems.dataset.activeFilters = ""; active.append(activeItems);
-    filters.append(searchRow, filterRow, active);
-    const count = node("p", "marketplace-page__count"); count.dataset.resultCount = "";
-    const feedback = node("p", "marketplace-feedback");
-    feedback.setAttribute("role", "status"); feedback.dataset.marketplaceFeedback = "";
-    const grid = node("div", "marketplace-grid"); grid.dataset.supplierGrid = "";
-    const note = node("p", "marketplace-page__note", "Capacidade e prazo foram declarados pelos fornecedores e devem ser confirmados na proposta. Certificações e histórico não são verificados automaticamente por esta página.");
-    page.append(header, analysis, filters, count, feedback, grid, note);
-    container.replaceChildren(page);
-    search.addEventListener("input", renderCards);
-    filterRow.addEventListener("change", renderCards);
-    reset.addEventListener("click", () => { search.value = ""; filterRow.querySelectorAll("select").forEach((field) => { field.value = ""; }); renderCards(); search.focus(); });
-    demandSelect.addEventListener("change", () => { void syncDemand(demandSelect.value); });
-    demandSelect.value = published[0]?.id ?? "";
-    void syncDemand(demandSelect.value);
-  };
+    const intro = element("div");
+    intro.append(title, element("p", "", "Explore perfis industriais e encontre fornecedores para suas demandas."));
+    header.append(intro);
 
-  const load = async () => {
+    const tabList = element("div", "marketplace-tabs");
+    tabList.setAttribute("role", "tablist");
+    tabList.setAttribute("aria-label", "Marketplace de fornecedores");
+    const catalog = marketplaceTab("catalogo", "Catálogo", "home");
+    const matches = marketplaceTab("matches", "Matches", "match");
+    const tabs = [catalog, matches];
+    tabList.append(catalog.tab, matches.tab);
+
+    const dialog = element("dialog", "marketplace-dialog");
+    const detail = createSupplierDialog(dialog);
+    page.append(header, tabList, catalog.panel, matches.panel, dialog);
+    container.replaceChildren(page);
+
+    const listing = createListings({ profiles, onProfileVisit: rememberCatalog });
+    listing.setEntries(profiles.map((profile) => ({ profile })));
+    listing.restoreFilters(previous?.catalog);
+    catalog.panel.append(listing.root);
+
+    let activeIndex = 0;
+    let selectedDemand;
+    let demandState = "idle";
+    let verification = "idle";
+    let verificationRevision = 0;
+    let invited = new Set();
+    let openMatch;
+    const pendingInvites = new Set();
+    const confirmedInvites = new Set();
+    const pairKey = (demand, profile) => JSON.stringify([demand.id, profile.organizationId]);
+    const hasAccess = (profile) => invited.has(profile.organizationId) || confirmedInvites.has(pairKey(selectedDemand, profile));
+    const results = createListings({ profiles, matches: true, onProfileVisit: rememberCatalog, onMatch: openComparison, hasAccess });
+    const accessFeedback = element("p", "marketplace-feedback");
+    accessFeedback.setAttribute("role", "status");
+    const retryAccess = button("Conferir convites novamente", () => checkAccess());
+    retryAccess.hidden = true;
+
+    dialog.addEventListener("close", () => { if (!dialog.open) openMatch = null; });
+
+    function rememberCatalog() {
+      try {
+        window.sessionStorage.setItem(returnKey, JSON.stringify({
+          tab: activeIndex,
+          catalog: listing.readFilters(),
+          matches: selectedDemand ? results.readFilters() : previous?.matches,
+          demandId: selectedDemand?.id ?? previous?.demandId,
+        }));
+      } catch { /* Profile links also work when storage is disabled. */ }
+    }
+
+    function updateInvite() {
+      if (!openMatch || openMatch.demand.id !== selectedDemand?.id || !dialog.open) return;
+      const { profile, demand, match, invite } = openMatch;
+      const pending = pendingInvites.has(pairKey(demand, profile));
+      const access = hasAccess(profile);
+      invite.disabled = !match.eligible || pending || access || verification !== "ready";
+      invite.textContent = access ? "Já tem acesso"
+        : !match.eligible ? "Fora dos critérios essenciais"
+          : pending ? "Enviando convite…"
+            : verification === "loading" ? "Conferindo convites…"
+              : verification === "error" ? "Convites indisponíveis" : "Convidar para a demanda";
+    }
+
+    function openComparison(profile, match, origin) {
+      const demand = selectedDemand;
+      if (match.demandId !== demand?.id) return;
+      const feedback = element("p", "marketplace-feedback");
+      feedback.setAttribute("role", "status");
+      const invite = button("Convidar para a demanda", () => sendInvite(profile, demand, match), true);
+      openMatch = { profile, demand, match, invite, feedback };
+      detail.match(profile, demand, match, origin, invite, feedback);
+      updateInvite();
+    }
+
+    async function sendInvite(profile, demand, match) {
+      const key = pairKey(demand, profile);
+      if (disposed || !match.eligible || demand.id !== selectedDemand?.id ||
+          verification !== "ready" || hasAccess(profile) || pendingInvites.has(key)) return;
+      pendingInvites.add(key);
+      updateInvite();
+      let state;
+      let message;
+      try {
+        const result = await repository.inviteSupplierToDemand(workspace.id, demand.id, profile.organizationId);
+        confirmedInvites.add(key);
+        state = "success";
+        message = result.alreadyAvailable ? "O fornecedor já pode acessar esta demanda." : "Demanda disponibilizada ao fornecedor.";
+      } catch (error) {
+        state = "error";
+        message = error?.message ?? "Não foi possível convidar o fornecedor. Tente novamente.";
+      } finally {
+        pendingInvites.delete(key);
+      }
+      if (disposed || selectedDemand?.id !== demand.id) return;
+      results.updateAccess();
+      updateInvite();
+      if (dialog.open && openMatch?.profile.organizationId === profile.organizationId && openMatch.demand.id === demand.id) {
+        openMatch.feedback.dataset.state = state;
+        openMatch.feedback.textContent = message;
+      }
+    }
+
+    async function checkAccess() {
+      const { id } = selectedDemand;
+      const revision = ++verificationRevision;
+      verification = "loading";
+      retryAccess.hidden = true;
+      accessFeedback.textContent = "Conferindo quem já tem acesso à demanda…";
+      delete accessFeedback.dataset.state;
+      updateInvite();
+      try {
+        const ids = await repository.getBuyerInvitations(workspace.id, id);
+        if (disposed || revision !== verificationRevision) return;
+        invited = new Set(ids);
+        verification = "ready";
+        accessFeedback.textContent = "";
+      } catch {
+        if (disposed || revision !== verificationRevision) return;
+        verification = "error";
+        accessFeedback.dataset.state = "error";
+        accessFeedback.textContent = "Não foi possível conferir os convites. Tente novamente para liberar o envio.";
+        retryAccess.hidden = false;
+      }
+      results.updateAccess();
+      updateInvite();
+    }
+
+    function selectDemand(demand) {
+      if (dialog.open) dialog.close();
+      selectedDemand = demand;
+      invited = new Set();
+      const entries = profiles.map((profile) => ({ profile, match: matchSupplierToDemand(demand, profile) }));
+      entries.sort((a, b) => matchOrder[a.match.status] - matchOrder[b.match.status] || compareSuppliers(a.profile, b.profile));
+      results.setEntries(entries, demand);
+      void checkAccess();
+    }
+
+    function demandNotice(message, action, role = "status") {
+      const notice = element("div", "marketplace-empty workspace-panel");
+      const text = element("p", "", message);
+      text.setAttribute("role", role);
+      notice.append(text);
+      if (action) notice.append(action);
+      matches.panel.replaceChildren(notice);
+    }
+
+    async function loadDemands() {
+      demandState = "loading";
+      demandNotice("Carregando demandas publicadas…");
+      let result;
+      try { result = await repository.getOperations(workspace.id); }
+      catch { result = { status: "error" }; }
+      if (disposed) return;
+      if (result?.status !== "ready") {
+        demandState = "error";
+        demandNotice("Não foi possível carregar as demandas publicadas.", button("Tentar novamente", loadDemands), "alert");
+        return;
+      }
+      demandState = "ready";
+      const demands = result.data.demands.filter(({ status }) => status === "published")
+        .sort((a, b) => (b.updatedAt ?? b.createdAt ?? 0) - (a.updatedAt ?? a.createdAt ?? 0));
+      if (!demands.length) {
+        const demandsLink = element("a", "marketplace-button marketplace-button--primary", "Ir para Minhas demandas");
+        demandsLink.href = "#/app/comprador/demandas";
+        demandNotice("Publique uma demanda para encontrar fornecedores compatíveis.", demandsLink);
+        return;
+      }
+      const analysis = element("section", "workspace-panel marketplace-analysis");
+      const intro = element("div");
+      intro.append(element("h2", "", "Compatibilidade com a demanda"),
+        element("p", "", "Compare os requisitos da compra com o perfil declarado por cada fornecedor."));
+      const field = element("label", "marketplace-filter-label", "Demanda publicada");
+      const select = element("select");
+      select.append(...demands.map(({ title, id }) => new Option(title, id)));
+      select.addEventListener("change", () => selectDemand(demands[select.selectedIndex]));
+      field.append(select);
+      const feedback = element("div", "marketplace-analysis__feedback");
+      feedback.append(accessFeedback, retryAccess);
+      analysis.append(intro, field, feedback);
+      matches.panel.replaceChildren(analysis, results.root);
+      const demand = demands.find(({ id }) => id === previous?.demandId) ?? demands[0];
+      select.value = demand.id;
+      selectDemand(demand);
+      const target = params.get("aba") === "matches"
+        ? profiles.find((profile) => profile.organizationId === params.get("registro")) : null;
+      results.restoreFilters(target ? { search: target.organizationName, status: "all" } : previous?.matches);
+    }
+
+    function activate(index) {
+      activeIndex = index;
+      tabs.forEach(({ tab, panel }, position) => {
+        const active = index === position;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panel.hidden = !active;
+      });
+      if (index === 1 && demandState === "idle") void loadDemands();
+    }
+    tabs.forEach(({ tab }, index) => tab.addEventListener("click", () => activate(index)));
+    tabList.addEventListener("keydown", (event) => {
+      const index = tabs.findIndex(({ tab }) => tab === event.target);
+      if (index < 0 || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1
+        : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      activate(next);
+      tabs[next].tab.focus();
+    });
+    activate(params.get("aba") === "matches" || previous?.tab === 1 ? 1 : 0);
+  }
+
+  async function load() {
     clearState();
     clearState = renderPageState(container, { status: "loading" });
-    let operations;
-    try {
-      [operations, profiles] = await Promise.all([repository.getOperations(workspace.id), repository.listSupplierProfiles(workspace.id)]);
-    } catch { operations = { status: "error" }; }
-    if (disposed) return;
-    clearState();
-    if (operations.status !== "ready") {
-      clearState = renderPageState(container, { status: operations.status, onRetry: load });
-      onReady();
+    let profiles;
+    try { profiles = await repository.listSupplierProfiles(workspace.id); }
+    catch {
+      if (!disposed) {
+        clearState = renderPageState(container, { status: "error", onRetry: load });
+        onReady();
+      }
       return;
     }
-    records = operations.data;
-    render();
+    if (disposed) return;
+    clearState();
+    render([...profiles].sort(compareSuppliers));
     onReady();
-  };
+  }
   void load();
-  return () => { disposed = true; invitationRevision += 1; clearState(); container.replaceChildren(); };
+  return () => { disposed = true; clearState(); container.replaceChildren(); };
 }

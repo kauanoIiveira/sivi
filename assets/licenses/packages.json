@@ -1,0 +1,62 @@
+[
+  {
+    "package": "react",
+    "version": "19.3.1",
+    "license": "MIT",
+    "file": "react-LICENSE"
+  },
+  {
+    "package": "react-dom",
+    "version": "19.3.1",
+    "license": "MIT",
+    "file": "react-dom-LICENSE"
+  },
+  {
+    "package": "scheduler",
+    "version": "0.28.0",
+    "license": "MIT",
+    "file": "scheduler-LICENSE"
+  },
+  {
+    "package": "motion",
+    "version": "14.6.0",
+    "license": "MIT",
+    "file": "motion-LICENSE.md"
+  },
+  {
+    "package": "framer-motion",
+    "version": "14.6.0",
+    "license": "MIT",
+    "file": "framer-motion-LICENSE.md"
+  },
+  {
+    "package": "motion-dom",
+    "version": "14.6.0",
+    "license": "MIT",
+    "file": "motion-dom-LICENSE.md"
+  },
+  {
+    "package": "motion-utils",
+    "version": "14.6.0",
+    "license": "MIT",
+    "file": "motion-utils-LICENSE.md"
+  },
+  {
+    "package": "@number-flow/react",
+    "version": "0.6.2",
+    "license": "MIT",
+    "file": "number-flow-react-LICENSE.md"
+  },
+  {
+    "package": "number-flow",
+    "version": "0.6.2",
+    "license": "MIT",
+    "file": "number-flow-LICENSE.md"
+  },
+  {
+    "package": "lucide-react",
+    "version": "1.61.0",
+    "license": "ISC",
+    "file": "lucide-react-LICENSE"
+  }
+]

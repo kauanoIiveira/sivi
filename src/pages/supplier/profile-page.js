@@ -2,7 +2,7 @@ const fields = Object.freeze([
   ["categories", "Categorias atendidas", "Ex.: engrenagens, usinados", true],
   ["materials", "Materiais", "Ex.: aço 1045, alumínio", true],
   ["processes", "Processos", "Ex.: usinagem, tratamento térmico", true],
-  ["regions", "Regiões atendidas", "Ex.: Campinas/SP, Sorocaba/SP", true],
+  ["regions", "Regiões atendidas", "Ex.: Campinas/SP, MG", true],
   ["certifications", "Certificações (opcional)", "Ex.: ISO 9001", false],
 ]);
 
@@ -15,7 +15,7 @@ export function mountSupplierProfilePage({ container, workspace, supplierProfile
       </header>
       <form data-supplier-profile-form>
         <p class="supplier-profile__wide supplier-profile__hint" id="profile-lists-hint">Separe os valores por vírgulas. Preencha todos os campos, exceto os indicados como opcionais.</p>
-        ${fields.map(([name, label, placeholder, required]) => `<label>${label}<input name="${name}" placeholder="${placeholder}" aria-describedby="profile-lists-hint${name === "regions" ? " profile-regions-hint" : ""}" disabled ${required ? "required" : ""} />${name === "regions" ? '<small id="profile-regions-hint">Use os nomes informados nas demandas. A comparação é exata: cadastrar SP não inclui automaticamente Campinas/SP.</small>' : ""}</label>`).join("")}
+        ${fields.map(([name, label, placeholder, required]) => `<label>${label}<input name="${name}" placeholder="${placeholder}" aria-describedby="profile-lists-hint${name === "regions" ? " profile-regions-hint" : ""}" disabled ${required ? "required" : ""} />${name === "regions" ? '<small id="profile-regions-hint">Use Cidade/UF para um município ou apenas a UF se atender a todo o estado.</small>' : ""}</label>`).join("")}
         <label>Capacidade por pedido (unidades)<input name="capacity" type="number" min="1" max="9007199254740991" step="1" aria-describedby="profile-capacity-hint" required disabled /><small id="profile-capacity-hint">Quantidade máxima declarada em unidades. Não representa estoque disponível.</small></label>
         <label>Prazo indicativo (dias, opcional)<input name="leadTimeDays" type="number" min="1" max="9007199254740991" step="1" disabled /></label>
         <label class="supplier-profile__wide">Descrição da operação<textarea name="description" minlength="10" maxlength="1000" aria-describedby="profile-description-hint" required disabled></textarea><small id="profile-description-hint">De 10 a 1.000 caracteres. Descreva os serviços, equipamentos e limites de atendimento.</small></label>
@@ -106,7 +106,7 @@ export function mountSupplierProfilePage({ container, workspace, supplierProfile
       setPhase("ready");
       savedValues = snapshot();
       delete form.dataset.dirty;
-      report("Perfil industrial salvo. Os dados serão usados na comparação de novas demandas.", false, true);
+      report("Perfil industrial salvo. Os compradores podem atualizar a compatibilidade das demandas abertas para considerar estas capacidades.", false, true);
     } catch (error) {
       if (disposed) return;
       setPhase("ready");

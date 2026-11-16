@@ -8,6 +8,16 @@ function deferred() {
   return { promise, resolve };
 }
 
+test('never grants the authenticated application state to an unverified account', async () => {
+  let emit;
+  const store = createSessionStore({ loadAuthModule: async () => ({ observeAuthState(callback) { emit = callback; callback({ uid: 'unverified', emailVerified: false }); return () => {}; } }) });
+  await store.start();
+  assert.equal(store.getSnapshot().status, 'unverified');
+  assert.equal(store.getSnapshot().user.emailVerified, false);
+  emit({ uid: 'unverified', emailVerified: true });
+  assert.equal(store.getSnapshot().status, 'authenticated');
+});
+
 test("starts once, resolves auth, logs out and unsubscribes", async () => {
   let emitUser;
   let logoutCalls = 0;
@@ -177,4 +187,55 @@ test("isolates listener errors while resolving user and observer-error starts", 
     new Promise((resolve) => setTimeout(() => resolve("timed out"), 20)),
   ]), "settled");
   assert.equal(errorStore.getSnapshot().status, "error");
+});
+
+test("account profile changes publish the same signed-in identity with a distinct reason", async () => {
+  const store = createSessionStore({
+    loadAuthModule: async () => ({
+      observeAuthState(onUser) {
+        onUser({ uid: "account-1", email: "ana@sivi.test", displayName: "Ana" });
+        return () => {};
+      },
+    }),
+  });
+  await store.start();
+  const changes = [];
+  store.subscribe((snapshot, metadata) => changes.push({ snapshot, metadata }));
+  assert.equal(typeof store.updateProfile, "function");
+  assert.equal(store.updateProfile({ uid: "account-1", email: "ana@sivi.test", displayName: "Ana Luísa" }), true);
+  assert.deepEqual(store.getSnapshot(), {
+    status: "authenticated", user: { uid: "account-1", email: "ana@sivi.test", displayName: "Ana Luísa" }, error: null,
+  });
+  assert.deepEqual(changes.map(({ metadata }) => metadata), [{ reason: "session" }, { reason: "profile" }]);
+  assert.equal(Object.isFrozen(store.getSnapshot().user), true);
+  store.stop();
+});
+
+test("account profile changes cannot restore signed-out sessions or switch user identities", async () => {
+  let emitUser;
+  const store = createSessionStore({
+    loadAuthModule: async () => ({
+      observeAuthState(onUser) {
+        emitUser = onUser;
+        onUser({ uid: "account-1", displayName: "Ana" });
+        return () => {};
+      },
+    }),
+  });
+  assert.equal(typeof store.updateProfile, "function");
+  assert.equal(store.updateProfile({ uid: "account-1", displayName: "Nome durante loading" }), false);
+  await store.start();
+  const snapshots = [];
+  store.subscribe((snapshot) => snapshots.push(snapshot));
+  const before = store.getSnapshot();
+  assert.equal(store.updateProfile({ uid: "account-2", displayName: "Outra pessoa" }), false);
+  assert.equal(store.updateProfile(null), false);
+  assert.strictEqual(store.getSnapshot(), before);
+  assert.equal(snapshots.length, 1);
+  emitUser(null);
+  const signedOut = store.getSnapshot();
+  assert.equal(store.updateProfile({ uid: "account-1", displayName: "Nome tardio" }), false);
+  assert.strictEqual(store.getSnapshot(), signedOut);
+  assert.equal(snapshots.length, 2);
+  store.stop();
 });

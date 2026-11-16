@@ -1,0 +1,2119 @@
+@layer theme, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(pub);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(pub);
+@source "../public";
+@source "../components/ui";
+@font-face {
+  font-family: Manrope;
+  src: url("/assets/fonts/manrope-latin-variable.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) {
+  --sv-ink: #1c2323;
+  --sv-muted: #626963;
+  --sv-paper: #f7f7f2;
+  --sv-line: #dcded6;
+  --sv-orange: #e85d2d;
+  --sv-dark: #192120;
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--sv-ink);
+  background: var(--sv-paper);
+  font-weight: 400;
+  letter-spacing: 0;
+  isolation: isolate;
+  overflow-wrap: break-word;
+  color-scheme: light;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) * {
+  box-sizing: border-box;
+}
+:is(.sivi-public-ui, .sivi-auth-ui)
+  :is(h1, h2, h3, h4, p, ul, ol, dl, dd, figure) {
+  margin: 0;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) :is(h1, h2, h3, h4) {
+  font-family: inherit;
+  color: inherit;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) :is(a, button, input, select) {
+  -webkit-tap-highlight-color: transparent;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) a {
+  color: inherit;
+  text-decoration: none;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  letter-spacing: inherit;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) a:focus-visible,
+:is(.sivi-public-ui, .sivi-auth-ui) button:focus-visible,
+:is(.sivi-public-ui, .sivi-auth-ui) summary:focus-visible {
+  outline: 3px solid #e85d2d;
+  outline-offset: 5px;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) [tabindex="-1"]:focus {
+  outline: none;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) img {
+  max-width: 100%;
+  display: block;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) svg {
+  flex-shrink: 0;
+}
+.sivi-public-ui .sv-shell {
+  width: min(1280px, calc(100% - 112px));
+  margin-inline: auto;
+}
+.sivi-public-ui .sv-skip {
+  position: fixed;
+  left: 20px;
+  top: -100px;
+  background: var(--sv-orange);
+  color: white;
+  padding: 14px 20px;
+  z-index: 200;
+}
+.sivi-public-ui .sv-skip:focus {
+  top: 12px;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) .sv-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  flex-shrink: 0;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) .sv-brand > span {
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) .sv-brand > small {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  font-weight: 650;
+  margin-left: 6px;
+  border-left: 1px solid currentColor;
+  padding-left: 12px;
+}
+.sivi-public-ui .sv-header {
+  position: relative;
+  z-index: 40;
+  background: var(--sv-paper);
+  border-bottom: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  align-items: center;
+  min-height: 90px;
+}
+.sivi-public-ui .sv-nav nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 650;
+}
+.sivi-public-ui .sv-nav nav > a {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  transition: color 0.2s;
+}
+.sivi-public-ui .sv-nav nav > a:hover {
+  color: #b93c13;
+}
+.sivi-public-ui .sv-login-link {
+  margin-left: 20px;
+}
+.sivi-public-ui .sv-nav .sv-nav-cta {
+  padding: 10px 17px;
+  background: var(--sv-ink);
+  border-radius: 6px;
+  color: white;
+}
+.sivi-public-ui .sv-nav .sv-nav-cta:hover {
+  background: #344440;
+  color: white;
+}
+.sivi-public-ui .sv-menu {
+  display: none;
+}
+:is(.sivi-public-ui, .sivi-auth-ui) .sv-eyebrow {
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.sivi-public-ui .sv-hero {
+  position: relative;
+  min-height: min(790px, calc(100svh - 90px));
+  color: #fff;
+  background: #1f2622;
+  overflow: hidden;
+}
+.sivi-public-ui .sv-hero-media {
+  position: absolute;
+  inset: 0;
+}
+.sivi-public-ui .sv-hero-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+  filter: saturate(0.6);
+}
+.sivi-public-ui .sv-hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 19, 16, 0.9),
+      rgba(10, 19, 16, 0.55) 48%,
+      rgba(10, 19, 16, 0.05)
+    ),
+    linear-gradient(0deg, rgba(10, 19, 16, 0.7), transparent 40%);
+}
+.sivi-public-ui .sv-hero-inner {
+  position: relative;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 68px;
+  padding-bottom: 100px;
+}
+.sivi-public-ui .sv-hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.sivi-public-ui .sv-hero-eyebrow > span {
+  width: 7px;
+  height: 7px;
+  background: #f28155;
+  border-radius: 50%;
+}
+.sivi-public-ui .sv-hero h1 {
+  font-size: clamp(60px, 6.3vw, 108px);
+  letter-spacing: -0.065em;
+  font-weight: 550;
+  line-height: 1.03;
+  max-width: 1000px;
+  color: white;
+}
+.sivi-public-ui em {
+  font-style: normal;
+  color: #f28155;
+}
+.sivi-public-ui .sv-hero-description {
+  font-size: 16px;
+  color: #e1e5df;
+  line-height: 1.8;
+  max-width: 455px;
+  margin-top: 28px;
+}
+.sivi-public-ui .sv-hero-actions {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin-top: 32px;
+}
+.sivi-public-ui .sv-button {
+  min-height: 52px;
+  padding: 14px 21px;
+  border-radius: 6px;
+  background: var(--sv-orange);
+  color: white;
+  display: inline-flex;
+  gap: 28px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 750;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.sivi-public-ui .sv-button:hover {
+  background: #c8471c;
+  transform: translateY(-2px);
+}
+.sivi-public-ui .sv-hero-link {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 11px;
+  padding-block: 12px;
+}
+.sivi-public-ui .sv-hero-note {
+  font-size: 10px;
+  color: #c1cbc4;
+  margin-top: 15px;
+}
+.sivi-public-ui .sv-hero-bottom {
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #dce2da;
+  line-height: 1.5;
+}
+.sivi-public-ui .sv-hero-bottom > div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 80px;
+}
+.sivi-public-ui .sv-hero-bottom button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #88948b;
+  border-radius: 50%;
+  color: white;
+}
+.sivi-public-ui .sv-hero-bottom > a {
+  font-size: 11px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.sivi-public-ui .sv-value-strip {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+  padding-block: 36px;
+  border-bottom: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-value-strip > span {
+  font-size: 12px;
+  color: var(--sv-muted);
+  line-height: 1.6;
+}
+.sivi-public-ui .sv-value-strip strong {
+  font-size: 20px;
+  color: var(--sv-ink);
+  font-weight: 600;
+}
+.sivi-public-ui .sv-value-strip > p {
+  font-size: 13px;
+  border-left: 1px solid var(--sv-line);
+  padding: 8px 28px;
+  font-weight: 550;
+}
+.sivi-public-ui .sv-intro {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 120px;
+  padding-block: 110px;
+}
+.sivi-public-ui .sv-intro h2 {
+  font-size: clamp(40px, 4vw, 64px);
+}
+.sivi-public-ui .sv-intro h2 span {
+  color: #a5aca2;
+}
+.sivi-public-ui .sv-intro > div:nth-child(2) {
+  padding-top: 35px;
+  max-width: 420px;
+  color: var(--sv-muted);
+  font-size: 14px;
+}
+.sivi-public-ui .sv-intro p + p {
+  margin-top: 16px;
+}
+.sivi-public-ui .sv-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 44px;
+  margin-top: 22px;
+  border-bottom: 1px solid currentColor;
+  color: var(--sv-ink);
+}
+.sivi-public-ui .sv-text-link:hover {
+  color: #b93c13;
+}
+.sivi-public-ui .sv-insights-section {
+  padding: 92px 0 54px;
+  background: #e8ece3;
+}
+.sivi-public-ui .sv-section-heading {
+  display: flex;
+  gap: 60px;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+.sivi-public-ui .sv-section-heading h2 {
+  font-size: clamp(38px, 4vw, 60px);
+}
+.sivi-public-ui .sv-section-heading > p {
+  max-width: 310px;
+  font-size: 13px;
+  color: var(--sv-muted);
+  line-height: 1.8;
+  padding-bottom: 3px;
+}
+.sivi-public-ui .sv-demo {
+  background: #fafbf8;
+  border: 1px solid #d6dcd2;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px -30px #233b2833;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #303a31;
+}
+.sivi-public-ui .sv-demo-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+  background: white;
+  padding: 16px 22px;
+  border-bottom: 1px solid #e1e5dc;
+}
+.sivi-public-ui .sv-demo-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sivi-public-ui .sv-demo-header strong {
+  font-size: 12px;
+  font-weight: 750;
+}
+.sivi-public-ui .sv-demo-header strong span {
+  font-size: 10px;
+  color: #687566;
+  font-weight: 500;
+  margin-left: 15px;
+}
+.sivi-public-ui .sv-example-label {
+  font-size: 9px;
+  color: #465443;
+  border: 1px solid #d0d9cb;
+  background: #f3f7ee;
+  padding: 5px 9px;
+  border-radius: 4px;
+}
+.sivi-public-ui .sv-demo-body {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+}
+.sivi-public-ui .sv-demo-sidebar {
+  padding: 30px 15px;
+  background: #f2f5ed;
+  border-right: 1px solid #e1e5dc;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #65725f;
+}
+.sivi-public-ui .sv-demo-sidebar > span {
+  padding: 10px 12px;
+  border-radius: 5px;
+}
+.sivi-public-ui .sv-demo-sidebar > .is-active {
+  background: white;
+  color: #28432d;
+  font-weight: 700;
+}
+.sivi-public-ui .sv-demo-sidebar > div {
+  margin-top: auto;
+  font-size: 8px;
+  line-height: 1.8;
+  padding: 50px 10px 0;
+  letter-spacing: 0.03em;
+  color: #33452e;
+}
+.sivi-public-ui .sv-demo-sidebar small {
+  font-size: 9px;
+  color: #6d7b66;
+  letter-spacing: 0;
+}
+.sivi-public-ui .sv-demo-main {
+  padding: 30px;
+  min-width: 0;
+}
+.sivi-public-ui .sv-demo-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 26px;
+}
+.sivi-public-ui .sv-demo-title small {
+  font-size: 9px;
+  color: #788271;
+}
+.sivi-public-ui .sv-demo-title h3 {
+  font-size: 23px;
+  letter-spacing: -0.035em;
+  margin-top: 5px;
+}
+.sivi-public-ui .sv-demo-avatar {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background: #e4ebda;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 750;
+}
+.sivi-public-ui .sv-demo-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.sivi-public-ui .sv-demo-cards > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 17px;
+  border: 1px solid #e1e5dc;
+  border-radius: 7px;
+  background: white;
+  min-width: 0;
+}
+.sivi-public-ui .sv-demo-cards > div > span {
+  font-size: 9px;
+  color: #64705d;
+}
+.sivi-public-ui .sv-demo-cards strong {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.4;
+}
+.sivi-public-ui .sv-demo-cards > div:first-child strong {
+  font-size: 28px;
+  line-height: 1;
+}
+.sivi-public-ui .sv-demo-cards small {
+  font-size: 9px;
+  color: #7a8375;
+}
+.sivi-public-ui .sv-status {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: #4f6a41;
+  font-size: 10px;
+}
+.sivi-public-ui .sv-status > i {
+  width: 5px;
+  height: 5px;
+  background: #6c8b51;
+  display: inline-block;
+  border-radius: 50%;
+}
+.sivi-public-ui .sv-demo-cards strong.sv-status {
+  font-size: 13px;
+}
+.sivi-public-ui .sv-chart {
+  background: white;
+  border: 1px solid #e1e5dc;
+  border-radius: 7px;
+  margin-top: 16px;
+  padding: 20px 22px 10px;
+}
+.sivi-public-ui .sv-chart-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+.sivi-public-ui .sv-chart h4 {
+  font-size: 12px;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.sivi-public-ui .sv-chart p {
+  font-size: 10px;
+  color: #71806a;
+  margin-top: 5px;
+}
+.sivi-public-ui .sv-chart-filter {
+  display: flex;
+  gap: 2px;
+  background: #f1f3ed;
+  padding: 2px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.sivi-public-ui .sv-chart-filter button {
+  font-size: 9px;
+  min-height: 32px;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+.sivi-public-ui .sv-chart-filter button[aria-pressed="true"] {
+  background: white;
+  box-shadow: 0 1px 3px #22331115;
+  color: #963910;
+}
+.sivi-public-ui .sv-chart-area {
+  height: 180px;
+  margin-top: 18px;
+  touch-action: pan-y;
+}
+.sivi-public-ui .sv-chart-area svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.sivi-public-ui .sv-chart-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #74816d;
+  gap: 12px;
+  margin-top: 6px;
+}
+.sivi-public-ui .sv-data-table {
+  font-size: 10px;
+  color: #65725c;
+  margin-top: 12px;
+}
+.sivi-public-ui .sv-data-table summary {
+  cursor: pointer;
+  padding-block: 8px;
+  min-height: 32px;
+}
+.sivi-public-ui .sv-data-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.sivi-public-ui .sv-data-table :is(td, th) {
+  padding: 5px;
+  border-bottom: 1px solid #e1e5dc;
+}
+.sivi-public-ui .sv-demo-record {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  border-radius: 6px;
+  padding: 12px;
+  background: #eaf0e2;
+  color: #546848;
+}
+.sivi-public-ui .sv-demo-record > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sivi-public-ui .sv-demo-record strong {
+  font-size: 10px;
+  font-weight: 650;
+}
+.sivi-public-ui .sv-demo-record span {
+  font-size: 9px;
+}
+.sivi-public-ui .sv-demo-record > svg:last-child {
+  margin-left: auto;
+}
+.sivi-public-ui .sv-demo-foot {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  padding: 12px 22px;
+  background: white;
+  border-top: 1px solid #e1e5dc;
+  font-size: 9px;
+  color: #6b7762;
+}
+.sivi-public-ui .sv-evidence-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding-top: 40px;
+  font-size: 12px;
+}
+.sivi-public-ui .sv-evidence-caption > span {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+.sivi-public-ui .sv-evidence-caption .sv-text-link {
+  margin-top: 0;
+}
+.sivi-public-ui .sv-workflow {
+  padding-block: 110px;
+}
+.sivi-public-ui .sv-workflow-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  border-top: 1px solid var(--sv-line);
+  border-bottom: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-workflow ol {
+  list-style: none;
+  padding: 0;
+  border-right: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-workflow li + li {
+  border-top: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-workflow li button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 15px;
+  padding: 16px 20px 16px 0;
+  min-height: 58px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.sivi-public-ui .sv-workflow li button > span {
+  font-size: 10px;
+  color: #939b8f;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.sivi-public-ui .sv-workflow li button > svg {
+  margin-left: auto;
+  color: #9ba292;
+}
+.sivi-public-ui .sv-workflow li button[aria-pressed="true"] {
+  color: #ba421d;
+}
+.sivi-public-ui .sv-workflow li button[aria-pressed="true"] > svg {
+  color: #ba421d;
+}
+.sivi-public-ui .sv-workflow-panel {
+  padding: 30px 0 30px 42px;
+  display: grid;
+  grid-template-columns: 0.9fr 1fr;
+  gap: 38px;
+  align-items: center;
+}
+.sivi-public-ui .sv-workflow-sample {
+  padding: 25px;
+  background: #e9ece3;
+  border-radius: 7px;
+  min-width: 0;
+}
+.sivi-public-ui .sv-workflow-sample > span:first-child {
+  font-size: 8px;
+  letter-spacing: 0.09em;
+  color: #5f6d56;
+}
+.sivi-public-ui .sv-workflow-sample > .sv-status {
+  float: right;
+  font-size: 9px;
+}
+.sivi-public-ui .sv-record-sheet {
+  padding: 20px 16px;
+  background: white;
+  box-shadow: 0 7px 15px #25351a0a;
+  margin-top: 22px;
+  border: 1px solid #dce2d4;
+  border-radius: 5px;
+}
+.sivi-public-ui .sv-record-sheet > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 9px;
+  color: #697660;
+}
+.sivi-public-ui .sv-record-sheet > div:first-child > strong {
+  margin-left: auto;
+  font-size: 22px;
+  color: #283b20;
+  font-weight: 550;
+}
+.sivi-public-ui .sv-record-sheet > div:first-child > strong small {
+  font-size: 8px;
+  font-weight: 500;
+}
+.sivi-public-ui .sv-record-sheet > div:nth-child(2) {
+  display: flex;
+  gap: 8px;
+  font-size: 7px;
+  margin-top: 20px;
+}
+.sivi-public-ui .sv-record-sheet > div:nth-child(2) > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5eb;
+  padding: 4px 5px;
+  border-radius: 3px;
+  color: #536747;
+}
+.sivi-public-ui .sv-record-sheet > div:last-child {
+  border-top: 1px solid #e1e5dc;
+  margin-top: 20px;
+  padding-top: 15px;
+}
+.sivi-public-ui .sv-record-sheet > div:last-child > small {
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: #77856c;
+}
+.sivi-public-ui .sv-record-sheet > div:last-child > p {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 5px;
+  color: #415237;
+}
+.sivi-public-ui .sv-workflow-sample > small {
+  font-size: 8px;
+  color: #68795c;
+  display: block;
+  margin-top: 13px;
+}
+.sivi-public-ui .sv-workflow-copy h3 {
+  font-size: 29px;
+  margin-bottom: 18px;
+}
+.sivi-public-ui .sv-workflow-copy > p:not(.sv-eyebrow) {
+  font-size: 12px;
+  color: var(--sv-muted);
+  line-height: 1.85;
+}
+.sivi-public-ui .sv-workflow-copy dl {
+  margin-top: 22px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sivi-public-ui .sv-workflow-copy dt {
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.sivi-public-ui .sv-workflow-copy dd {
+  color: var(--sv-muted);
+}
+.sivi-public-ui .sv-role-section {
+  padding-bottom: 110px;
+}
+.sivi-public-ui .sv-role {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+.sivi-public-ui .sv-role + .sv-role {
+  margin-top: 95px;
+}
+.sivi-public-ui .sv-role-photo {
+  position: relative;
+  height: 540px;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #34413a;
+}
+.sivi-public-ui .sv-role-photo > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: saturate(0.65);
+}
+.sivi-public-ui .sv-role-photo > span {
+  position: absolute;
+  bottom: 22px;
+  left: 25px;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: white;
+  background: #142018bb;
+  padding: 8px 12px;
+  border-radius: 3px;
+}
+.sivi-public-ui .sv-role-copy h2 {
+  font-size: clamp(36px, 3.5vw, 51px);
+}
+.sivi-public-ui .sv-role-copy > p:not(.sv-eyebrow) {
+  font-size: 13px;
+  color: var(--sv-muted);
+  line-height: 1.85;
+  margin-top: 24px;
+  max-width: 350px;
+}
+.sivi-public-ui .sv-role-copy ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 23px;
+  font-size: 11px;
+  display: grid;
+  gap: 9px;
+  color: #495544;
+}
+.sivi-public-ui .sv-role-copy li {
+  display: flex;
+  gap: 10px;
+}
+.sivi-public-ui .sv-role-copy li:before {
+  content: "↗";
+  color: #c64d24;
+  font-weight: 700;
+}
+.sivi-public-ui .sv-role--reverse {
+  grid-template-columns: 1fr 1.1fr;
+}
+.sivi-public-ui .sv-role--reverse .sv-role-photo {
+  order: 2;
+}
+.sivi-public-ui .sv-role--reverse .sv-role-copy {
+  padding-left: 50px;
+}
+.sivi-public-ui .sv-trust {
+  background: var(--sv-dark);
+  color: #f5f7ed;
+  padding-block: 100px;
+}
+.sivi-public-ui .sv-trust > .sv-shell {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 120px;
+}
+.sivi-public-ui .sv-trust .sv-eyebrow {
+  margin-top: 28px;
+  color: #a3b29c;
+}
+.sivi-public-ui .sv-trust h2 {
+  font-size: clamp(38px, 3.7vw, 55px);
+}
+.sivi-public-ui .sv-trust p:not(.sv-eyebrow) {
+  font-size: 13px;
+  color: #b6c3b0;
+  margin-top: 25px;
+}
+.sivi-public-ui .sv-trust .sv-text-link {
+  color: #f1f4e8;
+}
+.sivi-public-ui .sv-trust-facts {
+  padding-top: 20px;
+}
+.sivi-public-ui .sv-trust-facts > div {
+  position: relative;
+  border-top: 1px solid #43503f;
+  padding: 25px 0 25px 55px;
+}
+.sivi-public-ui .sv-trust-facts > div > span {
+  position: absolute;
+  left: 0;
+  top: 23px;
+  color: #819575;
+  font-size: 12px;
+}
+.sivi-public-ui .sv-trust-facts h3 {
+  font-size: 23px;
+  letter-spacing: -0.035em;
+}
+.sivi-public-ui .sv-trust-facts p {
+  margin-top: 10px !important;
+  font-size: 12px !important;
+}
+.sivi-public-ui .sv-pricing {
+  padding-block: 110px;
+}
+.sivi-public-ui .sv-pricing-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 38px;
+}
+.sivi-public-ui .sv-pricing-toolbar > p {
+  font-size: 10px;
+  color: var(--sv-muted);
+}
+.sivi-public-ui .sv-period {
+  display: flex;
+  gap: 2px;
+  background: #e9ece4;
+  border: 1px solid #dadfd3;
+  border-radius: 7px;
+  padding: 4px;
+}
+.sivi-public-ui .sv-period button {
+  position: relative;
+  min-height: 44px;
+  padding: 9px 17px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  font-weight: 650;
+}
+.sivi-public-ui .sv-period button > span:not(.sv-period-indicator),
+.sivi-public-ui .sv-period button > small {
+  z-index: 1;
+  position: relative;
+}
+.sivi-public-ui .sv-period-indicator {
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  background: #263326;
+}
+.sivi-public-ui .sv-period button[aria-pressed="true"] {
+  color: white;
+}
+.sivi-public-ui .sv-period button > small {
+  font-size: 8px;
+  background: #d8e5cb;
+  color: #33472b;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+.sivi-public-ui .sv-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.sivi-public-ui .sv-plan-grid > div {
+  display: flex;
+}
+.sivi-public-ui .sv-plan {
+  border: 1px solid #d6dbcf;
+  border-radius: 9px;
+  background: #fff;
+  padding: 30px;
+  flex: 1;
+}
+.sivi-public-ui .sv-plan-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 28px;
+  color: #627259;
+}
+.sivi-public-ui .sv-plan-top > span {
+  font-size: 8px;
+  letter-spacing: 0.02em;
+  padding: 4px 7px;
+  background: #d9e5cf;
+  border-radius: 4px;
+  color: #3c5431;
+}
+.sivi-public-ui .sv-plan h3 {
+  font-size: 25px;
+  letter-spacing: -0.04em;
+}
+.sivi-public-ui .sv-plan > p {
+  font-size: 11px;
+  color: #6b7664;
+  max-width: 240px;
+  margin-top: 12px;
+  min-height: 38px;
+}
+.sivi-public-ui .sv-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 28px;
+  line-height: 1;
+}
+.sivi-public-ui .sv-price > span:first-child {
+  font-size: 16px;
+  margin-right: 3px;
+}
+.sivi-public-ui .sv-price number-flow-react {
+  font-size: 60px;
+  font-weight: 550;
+  letter-spacing: -0.075em;
+}
+.sivi-public-ui .sv-price > small {
+  font-size: 11px;
+  color: #65765c;
+  margin-left: 4px;
+}
+.sivi-public-ui .sv-plan p.sv-price-condition {
+  font-size: 9px;
+  min-height: 32px;
+  margin-top: 13px;
+  line-height: 1.6;
+}
+.sivi-public-ui .sv-plan-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid #cbd4c1;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 20px;
+  transition: background 0.2s;
+}
+.sivi-public-ui .sv-plan-button:hover {
+  background: #edf2e5;
+}
+.sivi-public-ui .sv-plan-features {
+  border-top: 1px solid #e0e5d9;
+  margin-top: 28px;
+  padding-top: 23px;
+}
+.sivi-public-ui .sv-plan-features > span {
+  font-size: 9px;
+  font-weight: 700;
+}
+.sivi-public-ui .sv-plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 18px;
+  display: grid;
+  gap: 14px;
+  font-size: 10px;
+  color: #57684d;
+}
+.sivi-public-ui .sv-plan-features li {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+.sivi-public-ui .sv-plan--featured {
+  background: #e8eedf;
+  border-color: #9baa8b;
+}
+.sivi-public-ui .sv-plan--featured .sv-plan-button {
+  background: #273a24;
+  color: white;
+  border-color: #273a24;
+}
+.sivi-public-ui .sv-plan--featured .sv-plan-button:hover {
+  background: #3d5437;
+}
+.sivi-public-ui .sv-plan-shared {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--sv-line);
+  padding: 28px 0;
+  font-size: 10px;
+  color: #66745d;
+}
+.sivi-public-ui .sv-plan-shared strong {
+  color: #34452c;
+  font-size: 11px;
+  font-weight: 700;
+}
+.sivi-public-ui .sv-pricing-note {
+  font-size: 10px;
+  color: var(--sv-muted);
+  max-width: 850px;
+  margin-top: 22px;
+  line-height: 1.9;
+}
+.sivi-public-ui .sv-faq {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 100px;
+  padding: 20px 0 110px;
+}
+.sivi-public-ui .sv-faq h2 {
+  font-size: clamp(40px, 4vw, 60px);
+}
+.sivi-public-ui .sv-faq > div:first-child > p:not(.sv-eyebrow) {
+  font-size: 13px;
+  color: var(--sv-muted);
+  margin-top: 25px;
+}
+.sivi-public-ui .sv-faq details {
+  border-bottom: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-faq details:first-child {
+  border-top: 1px solid var(--sv-line);
+}
+.sivi-public-ui .sv-faq summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 22px 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.7;
+}
+.sivi-public-ui .sv-faq summary::-webkit-details-marker {
+  display: none;
+}
+.sivi-public-ui .sv-faq summary > span {
+  font-size: 21px;
+  color: #8a967f;
+  font-weight: 400;
+  line-height: 1;
+}
+.sivi-public-ui .sv-faq details[open] summary > span {
+  transform: rotate(45deg);
+}
+.sivi-public-ui .sv-faq details > p {
+  font-size: 12px;
+  color: var(--sv-muted);
+  padding: 0 25px 24px 0;
+  line-height: 1.9;
+}
+.sivi-public-ui .sv-final-cta {
+  padding: 90px 0;
+  background: #e0e8d6;
+  position: relative;
+  overflow: hidden;
+}
+.sivi-public-ui .sv-final-cta .sv-shell {
+  position: relative;
+}
+.sivi-public-ui .sv-final-cta h2 {
+  font-size: clamp(50px, 5.5vw, 83px);
+}
+.sivi-public-ui .sv-final-cta em {
+  color: #5f7650;
+}
+.sivi-public-ui .sv-final-cta .sv-shell > div > div {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 35px;
+}
+.sivi-public-ui .sv-final-cta .sv-shell > div > div > span {
+  font-size: 10px;
+  color: #5c6a51;
+}
+.sivi-public-ui .sv-cta-symbol {
+  position: absolute;
+  font-size: 310px;
+  font-weight: 400;
+  line-height: 1;
+  right: 40px;
+  top: -10px;
+  color: #becdaf;
+  user-select: none;
+}
+.sivi-public-ui .sv-footer {
+  width: 100%;
+  background: #f1f1f1;
+  border-top: 1px solid #d6d6d6;
+  color: #242424;
+  padding: 65px 0 20px;
+}
+.sivi-public-ui .sv-footer-top {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 45px;
+  padding-bottom: 55px;
+}
+.sivi-public-ui .sv-footer-brand > p {
+  font-size: 23px;
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  color: #242424;
+  margin-top: 25px;
+}
+.sivi-public-ui .sv-footer-brand > small {
+  font-size: 9px;
+  color: #595959;
+  display: block;
+  margin-top: 18px;
+}
+.sivi-public-ui .sv-footer-top nav {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 9px;
+  font-size: 10px;
+  color: #595959;
+}
+.sivi-public-ui .sv-footer-top nav h2 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 8px 0 14px;
+  color: #242424;
+}
+.sivi-public-ui .sv-footer-top nav a {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+}
+.sivi-public-ui .sv-footer a:hover {
+  color: #111111;
+}
+.sivi-public-ui .sv-footer-identity {
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+  padding: 25px 0;
+  border-top: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+  font-size: 9px;
+  color: #595959;
+  line-height: 1.9;
+}
+.sivi-public-ui .sv-footer-identity > a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 10px;
+  color: #242424;
+}
+.sivi-public-ui .sv-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  padding-top: 20px;
+  font-size: 9px;
+  color: #595959;
+}
+.sivi-public-ui .sv-footer-bottom > a {
+  min-height: 32px;
+}
+.sivi-public-ui .sv-information {
+  padding-top: 45px;
+  padding-bottom: 80px;
+  min-height: 70vh;
+}
+.sivi-public-ui .sv-back {
+  font-size: 11px;
+  display: inline-block;
+  min-height: 44px;
+  margin-bottom: 45px;
+}
+.sivi-public-ui .sv-information h1 {
+  font-size: clamp(45px, 5.2vw, 80px);
+  max-width: 900px;
+}
+.sivi-public-ui .sv-information-intro {
+  max-width: 700px;
+  color: var(--sv-muted);
+  font-size: 17px;
+  margin-top: 28px;
+  line-height: 1.85;
+}
+.sivi-public-ui .sv-information-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 100px;
+  margin-top: 70px;
+  border-top: 1px solid var(--sv-line);
+  padding-top: 45px;
+}
+.sivi-public-ui .sv-information-grid aside {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  font-size: 11px;
+  gap: 10px;
+}
+.sivi-public-ui .sv-information-grid aside > span {
+  font-size: 9px;
+  color: var(--sv-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+.sivi-public-ui .sv-information-grid aside > a {
+  padding-block: 6px;
+}
+.sivi-public-ui .sv-information-grid section + section {
+  margin-top: 40px;
+}
+.sivi-public-ui .sv-information-grid h2 {
+  font-size: 26px;
+  letter-spacing: -0.035em;
+  margin-bottom: 18px;
+}
+.sivi-public-ui .sv-information-grid section > p {
+  font-size: 14px;
+  color: var(--sv-muted);
+  line-height: 1.9;
+}
+.sivi-public-ui .sv-information-grid section > a {
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  line-height: 2.5;
+}
+.sivi-public-ui .sv-information-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  margin-top: 70px;
+  padding: 40px;
+  background: #e8eedf;
+  border-radius: 8px;
+}
+.sivi-public-ui .sv-information-cta h2 {
+  font-size: 30px;
+}
+@media (min-width: 1800px) {
+  .sivi-public-ui .sv-shell {
+    width: min(1600px, calc(100% - 160px));
+  }
+  .sivi-public-ui .sv-hero {
+    min-height: 850px;
+  }
+  .sivi-public-ui .sv-hero h1 {
+    font-size: 128px;
+  }
+  .sivi-public-ui .sv-hero-description {
+    font-size: 18px;
+    max-width: 520px;
+  }
+  .sivi-public-ui .sv-role-photo {
+    height: 640px;
+  }
+  .sivi-public-ui .sv-demo-main {
+    padding: 40px;
+  }
+  .sivi-public-ui .sv-chart-area {
+    height: 240px;
+  }
+}
+@media (max-width: 1100px) {
+  .sivi-public-ui .sv-shell {
+    width: calc(100% - 64px);
+  }
+  .sivi-public-ui .sv-nav nav {
+    gap: 17px;
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-nav .sv-nav-cta {
+    display: none;
+  }
+  .sivi-public-ui .sv-login-link {
+    margin-left: 5px;
+  }
+  .sivi-public-ui .sv-intro {
+    gap: 50px;
+  }
+  .sivi-public-ui .sv-workflow-layout {
+    grid-template-columns: 190px 1fr;
+  }
+  .sivi-public-ui .sv-workflow-panel {
+    padding-left: 25px;
+    gap: 25px;
+    grid-template-columns: 1fr;
+  }
+  .sivi-public-ui .sv-workflow-sample {
+    display: none;
+  }
+  .sivi-public-ui .sv-role {
+    gap: 55px;
+  }
+  .sivi-public-ui .sv-role-photo {
+    height: 440px;
+  }
+  .sivi-public-ui .sv-role--reverse .sv-role-copy {
+    padding-left: 0;
+  }
+  .sivi-public-ui .sv-trust > .sv-shell {
+    gap: 70px;
+  }
+  .sivi-public-ui .sv-plan {
+    padding: 25px;
+  }
+  .sivi-public-ui .sv-plan h3 {
+    font-size: 22px;
+  }
+  .sivi-public-ui .sv-faq {
+    gap: 70px;
+  }
+  .sivi-public-ui .sv-footer-top {
+    gap: 25px;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  }
+  .sivi-public-ui .sv-information-grid {
+    gap: 50px;
+    grid-template-columns: 210px 1fr;
+  }
+  .sivi-public-ui .sv-cta-symbol {
+    font-size: 230px;
+    right: 0;
+    top: 40px;
+  }
+}
+@media (max-width: 760px) {
+  .sivi-public-ui .sv-shell {
+    width: calc(100% - 40px);
+  }
+  .sivi-public-ui .sv-nav {
+    min-height: 72px;
+  }
+  .sivi-public-ui .sv-brand > span {
+    font-size: 26px;
+  }
+  .sivi-public-ui .sv-brand > small {
+    font-size: 7px;
+  }
+  .sivi-public-ui .sv-menu {
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .sivi-public-ui .sv-nav nav {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: var(--sv-paper);
+    border-bottom: 1px solid var(--sv-line);
+    box-shadow: 0 15px 25px #10201015;
+  }
+  .sivi-public-ui .sv-nav nav.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    font-size: 14px;
+  }
+  .sivi-public-ui .sv-nav nav > a {
+    padding: 12px 5px;
+  }
+  .sivi-public-ui .sv-nav .sv-nav-cta {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+    margin-top: 10px;
+  }
+  .sivi-public-ui .sv-login-link {
+    margin-left: 0;
+  }
+  .sivi-public-ui .sv-hero {
+    min-height: 660px;
+    min-height: max(600px, calc(100svh - 72px));
+  }
+  .sivi-public-ui .sv-hero-inner {
+    padding-top: 60px;
+    padding-bottom: 110px;
+    justify-content: center;
+  }
+  .sivi-public-ui .sv-hero h1 {
+    font-size: clamp(44px, 8.6vw, 65px);
+    max-width: 650px;
+  }
+  .sivi-public-ui .sv-hero-eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.11em;
+    margin-bottom: 25px;
+  }
+  .sivi-public-ui .sv-hero-description {
+    font-size: 13px;
+    max-width: 360px;
+    margin-top: 24px;
+    line-height: 1.85;
+  }
+  .sivi-public-ui .sv-hero-shade {
+    background:
+      linear-gradient(90deg, #102017e8, #10201766),
+      linear-gradient(0deg, #102017cc, transparent 80%);
+  }
+  .sivi-public-ui .sv-hero-actions {
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+  }
+  .sivi-public-ui .sv-button {
+    min-height: 50px;
+    font-size: 11px;
+    padding: 13px 17px;
+    gap: 25px;
+  }
+  .sivi-public-ui .sv-hero-link {
+    font-size: 10px;
+    gap: 10px;
+  }
+  .sivi-public-ui .sv-hero-note {
+    font-size: 8px;
+    max-width: 260px;
+  }
+  .sivi-public-ui .sv-hero-bottom {
+    bottom: 20px;
+    font-size: 7px;
+  }
+  .sivi-public-ui .sv-hero-bottom > div {
+    margin: 0;
+  }
+  .sivi-public-ui .sv-hero-bottom > div > span {
+    display: none;
+  }
+  .sivi-public-ui .sv-hero-bottom > a {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-value-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding-block: 26px;
+  }
+  .sivi-public-ui .sv-value-strip > span {
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-value-strip strong {
+    font-size: 17px;
+  }
+  .sivi-public-ui .sv-value-strip > p {
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+  .sivi-public-ui .sv-value-strip > p:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .sivi-public-ui .sv-intro {
+    padding-block: 65px;
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .sivi-public-ui .sv-intro h2 {
+    font-size: 42px;
+  }
+  .sivi-public-ui .sv-intro > div:nth-child(2) {
+    padding-top: 0;
+    font-size: 13px;
+    max-width: 500px;
+  }
+  .sivi-public-ui .sv-eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    margin-bottom: 18px;
+  }
+  .sivi-public-ui .sv-section-heading {
+    flex-direction: column;
+    align-items: start;
+    gap: 22px;
+    margin-bottom: 30px;
+  }
+  .sivi-public-ui .sv-section-heading h2 {
+    font-size: 39px;
+  }
+  .sivi-public-ui .sv-section-heading > p {
+    font-size: 12px;
+    max-width: 400px;
+  }
+  .sivi-public-ui .sv-insights-section {
+    padding: 60px 0 35px;
+  }
+  .sivi-public-ui .sv-demo {
+    border-radius: 7px;
+  }
+  .sivi-public-ui .sv-demo-header {
+    padding: 13px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .sivi-public-ui .sv-demo-header strong span {
+    font-size: 8px;
+    margin-left: 5px;
+  }
+  .sivi-public-ui .sv-example-label {
+    font-size: 8px;
+    padding: 4px 6px;
+  }
+  .sivi-public-ui .sv-demo-body {
+    grid-template-columns: 1fr;
+  }
+  .sivi-public-ui .sv-demo-sidebar {
+    display: none;
+  }
+  .sivi-public-ui .sv-demo-main {
+    padding: 20px 14px 14px;
+  }
+  .sivi-public-ui .sv-demo-title {
+    margin-bottom: 18px;
+  }
+  .sivi-public-ui .sv-demo-title h3 {
+    font-size: 19px;
+    max-width: 210px;
+  }
+  .sivi-public-ui .sv-demo-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sivi-public-ui .sv-demo-cards > div {
+    padding: 12px 10px;
+  }
+  .sivi-public-ui .sv-demo-cards > div:last-child {
+    display: none;
+  }
+  .sivi-public-ui .sv-demo-cards > div > span {
+    font-size: 8px;
+  }
+  .sivi-public-ui .sv-demo-cards strong {
+    font-size: 13px;
+  }
+  .sivi-public-ui .sv-demo-cards small {
+    font-size: 8px;
+  }
+  .sivi-public-ui .sv-chart {
+    padding: 15px 12px 7px;
+  }
+  .sivi-public-ui .sv-chart-top {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sivi-public-ui .sv-chart-filter button {
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-chart h4 {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-chart p {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-chart-area {
+    height: 150px;
+  }
+  .sivi-public-ui .sv-chart-axis {
+    font-size: 8px;
+    gap: 6px;
+  }
+  .sivi-public-ui .sv-chart-axis > span:last-child {
+    display: none;
+  }
+  .sivi-public-ui .sv-demo-foot {
+    padding: 10px 14px;
+    font-size: 8px;
+  }
+  .sivi-public-ui .sv-demo-record {
+    padding: 10px;
+    gap: 9px;
+  }
+  .sivi-public-ui .sv-demo-record strong {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-demo-record span {
+    font-size: 8px;
+  }
+  .sivi-public-ui .sv-evidence-caption {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 25px;
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-evidence-caption > span {
+    font-size: 8px;
+    width: 100%;
+  }
+  .sivi-public-ui .sv-text-link {
+    font-size: 11px;
+    gap: 15px;
+  }
+  .sivi-public-ui .sv-evidence-caption .sv-text-link {
+    margin-top: 0;
+  }
+  .sivi-public-ui .sv-workflow {
+    padding-block: 65px;
+  }
+  .sivi-public-ui .sv-workflow-layout {
+    grid-template-columns: 1fr;
+    border: 0;
+  }
+  .sivi-public-ui .sv-workflow ol {
+    display: flex;
+    overflow: auto;
+    gap: 8px;
+    border: 0;
+    padding: 3px 2px 12px;
+  }
+  .sivi-public-ui .sv-workflow li {
+    flex-shrink: 0;
+    border: 0 !important;
+  }
+  .sivi-public-ui .sv-workflow li button {
+    min-height: 44px;
+    font-size: 10px;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--sv-line);
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .sivi-public-ui .sv-workflow li button > svg {
+    display: none;
+  }
+  .sivi-public-ui .sv-workflow li button[aria-pressed="true"] {
+    background: #e5ebdc;
+    color: #3b512d;
+    border-color: #a2b192;
+  }
+  .sivi-public-ui .sv-workflow-panel {
+    padding: 25px 0 0;
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .sivi-public-ui .sv-workflow-sample {
+    display: block;
+    max-width: 460px;
+  }
+  .sivi-public-ui .sv-workflow-copy h3 {
+    font-size: 30px;
+  }
+  .sivi-public-ui .sv-workflow-copy > p:not(.sv-eyebrow) {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-workflow-copy dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-role-section {
+    padding-bottom: 65px;
+  }
+  .sivi-public-ui .sv-role,
+  .sivi-public-ui .sv-role--reverse {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .sivi-public-ui .sv-role-photo {
+    height: 380px;
+  }
+  .sivi-public-ui .sv-role--reverse .sv-role-photo {
+    order: 0;
+  }
+  .sivi-public-ui .sv-role + .sv-role {
+    margin-top: 60px;
+  }
+  .sivi-public-ui .sv-role-copy h2 {
+    font-size: 37px;
+  }
+  .sivi-public-ui .sv-role-copy > p:not(.sv-eyebrow) {
+    font-size: 12px;
+    max-width: 450px;
+    margin-top: 20px;
+  }
+  .sivi-public-ui .sv-role-photo > span {
+    font-size: 7px;
+    bottom: 17px;
+    left: 17px;
+  }
+  .sivi-public-ui .sv-role-copy ul {
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-trust {
+    padding-block: 65px;
+  }
+  .sivi-public-ui .sv-trust > .sv-shell {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .sivi-public-ui .sv-trust h2 {
+    font-size: 39px;
+  }
+  .sivi-public-ui .sv-trust-facts > div {
+    padding-left: 42px;
+  }
+  .sivi-public-ui .sv-trust-facts h3 {
+    font-size: 22px;
+  }
+  .sivi-public-ui .sv-pricing {
+    padding-block: 65px;
+  }
+  .sivi-public-ui .sv-pricing-toolbar {
+    flex-direction: column;
+    align-items: start;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .sivi-public-ui .sv-pricing-toolbar > p {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-plan-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .sivi-public-ui .sv-plan {
+    padding: 28px;
+    max-width: none;
+  }
+  .sivi-public-ui .sv-plan h3 {
+    font-size: 28px;
+  }
+  .sivi-public-ui .sv-plan-top {
+    margin-bottom: 22px;
+  }
+  .sivi-public-ui .sv-plan > p {
+    font-size: 12px;
+    min-height: 0;
+    max-width: 100%;
+  }
+  .sivi-public-ui .sv-price {
+    margin-top: 24px;
+  }
+  .sivi-public-ui .sv-plan p.sv-price-condition {
+    min-height: 0;
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-plan-features ul {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-plan-button {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-plan-shared {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 9px;
+    gap: 14px;
+  }
+  .sivi-public-ui .sv-pricing-note {
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-faq {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-bottom: 65px;
+  }
+  .sivi-public-ui .sv-faq h2 {
+    font-size: 40px;
+  }
+  .sivi-public-ui .sv-faq summary {
+    font-size: 12px;
+    padding-block: 20px;
+  }
+  .sivi-public-ui .sv-faq details > p {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-final-cta {
+    padding: 60px 0;
+  }
+  .sivi-public-ui .sv-final-cta h2 {
+    font-size: 48px;
+  }
+  .sivi-public-ui .sv-cta-symbol {
+    display: none;
+  }
+  .sivi-public-ui .sv-final-cta .sv-shell > div > div {
+    flex-direction: column;
+    align-items: start;
+    gap: 18px;
+    margin-top: 28px;
+  }
+  .sivi-public-ui .sv-footer {
+    padding-top: 45px;
+  }
+  .sivi-public-ui .sv-footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px 20px;
+    padding-bottom: 35px;
+  }
+  .sivi-public-ui .sv-footer-brand {
+    grid-column: 1/-1;
+  }
+  .sivi-public-ui .sv-footer-brand > p {
+    font-size: 25px;
+  }
+  .sivi-public-ui .sv-footer-top nav {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .sivi-public-ui .sv-footer-top nav h2 {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .sivi-public-ui .sv-footer-top nav > a {
+    min-height: 35px;
+  }
+  .sivi-public-ui .sv-footer-identity {
+    flex-direction: column;
+    gap: 18px;
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-footer-identity > a {
+    min-height: 44px;
+  }
+  .sivi-public-ui .sv-footer-bottom {
+    flex-wrap: wrap;
+    gap: 15px 25px;
+    font-size: 8px;
+  }
+  .sivi-public-ui .sv-footer-bottom > span {
+    width: 40%;
+  }
+  .sivi-public-ui .sv-information {
+    padding-top: 28px;
+    padding-bottom: 50px;
+  }
+  .sivi-public-ui .sv-back {
+    margin-bottom: 30px;
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-information h1 {
+    font-size: 45px;
+  }
+  .sivi-public-ui .sv-information-intro {
+    font-size: 14px;
+  }
+  .sivi-public-ui .sv-information-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 30px;
+  }
+  .sivi-public-ui .sv-information-grid aside {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-information-grid section > p {
+    font-size: 13px;
+  }
+  .sivi-public-ui .sv-information-grid h2 {
+    font-size: 25px;
+  }
+  .sivi-public-ui .sv-information-cta {
+    padding: 25px;
+    flex-direction: column;
+    align-items: start;
+  }
+  .sivi-public-ui .sv-information-cta h2 {
+    font-size: 29px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.sivi-public-ui, .sivi-auth-ui) * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .sivi-public-ui .sv-hero video {
+    transform: none !important;
+  }
+}
+.sivi-public-ui .sv-nav nav {
+  font-size: 13px;
+}
+.sivi-public-ui :is(.sv-button, .sv-text-link, .sv-plan-button) {
+  font-size: 13px;
+}
+.sivi-public-ui .sv-intro > div:nth-child(2) {
+  font-size: 16px;
+}
+.sivi-public-ui .sv-section-heading > p {
+  font-size: 15px;
+  max-width: 350px;
+}
+.sivi-public-ui .sv-role-copy > p:not(.sv-eyebrow) {
+  font-size: 15px;
+  max-width: 390px;
+}
+.sivi-public-ui .sv-role-copy ul {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-workflow-copy > p:not(.sv-eyebrow) {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-workflow-copy dl {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-plan > p {
+  font-size: 13px;
+}
+.sivi-public-ui .sv-plan-features ul {
+  font-size: 12px;
+}
+.sivi-public-ui :is(.sv-pricing-note, .sv-pricing-toolbar > p) {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-faq summary {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-faq details > p {
+  font-size: 14px;
+}
+.sivi-public-ui .sv-footer-top nav {
+  font-size: 12px;
+}
+.sivi-public-ui .sv-footer-top nav h2 {
+  font-size: 12px;
+}
+.sivi-public-ui :is(.sv-footer-identity, .sv-footer-bottom) {
+  font-size: 10px;
+}
+.sivi-public-ui .sv-information-grid section > p {
+  font-size: 16px;
+}
+@media (max-width: 1100px) and (min-width: 761px) {
+  .sivi-public-ui .sv-nav nav {
+    font-size: 11px;
+  }
+}
+@media (max-width: 760px) {
+  .sivi-public-ui .sv-nav nav {
+    font-size: 14px;
+  }
+  .sivi-public-ui :is(.sv-button, .sv-text-link, .sv-plan-button) {
+    font-size: 12px;
+  }
+  .sivi-public-ui .sv-intro > div:nth-child(2),
+  .sivi-public-ui .sv-section-heading > p,
+  .sivi-public-ui .sv-role-copy > p:not(.sv-eyebrow) {
+    font-size: 14px;
+  }
+  .sivi-public-ui .sv-pricing-note {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-pricing-toolbar > p {
+    font-size: 10px;
+  }
+  .sivi-public-ui .sv-footer-top nav {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-footer-top nav h2 {
+    font-size: 11px;
+  }
+  .sivi-public-ui .sv-footer-bottom {
+    font-size: 9px;
+  }
+  .sivi-public-ui .sv-information-grid section > p {
+    font-size: 14px;
+  }
+}
