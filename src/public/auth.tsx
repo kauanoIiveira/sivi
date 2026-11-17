@@ -8,8 +8,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import {
-  PUBLIC_PLANS,
-  resolvePlan,
+  SIGNUP_ACTIVITIES,
+  resolveSignupActivity,
   validateSignup,
 } from "../domain/public-signup.js";
 import {
@@ -88,14 +88,9 @@ const personalInitial = {
 export function AuthExperience({ bridge }: any) {
   const params = new URLSearchParams(location.hash.split("?")[1]);
   const register = params.get("modo") !== "login";
-  const [plan, setPlan] = useState(
-    () =>
-      resolvePlan(
-        params.get("plano") ??
-          (params.get("atuacao") === "supplier" ? "fornecimento" : "compras"),
-      ).id,
+  const [activity, setActivity] = useState(
+    () => resolveSignupActivity(params.get("atuacao"), params.get("plano")).id,
   );
-  const period = params.get("periodo") === "anual" ? "anual" : "mensal";
   const [step, setStep] = useState(0),
     [values, setValues] = useState<any>({
       ...personalInitial,
@@ -116,7 +111,7 @@ export function AuthExperience({ bridge }: any) {
   const active = useRef(true);
   const title = useRef<HTMLHeadingElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
-  const selected = resolvePlan(plan);
+  const selected = resolveSignupActivity(activity);
   const store = signupDraftStore();
   useEffect(
     () => () => {
@@ -177,8 +172,6 @@ export function AuthExperience({ bridge }: any) {
       draftId = store.stage({
         email: values.email,
         organization: normalizeApplication(input),
-        plan,
-        period,
       });
       const service = await bridge.loadAuth();
       const result = await service.registerWithEmail({
@@ -411,9 +404,6 @@ export function AuthExperience({ bridge }: any) {
               <a className="sa-submit" href="#/acesso?modo=login">
                 Ir para entrar <ArrowUpRight size={18} />
               </a>
-              <p className="sa-safe">
-                Nenhuma cobrança realizada. Nenhuma assinatura financeira ativa.
-              </p>
             </section>
           ) : register ? (
             <>
@@ -562,21 +552,14 @@ export function AuthExperience({ bridge }: any) {
                         onChange={change}
                       />
                       <div className="sa-field">
-                        <label htmlFor="signup-plan">Atuação da empresa</label>
+                        <label htmlFor="signup-activity">Atuação da empresa</label>
                         <select
-                          id="signup-plan"
-                          value={plan}
-                          onChange={(e) => setPlan(e.target.value)}
+                          id="signup-activity"
+                          value={activity}
+                          onChange={(e) => setActivity(e.target.value)}
                         >
-                          {PUBLIC_PLANS.map((p) => (
-                            <option key={p.id} value={p.id}>
-                              {p.name} —{" "}
-                              {p.roles.length === 2
-                                ? "comprar e fornecer"
-                                : p.roles[0] === "buyer"
-                                  ? "comprar"
-                                  : "fornecer"}
-                            </option>
+                          {SIGNUP_ACTIVITIES.map((option) => (
+                            <option key={option.id} value={option.id}>{option.label}</option>
                           ))}
                         </select>
                       </div>

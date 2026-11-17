@@ -8,58 +8,23 @@ import {
   isValidEmail,
 } from "../pages/auth/auth-validation.js";
 
-export const PUBLIC_PLANS = Object.freeze([
-  {
-    id: "compras",
-    name: "Compras",
-    price: 99,
-    annual: 79,
-    roles: ["buyer"],
-    subtitle: "Encontre quem atende à sua necessidade.",
-    features: [
-      "Demandas com requisitos por item",
-      "Comparação de propostas e revisões",
-      "Pedidos, recebimentos e avaliações",
-    ],
-  },
-  {
-    id: "fornecimento",
-    name: "Fornecimento",
-    price: 149,
-    annual: 119,
-    roles: ["supplier"],
-    subtitle: "Transforme sua capacidade em novos acordos.",
-    features: [
-      "Perfil de capacidade industrial",
-      "Propostas com histórico de versões",
-      "Inspeção e expedição dos pedidos",
-    ],
-  },
-  {
-    id: "integrado",
-    name: "Integrado",
-    price: 199,
-    annual: 159,
-    roles: ["buyer", "supplier"],
-    subtitle: "Compre e forneça no mesmo lugar.",
-    features: [
-      "Todos os recursos de Compras",
-      "Todos os recursos de Fornecimento",
-      "Alternância entre as duas atuações",
-    ],
-  },
+export const SIGNUP_ACTIVITIES = Object.freeze([
+  { id: "buyer", label: "Compradora", roles: ["buyer"] },
+  { id: "supplier", label: "Fornecedora", roles: ["supplier"] },
+  { id: "both", label: "Compradora e fornecedora", roles: ["buyer", "supplier"] },
 ]);
-export const resolvePlan = (id) =>
-  PUBLIC_PLANS.find((plan) => plan.id === id) ?? PUBLIC_PLANS[2];
-export function planQuote(id, period) {
-  const plan = resolvePlan(id);
-  const annual = period === "anual";
-  return {
-    monthly: annual ? plan.annual : plan.price,
-    total: annual ? plan.annual * 12 : plan.price,
-    period: annual ? "anual" : "mensal",
-  };
+
+const legacyActivities = new Map([
+  ["compras", "buyer"],
+  ["fornecimento", "supplier"],
+  ["integrado", "both"],
+]);
+
+export function resolveSignupActivity(id, legacyPlan) {
+  const activity = id ?? legacyActivities.get(legacyPlan);
+  return SIGNUP_ACTIVITIES.find((option) => option.id === activity) ?? SIGNUP_ACTIVITIES[0];
 }
+
 export const money = (value) =>
   new Intl.NumberFormat("pt-BR", {
     style: "currency",

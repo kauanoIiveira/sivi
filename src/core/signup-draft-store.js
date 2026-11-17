@@ -1,5 +1,4 @@
 import { normalizeApplication } from "../domain/organization-application.js";
-import { resolvePlan, planQuote } from "../domain/public-signup.js";
 
 const KEY = "sivi.signup-drafts.v1";
 const TTL = 7 * 24 * 60 * 60 * 1000;
@@ -41,8 +40,6 @@ export function createSignupDraftStore({
                 email: emailKey(d.email),
                 uid: typeof d.uid === "string" ? d.uid : undefined,
                 organization: normalizeApplication(d.organization),
-                plan: resolvePlan(d.plan).id,
-                period: planQuote(d.plan, d.period).period,
                 expiresAt: d.expiresAt,
                 organizationId:
                   typeof d.organizationId === "string"
@@ -76,7 +73,7 @@ export function createSignupDraftStore({
     get persistent() {
       return persistent;
     },
-    stage({ email, organization, plan, period }) {
+    stage({ email, organization }) {
       refresh();
       const normalized = normalizeApplication(organization);
       const key = emailKey(email);
@@ -85,8 +82,6 @@ export function createSignupDraftStore({
         id: idFactory(),
         email: key,
         organization: normalized,
-        plan: resolvePlan(plan).id,
-        period: planQuote(plan, period).period,
         expiresAt: now() + TTL,
       };
       records.push(draft);

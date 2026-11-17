@@ -1,14 +1,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { planQuote, validateSignup, exampleSeries, exampleOperations } from '../../src/domain/public-signup.js';
+import { resolveSignupActivity, validateSignup, exampleSeries, exampleOperations } from '../../src/domain/public-signup.js';
 import { createPublicIntro } from '../../src/core/public-intro.js';
 import { createSignupDraftStore } from '../../src/core/signup-draft-store.js';
 
 const company = { name: 'Metal Teste', cnpj: '12345678000195', city: 'São Paulo', state: 'SP', contact: 'teste@example.com', roles: ['buyer'] };
-test('public offer shows annual total and safe defaults', () => {
-  assert.deepEqual(planQuote('integrado', 'anual'), { monthly: 159, total: 1908, period: 'anual' });
-  assert.deepEqual(planQuote('unknown', 'bad'), { monthly: 199, total: 199, period: 'mensal' });
-  assert.equal(exampleSeries('90').total, exampleSeries('90').values.reduce((a,b) => a+b, 0));
+test('signup chooses a company activity and still recognizes old registration links', () => {
+  assert.deepEqual(resolveSignupActivity('buyer').roles, ['buyer']);
+  assert.deepEqual(resolveSignupActivity('supplier', 'integrado').roles, ['supplier']);
+  assert.deepEqual(resolveSignupActivity('both').roles, ['buyer', 'supplier']);
+  assert.deepEqual(resolveSignupActivity(null, 'integrado').roles, ['buyer', 'supplier']);
+  assert.deepEqual(resolveSignupActivity('unknown').roles, ['buyer']);
 });
 test('the company step accepts just a name and activity', () => {
   assert.deepEqual(validateSignup(company, 1), {});
@@ -31,6 +33,8 @@ test('draft whitelist excludes secrets and recovers only matching identity', () 
   const serialized = [...storage.data.values()].join('');
   assert.equal(serialized.includes('secret'), false);
   assert.equal(serialized.includes('4242424242424242'), false);
+  assert.equal(Object.hasOwn(draft, 'plan'), false);
+  assert.equal(Object.hasOwn(draft, 'period'), false);
   now += 7*24*60*60*1000+1;
   assert.equal(store.read({uid:'u1',email:'user@example.com'}), null);
 });
@@ -48,10 +52,11 @@ test('separate public bundle and app instances see current drafts and removal', 
  app.remove(draft.id,user);assert.equal(form.read(user),null);
 });
 test('company attempt is derived from draft identity even with stale tab snapshots',()=>{
- const serialized=JSON.stringify([{id:'shared',email:'a@example.com',organization:company,expiresAt:Date.now()+100000}]);
+ const serialized=JSON.stringify([{id:'shared',email:'a@example.com',organization:company,plan:'compras',period:'mensal',expiresAt:Date.now()+100000}]);
  const storage={getItem:()=>serialized,setItem(){}};
  const a=createSignupDraftStore({storage,idFactory:()=> 'tab-a'}),b=createSignupDraftStore({storage,idFactory:()=> 'tab-b'}),user={uid:'u',email:'a@example.com'};
  assert.equal(a.ensureAttempt('shared',user),'signup-shared');assert.equal(b.ensureAttempt('shared',user),'signup-shared');
+ assert.deepEqual(a.read(user).organization.roles, ['buyer']);
 });
 test('public intro persists first visit and has an in-memory fallback',()=>{
  const storage=memory();assert.equal(createPublicIntro({storage}).consume(),true);

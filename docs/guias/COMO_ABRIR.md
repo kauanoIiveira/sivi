@@ -2,7 +2,7 @@
 
 ## Usar o sistema
 
-Abra a raiz do projeto (`C:\Users\Aluno\Downloads\sivi-master`) no VS Code e abra `index.html` com Live Server. O build público compilado está incluído. A configuração local usa `localhost:5500`. Alternativamente, com Node.js 22.12+:
+Abra a raiz do projeto (`C:\Users\Aluno\Documents\sivi-master`) no VS Code e abra `index.html` com Live Server. O build público compilado está incluído. A configuração local usa `localhost:5500`. Alternativamente, com Node.js 22.12+:
 
 ```powershell
 npm ci

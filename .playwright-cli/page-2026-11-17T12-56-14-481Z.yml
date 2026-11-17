@@ -1,0 +1,228 @@
+- generic [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - region "top of page" [active]
+    - button "Ir para o conteúdo principal"
+    - generic [ref=f5e10]:
+      - group:
+        - generic:
+          - banner:
+            - generic [ref=f5e11]:
+              - group:
+                - generic [ref=f5e15]:
+                  - navigation "Site" [ref=f5e18]:
+                    - list [ref=f5e19]:
+                      - listitem [ref=f5e20]:
+                        - link "Quem somos" [ref=f5e22] [cursor=pointer]:
+                          - /url: https://www.digi.ag/quemsomos-2
+                      - listitem [ref=f5e25]:
+                        - link "O que fazemos" [ref=f5e27] [cursor=pointer]:
+                          - /url: https://www.digi.ag/o-que-fazemos
+                      - listitem [ref=f5e30]:
+                        - link "Cases" [ref=f5e32] [cursor=pointer]:
+                          - /url: https://www.digi.ag/cases
+                      - listitem [ref=f5e35]:
+                        - link "Produtos" [ref=f5e37] [cursor=pointer]:
+                          - /url: https://www.digi.ag/produtos
+                      - listitem [ref=f5e40]:
+                        - link "Blog" [ref=f5e42] [cursor=pointer]:
+                          - /url: https://www.digi.ag/blog
+                      - listitem [ref=f5e45]:
+                        - link "Vagas" [ref=f5e47] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/somosdigi/jobs/
+                  - link "contato" [ref=f5e51] [cursor=pointer]:
+                    - /url: https://www.digi.ag/contato
+                  - 'button "Language Selector: Portuguese" [ref=f5e57] [cursor=pointer]':
+                    - generic: PT
+                - link [ref=f5e64] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+        - main:
+          - generic [ref=f5e79]:
+            - group:
+              - generic [ref=f5e83]:
+                - group:
+                  - paragraph [ref=f5e94]: Conheça os cases de sucesso da Digi
+          - generic [ref=f5e95]:
+            - img "fanta_01.jpg" [ref=f5e100]
+            - group:
+              - generic [ref=f5e101]:
+                - group:
+                  - generic [ref=f5e103]:
+                    - group:
+                      - heading "Fanta Halloween" [level=2] [ref=f5e106]
+                      - paragraph [ref=f5e108]: Nossa missão inicial foi a de divulgar as novas embalagens de Fanta Halloween e estimular ações criativas dos vendedores nos pontos de venda.
+                      - link "Visualizar case" [ref=f5e110] [cursor=pointer]:
+                        - /url: https://www.digi.ag/case-fanta
+              - generic [ref=f5e113]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e115]
+                  - img "Premiação do IMA para melhor agência de incentivo de vendas" [ref=f5e120]
+          - generic [ref=f5e121]:
+            - img "coca_01.jpg" [ref=f5e126]
+            - group:
+              - generic [ref=f5e127]:
+                - group:
+                  - generic [ref=f5e129]:
+                    - heading "Coca-Cola sem açúcar" [level=2] [ref=f5e132]
+                    - paragraph [ref=f5e134]: A digi criou um programa de incentivo que foi um dos destaques das ações de lançamento que a Coca-Cola fez deste produto no Brasil.
+                    - link "Visualizar case" [ref=f5e136] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-coca-cola
+              - generic [ref=f5e139]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e141]
+                  - img "Premiação do IMA para melhor campanha de incentivo de vendas" [ref=f5e146]
+          - generic [ref=f5e147]:
+            - img "vigor_01.jpg" [ref=f5e152]
+            - group:
+              - generic [ref=f5e153]:
+                - group:
+                  - generic [ref=f5e155]:
+                    - heading "Vigor Grego" [level=2] [ref=f5e158]
+                    - paragraph [ref=f5e160]: Colocamos Vigor Grego como um produto de indulgência e posicionamos com destaque nos pontos de venda.
+                    - link "Visualizar case" [ref=f5e162] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-vigor
+              - generic [ref=f5e165]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e167]
+                  - img "Premiação do IMA para melhor agência de incentivo e engajamento" [ref=f5e172]
+          - generic [ref=f5e173]:
+            - img "cargill_01.jpg" [ref=f5e178]
+            - group:
+              - generic [ref=f5e179]:
+                - group:
+                  - generic [ref=f5e181]:
+                    - heading "Cargill Veste a Camisa" [level=2] [ref=f5e184]
+                    - paragraph [ref=f5e186]: Por meio de uma temática de futebol foi possível gerar um maior engajamento e inspirar uma alta superação de metas, tudo isso com uma mecânica simples.
+                    - link "Visualizar case" [ref=f5e188] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-cargill
+              - generic [ref=f5e191]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e193]
+                  - img "Premiação do IMA para melhor programa de incentivo de vendas" [ref=f5e198]
+          - generic [ref=f5e199]:
+            - img "delvalle_01.jpg" [ref=f5e204]
+            - group:
+              - generic [ref=f5e205]:
+                - group:
+                  - generic [ref=f5e207]:
+                    - heading "Del Valle Safra de Campeões" [level=2] [ref=f5e210]
+                    - paragraph [ref=f5e212]: Ampliar a liderança da Del Valle no mercado de sucos. E também motivar, capacitar, engajar e reconhecer toda a força de vendas da empresa.
+                    - link "Visualizar case" [ref=f5e214] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-delvalle
+              - generic [ref=f5e217]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e219]
+                  - img "Premiação do IMA para melhor agência de incentivo de vendas" [ref=f5e224]
+          - generic [ref=f5e225]:
+            - img "mitsubishi_02.jpg" [ref=f5e230]
+            - group:
+              - generic [ref=f5e231]:
+                - group:
+                  - generic [ref=f5e233]:
+                    - heading "Mitsubishi Profissionais Diamante" [level=2] [ref=f5e236]
+                    - paragraph [ref=f5e238]: Plataforma de incentivo com treinamentos e jogos para a Mitsubishi, com prêmios mensais e anuais, com o objetivo de aumentar o consumo no pós-venda.
+                    - link "Visualizar case" [ref=f5e240] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-mitsubishi
+              - generic [ref=f5e243]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e245]
+                  - img "Premiação do IMA para melhor agência de incentivo de vendas" [ref=f5e250]
+          - generic [ref=f5e251]:
+            - img "nacaotim_01.jpg" [ref=f5e256]
+            - group:
+              - generic [ref=f5e257]:
+                - group:
+                  - generic [ref=f5e259]:
+                    - heading "Nação TIM" [level=2] [ref=f5e262]
+                    - paragraph [ref=f5e264]: O Nação Tim foi um programa de 6 anos de duração, com 11 mil participantes que ajudou a integrar a comunidade de colaboradores e parceiros da marca, com informações, interações e prêmios.
+                    - link "Visualizar case" [ref=f5e266] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-nacao-tim
+              - generic [ref=f5e269]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e271]
+                  - img "Premiação do IMA para melhor agência de incentivo de vendas" [ref=f5e276]
+          - generic [ref=f5e277]:
+            - img "ultragaz_02.jpg" [ref=f5e282]
+            - group:
+              - generic [ref=f5e283]:
+                - group:
+                  - generic [ref=f5e285]:
+                    - heading "Ultragaz UltraTOP" [level=2] [ref=f5e288]
+                    - paragraph [ref=f5e290]: Para explorar o potencial dos revendedores Ultragaz e assegurar a competitividade da marca em todo o Brasil, desenvolvemos o Clube UltraTOP.
+                    - link "Visualizar case" [ref=f5e292] [cursor=pointer]:
+                      - /url: https://www.digi.ag/case-ultragaz
+              - generic [ref=f5e295]:
+                - group:
+                  - group "Your Video Title Video Player" [ref=f5e297]
+                  - img "Premiação do IMA para melhor agência de incentivo de vendas" [ref=f5e302]
+        - contentinfo:
+          - generic [ref=f5e303]:
+            - generic [ref=f5e307]:
+              - group:
+                - link [ref=f5e310] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+            - generic [ref=f5e325]:
+              - group:
+                - paragraph [ref=f5e330]:
+                  - link "contato@digi.ag" [ref=f5e332] [cursor=pointer]:
+                    - /url: mailto:contato@digi.ag?subject=Contato
+                - link [ref=f5e339] [cursor=pointer]:
+                  - /url: http://www.grupodigi.com.br
+                  - img "LOGO_GRUPO_DIGI.png" [ref=f5e343]
+            - generic [ref=f5e344]:
+              - group:
+                - generic [ref=f5e346]:
+                  - generic [ref=f5e348]:
+                    - paragraph [ref=f5e349]:
+                      - link "Home" [ref=f5e351] [cursor=pointer]:
+                        - /url: https://www.digi.ag
+                    - paragraph [ref=f5e352]:
+                      - link "Quem somos" [ref=f5e354] [cursor=pointer]:
+                        - /url: https://www.digi.ag/quemsomos
+                    - paragraph [ref=f5e355]:
+                      - link "O que fazemos" [ref=f5e357] [cursor=pointer]:
+                        - /url: https://www.digi.ag/o-que-fazemos
+                    - paragraph [ref=f5e358]:
+                      - link "Cases" [ref=f5e360] [cursor=pointer]:
+                        - /url: https://www.digi.ag/cases
+                    - paragraph [ref=f5e361]:
+                      - link "Produtos" [ref=f5e363] [cursor=pointer]:
+                        - /url: https://www.digi.ag/produtos
+                  - generic [ref=f5e364]:
+                    - paragraph [ref=f5e365]:
+                      - link "Contato" [ref=f5e367] [cursor=pointer]:
+                        - /url: https://www.digi.ag/contato
+                    - paragraph [ref=f5e368]:
+                      - link "Política de privacidade" [ref=f5e370] [cursor=pointer]:
+                        - /url: https://www.digi.ag/politica-privacidade
+                  - list "Redes sociais" [ref=f5e372]:
+                    - listitem [ref=f5e373]:
+                      - link "Instagram" [ref=f5e374] [cursor=pointer]:
+                        - /url: https://www.instagram.com/somos.digi
+                    - listitem [ref=f5e376]:
+                      - link "LinkedIn" [ref=f5e377] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/company/somosdigi
+                    - listitem [ref=f5e379]:
+                      - link "Youtube" [ref=f5e380] [cursor=pointer]:
+                        - /url: https://www.youtube.com/@somosdigi
+                  - generic [ref=f5e382]:
+                    - paragraph [ref=f5e383]:
+                      - link "contato@digi.ag" [ref=f5e384] [cursor=pointer]:
+                        - /url: mailto:contato@digi.ag
+                    - paragraph [ref=f5e385]: Av. Brig. Faria Lima, 1826 - 7° andar
+                    - paragraph [ref=f5e386]: São Paulo / SP - CEP 01452-000
+                    - paragraph [ref=f5e387]: (11) 2388.5555
+    - region "bottom of page"
+  - region "Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies. Política de Privacidade" [ref=f5e388]:
+    - generic [ref=f5e389]:
+      - generic [ref=f5e390]:
+        - generic [aria-hidden] [ref=f5e392]:
+          - text: Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies.
+          - link [ref=f5e393] [cursor=pointer]:
+            - /url: https://www.digi.ag/politica-privacidade
+            - text: Política de Privacidade
+        - generic [ref=f5e394]:
+          - button "Configurações" [ref=f5e395] [cursor=pointer]
+          - button "Recusar tudo" [ref=f5e396] [cursor=pointer]
+          - button "Aceitar" [ref=f5e397] [cursor=pointer]
+      - button "Fechar" [ref=f5e399]:
+        - img "Fechar" [ref=f5e400] [cursor=pointer]

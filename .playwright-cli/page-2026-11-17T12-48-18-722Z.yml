@@ -1,0 +1,491 @@
+- generic [ref=e4]:
+  - link "Ir para o conteúdo" [ref=e5] [cursor=pointer]:
+    - /url: "#/?secao=conteudo"
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - link "SIVI, início" [ref=e8] [cursor=pointer]:
+        - /url: "#/"
+        - generic [ref=e9]: SIVI
+        - generic [ref=e10]: VENDASINDUSTRIAIS
+      - navigation "Navegação principal" [ref=e11]:
+        - link "Plataforma" [ref=e12] [cursor=pointer]:
+          - /url: "#/?secao=funcionamento"
+        - link "Compradores" [ref=e13] [cursor=pointer]:
+          - /url: "#/?secao=compras"
+        - link "Fornecedores" [ref=e14] [cursor=pointer]:
+          - /url: "#/?secao=fornecimento"
+        - link "Planos" [ref=e15] [cursor=pointer]:
+          - /url: "#/?secao=planos"
+        - link "Entrar" [ref=e16] [cursor=pointer]:
+          - /url: "#/acesso?modo=login"
+        - link "Cadastrar empresa" [ref=e20] [cursor=pointer]:
+          - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+  - main [ref=e24]:
+    - region "Conecte a indústria" [ref=e25]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "Conecte a indústria" [level=1] [ref=e30]:
+            - generic [ref=e31]: Conecte a
+            - generic [ref=e32]: indústria
+          - paragraph [ref=e34]: Marketplace B2B de compras e fornecimento industrial.
+          - link "Cadastrar empresa" [ref=e36] [cursor=pointer]:
+            - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+        - generic [ref=e40]:
+          - link "Conheça o SIVI" [ref=e41] [cursor=pointer]:
+            - /url: "#/?secao=visao-geral"
+          - button "Pausar vídeo de fundo" [ref=e44] [cursor=pointer]
+    - region "Quem compra encontra quem fabrica." [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - paragraph [ref=e51]: O que é o SIVI
+          - heading "Quem compra encontra quem fabrica." [level=2] [ref=e52]
+          - paragraph [ref=e53]: O SIVI reúne compradores e fornecedores industriais. A empresa descreve o que precisa, compara propostas e acompanha o acordo até a entrega. As duas partes consultam as condições que aceitaram.
+          - link "Conhecer a plataforma" [ref=e54] [cursor=pointer]:
+            - /url: "#/?pagina=sobre"
+        - img "Operador preparando um torno industrial" [ref=e59]
+    - region "O que você pode fazer no SIVI." [ref=e64]:
+      - generic [ref=e65]:
+        - heading "O que você pode fazer no SIVI." [level=2] [ref=e67]
+        - list [ref=e68]:
+          - listitem [ref=e69]:
+            - link "Especificar materiais" [ref=e70] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=1"
+          - listitem [ref=e78]:
+            - link "Conferir compatibilidade" [ref=e79] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=2"
+          - listitem [ref=e91]:
+            - link "Comparar propostas" [ref=e92] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=3"
+          - listitem [ref=e101]:
+            - link "Registrar inspeção" [ref=e102] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=5"
+          - listitem [ref=e111]:
+            - link "Acompanhar expedição" [ref=e112] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=6"
+          - listitem [ref=e122]:
+            - link "Confirmar recebimento" [ref=e123] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=7"
+    - region "Dois lados da mesma compra." [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - paragraph [ref=e136]: Soluções
+          - heading "Dois lados da mesma compra." [level=2] [ref=e137]
+        - generic [ref=e138]:
+          - article [ref=e139]:
+            - generic [ref=e140]:
+              - heading "Para compradores" [level=3] [ref=e141]
+              - paragraph [ref=e142]: Publique sua demanda com requisitos por item e compare as condições antes de fechar o pedido.
+              - list [ref=e143]:
+                - listitem [ref=e144]: Compatibilidade com os requisitos da compra
+                - listitem [ref=e147]: Comparação de preço, prazo, frete e pagamento
+                - listitem [ref=e150]: Acompanhamento até o recebimento e a avaliação
+              - link "Cadastrar como comprador" [ref=e153] [cursor=pointer]:
+                - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - generic [ref=e160]: Compras / Propostas
+                - generic [ref=e164]: Exemplo
+              - strong [ref=e165]: Peça de conexão
+              - paragraph [ref=e166]: Alumínio 6061 · Usinagem CNC · 240 peças
+              - table "Exemplo de comparação de propostas" [ref=e167]:
+                - rowgroup [ref=e168]:
+                  - row [ref=e169]:
+                    - columnheader "Proposta" [ref=e170]
+                    - columnheader "Valor" [ref=e171]
+                    - columnheader "Prazo" [ref=e172]
+                - rowgroup [ref=e173]:
+                  - row [ref=e174]:
+                    - rowheader "Fornecedor A" [ref=e175]
+                    - cell "R$ 18.600" [ref=e176]
+                    - cell "18 dias" [ref=e177]
+                  - row [ref=e178]:
+                    - rowheader "Fornecedor B" [ref=e179]
+                    - cell "R$ 19.800" [ref=e180]
+                    - cell "14 dias" [ref=e181]
+                  - row [ref=e182]:
+                    - rowheader "Fornecedor C" [ref=e183]
+                    - cell "R$ 20.400" [ref=e184]
+                    - cell "12 dias" [ref=e185]
+          - article [ref=e186]:
+            - generic [ref=e187]:
+              - heading "Para fornecedores" [level=3] [ref=e188]
+              - paragraph [ref=e189]: Apresente sua capacidade industrial, encontre demandas compatíveis e acompanhe o fornecimento.
+              - list [ref=e190]:
+                - listitem [ref=e191]: Perfil com materiais, processos e regiões
+                - listitem [ref=e194]: Propostas com histórico de revisões
+                - listitem [ref=e197]: Registros de inspeção e expedição
+              - link "Cadastrar como fornecedor" [ref=e200] [cursor=pointer]:
+                - /url: "#/acesso?modo=register&plano=fornecimento&periodo=mensal"
+            - img "Detalhe de uma ferramenta de usinagem" [ref=e205]
+    - region "A plataforma por dentro." [ref=e206]:
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - paragraph [ref=e209]: Demonstração
+          - heading "A plataforma por dentro." [level=2] [ref=e210]
+          - paragraph [ref=e211]: Alterne entre Comprador e Fornecedor para explorar como cada empresa acompanha propostas e pedidos.
+        - generic [ref=e213]:
+          - generic [ref=e214]:
+            - strong [ref=e216]:
+              - text: SIVI
+              - generic [ref=e217]: / Visão de compras
+            - generic [ref=e218]: Demonstração · dados ilustrativos
+          - generic [ref=e219]:
+            - generic [aria-hidden] [ref=e220]:
+              - generic [ref=e221]: Visão geral
+              - generic [ref=e222]: Demandas
+              - generic [ref=e223]: Propostas
+              - generic [ref=e224]: Pedidos
+              - generic [ref=e225]: Fornecedores
+              - generic [ref=e226]:
+                - text: METALÚRGICA EXEMPLO
+                - generic [ref=e227]: Atuação compradora
+            - generic [ref=e228]:
+              - generic [ref=e229]:
+                - generic [ref=e230]:
+                  - text: Acordos que viram registros
+                  - heading "O movimento da sua compra." [level=3] [ref=e231]
+                - group "Atuação da demonstração" [ref=e232]:
+                  - button "Comprador" [pressed] [ref=e233] [cursor=pointer]
+                  - button "Fornecedor" [ref=e234] [cursor=pointer]
+              - generic [ref=e235]:
+                - generic [ref=e236]:
+                  - generic [ref=e237]: Propostas recebidas
+                  - strong [ref=e238]:
+                    - generic [ref=e242]:
+                      - generic [ref=e243]: "1"
+                      - generic [ref=e245]: "1"
+                      - generic [ref=e247]: "5"
+                  - generic [ref=e249]: No período ilustrativo selecionado
+                - generic [ref=e250]:
+                  - generic [ref=e251]: Demanda em destaque
+                  - strong [ref=e252]: Usinagem CNC
+                  - generic [ref=e253]: Alumínio 6061 · 240 peças
+                - generic [ref=e254]:
+                  - generic [ref=e255]: Pedido de exemplo
+                  - strong [ref=e256]: Em inspeção
+                  - generic [ref=e258]: Condições aceitas preservadas
+              - generic [ref=e259]:
+                - generic [ref=e260]:
+                  - generic [ref=e261]:
+                    - heading "Propostas recebidas por semana" [level=4] [ref=e262]
+                    - paragraph [ref=e263]: 115 propostas em 12 semanas de exemplo
+                  - group "Período do gráfico" [ref=e264]:
+                    - button "30 dias" [ref=e265] [cursor=pointer]
+                    - button "60 dias" [ref=e266] [cursor=pointer]
+                    - button "90 dias" [pressed] [ref=e267] [cursor=pointer]
+                - img "115 propostas ilustrativas, distribuídas por 12 semanas" [ref=e269]
+                - generic [ref=e273]:
+                  - generic [ref=e274]: Início do período
+                  - generic [ref=e275]: "Semana 12: 13 propostas"
+                  - generic [ref=e276]: Final
+                - group [ref=e277]:
+                  - generic "Consultar dados do gráfico" [ref=e278] [cursor=pointer]
+              - generic [ref=e279]:
+                - region "Comparação ilustrativa de propostas" [ref=e280]:
+                  - heading "Condições em comparação" [level=4] [ref=e281]
+                  - paragraph [ref=e282]: 240 peças · usinagem CNC · valores de exemplo
+                  - list [ref=e283]:
+                    - listitem [ref=e284]:
+                      - generic [ref=e285]:
+                        - strong [ref=e286]: Fornecedor A
+                        - generic [ref=e287]:
+                          - text: R$ 18.600
+                          - generic [ref=e288]: · 18 dias
+                    - listitem [ref=e291]:
+                      - generic [ref=e292]:
+                        - strong [ref=e293]: Fornecedor B
+                        - generic [ref=e294]:
+                          - text: R$ 19.800
+                          - generic [ref=e295]: · 14 dias
+                    - listitem [ref=e298]:
+                      - generic [ref=e299]:
+                        - strong [ref=e300]: Fornecedor C
+                        - generic [ref=e301]:
+                          - text: R$ 20.400
+                          - generic [ref=e302]: · 12 dias
+                  - generic [ref=e305]: Compare também frete e pagamento antes do aceite.
+                - region "Distribuição ilustrativa dos pedidos" [ref=e306]:
+                  - heading "Pedidos por etapa" [level=4] [ref=e307]
+                  - paragraph [ref=e308]: 24 pedidos ilustrativos no período selecionado
+                  - list [ref=e314]:
+                    - listitem [ref=e315]:
+                      - generic [ref=e316]: Em execução
+                      - strong [ref=e318]: "6"
+                    - listitem [ref=e319]:
+                      - generic [ref=e320]: Em inspeção
+                      - strong [ref=e322]: "6"
+                    - listitem [ref=e323]:
+                      - generic [ref=e324]: Expedido
+                      - strong [ref=e326]: "6"
+                    - listitem [ref=e327]:
+                      - generic [ref=e328]: Recebido
+                      - strong [ref=e330]: "6"
+                  - generic [ref=e331]: A distribuição acompanha o período e a atuação.
+              - generic [ref=e336]:
+                - strong [ref=e337]: Uma referência para os dois lados
+                - generic [ref=e338]: Especificações e condições registradas no pedido.
+          - generic [ref=e341]: "Exemplo de uso: os números não representam atividade real do SIVI."
+    - region "O acordo fica registrado." [ref=e346]:
+      - generic [ref=e347]:
+        - generic [ref=e348]:
+          - heading "O acordo fica registrado." [level=2] [ref=e349]
+          - paragraph [ref=e350]: Consulte o histórico de propostas, condições aceitas e registros do pedido durante a compra.
+          - link "Como o SIVI trata os dados" [ref=e351] [cursor=pointer]:
+            - /url: "#/?pagina=seguranca"
+        - generic [ref=e355]:
+          - generic [ref=e356]:
+            - term [ref=e357]: Etapas da compra
+            - definition [ref=e358]: "07"
+          - generic [ref=e359]:
+            - term [ref=e360]: Formas de atuação
+            - definition [ref=e361]: "02"
+          - generic [ref=e362]:
+            - term [ref=e363]: Histórico por pedido
+            - definition [ref=e364]: "01"
+    - region "Do requisito à inspeção." [ref=e365]:
+      - generic [ref=e366]:
+        - generic [ref=e367]:
+          - paragraph [ref=e368]: Exemplos de registros
+          - heading "Do requisito à inspeção." [level=2] [ref=e369]
+          - paragraph [ref=e370]: Abra um exemplo para ver como essa etapa funciona na plataforma.
+        - generic [ref=e371]:
+          - article [ref=e372]:
+            - link [ref=e373] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=1"
+              - generic [ref=e375]:
+                - generic [ref=e382]: Alumínio 6061
+                - generic [ref=e383]: Usinagem CNC
+                - generic [ref=e384]: 240 peças
+              - heading "Ficha de demanda" [level=3] [ref=e385]
+          - article [ref=e389]:
+            - link [ref=e390] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=3"
+              - generic [ref=e392]:
+                - generic [ref=e397]: Preço
+                - generic [ref=e398]: Prazo
+                - generic [ref=e399]: Frete e pagamento
+              - heading "Comparação de propostas" [level=3] [ref=e400]
+          - article [ref=e404]:
+            - link [ref=e405] [cursor=pointer]:
+              - /url: "#/?secao=funcionamento&etapa=5"
+              - generic [ref=e407]:
+                - generic [ref=e412]: Evidências
+                - generic [ref=e413]: Itens aprovados
+                - generic [ref=e414]: Pendências
+              - heading "Registro de inspeção" [level=3] [ref=e415]
+    - region "Da demanda à entrega." [ref=e419]:
+      - generic [ref=e420]:
+        - generic [ref=e421]:
+          - paragraph [ref=e422]: Como funciona
+          - heading "Da demanda à entrega." [level=2] [ref=e423]
+        - paragraph [ref=e424]: As duas empresas acompanham o mesmo acordo. Explore o que acontece em cada momento.
+      - generic [ref=e425]:
+        - list "Etapas da compra" [ref=e426]:
+          - listitem [ref=e427]:
+            - button "Demanda" [pressed] [ref=e428] [cursor=pointer]
+          - listitem [ref=e432]:
+            - button "Compatibilidade" [ref=e433] [cursor=pointer]
+          - listitem [ref=e437]:
+            - button "Propostas" [ref=e438] [cursor=pointer]
+          - listitem [ref=e442]:
+            - button "Pedido" [ref=e443] [cursor=pointer]
+          - listitem [ref=e447]:
+            - button "Inspeção" [ref=e448] [cursor=pointer]
+          - listitem [ref=e452]:
+            - button "Expedição" [ref=e453] [cursor=pointer]
+          - listitem [ref=e457]:
+            - button "Recebimento" [ref=e458] [cursor=pointer]
+        - generic [ref=e462]:
+          - generic [ref=e463]:
+            - text: PEDIDO 0248 · EXEMPLO
+            - generic [ref=e464]: Demanda
+            - generic [ref=e466]:
+              - generic [ref=e467]:
+                - generic [ref=e471]:
+                  - text: Peça de conexão
+                  - strong [ref=e472]: Alumínio 6061
+                - strong [ref=e473]: 240 un.
+              - generic [ref=e474]:
+                - generic [ref=e475]: Material definido
+                - generic [ref=e478]: "Processo: CNC"
+              - generic [ref=e481]:
+                - text: REGISTRO EM DESTAQUE
+                - paragraph [ref=e482]: Requisitos técnicos por item
+          - generic [ref=e483]:
+            - paragraph [ref=e484]:
+              - text: Etapa
+              - generic [ref=e485]: "01"
+              - generic [aria-hidden] [ref=e486]:
+                - generic [ref=e487]: "0"
+                - generic [ref=e488]: "1"
+              - text: / 07
+            - heading "Tudo começa com uma necessidade." [level=3] [ref=e489]
+            - paragraph [ref=e490]: Material, processo, quantidade e prazo. Reúna os requisitos por item para que a outra empresa saiba exatamente o que precisa atender.
+            - generic [ref=e491]:
+              - generic [ref=e492]:
+                - term [ref=e493]: Comprador
+                - definition [ref=e494]: Comprador publica os requisitos.
+              - generic [ref=e495]:
+                - term [ref=e496]: Fornecedor
+                - definition [ref=e497]: Fornecedor consulta as especificações.
+    - region "Qual é a atuação da sua empresa?" [ref=e498]:
+      - generic [ref=e499]:
+        - generic [ref=e500]:
+          - paragraph [ref=e501]: Planos
+          - heading "Qual é a atuação da sua empresa?" [level=2] [ref=e502]: Qual é a atuaçãoda sua empresa?
+        - paragraph [ref=e503]: Escolha Compras, Fornecimento ou as duas atuações no plano Integrado.
+      - generic [ref=e504]:
+        - group "Periodicidade dos planos" [ref=e505]:
+          - button "Mensal" [pressed] [ref=e506] [cursor=pointer]
+          - button "Anual" [ref=e509] [cursor=pointer]:
+            - generic [ref=e511]: Menor valor
+        - paragraph [ref=e512]: Pagamento demonstrativo · Nenhum valor será cobrado
+      - generic [ref=e513]:
+        - article [ref=e515]:
+          - heading "Compras" [level=3] [ref=e520]
+          - paragraph [ref=e521]: Encontre quem atende à sua necessidade.
+          - generic [ref=e522]:
+            - generic [ref=e523]: R$
+            - generic [ref=e527]:
+              - generic [ref=e528]: "9"
+              - generic [ref=e530]: "9"
+            - generic [ref=e532]: /mês
+          - paragraph [ref=e533]: Proposta de assinatura mensal.
+          - link "Escolher Compras" [ref=e534] [cursor=pointer]:
+            - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+          - generic [ref=e538]:
+            - text: O que está incluído
+            - list [ref=e539]:
+              - listitem [ref=e540]: Demandas com requisitos por item
+              - listitem [ref=e543]: Comparação de propostas e revisões
+              - listitem [ref=e546]: Pedidos, recebimentos e avaliações
+        - article [ref=e550]:
+          - heading "Fornecimento" [level=3] [ref=e554]
+          - paragraph [ref=e555]: Transforme sua capacidade em novos acordos.
+          - generic [ref=e556]:
+            - generic [ref=e557]: R$
+            - generic [ref=e561]:
+              - generic [ref=e562]: "1"
+              - generic [ref=e564]: "4"
+              - generic [ref=e566]: "9"
+            - generic [ref=e568]: /mês
+          - paragraph [ref=e569]: Proposta de assinatura mensal.
+          - link "Escolher Fornecimento" [ref=e570] [cursor=pointer]:
+            - /url: "#/acesso?modo=register&plano=fornecimento&periodo=mensal"
+          - generic [ref=e574]:
+            - text: O que está incluído
+            - list [ref=e575]:
+              - listitem [ref=e576]: Perfil de capacidade industrial
+              - listitem [ref=e579]: Propostas com histórico de versões
+              - listitem [ref=e582]: Inspeção e expedição dos pedidos
+        - article [ref=e586]:
+          - generic [ref=e587]: As duas atuações
+          - heading "Integrado" [level=3] [ref=e593]
+          - paragraph [ref=e594]: Compre e forneça no mesmo lugar.
+          - generic [ref=e595]:
+            - generic [ref=e596]: R$
+            - generic [ref=e600]:
+              - generic [ref=e601]: "1"
+              - generic [ref=e603]: "9"
+              - generic [ref=e605]: "9"
+            - generic [ref=e607]: /mês
+          - paragraph [ref=e608]: Proposta de assinatura mensal.
+          - link "Escolher Integrado" [ref=e609] [cursor=pointer]:
+            - /url: "#/acesso?modo=register&plano=integrado&periodo=mensal"
+          - generic [ref=e613]:
+            - text: O que está incluído
+            - list [ref=e614]:
+              - listitem [ref=e615]: Todos os recursos de Compras
+              - listitem [ref=e618]: Todos os recursos de Fornecimento
+              - listitem [ref=e621]: Alternância entre as duas atuações
+      - generic [ref=e624]:
+        - strong [ref=e625]: Em todos os planos
+        - generic [ref=e626]: Histórico dos acordos
+        - generic [ref=e627]: Conta com e-mail confirmado
+        - generic [ref=e628]: Empresa sujeita à análise
+      - paragraph [ref=e629]: O acesso acadêmico é gratuito. Os valores ilustram uma proposta comercial. O pagamento dos pedidos é combinado entre as empresas.
+    - region "Perguntas frequentes." [ref=e630]:
+      - generic [ref=e631]:
+        - heading "Perguntas frequentes." [level=2] [ref=e632]
+        - link "Ver orientações de acesso" [ref=e633] [cursor=pointer]:
+          - /url: "#/?pagina=ajuda"
+      - generic [ref=e637]:
+        - group [ref=e638]:
+          - generic "Quem pode usar o SIVI?" [ref=e639] [cursor=pointer]:
+            - text: Quem pode usar o SIVI?
+            - generic [aria-hidden] [ref=e640]: +
+        - group [ref=e641]:
+          - generic "Minha empresa pode comprar e fornecer?" [ref=e642] [cursor=pointer]:
+            - text: Minha empresa pode comprar e fornecer?
+            - generic [aria-hidden] [ref=e643]: +
+        - group [ref=e644]:
+          - generic "Vou pagar ao criar a conta?" [ref=e645] [cursor=pointer]:
+            - text: Vou pagar ao criar a conta?
+            - generic [aria-hidden] [ref=e646]: +
+        - group [ref=e647]:
+          - generic "O que acontece depois do cadastro?" [ref=e648] [cursor=pointer]:
+            - text: O que acontece depois do cadastro?
+            - generic [aria-hidden] [ref=e649]: +
+        - group [ref=e650]:
+          - generic "Onde acompanho a aprovação?" [ref=e651] [cursor=pointer]:
+            - text: Onde acompanho a aprovação?
+            - generic [aria-hidden] [ref=e652]: +
+        - group [ref=e653]:
+          - generic "O SIVI fabrica, entrega ou recebe o pagamento dos pedidos?" [ref=e654] [cursor=pointer]:
+            - text: O SIVI fabrica, entrega ou recebe o pagamento dos pedidos?
+            - generic [aria-hidden] [ref=e655]: +
+        - group [ref=e656]:
+          - generic "Posso mudar minha escolha antes de concluir?" [ref=e657] [cursor=pointer]:
+            - text: Posso mudar minha escolha antes de concluir?
+            - generic [aria-hidden] [ref=e658]: +
+    - region "Sua empresa na rede industrial." [ref=e659]:
+      - generic [ref=e661]:
+        - heading "Sua empresa na rede industrial." [level=2] [ref=e662]: Sua empresana rede industrial.
+        - paragraph [ref=e663]: Escolha como sua empresa vai atuar. O acesso acadêmico é gratuito.
+        - link "Cadastrar empresa" [ref=e664] [cursor=pointer]:
+          - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+  - contentinfo [ref=e672]:
+    - generic [ref=e673]:
+      - generic [ref=e674]:
+        - generic [ref=e675]:
+          - link "SIVI, início" [ref=e676] [cursor=pointer]:
+            - /url: "#/"
+            - generic [ref=e677]: SIVI
+          - generic [ref=e678]: Sistema Integrado de Vendas Industriais
+        - navigation "Plataforma" [ref=e679]:
+          - heading "Plataforma" [level=2] [ref=e680]
+          - link "Como funciona" [ref=e681] [cursor=pointer]:
+            - /url: "#/?secao=funcionamento"
+          - link "Para compradores" [ref=e682] [cursor=pointer]:
+            - /url: "#/?secao=compras"
+          - link "Para fornecedores" [ref=e683] [cursor=pointer]:
+            - /url: "#/?secao=fornecimento"
+          - link "Planos e valores" [ref=e684] [cursor=pointer]:
+            - /url: "#/?secao=planos"
+        - navigation "Conheça o SIVI" [ref=e685]:
+          - heading "Conheça o SIVI" [level=2] [ref=e686]
+          - link "Sobre a plataforma" [ref=e687] [cursor=pointer]:
+            - /url: "#/?pagina=sobre"
+          - link "Segurança e dados" [ref=e688] [cursor=pointer]:
+            - /url: "#/?pagina=seguranca"
+          - link "Ajuda e acesso" [ref=e689] [cursor=pointer]:
+            - /url: "#/?pagina=ajuda"
+          - link "Dúvidas sobre o cadastro" [ref=e690] [cursor=pointer]:
+            - /url: "#/?secao=duvidas"
+        - navigation "Sua conta" [ref=e691]:
+          - heading "Sua conta" [level=2] [ref=e692]
+          - link "Entrar na minha conta" [ref=e693] [cursor=pointer]:
+            - /url: "#/acesso?modo=login"
+          - link "Cadastrar empresa" [ref=e694] [cursor=pointer]:
+            - /url: "#/acesso?modo=register&plano=compras&periodo=mensal"
+          - link "Privacidade" [ref=e695] [cursor=pointer]:
+            - /url: "#/?pagina=privacidade"
+          - link "Condições de uso" [ref=e696] [cursor=pointer]:
+            - /url: "#/?pagina=condicoes"
+      - generic [ref=e697]:
+        - generic [ref=e698]: © 2026 SIVI
+        - link "Créditos de imagem e vídeo" [ref=e699] [cursor=pointer]:
+          - /url: "#/?pagina=creditos"
+        - generic [ref=e700]: Português · Brasil
+        - link "Voltar ao início ↑" [ref=e701] [cursor=pointer]:
+          - /url: "#/?secao=topo"

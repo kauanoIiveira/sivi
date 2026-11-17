@@ -1,5 +1,4 @@
 const definitions = Object.freeze({
-  'public-home': Object.freeze({ path: '../pages/public/public-page.js', exportName: 'mountPublicPage' }),
   context: Object.freeze({ path: "../pages/context/context-page.js", exportName: "mountContextPage" }),
   "buyer-home": Object.freeze({ path: "../pages/dashboard/buyer-dashboard-page.js", exportName: "mountBuyerDashboardPage" }),
   "buyer-suppliers": Object.freeze({ path: "../pages/buyer/suppliers-page.js", exportName: "mountBuyerSuppliersPage" }),
@@ -36,6 +35,10 @@ export function loadAuthSurface() {
 }
 
 export async function loadPageMount(routeId) {
+  if (routeId.startsWith("public-")) {
+    const { mountPublicPage } = await import("../pages/public/public-page.js");
+    return (options) => mountPublicPage({ ...options, page: routeId.slice("public-".length) });
+  }
   if (routeId === "buyer-conversations" || routeId === "supplier-conversations") {
     const { mountConversationsPage } = await import("../pages/conversations/conversations-page.js");
     return mountConversationsPage;

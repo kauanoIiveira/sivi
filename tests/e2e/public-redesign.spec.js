@@ -6,6 +6,7 @@ test('demonstration changes business role and reduced motion leaves manual video
  await expect(page.locator('.sv-hero video')).toHaveJSProperty('paused',true);
  await page.getByRole('button',{name:'Reproduzir vídeo de fundo'}).click();
  await expect(page.locator('.sv-hero video')).toHaveJSProperty('paused',false);
+ await page.goto('/?authEmulator=1#/plataforma');
  const demo=page.locator('[data-ui=industrial-demo]');
  await demo.getByRole('button',{name:'Fornecedor',exact:true}).click();
  await expect(demo.getByRole('heading',{name:'Propostas enviadas por semana'})).toBeVisible();
@@ -15,28 +16,51 @@ test('demonstration changes business role and reduced motion leaves manual video
  await expect(demo.getByRole('heading',{name:'Condições em comparação',exact:true})).toBeVisible();
 });
 
-test('public offer has real destinations, transparent pricing and usable mobile navigation', async ({page}) => {
+test('public pages have distinct URLs and signup uses company activities without plans', async ({page}) => {
   const errors=[]; page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/?authEmulator=1#/');
-  await expect(page.getByRole('heading',{name:'O próximo acordo começa aqui.'})).toBeVisible();
-  await page.getByRole('button',{name:'Anual',exact:true}).click();
-  await expect(page.locator('[data-plan=integrado]')).toContainText('1.908');
-  await page.locator('[data-plan=integrado]').getByRole('link').click();
-  await expect(page).toHaveURL(/plano=integrado&periodo=anual/);
+  await expect(page.getByRole('heading',{name:'Conecte a indústria'})).toBeVisible();
+  await expect(page.locator('#sv-workflow-panel, .sv-cases-list, .sv-faq')).toHaveCount(0);
+  const navigation = page.getByRole('navigation', {name:'Navegação principal'});
+  await expect(navigation.getByRole('link', {name:'Planos', exact:true})).toHaveCount(0);
+  await navigation.getByRole('link', {name:'Quem somos'}).click();
+  await expect(page).toHaveURL(/#\/quem-somos$/);
+  await expect(page.getByRole('heading', {name:'Quem somos', level:1})).toBeVisible();
+  await navigation.getByRole('link', {name:'Casos de uso'}).click();
+  await expect(page).toHaveURL(/#\/casos$/);
+  await page.reload();
+  await expect(page.getByRole('heading', {name:'Casos de uso', level:1})).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole('heading', {name:'Quem somos', level:1})).toBeVisible();
+  await navigation.getByRole('link', {name:'Plataforma'}).click();
+  await page.getByRole('link', {name:'Cadastrar como fornecedor'}).click();
+  await expect(page).toHaveURL(/#\/acesso\?modo=register&atuacao=supplier$/);
   await expect(page.getByText('Preencha seus dados para criar um acesso acadêmico.', {exact:true})).toBeVisible();
+  await page.locator('#first-name').fill('Conta');
+  await page.locator('#last-name').fill('Teste');
+  await page.locator('#register-email').fill('fornecedor@sivi.test');
+  await page.locator('#register-password').fill('TesteSivi2026');
+  await page.locator('#confirm-password').fill('TesteSivi2026');
+  await page.getByRole('button', {name:'Continuar para empresa'}).click();
+  await expect(page.getByLabel('Atuação da empresa')).toHaveValue('supplier');
+  await expect(page.getByLabel('Atuação da empresa').locator('option')).toHaveText([
+    'Compradora', 'Fornecedora', 'Compradora e fornecedora',
+  ]);
+  await expect(page.locator('#signup-plan, #test-card')).toHaveCount(0);
   await page.goto('/?authEmulator=1#/?pagina=privacidade');
   await expect(page.getByRole('heading',{name:'Seus dados, com clareza.'})).toBeVisible();
   await page.setViewportSize({width:390,height:844});
   await page.getByRole('button',{name:'Abrir menu'}).click();
-  await page.getByRole('navigation',{name:'Navegação principal'}).getByRole('link',{name:'Planos',exact:true}).click();
-  await expect(page.locator('#planos')).toBeVisible();
+  await navigation.getByRole('link',{name:'Dúvidas',exact:true}).click();
+  await expect(page).toHaveURL(/#\/duvidas$/);
+  await expect(page.getByRole('heading', {name:'Dúvidas', level:1})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
 });
 
 test('academic signup uses only the account, company name and activity', async ({page,request}) => {
   test.setTimeout(90000); await resetAuthEmulator(); await resetDatabaseEmulator();
-  await page.goto('/?authEmulator=1#/acesso?modo=register&plano=integrado&periodo=anual');
+  await page.goto('/?authEmulator=1#/acesso?modo=register&atuacao=both');
   await page.locator('#first-name').fill('Conta'); await page.locator('#last-name').fill('Teste');
   await page.locator('#register-email').fill('public-signup@sivi.test');
   await page.locator('#register-password').fill('SiviTeste2026'); await page.locator('#confirm-password').fill('SiviTeste2026');
@@ -50,6 +74,8 @@ test('academic signup uses only the account, company name and activity', async (
   await expect(page.getByRole('heading',{name:'Sua conta foi criada.'})).toBeVisible();
   const stored=await page.evaluate(()=>localStorage.getItem('sivi.signup-drafts.v1'));
   expect(stored).toContain('Empresa Visual Teste'); expect(stored).not.toContain('4242'); expect(stored).not.toContain('SiviTeste2026');
+  expect(JSON.parse(stored)[0]).not.toHaveProperty('plan');
+  expect(JSON.parse(stored)[0]).not.toHaveProperty('period');
   const codes=await (await request.get('http://127.0.0.1:9099/emulator/v1/projects/sivi-org/oobCodes')).json();
   const code=codes.oobCodes.find(c=>c.email==='public-signup@sivi.test'&&c.requestType==='VERIFY_EMAIL');
   const verified=await request.post('http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:update?key=demo-key',{data:{oobCode:code.oobCode}});

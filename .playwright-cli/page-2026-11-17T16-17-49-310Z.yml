@@ -1,0 +1,249 @@
+- generic [ref=e4]:
+  - link "Ir para o conteúdo" [ref=e5] [cursor=pointer]:
+    - /url: "#conteudo"
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - link "SIVI, início" [ref=e8] [cursor=pointer]:
+        - /url: "#/"
+        - generic [ref=e9]: SIVI
+        - generic [ref=e10]: VENDASINDUSTRIAIS
+      - navigation "Navegação principal" [ref=e11]:
+        - link "Quem somos" [ref=e12] [cursor=pointer]:
+          - /url: "#/quem-somos"
+        - link "Plataforma" [ref=e13] [cursor=pointer]:
+          - /url: "#/plataforma"
+        - link "Casos de uso" [ref=e14] [cursor=pointer]:
+          - /url: "#/casos"
+        - link "Dúvidas" [ref=e15] [cursor=pointer]:
+          - /url: "#/duvidas"
+        - link "Entrar" [ref=e16] [cursor=pointer]:
+          - /url: "#/acesso?modo=login"
+        - link "Cadastrar empresa" [ref=e20] [cursor=pointer]:
+          - /url: "#/acesso?modo=register"
+  - main [ref=e24]:
+    - region "Conecte a indústria" [ref=e25]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "Conecte a indústria" [level=1] [ref=e30]:
+            - generic [ref=e31]: Conecte a
+            - generic [ref=e32]: indústria
+          - paragraph [ref=e34]: Marketplace B2B de compras e fornecimento industrial.
+          - link "Cadastrar empresa" [ref=e36] [cursor=pointer]:
+            - /url: "#/acesso?modo=register"
+        - generic [ref=e40]:
+          - link "Conheça o SIVI" [ref=e41] [cursor=pointer]:
+            - /url: "#/?secao=explorar"
+          - button "Pausar vídeo de fundo" [ref=e44] [cursor=pointer]
+    - region "Da necessidade de compra ao pedido entregue." [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - heading "Da necessidade de compra ao pedido entregue." [level=2] [ref=e51]
+          - paragraph [ref=e52]: O SIVI reúne empresas que compram e empresas que fabricam ou fornecem. A plataforma organiza os requisitos da demanda, as propostas recebidas e os registros do pedido em uma mesma jornada.
+          - link "Conhecer o SIVI" [ref=e53] [cursor=pointer]:
+            - /url: "#/quem-somos"
+        - img "Operador trabalhando em um torno industrial" [ref=e58]
+    - region "O que entra em uma demanda?" [ref=e63]:
+      - generic [ref=e64]:
+        - heading "O que entra em uma demanda?" [level=2] [ref=e66]
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - term [ref=e69]: Material
+            - definition [ref=e74]: Informe a liga, o insumo ou o tipo de peça.
+          - generic [ref=e75]:
+            - term [ref=e76]: Processo
+            - definition [ref=e80]: Indique a operação necessária, como usinagem CNC.
+          - generic [ref=e81]:
+            - term [ref=e82]: Quantidade
+            - definition [ref=e93]: Defina o volume solicitado para cada item.
+          - generic [ref=e94]:
+            - term [ref=e95]: Prazo
+            - definition [ref=e98]: Deixe clara a data necessária para a compra.
+    - region "Soluções para cada etapa da compra." [ref=e99]:
+      - generic [ref=e100]:
+        - heading "Soluções para cada etapa da compra." [level=2] [ref=e102]
+        - generic [ref=e103]:
+          - article [ref=e104]:
+            - generic [ref=e105]:
+              - heading "Publique uma demanda técnica." [level=3] [ref=e106]
+              - paragraph [ref=e107]: Descreva o que sua empresa precisa comprar e separe os requisitos por item. Quem fornece consulta a mesma especificação ao preparar a cotação.
+              - link "Conhecer compras" [ref=e108] [cursor=pointer]:
+                - /url: "#/plataforma?secao=compras"
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - generic [ref=e115]: Ficha de demanda
+                - generic [ref=e119]: Exemplo
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - term [ref=e122]: Material
+                  - definition [ref=e123]: Alumínio 6061
+                - generic [ref=e124]:
+                  - term [ref=e125]: Processo
+                  - definition [ref=e126]: Usinagem CNC
+                - generic [ref=e127]:
+                  - term [ref=e128]: Quantidade
+                  - definition [ref=e129]: 240 peças
+          - article [ref=e130]:
+            - generic [ref=e131]:
+              - heading "Apresente sua capacidade industrial." [level=3] [ref=e132]
+              - paragraph [ref=e133]: Informe os materiais, processos e regiões que atende. Consulte demandas compatíveis com seu perfil e envie suas condições de fornecimento.
+              - link "Conhecer fornecimento" [ref=e134] [cursor=pointer]:
+                - /url: "#/plataforma?secao=fornecimento"
+            - img "Ferramenta de usinagem em bancada industrial" [ref=e139]
+          - article [ref=e140]:
+            - generic [ref=e141]:
+              - heading "Acompanhe o pedido até a entrega." [level=3] [ref=e142]
+              - paragraph [ref=e143]: As condições aceitas ficam no pedido. A partir dele, o fornecedor registra inspeção e expedição, e o comprador confirma o recebimento.
+              - link "Ver etapas do pedido" [ref=e144] [cursor=pointer]:
+                - /url: "#/plataforma?secao=funcionamento"
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - generic [ref=e151]: Recebimento do pedido
+                - generic [ref=e157]: Exemplo
+              - generic [ref=e158]:
+                - generic [ref=e159]:
+                  - term [ref=e160]: Fornecedor
+                  - definition [ref=e161]: Registra a expedição
+                - generic [ref=e162]:
+                  - term [ref=e163]: Comprador
+                  - definition [ref=e164]: Confirma o recebimento
+                - generic [ref=e165]:
+                  - term [ref=e166]: Histórico
+                  - definition [ref=e167]: Pedido e avaliação
+    - region "O que foi aceito acompanha o pedido." [ref=e168]:
+      - generic [ref=e169]:
+        - heading "O que foi aceito acompanha o pedido." [level=2] [ref=e171]
+        - generic [ref=e172]:
+          - paragraph [ref=e173]: Preço, prazo, frete e pagamento ficam registrados quando a proposta é aceita. Se ela passou por revisões, o histórico permite consultar como as condições mudaram até o aceite.
+          - link "Ver como o pedido é formado" [ref=e174] [cursor=pointer]:
+            - /url: "#/plataforma?secao=funcionamento&etapa=4"
+    - region "Casos de uso de uma compra industrial." [ref=e178]:
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - heading "Casos de uso de uma compra industrial." [level=2] [ref=e181]
+          - paragraph [ref=e182]: Veja como as duas empresas lidam com cotações diferentes e registram a inspeção dos itens acordados.
+          - link "Ver todos os casos" [ref=e183] [cursor=pointer]:
+            - /url: "#/casos"
+        - generic [ref=e187]:
+          - article [ref=e188]:
+            - generic [ref=e190]:
+              - generic [ref=e191]:
+                - generic [ref=e192]: Comparação de propostas
+                - generic [ref=e197]: Exemplo
+              - generic [ref=e198]:
+                - generic [ref=e199]:
+                  - term [ref=e200]: Preço
+                  - definition [ref=e201]: Valor da proposta
+                - generic [ref=e202]:
+                  - term [ref=e203]: Prazo
+                  - definition [ref=e204]: Dias para entrega
+                - generic [ref=e205]:
+                  - term [ref=e206]: Condições
+                  - definition [ref=e207]: Frete e pagamento
+            - link "Comparação de propostas" [ref=e208] [cursor=pointer]:
+              - /url: "#/casos?secao=comparacao-de-propostas"
+          - article [ref=e212]:
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - generic [ref=e216]: Registro de inspeção
+                - generic [ref=e221]: Exemplo
+              - generic [ref=e222]:
+                - generic [ref=e223]:
+                  - term [ref=e224]: Verificação
+                  - definition [ref=e225]: Plano de inspeção
+                - generic [ref=e226]:
+                  - term [ref=e227]: Resultado
+                  - definition [ref=e228]: Quantidade aprovada
+                - generic [ref=e229]:
+                  - term [ref=e230]: Pendências
+                  - definition [ref=e231]: Por item
+            - link "Registro de inspeção" [ref=e232] [cursor=pointer]:
+              - /url: "#/casos?secao=registro-de-inspecao"
+    - region "Recursos do SIVI." [ref=e236]:
+      - generic [ref=e237]:
+        - generic [ref=e238]:
+          - heading "Recursos do SIVI." [level=2] [ref=e239]
+          - paragraph [ref=e240]: Explore como a plataforma organiza o trabalho em cada etapa.
+        - generic [ref=e241]:
+          - group [ref=e242]:
+            - generic "Compatibilidade industrial" [ref=e243] [cursor=pointer]:
+              - text: Compatibilidade industrial
+              - generic [aria-hidden] [ref=e244]: +
+          - group [ref=e245]:
+            - generic "Histórico de propostas" [ref=e246] [cursor=pointer]:
+              - text: Histórico de propostas
+              - generic [aria-hidden] [ref=e247]: +
+          - group [ref=e248]:
+            - generic "Inspeção e liberação" [ref=e249] [cursor=pointer]:
+              - text: Inspeção e liberação
+              - generic [aria-hidden] [ref=e250]: +
+          - group [ref=e251]:
+            - generic "Recebimento e avaliação" [ref=e252] [cursor=pointer]:
+              - text: Recebimento e avaliação
+              - generic [aria-hidden] [ref=e253]: +
+    - region "Sua empresa na rede industrial." [ref=e254]:
+      - generic [ref=e256]:
+        - heading "Sua empresa na rede industrial." [level=2] [ref=e257]: Sua empresana rede industrial.
+        - paragraph [ref=e258]: Cadastre uma empresa compradora, fornecedora ou com as duas atuações.
+        - link "Cadastrar empresa" [ref=e259] [cursor=pointer]:
+          - /url: "#/acesso?modo=register"
+    - region "Guias para começar." [ref=e267]:
+      - generic [ref=e268]:
+        - heading "Guias para começar." [level=2] [ref=e270]
+        - generic [ref=e271]:
+          - link [ref=e272] [cursor=pointer]:
+            - /url: "#/duvidas"
+            - heading "Como cadastrar a empresa" [level=3] [ref=e273]
+            - paragraph [ref=e277]: Veja quais dados informar e como acompanhar a análise.
+          - link [ref=e278] [cursor=pointer]:
+            - /url: "#/?pagina=ajuda"
+            - heading "Primeiro acesso" [level=3] [ref=e279]
+            - paragraph [ref=e283]: Confirme o e-mail, entre na conta e retome a revisão da empresa.
+          - link [ref=e284] [cursor=pointer]:
+            - /url: "#/?pagina=seguranca"
+            - heading "Acessos e dados" [level=3] [ref=e285]
+            - paragraph [ref=e289]: Entenda a diferença entre conta pessoal, empresa e atuação.
+  - contentinfo [ref=e290]:
+    - generic [ref=e291]:
+      - generic [ref=e292]:
+        - generic [ref=e293]:
+          - link "SIVI, início" [ref=e294] [cursor=pointer]:
+            - /url: "#/"
+            - generic [ref=e295]: SIVI
+          - generic [ref=e296]: Sistema Integrado de Vendas Industriais
+        - navigation "Plataforma" [ref=e297]:
+          - heading "Plataforma" [level=2] [ref=e298]
+          - link "Como funciona" [ref=e299] [cursor=pointer]:
+            - /url: "#/plataforma?secao=funcionamento"
+          - link "Para compradores" [ref=e300] [cursor=pointer]:
+            - /url: "#/plataforma?secao=compras"
+          - link "Para fornecedores" [ref=e301] [cursor=pointer]:
+            - /url: "#/plataforma?secao=fornecimento"
+          - link "Casos de uso" [ref=e302] [cursor=pointer]:
+            - /url: "#/casos"
+        - navigation "Conheça o SIVI" [ref=e303]:
+          - heading "Conheça o SIVI" [level=2] [ref=e304]
+          - link "Quem somos" [ref=e305] [cursor=pointer]:
+            - /url: "#/quem-somos"
+          - link "Segurança e dados" [ref=e306] [cursor=pointer]:
+            - /url: "#/?pagina=seguranca"
+          - link "Ajuda e acesso" [ref=e307] [cursor=pointer]:
+            - /url: "#/?pagina=ajuda"
+          - link "Dúvidas sobre o cadastro" [ref=e308] [cursor=pointer]:
+            - /url: "#/duvidas"
+        - navigation "Sua conta" [ref=e309]:
+          - heading "Sua conta" [level=2] [ref=e310]
+          - link "Entrar na minha conta" [ref=e311] [cursor=pointer]:
+            - /url: "#/acesso?modo=login"
+          - link "Cadastrar empresa" [ref=e312] [cursor=pointer]:
+            - /url: "#/acesso?modo=register"
+          - link "Privacidade" [ref=e313] [cursor=pointer]:
+            - /url: "#/?pagina=privacidade"
+          - link "Condições de uso" [ref=e314] [cursor=pointer]:
+            - /url: "#/?pagina=condicoes"
+      - generic [ref=e315]:
+        - generic [ref=e316]: © 2026 SIVI
+        - link "Créditos de imagem e vídeo" [ref=e317] [cursor=pointer]:
+          - /url: "#/?pagina=creditos"
+        - generic [ref=e318]: Português · Brasil
+        - link "Voltar ao início ↑" [ref=e319] [cursor=pointer]:
+          - /url: "#/?secao=topo"

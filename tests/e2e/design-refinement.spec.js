@@ -63,6 +63,7 @@ test('public design keeps every interactive purchase stage and uses the approved
   await expect(page.locator('link[rel="icon"][type="image/svg+xml"]')).toHaveAttribute('href', /favicon-raposa\.svg$/);
   await expect(page.locator('.sv-hero video')).toBeVisible();
   await expect(page.locator('.sv-hero video')).toHaveAttribute('poster', './assets/cnc-lathe-poster.jpg');
+  await page.goto('/#/plataforma');
   const steps = page.locator('.sv-workflow ol button');
   await expect(steps).toHaveCount(7);
   for (let index = 0; index < 7; index += 1) {

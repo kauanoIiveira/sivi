@@ -1,0 +1,440 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - region "top of page"
+    - button "Ir para o conteúdo principal"
+    - generic [ref=e10]:
+      - group:
+        - generic:
+          - banner:
+            - generic [ref=e11]:
+              - group:
+                - generic [ref=e15]:
+                  - navigation "Site" [ref=e18]:
+                    - list [ref=e19]:
+                      - listitem [ref=e20]:
+                        - link "Quem somos" [ref=e22] [cursor=pointer]:
+                          - /url: https://www.digi.ag/quemsomos-2
+                      - listitem [ref=e25]:
+                        - link "O que fazemos" [ref=e27] [cursor=pointer]:
+                          - /url: https://www.digi.ag/o-que-fazemos
+                      - listitem [ref=e30]:
+                        - link "Cases" [ref=e32] [cursor=pointer]:
+                          - /url: https://www.digi.ag/cases
+                      - listitem [ref=e35]:
+                        - link "Produtos" [ref=e37] [cursor=pointer]:
+                          - /url: https://www.digi.ag/produtos
+                      - listitem [ref=e40]:
+                        - link "Blog" [ref=e42] [cursor=pointer]:
+                          - /url: https://www.digi.ag/blog
+                      - listitem [ref=e45]:
+                        - link "Vagas" [ref=e47] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/somosdigi/jobs/
+                  - link "contato" [ref=e51] [cursor=pointer]:
+                    - /url: https://www.digi.ag/contato
+                  - 'button "Language Selector: Portuguese" [ref=e57] [cursor=pointer]':
+                    - generic: PT
+                - link [ref=e64] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+        - main:
+          - generic [ref=e79]:
+            - img "Background digi.webp" [ref=e84]
+            - group:
+              - generic [ref=e85]:
+                - group:
+                  - heading "consultoria" [level=1] [ref=e88]
+                  - heading "Somos mais que uma" [level=1] [ref=e90]
+                  - paragraph [ref=e92]: Transformamos campanhas de incentivo e relacionamento em experiências que inspiram pessoas e movimentam resultados reais.
+              - generic [ref=e93]:
+                - group:
+                  - generic "Your Video Title Video Player" [ref=e96]:
+                    - iframe [ref=e97]:
+                      - generic [ref=f3e1]:
+                        - generic "Player de vídeo do YouTube" [ref=f3e3]
+                        - generic [ref=f3e6]:
+                          - generic:
+                            - generic:
+                              - button "Ocultar controles do player" [ref=f3e7] [cursor=pointer]
+                              - generic [ref=f3e9]:
+                                - generic [ref=f3e12]:
+                                  - generic [ref=f3e16]:
+                                    - generic [ref=f3e17]:
+                                      - link "Inspire o Extraordinário com a Digi" [ref=f3e18] [cursor=pointer]:
+                                        - /url: https://www.youtube.com/watch?v=0x426Xgm8dc
+                                      - link "Digi" [ref=f3e19] [cursor=pointer]:
+                                        - /url: /channel/UC-Oe8IBWgAbSyGgsMixOl8w
+                                    - generic [ref=f3e21]:
+                                      - button [ref=f3e22] [cursor=pointer]:
+                                        - img "thumbnail-image" [ref=f3e23]
+                                      - generic [ref=f3e25]:
+                                        - generic: Digi
+                                        - generic: 195 inscritos
+                                  - generic [ref=f3e26]:
+                                    - button "Ativar som" [ref=f3e28] [cursor=pointer]:
+                                      - img "Ativar som" [ref=f3e29]
+                                    - button "Legendas/CC ativadas" [pressed] [ref=f3e34] [cursor=pointer]
+                                    - button "Configurações de reprodução" [ref=f3e39] [cursor=pointer]
+                                - generic [ref=f3e44]:
+                                  - button "Voltar 10 segundos" [ref=f3e45] [cursor=pointer]
+                                  - button "Pausar vídeo" [ref=f3e47] [cursor=pointer]
+                                  - button "Avançar 10 segundos" [ref=f3e51] [cursor=pointer]
+                                - generic:
+                                  - generic:
+                                    - generic [ref=f3e55]:
+                                      - generic [ref=f3e56]:
+                                        - text: 0:00
+                                        - generic [ref=f3e57]: Tempo decorrido 0 seconds
+                                      - text: /
+                                      - generic [ref=f3e58]:
+                                        - text: 1:13
+                                        - generic [ref=f3e59]: Duração 1 minute, 13 seconds
+                                    - button "Entrar no modo tela cheia" [ref=f3e63] [cursor=pointer]
+                                - slider "Controle deslizante de busca" [ref=f3e69] [cursor=pointer]
+                                - generic:
+                                  - generic [ref=f3e77]:
+                                    - button "Compartilhar" [ref=f3e81] [cursor=pointer]
+                                    - generic [ref=f3e89]:
+                                      - button "Mais vídeos" [ref=f3e92] [cursor=pointer]
+                                      - link "Assistir no YouTube" [ref=f3e101] [cursor=pointer]:
+                                        - /url: https://www.youtube.com/watch?v=0x426Xgm8dc
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=UaGkOaeBqrk&feature=endscreen
+                                                - generic: 2:40:39
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "O Poder da Gratidão ✨ Música Para Começar o Dia | Afirmações Positivas & Energia Positiva há 1 mês":
+                                                      - /url: https://www.youtube.com/watch?v=UaGkOaeBqrk&feature=endscreen
+                                                      - heading "O Poder da Gratidão ✨ Música Para Começar o Dia | Afirmações Positivas & Energia Positiva" [level=3]
+                                                      - generic: há 1 mês
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=FpceKUuzJTg&feature=endscreen
+                                                - generic: 2:07:35
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "Louvores de Adoração 2026, Top 50 Gospel Mais Tocadas , As Melhores Músicas Gospel 2027, Hinos 2026 há 6 dias":
+                                                      - /url: https://www.youtube.com/watch?v=FpceKUuzJTg&feature=endscreen
+                                                      - heading "Louvores de Adoração 2026, Top 50 Gospel Mais Tocadas , As Melhores Músicas Gospel 2027, Hinos 2026" [level=3]
+                                                      - generic: há 6 dias
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=sRCqTSZlwDo&feature=endscreen
+                                                - generic: 1:00:30
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "Bob Esponja | 1 Hora do Bob Esponja na Madrugada ⛈️🌚 | Bob Esponja em Português há 1 dia":
+                                                      - /url: https://www.youtube.com/watch?v=sRCqTSZlwDo&feature=endscreen
+                                                      - heading "Bob Esponja | 1 Hora do Bob Esponja na Madrugada ⛈️🌚 | Bob Esponja em Português" [level=3]
+                                                      - generic: há 1 dia
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=C82XkHQNL4g&feature=endscreen
+                                                - generic: 20:14
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - 'link "“O BRASIL INTEIRO VAI SENTIR”: OS EFEITOS DO SUPER EL NIÑO | SÉRGIO SACANI há 4 semanas"':
+                                                      - /url: https://www.youtube.com/watch?v=C82XkHQNL4g&feature=endscreen
+                                                      - 'heading "“O BRASIL INTEIRO VAI SENTIR”: OS EFEITOS DO SUPER EL NIÑO | SÉRGIO SACANI" [level=3]'
+                                                      - generic: há 4 semanas
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=OSkEVe8lN5s&feature=endscreen
+                                                - generic: 44:18
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "8 LEIS DO SILÊNCIO DE SCHOPENHAUER QUE DESARMAM QUALQUER MANIPULADOR há 2 semanas":
+                                                      - /url: https://www.youtube.com/watch?v=OSkEVe8lN5s&feature=endscreen
+                                                      - heading "8 LEIS DO SILÊNCIO DE SCHOPENHAUER QUE DESARMAM QUALQUER MANIPULADOR" [level=3]
+                                                      - generic: há 2 semanas
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=zBYVg9zlwKQ&feature=endscreen
+                                                - generic: 5:00:26
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "AUMENTE SUA DOPAMINA | Música para TDAH e Ansiedade | Ative o Foco Extremo com Dopamina Natural há 1 ano":
+                                                      - /url: https://www.youtube.com/watch?v=zBYVg9zlwKQ&feature=endscreen
+                                                      - heading "AUMENTE SUA DOPAMINA | Música para TDAH e Ansiedade | Ative o Foco Extremo com Dopamina Natural" [level=3]
+                                                      - generic: há 1 ano
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=J4l4tNYEhqo&feature=endscreen
+                                                - generic: 22:01
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "COMPREI TODOS OS BRINQUEDOS QUE EU NÃO PODIA TER QUANDO ERA CRIANÇA! há 15 horas":
+                                                      - /url: https://www.youtube.com/watch?v=J4l4tNYEhqo&feature=endscreen
+                                                      - heading "COMPREI TODOS OS BRINQUEDOS QUE EU NÃO PODIA TER QUANDO ERA CRIANÇA!" [level=3]
+                                                      - generic: há 15 horas
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=sznCnHBDyvA&feature=endscreen
+                                                - generic: 1:24:35
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "MPB As Melhores 🎶 Acústico Brasileiro com Djavan, Tiago Iorc, ANAVITÓRIA, Vitor Kley e Melim há 3 semanas":
+                                                      - /url: https://www.youtube.com/watch?v=sznCnHBDyvA&feature=endscreen
+                                                      - heading "MPB As Melhores 🎶 Acústico Brasileiro com Djavan, Tiago Iorc, ANAVITÓRIA, Vitor Kley e Melim" [level=3]
+                                                      - generic: há 3 semanas
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=7wLhJ7q7By4&feature=endscreen
+                                                - generic: 2:16:55
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "MEGAESTRUTURAS CHINESAS | Maravilhas da Engenharia há 3 semanas":
+                                                      - /url: https://www.youtube.com/watch?v=7wLhJ7q7By4&feature=endscreen
+                                                      - heading "MEGAESTRUTURAS CHINESAS | Maravilhas da Engenharia" [level=3]
+                                                      - generic: há 3 semanas
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=rckCssN0H8E&feature=endscreen
+                                                - generic: 2:59:54
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "EU ATRAIO OPORTUNIDADES Estão se Abrindo Pra Mim |Lei da Atração e Afirmações positivas Transmitido há 5 meses":
+                                                      - /url: https://www.youtube.com/watch?v=rckCssN0H8E&feature=endscreen
+                                                      - heading "EU ATRAIO OPORTUNIDADES Estão se Abrindo Pra Mim |Lei da Atração e Afirmações positivas" [level=3]
+                                                      - generic: Transmitido há 5 meses
+                                      - generic:
+                                        - generic:
+                                          - generic:
+                                            - generic:
+                                              - link [aria-hidden]:
+                                                - /url: https://www.youtube.com/watch?v=bAO47uqlPZI&feature=endscreen
+                                                - generic: 52:24
+                                              - generic:
+                                                - generic:
+                                                  - generic:
+                                                    - link "Os Melhores Louvores Gospel 2026 | Adoração que Toca a Alma há 2 dias":
+                                                      - /url: https://www.youtube.com/watch?v=bAO47uqlPZI&feature=endscreen
+                                                      - heading "Os Melhores Louvores Gospel 2026 | Adoração que Toca a Alma" [level=3]
+                                                      - generic: há 2 dias
+                  - img "logo digi 26 anos.webp" [ref=e102]
+          - generic [ref=e103]:
+            - generic [ref=e107]:
+              - group:
+                - generic [ref=e109]:
+                  - group:
+                    - heading "Ciência comportamental + Inteligência de dados = Resultados extraordinários" [level=1] [ref=e112]
+                    - paragraph [ref=e114]: Da análise de dados ao CRM, do planejamento à execução, somos o parceiro estratégico por trás de grandes equipes da indústria que buscam engajamento, performance e crescimento sustentáve!
+            - generic [ref=e117]:
+              - group:
+                - img "logo digi.webp" [ref=e122]
+                - generic [ref=e123]:
+                  - generic [ref=e125]:
+                    - paragraph [ref=e126]:
+                      - generic [ref=e127]: Por que?
+                    - paragraph [ref=e128]: inspirar o extraordinário
+                  - paragraph [ref=e130]:
+                    - generic [ref=e131]: Como?
+                    - text: ciência comportamental, criatividade, estratégia, dados e tecnologia
+                  - generic [ref=e132]:
+                    - paragraph [ref=e133]:
+                      - generic [ref=e134]: O que?
+                    - paragraph [ref=e135]: engajamento, relacionamento, incentivo e promoção para grandes marcas
+          - generic [ref=e140]:
+            - group:
+              - paragraph [ref=e143]: Sócios fundadores
+          - generic [ref=e144]:
+            - group:
+              - generic [ref=e148]:
+                - group:
+                  - generic [ref=e150]:
+                    - img "pedro bannura.webp" [ref=e156]
+                    - heading "Pedro Bannura" [level=3] [ref=e158]
+                    - generic [ref=e159]:
+                      - paragraph [ref=e160]: Sócio no Grupo Digi, composto por empresas especializadas em ações de trade e marketing de incentivo, sendo uma das principais agências do país no setor.
+                      - paragraph [ref=e161]
+                      - paragraph [ref=e162]: Atendendo marcas globais como Coca-Cola Brasil, TIM, Santander, Nestlé, Honda, BRF, iFood, SAMSUNG, Unilever, Concha y Toro, Cargill, Vigor, Haleon, Continental, entre outras, Pedro tem mais de 15 anos de experiência no mercado de comunicação B2B.
+                      - paragraph [ref=e163]
+                      - paragraph [ref=e164]: Sua trajetória inclui o desenvolvimento de estratégias focadas em gestão de comunidades, criando relacionamentos transformadores entre pessoas e marcas.
+                      - paragraph [ref=e165]
+                      - paragraph [ref=e166]: Formado em tecnologia e com especialização em marketing, Pedro acumulou um profundo know-how em planejamento e operação de campanhas de incentivo de vendas.
+                      - paragraph [ref=e167]
+                      - paragraph [ref=e168]: Atualmente, ele está focado na expansão do Grupo Digi, alinhando a empresa às novas tecnologias e tendências do mercado, tanto nacional quanto internacional, sempre em busca de inovação em um setor em constante evolução.
+              - generic [ref=e169]:
+                - group:
+                  - generic [ref=e171]:
+                    - img "Digi cristiano miano.webp" [ref=e177]
+                    - heading "Cristiano Miano" [level=3] [ref=e179]
+                    - generic [ref=e180]:
+                      - paragraph [ref=e181]: Economista pela PUC-SP, com especializações em gestão de negócios, trade e marketing promocional, Cristiano Miano também possui a certificação OPM pela Harvard Business School.
+                      - paragraph [ref=e182]
+                      - paragraph [ref=e183]: Como Chairman do Grupo digi, sua carreira empreendedora começou cedo, aos 19 anos, quando fundou a DigiPronto. Além de sua atuação no mercado, Cristiano participa ativamente de comitês empresariais e associações de marketing. Nos momentos livres, é entusiasta de música e vela.
+                      - paragraph [ref=e184]
+                      - paragraph [ref=e185]: Com mais de 25 anos de experiência em marketing de incentivo e relacionamento, Cristiano é um dos maiores especialistas do setor, desenvolvendo programas de loyalty, promoções e engajamento para grandes marcas globais.
+                      - paragraph [ref=e186]
+                      - paragraph [ref=e187]: Certificado pela IMA como CPIM, ele lidera a digi, transformando estratégias em resultados extraordinários com inovação e impacto em cada campanha.
+                      - paragraph [ref=e188]
+          - generic [ref=e189]:
+            - group:
+              - generic [ref=e193]:
+                - group:
+                  - img "Ilustração de Troféu" [ref=e205]
+                  - generic [ref=e206]:
+                    - img "LOGOTIPO DA IMA" [ref=e219]
+                    - heading "2023 Excellence in an Incentive Program Nestlé 2022 Excellence in an Incentive Program Coca-Cola 2021 Excellence in an Consumer Promotion Vigor 2020 Best Channel Partner Programme Cargill 2020 Excellence in Employee Incentive Program Perfetti Van Melle 2019 Circle of Excellence Awards Coca-Cola" [level=2] [ref=e221]:
+                      - generic [ref=e222]:
+                        - text: 2023 Excellence in an Incentive Program
+                        - generic [ref=e223]: Nestlé
+                        - text: 2022 Excellence in an Incentive Program
+                        - generic [ref=e224]: Coca-Cola
+                        - text: 2021 Excellence in an Consumer Promotion
+                        - generic [ref=e226]: Vigor
+                        - text: 2020 Best Channel Partner Programme
+                        - generic [ref=e228]: Cargill
+                        - text: 2020 Excellence in Employee Incentive Program
+                        - generic [ref=e230]: Perfetti Van Melle
+                        - text: 2019 Circle of Excellence Awards
+                        - generic [ref=e231]: Coca-Cola
+                  - generic [ref=e232]:
+                    - img "LOGOTIPO DA AMPRO GLOBES PREMIAÇÃO DE INCENTIVO" [ref=e245]
+                    - generic [ref=e246]:
+                      - heading "8x" [level=2] [ref=e249]
+                      - heading "PREMIADA" [level=2] [ref=e251]
+                  - generic [ref=e252]:
+                    - img "LOGOTIPO DO PRÊMIO LIVE MARKETING" [ref=e265]
+                    - generic [ref=e266]:
+                      - generic [ref=e268]:
+                        - group:
+                          - heading "2x" [level=2] [ref=e271]
+                          - heading "PREMIADA MELHOR AGÊNCIA DE INCENTIVO" [level=2] [ref=e273]
+                      - heading "2024 Programa de incentivo do ano para força de vendas TIM" [level=2] [ref=e278]:
+                        - generic [ref=e279]:
+                          - text: 2024 Programa de incentivo do ano para força de vendas
+                          - generic [ref=e280]: TIM
+              - generic [ref=e281]:
+                - group
+              - generic [ref=e283]:
+                - group
+          - generic [ref=e285]:
+            - generic [ref=e289]:
+              - group:
+                - generic [ref=e291]:
+                  - heading "Nossos valores" [level=1] [ref=e294]
+                  - paragraph [ref=e296]: A digi tem 4 valores principais, eles são os guias de todas as nossas ações no dia a dia. Dessa forma conseguimos criar uma cultura fortemente inovadora, colaborativa e criativa. Esse é o nosso DNA.
+            - generic [ref=e297]:
+              - group:
+                - 'img "Nossos vlores: Somos a solução, Aprendemos sempre, inovmas para marcar, fazemos para vencer" [ref=e303]'
+          - generic [ref=e304]:
+            - group
+          - generic [ref=e308]:
+            - img "background digi 1.webp" [ref=e313]
+            - group:
+              - img "1_secao.webp" [ref=e318]
+              - img "diginerds.webp" [ref=e323]
+        - contentinfo:
+          - generic [ref=e324]:
+            - generic [ref=e328]:
+              - group:
+                - link [ref=e331] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+            - generic [ref=e346]:
+              - group:
+                - paragraph [ref=e351]:
+                  - link "contato@digi.ag" [ref=e353] [cursor=pointer]:
+                    - /url: mailto:contato@digi.ag?subject=Contato
+                - link [ref=e360] [cursor=pointer]:
+                  - /url: http://www.grupodigi.com.br
+                  - img "LOGO_GRUPO_DIGI.png" [ref=e364]
+            - generic [ref=e365]:
+              - group:
+                - generic [ref=e367]:
+                  - generic [ref=e369]:
+                    - paragraph [ref=e370]:
+                      - link "Home" [ref=e372] [cursor=pointer]:
+                        - /url: https://www.digi.ag
+                    - paragraph [ref=e373]:
+                      - link "Quem somos" [ref=e375] [cursor=pointer]:
+                        - /url: https://www.digi.ag/quemsomos
+                    - paragraph [ref=e376]:
+                      - link "O que fazemos" [ref=e378] [cursor=pointer]:
+                        - /url: https://www.digi.ag/o-que-fazemos
+                    - paragraph [ref=e379]:
+                      - link "Cases" [ref=e381] [cursor=pointer]:
+                        - /url: https://www.digi.ag/cases
+                    - paragraph [ref=e382]:
+                      - link "Produtos" [ref=e384] [cursor=pointer]:
+                        - /url: https://www.digi.ag/produtos
+                  - generic [ref=e385]:
+                    - paragraph [ref=e386]:
+                      - link "Contato" [ref=e388] [cursor=pointer]:
+                        - /url: https://www.digi.ag/contato
+                    - paragraph [ref=e389]:
+                      - link "Política de privacidade" [ref=e391] [cursor=pointer]:
+                        - /url: https://www.digi.ag/politica-privacidade
+                  - list "Redes sociais" [ref=e393]:
+                    - listitem [ref=e394]:
+                      - link "Instagram" [ref=e395] [cursor=pointer]:
+                        - /url: https://www.instagram.com/somos.digi
+                    - listitem [ref=e397]:
+                      - link "LinkedIn" [ref=e398] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/company/somosdigi
+                    - listitem [ref=e400]:
+                      - link "Youtube" [ref=e401] [cursor=pointer]:
+                        - /url: https://www.youtube.com/@somosdigi
+                  - generic [ref=e403]:
+                    - paragraph [ref=e404]:
+                      - link "contato@digi.ag" [ref=e405] [cursor=pointer]:
+                        - /url: mailto:contato@digi.ag
+                    - paragraph [ref=e406]: Av. Brig. Faria Lima, 1826 - 7° andar
+                    - paragraph [ref=e407]: São Paulo / SP - CEP 01452-000
+                    - paragraph [ref=e408]: (11) 2388.5555
+    - region "bottom of page"
+  - region "Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies. Política de Privacidade" [active] [ref=e409]:
+    - generic [ref=e410]:
+      - generic [ref=e411]:
+        - generic [aria-hidden] [ref=e413]:
+          - text: Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies.
+          - link [ref=e414] [cursor=pointer]:
+            - /url: https://www.digi.ag/politica-privacidade
+            - text: Política de Privacidade
+        - generic [ref=e415]:
+          - button "Configurações" [ref=e416] [cursor=pointer]
+          - button "Recusar tudo" [ref=e417] [cursor=pointer]
+          - button "Aceitar" [ref=e418] [cursor=pointer]
+      - button "Fechar" [ref=e420]:
+        - img "Fechar" [ref=e421] [cursor=pointer]

@@ -2,7 +2,7 @@
 
 ## Pasta de trabalho
 
-A raiz desta cópia é `C:\Users\Aluno\Downloads\sivi-master`. Ela contém `index.html`, `package.json`, `src/`, `assets/`, `tests/` e `scripts/`. Não existe uma segunda pasta `sivi-master` dentro dela.
+A raiz desta cópia é `C:\Users\Aluno\Documents\sivi-master`. Ela contém `index.html`, `package.json`, `src/`, `assets/`, `tests/` e `scripts/`. Não existe uma segunda pasta `sivi-master` dentro dela.
 
 Esta cópia não contém `.git`. Os caminhos de outras máquinas e as referências de branch presentes nos documentos históricos descrevem entregas anteriores.
 

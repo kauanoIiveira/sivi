@@ -1,9 +1,18 @@
 // Fragmento de gráfico adaptado do web3-bento.tsx fornecido pelo responsável.
 import { useId, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { SlidingIndicator } from "../../public/motion/SlidingIndicator";
 import NumberFlow from "@number-flow/react";
 import { Check, FileText, ArrowUpRight } from "lucide-react";
 import { exampleOperations, money } from "../../domain/public-signup.js";
+
+const stageColors = [
+  "var(--sv-orange)",
+  "color-mix(in srgb, var(--sv-dark), var(--sv-paper) 55%)",
+  "var(--sv-dark)",
+  "var(--sv-ink)",
+];
+
 export function IndustrialBento() {
   const [range, setRange] = useState("90"),
     [hover, setHover] = useState<number | null>(null);
@@ -67,10 +76,11 @@ export function IndustrialBento() {
               </h3>
             </div>
             <div
-              className="sv-demo-role"
+              className="sv-demo-role t-tabs"
               role="group"
               aria-label="Atuação da demonstração"
             >
+              <SlidingIndicator selected={role} />
               {[
                 ["buyer", "Comprador"],
                 ["supplier", "Fornecedor"],
@@ -120,10 +130,11 @@ export function IndustrialBento() {
                 </p>
               </div>
               <div
-                className="sv-chart-filter"
+                className="sv-chart-filter t-tabs"
                 role="group"
                 aria-label="Período do gráfico"
               >
+                <SlidingIndicator selected={range} />
                 {["30", "60", "90"].map((value) => (
                   <button
                     key={value}
@@ -165,8 +176,8 @@ export function IndustrialBento() {
               >
                 <defs>
                   <linearGradient id={`${uid}fill`} x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0" stopColor="#f26936" stopOpacity=".25" />
-                    <stop offset="1" stopColor="#f26936" stopOpacity="0" />
+                    <stop offset="0" stopColor="var(--sv-orange)" stopOpacity=".25" />
+                    <stop offset="1" stopColor="var(--sv-orange)" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 {[0.25, 0.5, 0.75].map((f) => (
@@ -176,7 +187,7 @@ export function IndustrialBento() {
                     x2={W}
                     y1={H * f}
                     y2={H * f}
-                    stroke="#e4e4de"
+                    stroke="var(--sv-line)"
                     strokeDasharray="2 5"
                   />
                 ))}
@@ -188,7 +199,7 @@ export function IndustrialBento() {
                   key={`${role}-${range}`}
                   d={line}
                   fill="none"
-                  stroke="#df4c1b"
+                  stroke="color-mix(in srgb, var(--sv-orange), var(--sv-ink) 25%)"
                   strokeWidth="2.5"
                   vectorEffect="non-scaling-stroke"
                   initial={reduced ? false : { opacity: 0 }}
@@ -200,7 +211,7 @@ export function IndustrialBento() {
                   cx={points[active][0]}
                   cy={points[active][1]}
                   r="5"
-                  fill="#df4c1b"
+                  fill="color-mix(in srgb, var(--sv-orange), var(--sv-ink) 25%)"
                   stroke="white"
                   strokeWidth="3"
                 />
@@ -285,11 +296,7 @@ export function IndustrialBento() {
                 {operations.stages.map((stage, i) => (
                   <motion.span
                     key={stage.name}
-                    style={{
-                      background: ["#df6d43", "#b8c69b", "#80946b", "#435c3e"][
-                        i
-                      ],
-                    }}
+                    style={{ background: stageColors[i] }}
                     animate={{
                       flexBasis: `${(stage.count / operations.orders.length) * 100}%`,
                     }}
@@ -303,14 +310,7 @@ export function IndustrialBento() {
                     <span>
                       <i
                         aria-hidden="true"
-                        style={{
-                          background: [
-                            "#df6d43",
-                            "#b8c69b",
-                            "#80946b",
-                            "#435c3e",
-                          ][i],
-                        }}
+                        style={{ background: stageColors[i] }}
                       />
                       {stage.name}
                     </span>

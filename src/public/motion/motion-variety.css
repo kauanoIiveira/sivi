@@ -1,0 +1,118 @@
+/* React Bits text components inherit the SIVI typography and colors. */
+.sv-landing .sv-split-text { text-wrap: wrap; }
+.sv-landing .scroll-reveal-text { display: block; }
+.sv-landing :is(.scroll-reveal-word, .scroll-reveal-piece) { display: inline-block; }
+
+/* Tabs sliding, Panel reveal, Learn more hover — transitions.dev.
+   Adapted to the existing SIVI controls. See Transitions.LICENSE. */
+.sv-landing {
+  --tabs-dur: 300ms;
+  --tabs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --panel-open-dur: 420ms;
+  --panel-translate-y: 14px;
+  --panel-blur: 2px;
+  --panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --learn-shift: 3px;
+  --learn-spread: 8deg;
+  --learn-in: 350ms;
+  --learn-out: 250ms;
+  --learn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sv-landing .t-tabs { position: relative; isolation: isolate; }
+.sv-landing .t-tabs > button { position: relative; z-index: 1; }
+.sv-landing .t-tabs-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  border-radius: 4px;
+  background: var(--tabs-pill-bg, var(--sv-dark));
+  pointer-events: none;
+}
+.sv-landing .sv-chart-filter { --tabs-pill-bg: var(--sv-surface); }
+.sivi-public-ui .sv-landing .sv-demo .t-tabs[data-tabs-ready] > button[aria-pressed="true"] {
+  background: transparent;
+  box-shadow: none;
+}
+.sv-landing .t-learn-chevron { display: inline-flex; flex-shrink: 0; }
+.sv-landing .t-learn-arm {
+  transform-box: view-box;
+  transform-origin: 10px 8px;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sv-landing .t-tabs-pill {
+    transition: transform var(--tabs-dur) var(--tabs-ease),
+      width var(--tabs-dur) var(--tabs-ease), height var(--tabs-dur) var(--tabs-ease);
+  }
+  .sv-landing .t-learn-chevron,
+  .sv-landing .t-learn-arm { transition: transform var(--learn-out) var(--learn-ease); }
+  .sv-landing :is(.t-learn, .sv-text-link):is(:hover, :focus-visible) .t-learn-chevron {
+    transform: translateX(var(--learn-shift));
+    transition-duration: var(--learn-in);
+  }
+  .sv-landing :is(.t-learn, .sv-text-link):is(:hover, :focus-visible) .t-learn-arm-top {
+    transform: rotate(var(--learn-spread));
+  }
+  .sv-landing :is(.t-learn, .sv-text-link):is(:hover, :focus-visible) .t-learn-arm-bot {
+    transform: rotate(calc(var(--learn-spread) * -1));
+  }
+
+  /* A short panel entrance follows an explicit stage change, without moving its controls. */
+  .sivi-public-ui .sv-landing .sv-workflow .t-panel-enter {
+    animation: t-panel-enter var(--panel-open-dur) var(--panel-ease) backwards;
+  }
+  .sv-landing [data-landing-reveal="curtain"] {
+    --sv-reveal: sv-photo-curtain;
+    --sv-duration: 1000ms;
+  }
+  .sv-landing [data-landing-reveal="iris"] {
+    --sv-reveal: sv-photo-iris;
+    --sv-duration: 1100ms;
+  }
+  .sv-landing [data-landing-reveal="record"] {
+    --sv-duration: 400ms;
+  }
+  .sv-landing [data-landing-reveal="record"][data-in-view] .sv-editorial-record {
+    animation: sv-record-place 850ms cubic-bezier(.22, 1, .36, 1) backwards;
+  }
+  .sv-landing [data-landing-reveal="record"][data-in-view] .sv-editorial-record dl > div {
+    animation: sv-field-write 450ms var(--sv-motion-ease) 250ms backwards;
+  }
+  .sv-landing [data-landing-reveal="record"][data-in-view] .sv-editorial-record dl > div:nth-child(2) { animation-delay: 320ms; }
+  .sv-landing [data-landing-reveal="record"][data-in-view] .sv-editorial-record dl > div:nth-child(3) { animation-delay: 390ms; }
+  .sv-landing [data-landing-reveal="record"][data-in-view] .sv-editorial-record dl > div:nth-child(4) { animation-delay: 460ms; }
+  .sv-landing [data-landing-reveal="line"] {
+    --sv-reveal: sv-criteria-draw;
+    --sv-duration: 650ms;
+  }
+}
+
+@keyframes t-panel-enter {
+  from { transform: translateY(var(--panel-translate-y)); opacity: 0; filter: blur(var(--panel-blur)); }
+  to { transform: translateY(0); opacity: 1; filter: blur(0); }
+}
+@keyframes sv-photo-curtain {
+  from { clip-path: inset(0 100% 0 0 round 16px); }
+  to { clip-path: inset(0 0 0 0 round 16px); }
+}
+@keyframes sv-photo-iris {
+  from { clip-path: circle(0% at 50% 55%); }
+  to { clip-path: circle(75% at 50% 55%); }
+}
+@keyframes sv-record-place {
+  from { transform: translateY(32px) rotate(-4deg) scale(.96); opacity: .1; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes sv-field-write {
+  from { transform: translateX(-12px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes sv-criteria-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}

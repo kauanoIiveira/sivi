@@ -1,37 +1,10 @@
 import {
   Action,
   Arrow,
-  Brand,
-  Footer,
-  Header,
-  PageNavigation,
   infoLink,
 } from "./components";
+import { PublicLayout } from "./public-layout";
 const pages: any = {
-  sobre: {
-    eyebrow: "Sobre o SIVI",
-    title: "A indústria se move por boas conexões.",
-    intro:
-      "O SIVI aproxima a necessidade de quem compra da capacidade de quem fornece. E mantém cada acordo registrado ao longo do caminho.",
-    sections: [
-      [
-        "O que fazemos",
-        "Somos uma plataforma B2B para organizar demandas industriais, avaliar compatibilidade, comparar propostas e acompanhar pedidos, inspeção, expedição, recebimento e avaliação.",
-      ],
-      [
-        "Para quem existe",
-        "Empresas que compram itens industriais e empresas que fornecem materiais, processos ou serviços descritos nas demandas. Uma mesma empresa pode atuar nos dois lados.",
-      ],
-      [
-        "Onde começa a confiança",
-        "Requisitos claros, versões das propostas e condições aceitas consultáveis. O cadastro empresarial passa por análise; isso não constitui certificação técnica nem garantia sobre a capacidade declarada.",
-      ],
-      [
-        "Quem apresenta esta versão",
-        "SIVI Tecnologia · São Paulo/SP. Identidade demonstrativa definida para esta apresentação. CNPJ fictício: 00.000.000/0000-00. O nome e o documento não representam pessoa jurídica registrada.",
-      ],
-    ],
-  },
   seguranca: {
     eyebrow: "Segurança e dados",
     title: "Cada acesso tem seu contexto.",
@@ -99,8 +72,8 @@ const pages: any = {
         "A conclusão do formulário cria uma conta real. O acesso operacional requer confirmação de e-mail e análise da empresa. Informe dados corretos de uma empresa que você está autorizado a representar; não use o CNPJ fictício do rodapé como identificação de uma empresa real.",
       ],
       [
-        "Planos e ausência de cobrança",
-        "Os valores exibidos são uma proposta de oferta comercial. Nesta versão não existe assinatura financeira ativa, débito, renovação automática, fatura ou captura de pagamento. Os planos não estabelecem limites financeiros de acesso implementados. Não há contratação paga pelo envio do formulário.",
+        "Cadastro e pagamentos",
+        "O cadastro não solicita dados de pagamento. As condições e o pagamento de cada pedido são combinados entre as empresas.",
       ],
       [
         "Responsabilidades dos participantes",
@@ -120,7 +93,7 @@ const pages: any = {
     sections: [
       [
         "1. Escolha a sua atuação",
-        "Compras para publicar demandas e comparar propostas; Fornecimento para apresentar capacidade e enviar condições; Integrado para os dois lados. A seleção aparece no cadastro e pode ser revista antes de criar a conta.",
+        "Escolha Compradora para publicar demandas e comparar propostas, Fornecedora para apresentar capacidade e enviar propostas ou Compradora e fornecedora para atuar nos dois lados. Você pode revisar a escolha antes de criar a conta.",
       ],
       [
         "2. Conclua o cadastro",
@@ -157,11 +130,10 @@ const pages: any = {
   },
 };
 export function InformationPage({ page }: { page: string }) {
-  const content = pages[page] ?? pages.sobre;
+  const content = pages[page] ?? pages.ajuda;
   return (
-    <>
-      <Header />
-      <main id="conteudo" className="sv-information sv-shell" tabIndex={-1}>
+    <PublicLayout lightHeader>
+      <div className="sv-information sv-shell">
         <a className="sv-back" href="#/">
           ← Voltar à página inicial
         </a>
@@ -248,11 +220,14 @@ export function InformationPage({ page }: { page: string }) {
                 <section>
                   <h2>Componentes e identidade</h2>
                   <p>
-                    Raposa original do SIVI preservada. Gráfico e preços
-                    adaptados dos dois componentes de referência do 21st.dev
-                    fornecidos pelo responsável. Ícones Lucide e movimento com
-                    Motion.
+                    Raposa original do SIVI preservada. Gráfico adaptado do componente de referência do 21st.dev fornecido pelo responsável. Ícones Lucide e movimento com
+                    Motion e GSAP. SplitText e ScrollReveal adaptados do React Bits, de David Haz. Indicadores, painéis e setas adaptados das receitas do Transitions.dev, de Jakub Antalik.
                   </p>
+                  <a href="https://reactbits.dev/" target="_blank" rel="noreferrer">React Bits <Arrow /></a>{" "}
+                  ·{" "}<a href="./assets/licenses/react-bits.txt" target="_blank" rel="noreferrer">Licença React Bits <Arrow /></a>
+                  <br />
+                  <a href="https://transitions.dev/" target="_blank" rel="noreferrer">Transitions.dev <Arrow /></a>{" "}
+                  ·{" "}<a href="./assets/licenses/transitions-dev.txt" target="_blank" rel="noreferrer">Licença Transitions.dev <Arrow /></a>
                 </section>
               </>
             )}
@@ -262,9 +237,7 @@ export function InformationPage({ page }: { page: string }) {
           <h2>Pronto para o próximo acordo?</h2>
           <Action>Conhecer o cadastro</Action>
         </div>
-      </main>
-      <Footer />
-      <PageNavigation />
-    </>
+      </div>
+    </PublicLayout>
   );
 }

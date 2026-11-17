@@ -1,0 +1,405 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - region "top of page" [active]
+    - button "Ir para o conteúdo principal"
+    - generic [ref=e10]:
+      - group:
+        - generic:
+          - banner:
+            - generic [ref=e11]:
+              - group:
+                - generic [ref=e15]:
+                  - navigation "Site" [ref=e18]:
+                    - list [ref=e19]:
+                      - listitem [ref=e20]:
+                        - link "Quem somos" [ref=e22] [cursor=pointer]:
+                          - /url: https://www.digi.ag/quemsomos-2
+                      - listitem [ref=e25]:
+                        - link "O que fazemos" [ref=e27] [cursor=pointer]:
+                          - /url: https://www.digi.ag/o-que-fazemos
+                      - listitem [ref=e30]:
+                        - link "Cases" [ref=e32] [cursor=pointer]:
+                          - /url: https://www.digi.ag/cases
+                      - listitem [ref=e35]:
+                        - link "Produtos" [ref=e37] [cursor=pointer]:
+                          - /url: https://www.digi.ag/produtos
+                      - listitem [ref=e40]:
+                        - link "Blog" [ref=e42] [cursor=pointer]:
+                          - /url: https://www.digi.ag/blog
+                      - listitem [ref=e45]:
+                        - link "Vagas" [ref=e47] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/somosdigi/jobs/
+                  - link "contato" [ref=e51] [cursor=pointer]:
+                    - /url: https://www.digi.ag/contato
+                  - 'button "Language Selector: Portuguese" [ref=e57] [cursor=pointer]':
+                    - generic: PT
+                - link [ref=e64] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+        - main:
+          - generic [ref=e79]:
+            - generic "36543-[DIGI] Vídeo - Atualização ID vídeo site_V3.mp4" [ref=e84]
+            - group:
+              - generic [ref=e94]:
+                - heading "extraordinário" [level=1] [ref=e97]
+                - heading "INSPIRE O" [level=1] [ref=e99]
+                - button "Campanhas de incentivo, relacionamento e promo" [ref=e100]
+          - generic [ref=e103]:
+            - generic [ref=e107]:
+              - group:
+                - generic [ref=e109]:
+                  - group:
+                    - heading "Somos especialistas em campanhas de incentivo, relacionamento e promo" [level=3] [ref=e112]
+                    - paragraph [ref=e114]: "Há mais de 25 anos, oferecemos soluções completas que vão além do comum: estratégia, planejamento, tecnologia, criação, CRM, gestão de comunicação e análise de dados contínua, usando ciência comportamental e tecnologia para gerar insights valiosos e fazer os times engajarem com resultados extraordinários."
+                    - link "Conheça melhor a digi" [ref=e116] [cursor=pointer]:
+                      - /url: https://www.digi.ag/quemsomos
+            - generic [ref=e121]:
+              - group:
+                - img "Sua campanha de incentivo, engajamento e relacionamento, vai voar como um foguete" [ref=e131]
+                - img "Nuvens da criatividade para seus programas de incentivo, engajamento e relacionamento" [ref=e134]
+                - img "Nuvem dos incentivos de vendas de incentivo, engajamento e relacionamento" [ref=e137]
+          - generic [ref=e138]:
+            - group:
+              - generic [ref=e142]:
+                - group:
+                  - generic [ref=e144]:
+                    - paragraph [ref=e147]: Nossos clientes
+                    - heading "Marcas que inspiramos" [level=2] [ref=e149]
+              - generic [ref=e150]:
+                - generic [ref=e152]:
+                  - list:
+                    - listitem [ref=e153]:
+                      - group
+                    - listitem [ref=e161]:
+                      - group
+                    - listitem [ref=e169]:
+                      - group
+                    - listitem [ref=e177]:
+                      - group
+                    - listitem [ref=e221]:
+                      - group
+                    - listitem [ref=e228]:
+                      - group
+                    - listitem [ref=e268]:
+                      - group
+                    - listitem [ref=e286]:
+                      - group
+                    - listitem [ref=e299]:
+                      - group
+                    - listitem [ref=e309]:
+                      - group
+                    - listitem [ref=e323]:
+                      - group
+                    - listitem [ref=e333]:
+                      - group
+                    - listitem [ref=e349]:
+                      - group
+                    - listitem [ref=e367]:
+                      - group
+                    - listitem [ref=e381]:
+                      - group
+                    - listitem [ref=e400]:
+                      - group
+                    - listitem [ref=e422]:
+                      - group
+                    - listitem [ref=e429]:
+                      - group
+                    - listitem [ref=e436]:
+                      - group
+                    - listitem [ref=e443]:
+                      - group
+                    - listitem [ref=e459]:
+                      - group
+                    - listitem [ref=e481]:
+                      - group
+                    - listitem [ref=e506]:
+                      - group
+                    - listitem [ref=e523]:
+                      - group
+                - link "Quero resultados como esses" [ref=e538] [cursor=pointer]:
+                  - /url: https://contato.digi.ag
+          - generic [ref=e545]:
+            - group:
+              - generic [ref=e547]:
+                - heading "Soluções" [level=2] [ref=e550]
+                - paragraph [ref=e552]: Nossas soluções transformam metas em grandes resultados
+          - generic [ref=e553]:
+            - group:
+              - generic [ref=e557]:
+                - group:
+                  - generic [ref=e559]:
+                    - heading "Consultoria em programas de Incentivo, Relacionamento e Loyalty" [level=3] [ref=e562]
+                    - paragraph [ref=e564]: Criamos soluções extraordinárias feitas sob medida, sempre orientadas por dados.
+                    - paragraph [ref=e566]: Campanhas de incentivo e relacionamento personalizadas, eficazes e relevantes, que estimulam o engajamento e promovem o aumento de vendas, fidelização de clientes e melhorias no desempenho da equipe.
+                    - link "Mais detalhes" [ref=e568] [cursor=pointer]:
+                      - /url: https://www.digi.ag/o-que-fazemos
+              - generic [ref=e571]:
+                - group:
+                  - generic [ref=e573]:
+                    - img "Cases de sucesso de incentivo, engajamento e relacionamento" [ref=e590]
+                    - img "Dados controlados num painel de controle e dashboard de incentivo, engajamento e relacionamento" [ref=e596]
+                    - img "Dash boards de incentivo, engajamento e relacionamento" [ref=e602]
+          - generic [ref=e603]:
+            - group:
+              - generic [ref=e607]:
+                - group:
+                  - img "Campanhas hierarquizadas e para toda a cadeia de valor de incentivo, engajamento e relacionamento" [ref=e613]
+                  - img "marcador cinza" [ref=e618]
+                  - img "Cases de incentivo, engajamento e relacionamento" [ref=e623]
+              - generic [ref=e624]:
+                - group:
+                  - generic [ref=e626]:
+                    - heading "Premiação" [level=3] [ref=e629]
+                    - paragraph [ref=e631]: Nosso sistema de premiação e recompensas é completo, simples e adaptável. Através de uma plataforma intuitiva, garantimos que seu time tenha acesso a prêmios de forma rápida e fácil, com uma experiência otimizada em qualquer dispositivo.
+                    - generic [ref=e632]:
+                      - list:
+                        - listitem [ref=e633]:
+                          - group:
+                            - heading "Premiações físicas, digitais e financeiras" [level=3] [ref=e644]
+                        - listitem [ref=e649]:
+                          - group:
+                            - heading "Pagamento de contas" [level=3] [ref=e660]
+                        - listitem [ref=e661]:
+                          - group:
+                            - heading "Recarga de celular" [level=3] [ref=e672]
+                        - listitem [ref=e673]:
+                          - group:
+                            - heading "Vale combustível" [level=3] [ref=e684]
+                        - listitem [ref=e685]:
+                          - group:
+                            - heading "Viagens e experiências únicas" [level=3] [ref=e696]
+                    - link "Mais detalhes" [ref=e698] [cursor=pointer]:
+                      - /url: https://www.digi.ag/produtos
+          - generic [ref=e701]:
+            - group:
+              - generic [ref=e705]:
+                - group:
+                  - img "Plataforma digital para mobile de incentivo, engajamento e relacionamento" [ref=e711]
+              - generic [ref=e712]:
+                - group:
+                  - generic [ref=e714]:
+                    - heading "Plataformas" [level=3] [ref=e717]
+                    - paragraph [ref=e719]: Criação, personalização e administração de campanhas de incentivo e promoções.
+                    - generic [ref=e720]:
+                      - list:
+                        - listitem [ref=e721]:
+                          - group:
+                            - heading "Dashboards em tempo real" [level=3] [ref=e732]
+                        - listitem [ref=e737]:
+                          - group:
+                            - heading "100% customizável" [level=3] [ref=e748]
+                        - listitem [ref=e749]:
+                          - group:
+                            - heading "Treinamentos e comunicação" [level=3] [ref=e760]
+                        - listitem [ref=e761]:
+                          - group:
+                            - heading "Campanhas 100% digitais" [level=3] [ref=e772]
+                        - listitem [ref=e773]:
+                          - group:
+                            - heading "Gestão de conteúdo" [level=3] [ref=e784]
+                        - listitem [ref=e785]:
+                          - group:
+                            - heading "Push e lembretes importantes" [level=3] [ref=e796]
+                    - link "Mais detalhes" [ref=e798] [cursor=pointer]:
+                      - /url: https://www.digi.ag/produtos
+          - generic [ref=e805]:
+            - group:
+              - generic [ref=e807]:
+                - heading "Por que a digi?" [level=2] [ref=e810]
+                - paragraph [ref=e812]: Nosso propósito é inspirar o extraordinário
+              - link "Fale com um especialista" [ref=e814] [cursor=pointer]:
+                - /url: https://contato.digi.ag
+          - generic [ref=e817]:
+            - group
+          - generic [ref=e821]:
+            - group:
+              - generic [ref=e825]:
+                - group:
+                  - generic [ref=e827]:
+                    - paragraph [ref=e830]: "+100"
+                    - paragraph [ref=e835]: Grandes marcas atendidas
+              - generic [ref=e836]:
+                - group:
+                  - generic [ref=e838]:
+                    - paragraph [ref=e841]: +5Bi
+                    - paragraph [ref=e846]: de reais em prêmios resgatados
+                  - link "Vamos conversar" [ref=e848] [cursor=pointer]:
+                    - /url: https://contato.digi.ag
+              - generic [ref=e851]:
+                - group:
+                  - generic [ref=e853]:
+                    - paragraph [ref=e856]:
+                      - generic [ref=e857]: +500 mil
+                    - paragraph [ref=e863]: colaboradores impactados
+          - generic [ref=e864]:
+            - generic [ref=e868]:
+              - group:
+                - heading "Cases de sucesso que fazem a diferença" [level=1] [ref=e871]
+                - paragraph [ref=e873]: Ao longo desses 25 anos, criamos inúmeros cases de sucesso. Cada projeto reflete nossa missão de gerar experiências únicas e grandes resultados para nossos parceiros e clientes.
+                - link "Veja os cases na íntegra" [ref=e875] [cursor=pointer]:
+                  - /url: https://www.digi.ag/cases
+            - generic [ref=e878]:
+              - button "fanta.mp4 Reproduzir vídeo" [pressed] [ref=e881] [cursor=pointer]
+              - button "vigor.mp4 Reproduzir vídeo" [pressed] [ref=e900] [cursor=pointer]
+              - button "cargill.mp4 Reproduzir vídeo" [pressed] [ref=e920] [cursor=pointer]
+              - button "delvalle.mp4 Reproduzir vídeo" [pressed] [ref=e940] [cursor=pointer]
+            - link "Quero um case assim" [ref=e960] [cursor=pointer]:
+              - /url: https://contato.digi.ag
+          - generic [ref=e963]:
+            - img "Ativo 18-8.png" [ref=e968]
+            - group:
+              - generic [ref=e976]:
+                - group:
+                  - list [ref=e979]:
+                    - listitem [ref=e980]:
+                      - button "Programas de Incentivo" [ref=e982] [cursor=pointer]
+                      - region "Programas de Incentivo"
+                    - listitem [ref=e987]:
+                      - button "Programas de Loyalty - B2C e B2B" [ref=e989] [cursor=pointer]
+                      - region "Programas de Loyalty - B2C e B2B"
+                    - listitem [ref=e994]:
+                      - button "Programas de reconhecimento" [ref=e996] [cursor=pointer]
+                      - region "Programas de reconhecimento"
+                    - listitem [ref=e1001]:
+                      - button "Execução do PDV" [ref=e1003] [cursor=pointer]
+                      - region "Execução do PDV"
+                    - listitem [ref=e1008]:
+                      - button "Premiações e recompensas" [ref=e1010] [cursor=pointer]
+                      - region "Premiações e recompensas"
+                    - listitem [ref=e1015]:
+                      - button "Promoções - Regulamento, criação e Programas de merchandising" [ref=e1017] [cursor=pointer]
+                      - region "Promoções - Regulamento, criação e Programas de merchandising"
+                    - listitem [ref=e1022]:
+                      - button "Comunicação e trademarketing" [ref=e1024] [cursor=pointer]
+                      - region "Comunicação e trademarketing"
+              - heading "Serviços" [level=2] [ref=e1032]
+              - generic [ref=e1033]:
+                - group
+          - generic [ref=e1035]:
+            - group:
+              - heading "Te ajudamos a alcançar resultados extraordinários" [level=2] [ref=e1040]
+              - generic [ref=e1041]:
+                - link "Agendar uma reunião" [ref=e1043] [cursor=pointer]:
+                  - /url: https://contato.digi.ag/?opcao=reuniao
+                - link "Enviar um briefing" [ref=e1045] [cursor=pointer]:
+                  - /url: https://contato.digi.ag/?opcao=briefing
+                - link "Ver cases" [ref=e1047] [cursor=pointer]:
+                  - /url: https://contato.digi.ag/?opcao=cases
+                - link "Chamar a Digi para um bid" [ref=e1049] [cursor=pointer]:
+                  - /url: https://contato.digi.ag/?opcao=bid
+                - link "Me ligue hoje" [ref=e1051] [cursor=pointer]:
+                  - /url: https://contato.digi.ag/?opcao=ligue_hoje
+          - generic [ref=e1072]:
+            - group:
+              - generic [ref=e1076]:
+                - heading "Classifique sua campanha de incentivo gratuitamente" [level=3] [ref=e1079]
+                - paragraph [ref=e1081]: "Conheça o Digi Incentive Index (DII): em menos de 5 minutos, avalie a maturidade e o ROI do seu programa em 6 pilares e receba um certificado oficial e insights de melhorias. Gratuito, online, agora."
+                - link "Fazer o diagnóstico gratuito no Incentive Index" [ref=e1083] [cursor=pointer]:
+                  - /url: https://www.incentiveindex.org
+                  - generic [ref=e1084]: Fazer o diagnóstico gratuito AGORA
+          - generic [ref=e1086]:
+            - group:
+              - img "Pink Poppy Flowers" [ref=e1094]
+              - region "Lista de posts. Selecione um post para ler." [ref=e1106]:
+                - generic [ref=e1108]:
+                  - generic [ref=e1111] [cursor=pointer]:
+                    - generic [ref=e1112]:
+                      - img "Comunicação para parceiros que gera performance" [ref=e1113]
+                      - img "Comunicação para parceiros que gera performance" [ref=e1114]
+                    - link [ref=e1122]:
+                      - /url: https://www.digi.ag/post/comunicação-para-parceiros-que-gera-performance
+                      - heading "Comunicação para parceiros que gera performance" [level=2] [ref=e1125]
+                  - generic [ref=e1128] [cursor=pointer]:
+                    - generic [ref=e1129]:
+                      - 'img "Review de Plataforma de Resgates: 8 Critérios" [ref=e1130]'
+                      - 'img "Review de Plataforma de Resgates: 8 Critérios" [ref=e1131]'
+                    - link [ref=e1139]:
+                      - /url: https://www.digi.ag/post/review-de-plataforma-de-resgates-8-critérios
+                      - 'heading "Review de Plataforma de Resgates: 8 Critérios" [level=2] [ref=e1142]'
+                  - generic [ref=e1145] [cursor=pointer]:
+                    - generic [ref=e1146]:
+                      - img "Tendências de CRM preditivo para gerar performance" [ref=e1147]
+                      - img "Tendências de CRM preditivo para gerar performance" [ref=e1148]
+                    - link [ref=e1156]:
+                      - /url: https://www.digi.ag/post/tendências-de-crm-preditivo-para-gerar-performance
+                      - heading "Tendências de CRM preditivo para gerar performance" [level=2] [ref=e1159]
+                  - generic [ref=e1162] [cursor=pointer]:
+                    - generic [ref=e1163]:
+                      - img "Guia da jornada participante para gerar performance" [ref=e1164]
+                      - img "Guia da jornada participante para gerar performance" [ref=e1165]
+                    - link [ref=e1173]:
+                      - /url: https://www.digi.ag/post/guia-da-jornada-participante-para-gerar-performance
+                      - heading "Guia da jornada participante para gerar performance" [level=2] [ref=e1176]
+              - link "VER MAIS" [ref=e1178] [cursor=pointer]:
+                - /url: https://www.digi.ag/blog
+        - contentinfo:
+          - generic [ref=e1181]:
+            - generic [ref=e1185]:
+              - group:
+                - link [ref=e1188] [cursor=pointer]:
+                  - /url: https://www.digi.ag
+            - generic [ref=e1203]:
+              - group:
+                - paragraph [ref=e1208]:
+                  - link "contato@digi.ag" [ref=e1210] [cursor=pointer]:
+                    - /url: mailto:contato@digi.ag?subject=Contato
+                - link [ref=e1217] [cursor=pointer]:
+                  - /url: http://www.grupodigi.com.br
+                  - img "LOGO_GRUPO_DIGI.png" [ref=e1221]
+            - generic [ref=e1222]:
+              - group:
+                - generic [ref=e1224]:
+                  - generic [ref=e1226]:
+                    - paragraph [ref=e1227]:
+                      - link "Home" [ref=e1229] [cursor=pointer]:
+                        - /url: https://www.digi.ag
+                    - paragraph [ref=e1230]:
+                      - link "Quem somos" [ref=e1232] [cursor=pointer]:
+                        - /url: https://www.digi.ag/quemsomos
+                    - paragraph [ref=e1233]:
+                      - link "O que fazemos" [ref=e1235] [cursor=pointer]:
+                        - /url: https://www.digi.ag/o-que-fazemos
+                    - paragraph [ref=e1236]:
+                      - link "Cases" [ref=e1238] [cursor=pointer]:
+                        - /url: https://www.digi.ag/cases
+                    - paragraph [ref=e1239]:
+                      - link "Produtos" [ref=e1241] [cursor=pointer]:
+                        - /url: https://www.digi.ag/produtos
+                  - generic [ref=e1242]:
+                    - paragraph [ref=e1243]:
+                      - link "Contato" [ref=e1245] [cursor=pointer]:
+                        - /url: https://www.digi.ag/contato
+                    - paragraph [ref=e1246]:
+                      - link "Política de privacidade" [ref=e1248] [cursor=pointer]:
+                        - /url: https://www.digi.ag/politica-privacidade
+                  - list "Redes sociais" [ref=e1250]:
+                    - listitem [ref=e1251]:
+                      - link "Instagram" [ref=e1252] [cursor=pointer]:
+                        - /url: https://www.instagram.com/somos.digi
+                    - listitem [ref=e1254]:
+                      - link "LinkedIn" [ref=e1255] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/company/somosdigi
+                    - listitem [ref=e1257]:
+                      - link "Youtube" [ref=e1258] [cursor=pointer]:
+                        - /url: https://www.youtube.com/@somosdigi
+                  - generic [ref=e1260]:
+                    - paragraph [ref=e1261]:
+                      - link "contato@digi.ag" [ref=e1262] [cursor=pointer]:
+                        - /url: mailto:contato@digi.ag
+                    - paragraph [ref=e1263]: Av. Brig. Faria Lima, 1826 - 7° andar
+                    - paragraph [ref=e1264]: São Paulo / SP - CEP 01452-000
+                    - paragraph [ref=e1265]: (11) 2388.5555
+    - region "bottom of page"
+  - region "Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies. Política de Privacidade" [ref=e1266]:
+    - generic [ref=e1267]:
+      - generic [ref=e1268]:
+        - generic [aria-hidden] [ref=e1270]:
+          - text: Bem-vindo ao novo site da digi. Usamos cookies em nosso site para permitir algumas funcionalidades. Com os cookies podemos verificar quais as informações e conteúdos mais revelantes para você, entre outros benefícios. Ao aceitar, você concorda com o uso de cookies.
+          - link [ref=e1271] [cursor=pointer]:
+            - /url: https://www.digi.ag/politica-privacidade
+            - text: Política de Privacidade
+        - generic [ref=e1272]:
+          - button "Configurações" [ref=e1273] [cursor=pointer]
+          - button "Recusar tudo" [ref=e1274] [cursor=pointer]
+          - button "Aceitar" [ref=e1275] [cursor=pointer]
+      - button "Fechar" [ref=e1277]:
+        - img "Fechar" [ref=e1278] [cursor=pointer]

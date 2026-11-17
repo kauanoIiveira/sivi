@@ -1,6 +1,6 @@
 # Organização do projeto — 10/11/2026
 
-O projeto passou a ocupar diretamente `C:\Users\Aluno\Downloads\sivi-master`. A segunda pasta `sivi-master`, que antes ficava dentro dela, foi eliminada após a transferência do conteúdo.
+O projeto passou a ocupar diretamente `C:\Users\Aluno\Documents\sivi-master`. A segunda pasta `sivi-master`, que antes ficava dentro dela, foi eliminada após a transferência do conteúdo.
 
 ## O que foi organizado
 

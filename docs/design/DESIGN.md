@@ -367,6 +367,8 @@ components:
 
 # Design System: SIVI — apresentação, acesso e operação
 
+As referências a preços e planos abaixo registram a versão anterior da interface. A navegação pública e o cadastro atuais seguem a definição de [Produto](../produto/PRODUCT.md).
+
 ## Overview
 
 **Creative North Star: "Acordo em movimento"**

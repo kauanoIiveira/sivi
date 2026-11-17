@@ -24,14 +24,15 @@ test('public footer navigates to useful sections, FAQ and account access', async
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/?authEmulator=1#/');
-  await expect(page.getByRole('heading', { name: 'O próximo acordo começa aqui.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Conecte a indústria' })).toBeVisible();
   await captureUi(page, 'pagina-publica-refinada', { widths: [360, 390, 768, 1440, 1920, 2560] });
   const footer = page.locator('.public-footer');
   await footer.getByRole('link', { name: 'Para fornecedores' }).click();
   await expect(page).toHaveURL(/secao=fornecimento$/);
   await expect(page.locator('#fornecimento')).toBeFocused();
   await footer.getByRole('link', { name: 'Dúvidas sobre o cadastro' }).click();
-  await expect(page.locator('#duvidas')).toBeFocused();
+  await expect(page).toHaveURL(/#\/duvidas$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Dúvidas' })).toBeFocused();
   const question = page.locator('summary', { hasText: 'Onde acompanho a aprovação?' });
   await question.focus();
   await page.keyboard.press('Enter');
