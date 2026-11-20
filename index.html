@@ -81,6 +81,21 @@
   <body>
     <noscript><p>Ative o JavaScript para conhecer o SIVI e usar o cadastro e o acesso à plataforma.</p></noscript>
     <div data-public-surface hidden></div>
+    <template id="public-home-opening">
+      <div class="sivi-public-ui" data-home-hero-shell aria-hidden="true">
+        <div class="sv-landing" data-home-opening>
+          <div class="sv-hero" data-hero-phase="opening">
+            <div class="sv-hero-opening">
+              <img class="sv-hero-opening-photo" src="./assets/home-hero-opening.webp" width="1600" height="1200" alt="" fetchpriority="high" />
+              <div class="sv-hero-opening-brand">
+                <img src="./src/assets/brand/raposa.svg" width="96" height="96" alt="" />
+                <span>SIVI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <div class="boot-surface" data-boot-surface role="status" aria-live="polite">
       <span aria-hidden="true"><i></i><i></i><i></i></span>
       <strong>Preparando seu contexto SIVI</strong>
@@ -96,6 +111,21 @@
     <script>
       if (window.location.protocol === "file:") {
         document.querySelector(".static-preview-notice").hidden = false;
+      } else {
+        const [route, search] = window.location.hash.slice(1).split("?");
+        const params = new URLSearchParams(search);
+        const section = params.get("secao");
+        if ((!route || route === "/") && !params.get("pagina") && (!section || section === "topo")) {
+          const surface = document.querySelector("[data-public-surface]");
+          const template = document.getElementById("public-home-opening");
+          surface.append(template.content.cloneNode(true));
+          surface.hidden = false;
+          window.setTimeout(() => {
+            if (document.body.dataset.surface) return;
+            surface.hidden = true;
+            surface.replaceChildren();
+          }, 8000);
+        }
       }
     </script>
     <script type="module" src="./src/main.js"></script>

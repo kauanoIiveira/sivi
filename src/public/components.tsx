@@ -1,11 +1,35 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ROUTE_PATHS } from "../app/routes.js";
 
-export const sectionLink = (id: string) => `#/?secao=${id}`;
-export const infoLink = (id: string) => `#/?pagina=${id}`;
-export const signupLink = (plan = "compras", period = "mensal") =>
-  `#/acesso?modo=register&plano=${plan}&periodo=${period}`;
+const publicPaths = {
+  home: ROUTE_PATHS.publicHome,
+  about: ROUTE_PATHS.publicAbout,
+  platform: ROUTE_PATHS.publicPlatform,
+  cases: ROUTE_PATHS.publicCases,
+  faq: ROUTE_PATHS.publicFaq,
+};
+
+export type PublicPageName = keyof typeof publicPaths;
+export const publicLink = (page: PublicPageName) => `#${publicPaths[page]}`;
+export const publicSectionLink = (page: PublicPageName, id: string) =>
+  `${publicLink(page)}?secao=${encodeURIComponent(id)}`;
+export const isPlatformSection = (id: string | null) =>
+  id === "funcionamento" || id === "compras" || id === "fornecimento";
+export const sectionLink = (id: string) =>
+  publicSectionLink(isPlatformSection(id) ? "platform" : "home", id);
+export const workflowLink = (step: number) => `${sectionLink("funcionamento")}&etapa=${step}`;
+export const infoLink = (id: string) => id === "sobre" ? publicLink("about") : `#/?pagina=${encodeURIComponent(id)}`;
+export const signupLink = (activity?: "buyer" | "supplier" | "both") =>
+  `#/acesso?modo=register${activity ? `&atuacao=${activity}` : ""}`;
+
+const publicNavigation = [
+  ["about", "Quem somos"],
+  ["platform", "Plataforma"],
+  ["cases", "Casos de uso"],
+  ["faq", "Dúvidas"],
+] as const;
 export function Brand({ back = false }: { back?: boolean }) {
   return (
     <a
@@ -24,7 +48,10 @@ export function Brand({ back = false }: { back?: boolean }) {
   );
 }
 export function Arrow() {
-  return <ArrowUpRight size={19} aria-hidden="true" />;
+  return <ArrowUpRight className="t-learn-chevron" size={19} aria-hidden="true" />;
+}
+function LearnArrow() {
+  return <svg className="t-learn-chevron" width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path className="t-learn-arm t-learn-arm-top" d="M6 4L10 8" /><path className="t-learn-arm t-learn-arm-bot" d="M10 8L6 12" /></svg>;
 }
 export function Action({
   children,
@@ -35,10 +62,10 @@ export function Action({
   return (
     <a
       href={href}
-      className={`sv-button ${secondary ? "sv-button--secondary" : ""} ${className}`}
+      className={`sv-button t-learn ${secondary ? "sv-button--secondary" : ""} ${className}`}
     >
       {children}
-      <Arrow />
+      <LearnArrow />
     </a>
   );
 }
@@ -56,9 +83,25 @@ export function Reveal({ children, className = "", delay = 0 }: any) {
     </motion.div>
   );
 }
-export function Header() {
+export function Header({ current }: { current?: PublicPageName }) {
   const [open, setOpen] = useState(false);
   const menu = useRef<HTMLButtonElement>(null);
+  const pages = publicNavigation.map(([page, label]) => (
+    <a key={page} href={publicLink(page)} aria-current={page === current ? "page" : undefined}>
+      {label}
+    </a>
+  ));
+  const accountLinks = (
+    <>
+      <a href="#/acesso?modo=login" className="sv-login-link">
+        Entrar <Arrow />
+      </a>
+      <a className="sv-nav-cta" href={signupLink()}>
+        Cadastrar empresa <Arrow />
+      </a>
+    </>
+  );
+
   useEffect(() => {
     if (!open) return;
     const close = (event: KeyboardEvent) => {
@@ -72,10 +115,16 @@ export function Header() {
   }, [open]);
   return (
     <>
-      <a className="sv-skip" href={sectionLink("conteudo")}>
+      <a className="sv-skip" href="#conteudo" onClick={(event) => {
+        const content = document.getElementById("conteudo");
+        if (!content) return;
+        event.preventDefault();
+        content.focus({ preventScroll: true });
+        content.scrollIntoView({ block: "start", behavior: "instant" });
+      }}>
         Ir para o conteúdo
       </a>
-      <header className="sv-header">
+      <header className="sv-header" data-menu-open={open || undefined}>
         <div className="sv-nav sv-shell">
           <Brand />
           <button
@@ -94,22 +143,34 @@ export function Header() {
             className={open ? "is-open" : ""}
             onClick={() => setOpen(false)}
           >
-            <a href={sectionLink("funcionamento")}>Plataforma</a>
-            <a href={sectionLink("compras")}>Compradores</a>
-            <a href={sectionLink("fornecimento")}>Fornecedores</a>
-            <a href={sectionLink("planos")}>Planos</a>
-            <a href="#/acesso?modo=login" className="sv-login-link">
-              Entrar <Arrow />
-            </a>
-            <a className="sv-nav-cta" href={signupLink()}>
-              Cadastrar empresa <Arrow />
-            </a>
+            {current === "home" ? (
+              <>
+                <div className="sv-home-nav-pages">{pages}</div>
+                <div className="sv-home-nav-account">{accountLinks}</div>
+              </>
+            ) : <>{pages}{accountLinks}</>}
           </nav>
         </div>
       </header>
     </>
   );
 }
+const footerAccount = {
+  name: "Sua conta",
+  links: [
+    ["Entrar na minha conta", "#/acesso?modo=login"],
+    ["Cadastrar empresa", signupLink()],
+  ],
+};
+
+const footerLegal = [
+  ["Privacidade", infoLink("privacidade")],
+  ["Condições de uso", infoLink("condicoes")],
+];
+
+const footerCredits = infoLink("creditos");
+const footerEmail = "info@sivi.com";
+
 const footerGroups = [
   {
     name: "Plataforma",
@@ -117,94 +178,135 @@ const footerGroups = [
       ["Como funciona", sectionLink("funcionamento")],
       ["Para compradores", sectionLink("compras")],
       ["Para fornecedores", sectionLink("fornecimento")],
-      ["Planos e valores", sectionLink("planos")],
+      ["Casos de uso", publicLink("cases")],
     ],
   },
   {
     name: "Conheça o SIVI",
     links: [
-      ["Sobre a plataforma", infoLink("sobre")],
+      ["Quem somos", publicLink("about")],
       ["Segurança e dados", infoLink("seguranca")],
       ["Ajuda e acesso", infoLink("ajuda")],
-      ["Dúvidas sobre o cadastro", sectionLink("duvidas")],
-    ],
-  },
-  {
-    name: "Sua conta",
-    links: [
-      ["Entrar na minha conta", "#/acesso?modo=login"],
-      ["Cadastrar empresa", signupLink()],
-      ["Privacidade", infoLink("privacidade")],
-      ["Condições de uso", infoLink("condicoes")],
+      ["Dúvidas sobre o cadastro", publicLink("faq")],
     ],
   },
 ];
-export function Footer() {
+
+function FooterNewsletter() {
+  const [showInstructions, setShowInstructions] = useState(false);
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const email = new FormData(event.currentTarget).get("email");
+    const subject = encodeURIComponent("Inscrição nas novidades do SIVI");
+    const body = encodeURIComponent(`Olá! Gostaria de receber as novidades do SIVI neste e-mail: ${email}`);
+    window.location.href = `mailto:${footerEmail}?subject=${subject}&body=${body}`;
+    setShowInstructions(true);
+  }
+
   return (
-    <footer className="sv-footer public-footer">
+    <form className="sv-footer-newsletter" aria-labelledby="sv-footer-newsletter-title" onSubmit={submit}>
+      <h2 id="sv-footer-newsletter-title">Receba novidades do SIVI</h2>
+      <div className="sv-footer-newsletter-fields">
+        <input
+          type="email"
+          name="email"
+          aria-label="Seu e-mail"
+          placeholder="Seu e-mail"
+          autoComplete="email"
+          required
+          onChange={() => setShowInstructions(false)}
+        />
+        <button type="submit">Inscrever</button>
+      </div>
+      <p className="sv-footer-newsletter-status" role="status">
+        {showInstructions && "Envie a mensagem no seu aplicativo de e-mail para concluir o pedido."}
+      </p>
+    </form>
+  );
+}
+
+export function Footer({ home = false }: { home?: boolean }) {
+  const copyright = `© ${new Date().getFullYear()} SIVI`;
+  const groups = home ? footerGroups : [
+    ...footerGroups,
+    { ...footerAccount, links: [...footerAccount.links, ...footerLegal] },
+  ];
+  return (
+    <footer className={home ? "sv-footer public-footer sv-footer--home" : "sv-footer public-footer"}>
       <div className="sv-shell">
         <div className="sv-footer-top">
           <div className="sv-footer-brand">
             <Brand />
-            <p>
-              Boas conexões.
-              <br />
-              Acordos bem registrados.
-            </p>
             <small>Sistema Integrado de Vendas Industriais</small>
           </div>
-          {footerGroups.map((group) => (
+          {groups.map((group) => (
             <nav key={group.name} aria-label={group.name}>
               <h2>{group.name}</h2>
               {group.links.map(([label, href]) => (
                 <a key={label} href={href}>
-                  {label}
+                  {home ? <span>{label}</span> : label}
                 </a>
               ))}
             </nav>
           ))}
+          {home && (
+            <div className="sv-footer-contact-column">
+              <section className="sv-footer-contact" aria-labelledby="sv-footer-contact-title">
+                <h2 id="sv-footer-contact-title">Contato</h2>
+                <address>
+                  <p>
+                    SENAI Manuel Garcia Filho<br />
+                    Rua Guatemala, 19<br />
+                    Jardim Canhema
+                  </p>
+                  <a href={`mailto:${footerEmail}`}><span>{footerEmail}</span></a>
+                  <p>(11) 0000-0000</p>
+                </address>
+              </section>
+              <FooterNewsletter />
+            </div>
+          )}
         </div>
-        <div className="sv-footer-identity">
-          <span>
-            SIVI Tecnologia · São Paulo/SP
-            <br />
-            CNPJ fictício: 00.000.000/0000-00
-          </span>
-          <span>
-            Identificação demonstrativa, sem registro empresarial declarado.
-            <br />
-            contato@sivi.example — exemplo, sem atendimento.
-          </span>
-          <a href={infoLink("ajuda")}>
-            Precisa de orientação? <Arrow />
-          </a>
-        </div>
-        <div className="sv-footer-bottom">
-          <span>© {new Date().getFullYear()} SIVI</span>
-          <a href={infoLink("creditos")}>Créditos de imagem e vídeo</a>
-          <span>Português · Brasil</span>
-          <a href={sectionLink("topo")}>Voltar ao início ↑</a>
-        </div>
+        {home ? (
+          <div className="sv-footer-bottom">
+            <div className="sv-footer-legal">
+              <span>{copyright}</span>
+              <nav aria-label="Informações legais e créditos">
+                {footerLegal.map(([label, href]) => <a key={href} href={href}><span>{label}</span></a>)}
+                <a href={footerCredits}><span>Créditos de imagem e vídeo</span></a>
+              </nav>
+            </div>
+            <span className="sv-footer-locale">Português · Brasil</span>
+          </div>
+        ) : (
+          <div className="sv-footer-bottom">
+            <span>{copyright}</span>
+            <a href={footerCredits}>Créditos de imagem e vídeo</a>
+            <span>Português · Brasil</span>
+            <a href={sectionLink("topo")}>Voltar ao início ↑</a>
+          </div>
+        )}
       </div>
     </footer>
   );
 }
-export function PageNavigation() {
+export function PageNavigation({ focusTitle = false }: { focusTitle?: boolean }) {
   useEffect(() => {
     const params = new URLSearchParams(location.hash.split("?")[1]);
     const id = params.get("secao");
     const frame = requestAnimationFrame(() => {
-      const target = document.getElementById(
-        id === "topo" ? "public-title" : id || "public-title",
-      );
-      if (target) {
-        target.focus({ preventScroll: true });
-        if (id && id !== "topo")
-          target.scrollIntoView({ block: "start", behavior: "instant" });
-        else window.scrollTo(0, 0);
-      } else window.scrollTo(0, 0);
+      const heading = document.getElementById("public-title");
+      const anchor = id && id !== "topo" ? document.getElementById(id) : null;
+      if (anchor) {
+        anchor.focus({ preventScroll: true });
+        anchor.scrollIntoView({ block: "start", behavior: "instant" });
+      } else {
+        if (id === "topo" || focusTitle) heading?.focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
     });
     return () => cancelAnimationFrame(frame);
-  }, []);
+  }, [focusTitle]);
   return null;
 }

@@ -1,5 +1,98 @@
 [
   {
+    "file": "home-machined-part.webp",
+    "title": "Suporte flangeado usinado",
+    "creator": "OpenAI ImageGen",
+    "aiGenerated": true,
+    "prompt": "Create one premium photoreal studio product photograph as a genuinely transparent PNG cutout for a Brazilian industrial B2B software homepage. Subject: a single beautifully CNC-machined brushed aluminum flanged bearing housing, a chunky round horizontal base with four bolt holes, side gussets, one upright ring with a precisely chamfered circular bore and subtle parallel machining marks, with one small dark steel fastener in it. Original plausible generic part, no branding. Three-quarter view, camera looking slightly down so the circular bore and base are legible, visual motion from bottom left towards top right, object fills 86% of canvas with clean padding and its entire silhouette preserved. Natural silver and cool graphite in cavities, bright softened studio light from top left, quiet contrast, exquisite tactile material, modern industrial editorial photography (not CAD wireframe and not plastic). No flat shadow extending outside the object, no surface, no props, no backdrop, no text, no textures outside of the object. Proper alpha around the silhouette and through truly open holes. Nearly square portrait or square canvas.",
+    "use": "Ilustração da peça industrial no resumo institucional da home."
+  },
+  {
+    "file": "home-comparison.webp",
+    "title": "Female Engineer Designing Equipment",
+    "creator": "ThisIsEngineering",
+    "sourcePage": "https://www.pexels.com/photo/female-engineer-designing-equipment-3861938/",
+    "download": "https://images.pexels.com/photos/3861938/pexels-photo-3861938.jpeg?auto=compress&w=1440",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "aiGenerated": false,
+    "use": "Fotografia ilustrativa do caso sobre comparação de propostas."
+  },
+  {
+    "file": "home-inspection.webp",
+    "title": "Close Up of Mechanic Hands",
+    "creator": "Alex Domínguez",
+    "sourcePage": "https://www.pexels.com/photo/close-up-of-mechanic-hands-7018177/",
+    "download": "https://images.pexels.com/photos/7018177/pexels-photo-7018177.jpeg?auto=compress&w=1440",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "aiGenerated": false,
+    "use": "Fotografia ilustrativa do caso sobre registro de inspeção."
+  },
+  {
+    "file": "home-hero-opening.webp",
+    "title": "Closeup of a Metal Machinery",
+    "creator": "William Warby",
+    "sourcePage": "https://www.pexels.com/photo/closeup-of-a-metal-machinery-19658259/",
+    "download": "https://images.pexels.com/photos/19658259/pexels-photo-19658259.jpeg?auto=compress&w=1600",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "aiGenerated": false,
+    "use": "Fotografia de engrenagens que preenche o hero na abertura da página inicial."
+  },
+  {
+    "file": "home-b2b.webm",
+    "poster": "home-b2b-poster.webp",
+    "title": "Equipe de logística da página inicial",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "aiGenerated": false,
+    "use": "Dois ângulos da mesma equipe consultando inventário, montados sem áudio para reprodução em loop após o vídeo industrial.",
+    "sources": [
+      {
+        "title": "Men Having a Conversation at Work in the Warehouse",
+        "creator": "Tiger Lily",
+        "sourcePage": "https://www.pexels.com/video/men-having-a-conversation-at-work-in-the-warehouse-4293549/",
+        "download": "https://videos.pexels.com/video-files/4293549/4293549-hd_1920_1080_25fps.mp4"
+      },
+      {
+        "title": "Men Working in a Warehouse",
+        "creator": "Tiger Lily",
+        "sourcePage": "https://www.pexels.com/video/men-working-in-a-warehouse-4281405/",
+        "download": "https://videos.pexels.com/video-files/4281405/4281405-hd_1920_1080_25fps.mp4"
+      }
+    ]
+  },
+  {
+    "file": "home-industrial.webm",
+    "poster": "home-industrial-poster.webp",
+    "title": "Montagem industrial da página inicial",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "aiGenerated": false,
+    "use": "Três cenas recortadas e montadas em 4,67 segundos, apresentadas uma vez por visita, sem áudio. O pôster é um quadro da primeira cena.",
+    "sources": [
+      {
+        "title": "Metal turning machine_2",
+        "creator": "Alex Voloskov",
+        "sourcePage": "https://www.pexels.com/video/metal-turning-machine_2-20609204/",
+        "download": "https://videos.pexels.com/video-files/20609204/20609204-hd_1920_1080_24fps.mp4"
+      },
+      {
+        "title": "Close-up of a Machine Used to Cut Metal",
+        "creator": "Tima Miroshnichenko",
+        "sourcePage": "https://www.pexels.com/video/close-up-of-a-machine-used-to-cut-metal-6263179/",
+        "download": "https://videos.pexels.com/video-files/6263179/6263179-hd_1920_1080_25fps.mp4"
+      },
+      {
+        "title": "Sparks Flying while a Man is Working with Metal",
+        "creator": "Alex Moisieiev",
+        "sourcePage": "https://www.pexels.com/video/sparks-flying-while-a-man-is-working-with-metal-11887093/",
+        "download": "https://videos.pexels.com/video-files/11887093/11887093-hd_1920_1080_25fps.mp4"
+      }
+    ]
+  },
+  {
     "file": "operador-torno.jpg",
     "title": "A Man Using a Turning Machine",
     "creator": "Tima Miroshnichenko",

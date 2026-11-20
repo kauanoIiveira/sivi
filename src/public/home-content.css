@@ -1,0 +1,515 @@
+.sv-home-content {
+  --home-space: clamp(68px, 9vw, 132px);
+  color: var(--sv-ink);
+  background: var(--sv-paper);
+  padding-block: var(--home-space);
+}
+
+.sivi-public-ui .sv-landing .sv-home-content .sv-shell {
+  width: var(--sv-opening-width);
+}
+
+.sivi-public-ui .sv-home-content h2 {
+  font-size: clamp(2.4rem, 4.55vw, 4.65rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.sivi-public-ui .sv-home-content p {
+  color: var(--sv-muted);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.sv-home-content [id][tabindex="-1"] {
+  scroll-margin-top: 112px;
+}
+
+.sivi-public-ui .sv-landing .sv-home-content .sv-home-body-action {
+  min-height: 54px;
+  max-width: 100%;
+  gap: 14px;
+  padding: 12px 20px;
+  color: var(--sv-ink);
+  background: var(--sv-orange);
+  font-size: .9375rem;
+  font-weight: 800;
+  line-height: 1.35;
+  transition: background-color 180ms ease, translate 180ms ease;
+}
+
+.sivi-public-ui .sv-landing .sv-home-content .sv-home-body-action:hover {
+  background: var(--sv-orange-hover);
+  translate: 0 -2px;
+}
+
+.sivi-public-ui .sv-landing .sv-home-content .sv-home-body-action:active {
+  translate: 0 0;
+}
+
+.sv-home-body-action > span {
+  text-wrap: balance;
+}
+
+.sivi-public-ui .sv-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  min-height: 44px;
+  font-size: .9375rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.sv-home-link svg,
+.sv-home-use-title svg {
+  transition: transform 200ms ease;
+}
+
+.sivi-public-ui .sv-home-link:hover {
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+
+.sv-home-link:hover svg,
+.sv-home-use:hover .sv-home-use-title svg {
+  transform: translate(3px, -3px);
+}
+
+.sv-home-intro {
+  display: grid;
+  align-items: center;
+  min-block-size: min(850px, 94svh);
+  padding-block: clamp(58px, 7.75vw, 112px);
+}
+
+.sv-home-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(34px, 6vw, 100px);
+}
+
+.sivi-public-ui .sv-home-intro-copy h2 {
+  max-width: 14.5ch;
+}
+
+.sivi-public-ui .sv-home-intro-copy p {
+  max-width: 45ch;
+  margin-block: 23px 29px;
+}
+
+.sv-home-intro-art {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 630px);
+  aspect-ratio: 1.06;
+  justify-self: end;
+}
+
+.sv-home-part-ground {
+  position: absolute;
+  z-index: -1;
+  inset: 17% 2% 3% 17%;
+  border-radius: 48% 48% 15% 15% / 52% 52% 15% 15%;
+  background: var(--sv-orange);
+}
+
+.sv-home-intro-art img {
+  position: absolute;
+  inset: 0;
+  width: 94%;
+  height: 96%;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 20px #3333);
+}
+
+.sv-home-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px 34px;
+  margin-block-end: clamp(32px, 5vw, 70px);
+}
+
+.sivi-public-ui .sv-home-section-head p {
+  max-width: 49ch;
+  margin-top: 16px;
+}
+
+.sv-home-flow,
+.sv-home-resources {
+  background: var(--sv-surface);
+}
+
+.sv-home-flow h2 {
+  max-width: 16ch;
+}
+
+.sv-home-flow-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: clamp(28px, 6vw, 90px);
+}
+
+.sivi-public-ui .sv-home-steps {
+  border-top: 1px solid var(--sv-line);
+  padding-inline: 0;
+  list-style: none;
+}
+
+.sv-home-steps li {
+  border-bottom: 1px solid var(--sv-line);
+}
+
+.sivi-public-ui .sv-home-steps button {
+  display: grid;
+  grid-template-columns: 2ch minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 22px);
+  width: 100%;
+  min-height: 70px;
+  padding: 13px 0;
+  text-align: left;
+  font-size: clamp(1.05rem, 1.6vw, 1.375rem);
+  font-weight: 750;
+  line-height: 1.2;
+  transition: background-color 180ms ease;
+}
+
+.sv-home-steps .sv-home-step-index {
+  align-self: center;
+  font-size: .77em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sivi-public-ui .sv-home-steps button[aria-pressed="true"] {
+  color: var(--sv-ink);
+  background: var(--sv-paper);
+  box-shadow: inset 0 -2px var(--sv-orange);
+  font-weight: 800;
+}
+
+.sivi-public-ui .sv-home-steps button:hover {
+  background: var(--sv-paper);
+}
+
+.sv-home-audiences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 24px;
+  margin-block-start: 13px;
+  color: var(--sv-muted);
+}
+
+.sv-home-flow .app-frame {
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  border-radius: 15px;
+  color: var(--sv-ink);
+  background: var(--sv-paper);
+}
+
+.sv-home-stage-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px clamp(14px, 2.6vw, 38px);
+  border-bottom: 1px solid var(--sv-line);
+  font-size: .875rem;
+  font-weight: 750;
+}
+
+.sv-home-stage-record {
+  padding: clamp(14px, 2.6vw, 38px);
+  min-height: clamp(310px, 27.25vw, 396px);
+}
+
+.sv-home-flow .app-frame .sv-editorial-record {
+  width: 100%;
+  padding: clamp(13px, 2.25vw, 30px);
+  background: var(--sv-surface);
+}
+
+.sv-home-flow .app-frame .sv-quote-heading {
+  font-size: clamp(1rem, 1.42vw, 1.25rem);
+  line-height: 1.25;
+}
+
+.sv-home-flow .app-frame .sv-quote-heading small {
+  color: var(--sv-muted);
+  font-weight: 650;
+}
+
+.sv-home-flow .app-frame .sv-editorial-record dl > div {
+  padding-block: 12px;
+}
+
+.sivi-public-ui .sv-home-stage-record > p {
+  margin-block-start: 17px;
+  color: var(--sv-muted);
+  font-size: .94rem;
+}
+
+.sv-home-uses {
+  padding-block: clamp(72px, 6vw, 100px);
+}
+
+.sv-home-use-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(30px, 4.2vw, 62px);
+}
+
+.sivi-public-ui .sv-home-use {
+  display: block;
+  transition: translate 180ms ease;
+}
+
+.sv-home-use:hover {
+  translate: 0 -2px;
+}
+
+.sv-home-use-photo {
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: 16px;
+  background: var(--sv-surface);
+}
+
+.sv-home-use-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 500ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.sv-home-use:hover img {
+  scale: 1.03;
+}
+
+.sv-home-use-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 0 3px;
+  min-height: 48px;
+}
+
+.sivi-public-ui .sv-home-use-title h3 {
+  font-size: clamp(1.35rem, 2.25vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.sv-home-use-grid article > p {
+  margin-block-start: 7px;
+  max-width: 45ch;
+}
+
+.sv-home-resources-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 32px clamp(32px, 8vw, 126px);
+}
+
+.sivi-public-ui .sv-home-resources-grid > div:first-child p {
+  max-width: 35ch;
+  margin-top: 17px;
+}
+
+.sv-home-disclosures {
+  border-top: 1px solid var(--sv-line);
+}
+
+.sv-home-disclosures details {
+  border-bottom: 1px solid var(--sv-line);
+}
+
+.sv-home-disclosures summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 5px 12px 0;
+  list-style: none;
+  cursor: pointer;
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.sv-home-disclosures summary::-webkit-details-marker {
+  display: none;
+}
+
+.sv-home-disclosures summary:hover {
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+
+.sv-home-disclosures summary svg {
+  transition: rotate 200ms ease;
+}
+
+.sv-home-disclosures details[open] summary svg {
+  rotate: 180deg;
+}
+
+.sv-home-disclosures details > div {
+  padding-block: 0 12px;
+}
+
+.sivi-public-ui .sv-home-disclosures p {
+  max-width: 54ch;
+  font-size: 1rem;
+}
+
+.sv-home-guides {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px clamp(18px, 3vw, 42px);
+  padding-top: 10px;
+}
+
+.sivi-public-ui .sv-home-guides h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.sivi-public-ui .sv-home-guides ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(12px, 3vw, 34px);
+  padding-inline: 0;
+  list-style: none;
+}
+
+.sv-home-start > .sv-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items: center;
+  gap: 22px clamp(22px, 7vw, 120px);
+}
+
+.sivi-public-ui .sv-home-start p {
+  max-width: 32ch;
+  margin-block-end: 19px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sv-home-stage-record {
+    animation: sv-home-stage-change 320ms cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  @supports (interpolate-size: allow-keywords) {
+    .sv-home-disclosures {
+      interpolate-size: allow-keywords;
+    }
+
+    .sv-home-disclosures details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size 240ms ease, content-visibility 240ms allow-discrete;
+    }
+
+    .sv-home-disclosures details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    .sv-home-intro-art {
+      view-timeline-name: --sv-home-part;
+    }
+
+    .sv-home-intro-art img {
+      animation: sv-home-part-arrive auto linear both;
+      animation-timeline: --sv-home-part;
+      animation-range: entry 8% cover 45%;
+    }
+
+    .sv-home-part-ground {
+      animation: sv-home-backplate-open auto linear both;
+      animation-timeline: --sv-home-part;
+      animation-range: entry 8% cover 45%;
+    }
+  }
+}
+
+@keyframes sv-home-stage-change {
+  from { opacity: .65; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sv-home-part-arrive {
+  from { transform: translateY(42px) scale(.92); }
+  to { transform: translateY(0) scale(1); }
+}
+
+@keyframes sv-home-backplate-open {
+  from { clip-path: inset(14% 14% 0 0); }
+  to { clip-path: inset(0); }
+}
+
+@media (max-width: 760px) {
+  .sv-home-content {
+    --home-space: 92px;
+  }
+
+  .sv-home-intro-grid,
+  .sv-home-flow-layout,
+  .sv-home-resources-grid,
+  .sv-home-start > .sv-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sv-home-intro {
+    min-block-size: 0;
+    padding-block: 96px 64px;
+  }
+
+  .sv-home-uses {
+    padding-block: var(--home-space);
+  }
+
+  .sv-home-intro-art {
+    width: min(100%, 490px);
+    justify-self: center;
+  }
+
+  .sv-home-section-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .sivi-public-ui .sv-home-steps button {
+    min-height: 58px;
+  }
+}
+
+@media (max-width: 560px) {
+  .sv-home-use-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sv-home-guides {
+    display: grid;
+  }
+
+  .sivi-public-ui .sv-home-intro-copy p {
+    margin-block: 16px 21px;
+  }
+}
