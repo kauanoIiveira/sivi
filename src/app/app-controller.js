@@ -418,6 +418,7 @@ export function createAppController({
           auth.dataset.authTransition = newMode;
           const transition = document.startViewTransition(update);
           authTransition = transition;
+          void transition.ready.catch(() => {});
           void transition.finished.catch(() => {}).finally(() => {
             if (authTransition === transition) {
               authTransition = undefined;

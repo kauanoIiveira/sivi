@@ -4,13 +4,16 @@
   --sv-paper: #fff;
   --sv-surface: #f7f7f7;
   --sv-line: #dedede;
-  --sv-control-line: #878787;
+  --sv-control-line: #c8c8c8;
   --sv-orange: #ff9000;
+  --sa-submit-color: #238636;
+  --sa-submit-hover: #1c732d;
+  --sa-field-focus: #a24e00;
   --sa-error: #a13520;
   position: relative;
   display: grid;
   grid-template-areas: "form story";
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 56fr) minmax(0, 44fr);
   min-height: 100svh;
   color: var(--sv-ink);
   background: var(--sv-paper);
@@ -19,6 +22,7 @@
 
 .sivi-auth-ui .sa-layout[data-mode="register"] {
   grid-template-areas: "story form";
+  grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
 }
 
 .sivi-auth-ui .sa-layout .sa-main {
@@ -27,63 +31,71 @@
   align-items: center;
   min-width: 0;
   min-height: 100svh;
-  padding: clamp(100px, 12vh, 124px) clamp(22px, 5.2vw, 98px) clamp(30px, 5vh, 64px);
+  padding: clamp(24px, 5svh, 54px) clamp(22px, 4vw, 72px);
   background: var(--sv-paper);
   view-transition-name: sivi-auth-form;
 }
 
 .sivi-auth-ui .sa-layout .sa-content {
-  width: min(100%, 34rem);
+  width: min(100%, 24rem);
   margin: auto;
 }
 
-.sa-brand {
-  position: absolute;
-  inset-block-start: clamp(20px, 2.65vw, 44px);
-  inset-inline-start: clamp(24px, 3.25vw, 54px);
-  z-index: 2;
-  color: var(--sv-ink);
-  view-transition-name: sivi-auth-brand;
+.sivi-auth-ui .sa-layout[data-mode="register"] .sa-content {
+  width: min(100%, 26rem);
 }
 
-@media (min-width: 861px) {
-  .sa-layout[data-mode="register"] .sa-brand { color: #fff; }
+.sa-brand {
+  display: flex;
+  margin-block-end: 16px;
 }
+
+.sa-layout[data-mode="login"] .sa-brand { justify-content: center; }
 
 .sivi-auth-ui .sa-brand .sv-brand {
-  gap: 9px;
-  min-height: 48px;
-  color: inherit;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--sv-ink);
 }
 
-.sivi-auth-ui .sa-brand .sv-brand img { width: 41px; height: auto; }
-.sivi-auth-ui .sa-brand .sv-brand > span { font-size: 1.83rem; }
+.sivi-auth-ui .sa-brand .sv-brand img { width: 37px; height: auto; }
+.sivi-auth-ui .sa-brand .sv-brand > span { font-size: 1.7rem; }
 .sivi-auth-ui .sa-brand .sv-brand > small { display: none; }
 
 .sivi-auth-ui .sa-layout h1 {
-  font-size: clamp(1.85rem, 2.95vw, 2.7rem);
+  font-size: clamp(1.55rem, 2.15vw, 2rem);
   font-weight: 780;
   letter-spacing: -.035em;
-  line-height: 1.1;
+  line-height: 1.16;
   text-wrap: balance;
+}
+
+.sivi-auth-ui .sa-layout[data-mode="login"] .sa-form-heading {
+  text-align: center;
+}
+
+.sivi-auth-ui .sa-layout[data-mode="login"] .sa-form-heading h1 {
+  font-size: clamp(1.42rem, 1.95vw, 1.72rem);
 }
 
 .sivi-auth-ui .sa-layout .sa-form-heading > p,
 .sivi-auth-ui .sa-layout .sa-success > p {
-  margin-top: 13px;
+  margin-top: 8px;
   color: var(--sv-muted);
   font-size: .9rem;
   line-height: 1.55;
   overflow-wrap: anywhere;
 }
 
-.sa-form-heading { margin-bottom: 24px; }
+.sa-form-heading { margin-bottom: 19px; }
 
 .sivi-auth-ui .sa-layout .sa-steps {
+  --sa-step-gap: 14px;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 23px;
+  gap: var(--sa-step-gap);
+  margin-bottom: 17px;
   padding: 0;
   list-style: none;
 }
@@ -94,8 +106,22 @@
 }
 
 .sivi-auth-ui .sa-layout .sa-steps li[aria-current="step"] {
-  border-color: var(--sv-orange);
   color: var(--sv-ink);
+}
+
+.sa-steps::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: 0;
+  width: calc((100% - var(--sa-step-gap)) / 2);
+  height: 2px;
+  background: var(--sv-orange);
+  pointer-events: none;
+}
+
+.sa-steps:has(> li:nth-child(2)[aria-current="step"])::after {
+  translate: calc(100% + var(--sa-step-gap)) 0;
 }
 
 .sivi-auth-ui .sa-layout .sa-step {
@@ -152,7 +178,7 @@
 
 .sa-field {
   min-width: 0;
-  margin-block-end: 17px;
+  margin-block-end: 13px;
 }
 
 .sa-field-heading {
@@ -176,14 +202,14 @@
 
 .sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select) {
   width: 100%;
-  min-height: 52px;
-  padding: 10px 12px;
+  min-height: 44px;
+  padding: 9px 11px;
   border: 1px solid var(--sv-control-line);
   border-radius: 7px;
   background: var(--sv-paper);
   color: var(--sv-ink);
   font: inherit;
-  font-size: 1rem;
+  font-size: .93rem;
   line-height: 1.35;
 }
 
@@ -193,13 +219,18 @@
 }
 
 .sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select):focus {
-  border-color: var(--sv-orange);
-  outline: 2px solid color-mix(in srgb, var(--sv-orange) 55%, transparent);
+  border-color: var(--sa-field-focus);
+  outline: 2px solid var(--sa-field-focus);
   outline-offset: 1px;
 }
 
-.sivi-auth-ui .sa-layout :is(input, select)[aria-invalid="true"] {
+.sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select)[aria-invalid="true"] {
+  --sa-field-focus: var(--sa-error);
   border-color: var(--sa-error);
+}
+
+@media (prefers-contrast: more) {
+  .sivi-auth-ui .sa-layout { --sv-control-line: #787878; }
 }
 
 .sivi-auth-ui .sa-layout :is(input[autocomplete="current-password"], input[autocomplete="new-password"]) {
@@ -230,7 +261,7 @@
 
 .sa-providers {
   display: grid;
-  gap: 9px;
+  gap: 8px;
 }
 
 .sivi-auth-ui .sa-layout .sa-providers button {
@@ -238,7 +269,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
+  min-height: 44px;
   padding: 8px 12px;
   border: 1px solid var(--sv-line);
   border-radius: 7px;
@@ -257,7 +288,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-block: 18px;
+  margin-block: 13px;
   color: var(--sv-muted);
   font-size: .74rem;
 }
@@ -273,19 +304,19 @@
 .sivi-auth-ui .sa-layout .sa-submit {
   display: grid;
   width: 100%;
-  min-height: 52px;
-  margin-top: 15px;
-  padding: 10px 16px;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 8px 16px;
   place-items: center;
   border-radius: 8px;
-  color: var(--sv-ink);
-  background: var(--sv-orange);
+  color: var(--sv-paper);
+  background: var(--sa-submit-color);
   font-size: .88rem;
   font-weight: 800;
   transition: background-color 160ms ease;
 }
 
-.sivi-auth-ui .sa-layout .sa-submit:hover:not(:disabled) { background: #ffab36; }
+.sivi-auth-ui .sa-layout .sa-submit:hover:not(:disabled) { background: var(--sa-submit-hover); }
 .sivi-auth-ui .sa-layout .sa-submit:focus-visible { outline-color: var(--sv-ink); }
 
 .sivi-auth-ui .sa-layout .sa-reset {
@@ -307,7 +338,7 @@
 }
 
 .sivi-auth-ui .sa-layout .sa-switch-mode {
-  margin-top: 14px;
+  margin-top: 7px;
   color: var(--sv-muted);
   font-size: .84rem;
   text-align: center;
@@ -316,7 +347,7 @@
 .sivi-auth-ui .sa-layout .sa-switch-mode a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 34px;
   padding-inline: 2px;
   color: var(--sv-ink);
   font-weight: 800;
@@ -348,9 +379,11 @@
 }
 
 .sivi-auth-ui .sa-layout .sa-terms {
+  margin-top: 4px;
   color: var(--sv-muted);
-  font-size: .8rem;
+  font-size: .75rem;
   line-height: 1.55;
+  text-align: center;
 }
 
 .sivi-auth-ui .sa-terms a {
@@ -392,6 +425,64 @@
   background: linear-gradient(0deg, #101010f0, #101010af 30%, #10101022 69%, #10101066);
 }
 
+.sivi-auth-ui .sa-layout .sa-story--benefits {
+  align-items: start;
+  background: #101010;
+  color: #fff;
+}
+
+.sa-story--benefits::before { background: rgb(10 10 10 / 72%); }
+
+.sa-benefits {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 33rem);
+  padding: clamp(28px, 8svh, 80px) clamp(22px, 4.6vw, 76px) 14px;
+}
+
+.sivi-auth-ui .sa-benefits h2 {
+  font-size: clamp(1.72rem, 2.75vw, 2.6rem);
+  font-weight: 760;
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.sivi-auth-ui .sa-benefits p {
+  color: #d4cfcb;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.sa-benefits > p { margin-top: 14px; }
+
+.sa-benefits ul {
+  display: grid;
+  gap: 15px;
+  margin-top: 22px;
+  padding: 22px 0 0;
+  border-top: 1px solid #ffffff30;
+  list-style: none;
+}
+
+.sa-benefits li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.sa-benefits li svg {
+  margin-top: 2px;
+  color: #ffaf47;
+}
+
+.sa-benefits li strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: .92rem;
+  font-weight: 760;
+}
+
 .sa-story-content {
   position: relative;
   z-index: 1;
@@ -400,27 +491,42 @@
 }
 
 .sivi-auth-ui .sa-story-content h2 {
-  font-size: clamp(2.65rem, min(5.35vw, 13svh), 6.5rem);
+  font-size: clamp(2.125rem, min(3.65vw, 10svh), 3.25rem);
   font-weight: 740;
-  line-height: 1.01;
-  letter-spacing: -.055em;
+  line-height: 1.08;
+  letter-spacing: -.037em;
 }
 
 .sivi-auth-ui .sa-story-content p {
   max-width: 39ch;
-  margin-top: 20px;
+  margin-top: 12px;
   color: #efefef;
-  font-size: clamp(.94rem, 1.24vw, 1.23rem);
+  font-size: clamp(.94rem, 1.18vw, 1.075rem);
   line-height: 1.5;
 }
 
 @media (max-width: 860px) {
   .sivi-auth-ui .sa-layout { display: block; }
   .sivi-auth-ui .sa-layout .sa-main { padding-inline: clamp(15px, 5vw, 44px); }
+  .sivi-auth-ui .sa-layout[data-mode="register"] .sa-main { min-height: auto; }
+  .sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select) { font-size: 1rem; }
   .sivi-auth-ui .sa-layout .sa-story { display: none; }
+  .sivi-auth-ui .sa-layout .sa-story--benefits {
+    position: relative;
+    display: block;
+    height: auto;
+    padding: 30px clamp(15px, 5vw, 44px) 36px;
+  }
+  .sa-benefits {
+    margin-inline: auto;
+    width: min(100%, 26rem);
+    padding: 0;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .sa-steps::after { transition: translate 250ms cubic-bezier(.22, 1, .36, 1); }
+
   html:has([data-auth-transition], [data-auth-slide]) {
     --sa-slide-pause: 120ms;
     --sa-slide-duration: 660ms;
@@ -430,8 +536,7 @@
   html:has([data-auth-transition])::view-transition-old(root) { display: none; }
 
   html:has([data-auth-transition])::view-transition-group(sivi-auth-form),
-  html:has([data-auth-transition])::view-transition-group(sivi-auth-story),
-  html:has([data-auth-transition])::view-transition-group(sivi-auth-brand) {
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-story) {
     animation-duration: var(--sa-slide-duration);
     animation-delay: var(--sa-slide-pause);
     animation-timing-function: cubic-bezier(.65, .02, .24, 1);
@@ -439,7 +544,6 @@
   }
 
   html:has([data-auth-transition])::view-transition-group(sivi-auth-form) { z-index: 2; }
-  html:has([data-auth-transition])::view-transition-group(sivi-auth-brand) { z-index: 3; }
 
   @media (min-width: 861px) {
     html:has([data-auth-transition])::view-transition-image-pair(sivi-auth-form) { background: #fff; }

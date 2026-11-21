@@ -37,7 +37,7 @@
     view-transition-name: sivi-public-header;
   }
 
-  html[data-page-transition="access"] .sa-layout :is(.sa-main, .sa-story, .sa-brand) {
+  html[data-page-transition="access"] .sa-layout :is(.sa-main, .sa-story) {
     view-transition-name: none;
   }
 

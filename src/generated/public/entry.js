@@ -20355,8 +20355,55 @@ var ES = {
 	email: "",
 	password: "",
 	confirmPassword: ""
-}, DS = 14, OS = (e) => e.toUpperCase().replace(/[^A-Z0-9]/g, "");
-function kS({ bridge: e }) {
+}, DS = 14, OS = (e) => e.toUpperCase().replace(/[^A-Z0-9]/g, ""), kS = [
+	["Publicar demandas", "Informe o que sua empresa precisa comprar e receba propostas."],
+	["Encontrar oportunidades", "Consulte demandas compatíveis com o que sua empresa fornece."],
+	["Acompanhar pedidos", "Consulte as condições do pedido e os registros de inspeção, expedição e recebimento."]
+];
+function AS({ register: e }) {
+	return e ? /* @__PURE__ */ (0, Z.jsxs)("aside", {
+		className: "sa-story sa-story--benefits",
+		"aria-labelledby": "signup-benefits",
+		children: [/* @__PURE__ */ (0, Z.jsx)("img", {
+			className: "sa-story-photo",
+			src: "./assets/home-inspection.webp",
+			width: 1200,
+			height: 800,
+			alt: ""
+		}), /* @__PURE__ */ (0, Z.jsxs)("div", {
+			className: "sa-benefits",
+			children: [
+				/* @__PURE__ */ (0, Z.jsx)("h2", {
+					id: "signup-benefits",
+					children: "O que sua empresa pode fazer no SIVI"
+				}),
+				/* @__PURE__ */ (0, Z.jsx)("p", { children: "A conta é gratuita. Os recursos ficam disponíveis após a aprovação da empresa." }),
+				/* @__PURE__ */ (0, Z.jsx)("ul", { children: kS.map(([e, t]) => /* @__PURE__ */ (0, Z.jsxs)("li", { children: [/* @__PURE__ */ (0, Z.jsx)(xg, {
+					size: 18,
+					"aria-hidden": "true"
+				}), /* @__PURE__ */ (0, Z.jsxs)("div", { children: [/* @__PURE__ */ (0, Z.jsx)("strong", { children: e }), /* @__PURE__ */ (0, Z.jsx)("p", { children: t })] })] }, e)) })
+			]
+		})]
+	}) : /* @__PURE__ */ (0, Z.jsxs)("aside", {
+		className: "sa-story",
+		children: [/* @__PURE__ */ (0, Z.jsx)("img", {
+			className: "sa-story-photo",
+			src: "./assets/operador-torno.jpg",
+			width: 1920,
+			height: 1280,
+			alt: "",
+			fetchPriority: "high"
+		}), /* @__PURE__ */ (0, Z.jsxs)("div", {
+			className: "sa-story-content",
+			children: [/* @__PURE__ */ (0, Z.jsxs)("h2", { children: [
+				"Da cotação",
+				/* @__PURE__ */ (0, Z.jsx)("br", {}),
+				"ao recebimento."
+			] }), /* @__PURE__ */ (0, Z.jsx)("p", { children: "Compradores e fornecedores no mesmo lugar, com cada etapa da negociação registrada." })]
+		})]
+	});
+}
+function jS({ bridge: e }) {
 	let t = new URLSearchParams(location.hash.split("?")[1]), n = t.get("modo") !== "login", [r, i] = (0, y.useState)(() => hS(t.get("plano") ?? (t.get("atuacao") === "supplier" ? "fornecimento" : "compras")).id), a = t.get("periodo") === "anual" ? "anual" : "mensal", [o, s] = (0, y.useState)(0), [c, l] = (0, y.useState)({
 		...ES,
 		name: "",
@@ -20542,217 +20589,277 @@ function kS({ bridge: e }) {
 		"data-mode": n ? "register" : "login",
 		"data-ui-ready": "true",
 		"aria-busy": f,
-		children: [
-			/* @__PURE__ */ (0, Z.jsx)("div", {
-				className: "sa-brand",
-				children: /* @__PURE__ */ (0, Z.jsx)(r_, { back: !0 })
-			}),
-			/* @__PURE__ */ (0, Z.jsx)("main", {
-				className: "sa-main",
-				children: /* @__PURE__ */ (0, Z.jsx)("div", {
-					className: "sa-content form-view is-active",
-					children: g ? /* @__PURE__ */ (0, Z.jsxs)("section", {
-						className: "sa-success",
-						children: [
-							/* @__PURE__ */ (0, Z.jsx)("span", {
-								className: "sa-success-symbol",
-								children: /* @__PURE__ */ (0, Z.jsx)(xg, {
-									size: 22,
-									"aria-hidden": "true"
-								})
-							}),
-							/* @__PURE__ */ (0, Z.jsx)("h1", {
-								ref: D,
-								tabIndex: -1,
-								children: "Sua conta foi criada."
-							}),
-							/* @__PURE__ */ (0, Z.jsx)("p", { children: g.verificationSent ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
-								"Enviamos um link para ",
-								/* @__PURE__ */ (0, Z.jsx)("strong", { children: g.email }),
-								". Confirme seu e-mail para continuar."
-							] }) : "Entre com sua conta para solicitar um novo e-mail de verificação." }),
-							/* @__PURE__ */ (0, Z.jsx)("p", { children: g.persistent ? "Depois de confirmar o e-mail, entre para revisar e enviar os dados da empresa para análise." : "Depois de confirmar o e-mail, entre e preencha novamente os dados da empresa neste navegador." }),
-							(!g.profileSaved || !g.displayNameSaved) && /* @__PURE__ */ (0, Z.jsx)("p", {
-								className: "sa-notice",
-								children: "Confira os dados do perfil após entrar. Parte deles não pôde ser salva."
-							}),
-							/* @__PURE__ */ (0, Z.jsx)("a", {
-								className: "sa-submit",
-								href: "#/acesso?modo=login",
-								children: "Ir para o login"
+		children: [/* @__PURE__ */ (0, Z.jsx)("main", {
+			className: "sa-main",
+			children: /* @__PURE__ */ (0, Z.jsxs)("div", {
+				className: "sa-content form-view is-active",
+				children: [/* @__PURE__ */ (0, Z.jsx)("div", {
+					className: "sa-brand",
+					children: /* @__PURE__ */ (0, Z.jsx)(r_, { back: !0 })
+				}), g ? /* @__PURE__ */ (0, Z.jsxs)("section", {
+					className: "sa-success",
+					children: [
+						/* @__PURE__ */ (0, Z.jsx)("span", {
+							className: "sa-success-symbol",
+							children: /* @__PURE__ */ (0, Z.jsx)(xg, {
+								size: 22,
+								"aria-hidden": "true"
 							})
-						]
-					}) : n ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
-						/* @__PURE__ */ (0, Z.jsxs)("div", {
-							className: "sa-form-heading",
-							children: [/* @__PURE__ */ (0, Z.jsx)("h1", {
-								ref: D,
-								tabIndex: -1,
-								children: o === 0 ? "Crie sua conta" : "Dados da empresa"
-							}), o === 0 && /* @__PURE__ */ (0, Z.jsx)("p", { children: "Conecte sua empresa a compradores e fornecedores da indústria." })]
 						}),
-						/* @__PURE__ */ (0, Z.jsxs)("ol", {
-							className: "sa-steps",
-							"aria-label": "Etapas do cadastro",
-							children: [/* @__PURE__ */ (0, Z.jsx)("li", {
-								"aria-current": o === 0 ? "step" : void 0,
-								children: o === 0 ? /* @__PURE__ */ (0, Z.jsxs)("span", {
-									className: "sa-step",
-									children: [/* @__PURE__ */ (0, Z.jsx)("span", {
-										className: "sa-step-number",
-										"aria-hidden": "true",
-										children: "1"
-									}), " Conta"]
-								}) : /* @__PURE__ */ (0, Z.jsxs)("button", {
-									type: "button",
-									className: "sa-step",
-									"aria-label": "Voltar à etapa 1, Conta",
-									disabled: f,
-									onClick: () => {
-										s(0), h(""), d({}), window.scrollTo(0, 0);
-									},
-									children: [/* @__PURE__ */ (0, Z.jsx)("span", {
-										className: "sa-step-number",
-										"aria-hidden": "true",
-										children: "1"
-									}), " Conta"]
-								})
-							}), /* @__PURE__ */ (0, Z.jsx)("li", {
-								"aria-current": o === 1 ? "step" : void 0,
-								children: /* @__PURE__ */ (0, Z.jsxs)("span", {
-									className: "sa-step",
-									children: [/* @__PURE__ */ (0, Z.jsx)("span", {
-										className: "sa-step-number",
-										"aria-hidden": "true",
-										children: "2"
-									}), " Empresa"]
-								})
-							})]
+						/* @__PURE__ */ (0, Z.jsx)("h1", {
+							ref: D,
+							tabIndex: -1,
+							children: "Sua conta foi criada."
 						}),
-						/* @__PURE__ */ (0, Z.jsx)("form", {
-							id: "register-form",
-							noValidate: !0,
-							onSubmit: I,
-							children: /* @__PURE__ */ (0, Z.jsxs)("fieldset", {
+						/* @__PURE__ */ (0, Z.jsx)("p", { children: g.verificationSent ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+							"Enviamos um link para ",
+							/* @__PURE__ */ (0, Z.jsx)("strong", { children: g.email }),
+							". Confirme seu e-mail para continuar."
+						] }) : "Entre com sua conta para solicitar um novo e-mail de verificação." }),
+						/* @__PURE__ */ (0, Z.jsx)("p", { children: g.persistent ? "Depois de confirmar o e-mail, entre para revisar e enviar os dados da empresa para análise." : "Depois de confirmar o e-mail, entre e preencha novamente os dados da empresa neste navegador." }),
+						(!g.profileSaved || !g.displayNameSaved) && /* @__PURE__ */ (0, Z.jsx)("p", {
+							className: "sa-notice",
+							children: "Confira os dados do perfil após entrar. Parte deles não pôde ser salva."
+						}),
+						/* @__PURE__ */ (0, Z.jsx)("a", {
+							className: "sa-submit",
+							href: "#/acesso?modo=login",
+							children: "Ir para o login"
+						})
+					]
+				}) : n ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+					/* @__PURE__ */ (0, Z.jsxs)("div", {
+						className: "sa-form-heading",
+						children: [/* @__PURE__ */ (0, Z.jsx)("h1", {
+							ref: D,
+							tabIndex: -1,
+							children: o === 0 ? "Crie sua conta" : "Dados da empresa"
+						}), o === 0 && /* @__PURE__ */ (0, Z.jsx)("p", { children: "Informe seus dados para começar." })]
+					}),
+					/* @__PURE__ */ (0, Z.jsxs)("ol", {
+						className: "sa-steps",
+						"aria-label": "Etapas do cadastro",
+						children: [/* @__PURE__ */ (0, Z.jsx)("li", {
+							"aria-current": o === 0 ? "step" : void 0,
+							children: o === 0 ? /* @__PURE__ */ (0, Z.jsxs)("span", {
+								className: "sa-step",
+								children: [/* @__PURE__ */ (0, Z.jsx)("span", {
+									className: "sa-step-number",
+									"aria-hidden": "true",
+									children: "1"
+								}), " Conta"]
+							}) : /* @__PURE__ */ (0, Z.jsxs)("button", {
+								type: "button",
+								className: "sa-step",
+								"aria-label": "Voltar à etapa 1, Conta",
 								disabled: f,
-								children: [
-									o === 0 ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
-										/* @__PURE__ */ (0, Z.jsxs)("div", {
-											className: "sa-row",
-											children: [te("firstName", "Nome", "text", "given-name"), te("lastName", "Sobrenome", "text", "family-name")]
-										}),
-										te("email", "E-mail", "email", "email", "voce@empresa.com"),
-										te("password", "Senha", "password", "new-password", "Crie uma senha"),
-										te("confirmPassword", "Confirmar senha", "password", "new-password", "Repita a senha")
-									] }) : /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
-										/* @__PURE__ */ (0, Z.jsx)(TS, {
-											label: "Nome da empresa",
-											id: "company-name",
-											name: "name",
-											placeholder: "Ex.: Metalúrgica Horizonte",
-											autoComplete: "organization",
-											maxLength: 120,
-											value: c.name,
-											onChange: j,
-											error: u.name
-										}),
-										/* @__PURE__ */ (0, Z.jsx)(TS, {
-											label: "CNPJ",
-											id: "company-cnpj",
-											name: "cnpj",
-											placeholder: "14 caracteres",
-											autoComplete: "off",
-											maxLength: DS,
-											value: c.cnpj,
-											onChange: j,
-											onPaste: M,
-											error: u.cnpj
-										}),
-										/* @__PURE__ */ (0, Z.jsxs)("div", {
-											className: "sa-row sa-row--city",
-											children: [/* @__PURE__ */ (0, Z.jsx)(TS, {
-												label: "Cidade",
-												id: "company-city",
-												name: "city",
-												placeholder: "Ex.: Diadema",
-												autoComplete: "address-level2",
-												maxLength: 100,
-												value: c.city,
-												onChange: j,
-												error: u.city
-											}), /* @__PURE__ */ (0, Z.jsxs)("div", {
-												className: "sa-field",
-												children: [
-													/* @__PURE__ */ (0, Z.jsx)("label", {
-														htmlFor: "company-state",
-														children: "UF"
-													}),
-													/* @__PURE__ */ (0, Z.jsx)("select", {
-														id: "company-state",
-														name: "state",
-														autoComplete: "address-level1",
-														value: c.state,
-														onChange: (e) => j("state", e.target.value),
-														"aria-invalid": !!u.state,
-														"aria-describedby": u.state ? "company-state-error" : void 0,
-														children: uS.map((e) => /* @__PURE__ */ (0, Z.jsx)("option", { children: e }, e))
-													}),
-													u.state && /* @__PURE__ */ (0, Z.jsx)("small", {
-														className: "sa-error",
-														id: "company-state-error",
-														children: u.state
-													})
-												]
-											})]
-										}),
-										/* @__PURE__ */ (0, Z.jsx)(TS, {
-											label: "Telefone ou e-mail de contato",
-											id: "company-contact",
-											name: "contact",
-											placeholder: "contato@empresa.com",
-											maxLength: 120,
-											value: c.contact,
-											onChange: j,
-											error: u.contact
-										}),
-										/* @__PURE__ */ (0, Z.jsxs)("div", {
-											className: "sa-field",
-											children: [/* @__PURE__ */ (0, Z.jsx)("label", {
-												htmlFor: "signup-plan",
-												children: "Atuação da empresa"
-											}), /* @__PURE__ */ (0, Z.jsx)("select", {
-												id: "signup-plan",
-												value: r,
-												onChange: (e) => i(e.target.value),
-												children: mS.map(({ id: e, roles: t }) => /* @__PURE__ */ (0, Z.jsx)("option", {
-													value: e,
-													children: t.length === 2 ? "Comprar e fornecer" : t[0] === "buyer" ? "Comprar" : "Fornecer"
-												}, e))
-											})]
-										})
-									] }),
-									F,
-									ne,
-									/* @__PURE__ */ (0, Z.jsx)("button", {
-										type: "submit",
-										className: "sa-submit",
-										"aria-describedby": "access-terms",
-										children: f ? "Criando sua conta…" : o === 0 ? "Continuar" : "Criar conta"
-									})
-								]
+								onClick: () => {
+									s(0), h(""), d({}), window.scrollTo(0, 0);
+								},
+								children: [/* @__PURE__ */ (0, Z.jsx)("span", {
+									className: "sa-step-number",
+									"aria-hidden": "true",
+									children: "1"
+								}), " Conta"]
 							})
+						}), /* @__PURE__ */ (0, Z.jsx)("li", {
+							"aria-current": o === 1 ? "step" : void 0,
+							children: /* @__PURE__ */ (0, Z.jsxs)("span", {
+								className: "sa-step",
+								children: [/* @__PURE__ */ (0, Z.jsx)("span", {
+									className: "sa-step-number",
+									"aria-hidden": "true",
+									children: "2"
+								}), " Empresa"]
+							})
+						})]
+					}),
+					/* @__PURE__ */ (0, Z.jsx)("form", {
+						id: "register-form",
+						noValidate: !0,
+						onSubmit: I,
+						children: /* @__PURE__ */ (0, Z.jsxs)("fieldset", {
+							disabled: f,
+							children: [
+								o === 0 ? /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+									/* @__PURE__ */ (0, Z.jsxs)("div", {
+										className: "sa-row",
+										children: [te("firstName", "Nome", "text", "given-name"), te("lastName", "Sobrenome", "text", "family-name")]
+									}),
+									te("email", "E-mail", "email", "email", "nome@empresa.com"),
+									te("password", "Senha", "password", "new-password", "Crie uma senha"),
+									te("confirmPassword", "Confirmar senha", "password", "new-password", "Repita a senha")
+								] }) : /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+									/* @__PURE__ */ (0, Z.jsx)(TS, {
+										label: "Nome da empresa",
+										id: "company-name",
+										name: "name",
+										placeholder: "Ex.: Metalúrgica Horizonte",
+										autoComplete: "organization",
+										maxLength: 120,
+										value: c.name,
+										onChange: j,
+										error: u.name
+									}),
+									/* @__PURE__ */ (0, Z.jsx)(TS, {
+										label: "CNPJ",
+										id: "company-cnpj",
+										name: "cnpj",
+										placeholder: "14 caracteres",
+										autoComplete: "off",
+										maxLength: DS,
+										value: c.cnpj,
+										onChange: j,
+										onPaste: M,
+										error: u.cnpj
+									}),
+									/* @__PURE__ */ (0, Z.jsxs)("div", {
+										className: "sa-row sa-row--city",
+										children: [/* @__PURE__ */ (0, Z.jsx)(TS, {
+											label: "Cidade",
+											id: "company-city",
+											name: "city",
+											placeholder: "Ex.: Diadema",
+											autoComplete: "address-level2",
+											maxLength: 100,
+											value: c.city,
+											onChange: j,
+											error: u.city
+										}), /* @__PURE__ */ (0, Z.jsxs)("div", {
+											className: "sa-field",
+											children: [
+												/* @__PURE__ */ (0, Z.jsx)("label", {
+													htmlFor: "company-state",
+													children: "UF"
+												}),
+												/* @__PURE__ */ (0, Z.jsx)("select", {
+													id: "company-state",
+													name: "state",
+													autoComplete: "address-level1",
+													value: c.state,
+													onChange: (e) => j("state", e.target.value),
+													"aria-invalid": !!u.state,
+													"aria-describedby": u.state ? "company-state-error" : void 0,
+													children: uS.map((e) => /* @__PURE__ */ (0, Z.jsx)("option", { children: e }, e))
+												}),
+												u.state && /* @__PURE__ */ (0, Z.jsx)("small", {
+													className: "sa-error",
+													id: "company-state-error",
+													children: u.state
+												})
+											]
+										})]
+									}),
+									/* @__PURE__ */ (0, Z.jsx)(TS, {
+										label: "Telefone ou e-mail de contato",
+										id: "company-contact",
+										name: "contact",
+										placeholder: "contato@empresa.com",
+										maxLength: 120,
+										value: c.contact,
+										onChange: j,
+										error: u.contact
+									}),
+									/* @__PURE__ */ (0, Z.jsxs)("div", {
+										className: "sa-field",
+										children: [/* @__PURE__ */ (0, Z.jsx)("label", {
+											htmlFor: "signup-plan",
+											children: "Atuação da empresa"
+										}), /* @__PURE__ */ (0, Z.jsx)("select", {
+											id: "signup-plan",
+											value: r,
+											onChange: (e) => i(e.target.value),
+											children: mS.map(({ id: e, roles: t }) => /* @__PURE__ */ (0, Z.jsx)("option", {
+												value: e,
+												children: t.length === 2 ? "Comprar e fornecer" : t[0] === "buyer" ? "Comprar" : "Fornecer"
+											}, e))
+										})]
+									})
+								] }),
+								ne,
+								/* @__PURE__ */ (0, Z.jsx)("button", {
+									type: "submit",
+									className: "sa-submit",
+									"aria-describedby": "access-terms",
+									children: f ? "Criando sua conta…" : o === 0 ? "Continuar para dados da empresa" : "Criar conta"
+								})
+							]
+						})
+					}),
+					R,
+					F
+				] }) : /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+					/* @__PURE__ */ (0, Z.jsxs)("div", {
+						className: "sa-form-heading",
+						children: [/* @__PURE__ */ (0, Z.jsx)("h1", {
+							ref: D,
+							tabIndex: -1,
+							children: v ? "Recupere seu acesso" : "Bem-vindo de volta ao SIVI!"
+						}), v && /* @__PURE__ */ (0, Z.jsx)("p", { children: "Informe o e-mail usado no cadastro." })]
+					}),
+					/* @__PURE__ */ (0, Z.jsx)("form", {
+						id: "login-form",
+						noValidate: !0,
+						onSubmit: L,
+						children: /* @__PURE__ */ (0, Z.jsxs)("fieldset", {
+							disabled: f,
+							children: [
+								/* @__PURE__ */ (0, Z.jsx)(TS, {
+									id: "login-email",
+									label: "E-mail",
+									name: "email",
+									type: "email",
+									placeholder: "nome@empresa.com",
+									autoComplete: "username",
+									maxLength: 254,
+									value: x,
+									onChange: (e, t) => S(t)
+								}),
+								!v && /* @__PURE__ */ (0, Z.jsx)(Z.Fragment, { children: /* @__PURE__ */ (0, Z.jsx)(TS, {
+									id: "login-password",
+									label: "Senha",
+									name: "password",
+									type: "password",
+									placeholder: "Sua senha",
+									autoComplete: "current-password",
+									maxLength: 128,
+									value: C,
+									onChange: (e, t) => w(t),
+									labelAction: /* @__PURE__ */ (0, Z.jsx)("button", {
+										className: "sa-reset",
+										type: "button",
+										"data-reset-password": !0,
+										onClick: () => {
+											b(!0), h("");
+										},
+										children: "Esqueci minha senha"
+									})
+								}) }),
+								ne,
+								/* @__PURE__ */ (0, Z.jsx)("button", {
+									type: "submit",
+									className: "sa-submit",
+									"aria-describedby": v ? void 0 : "access-terms",
+									children: f ? "Aguarde…" : v ? "Enviar orientações" : "Entrar"
+								}),
+								v && /* @__PURE__ */ (0, Z.jsx)("button", {
+									className: "sa-reset sa-reset--return",
+									type: "button",
+									"data-reset-password": !0,
+									onClick: () => {
+										b(!1), h("");
+									},
+									children: "Voltar ao login"
+								})
+							]
+						})
+					}),
+					!v && /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
+						/* @__PURE__ */ (0, Z.jsx)("div", {
+							className: "sa-divider",
+							children: /* @__PURE__ */ (0, Z.jsx)("span", { children: "ou" })
 						}),
-						R
-					] }) : /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [
 						/* @__PURE__ */ (0, Z.jsxs)("div", {
-							className: "sa-form-heading",
-							children: [/* @__PURE__ */ (0, Z.jsx)("h1", {
-								ref: D,
-								tabIndex: -1,
-								children: v ? "Recupere seu acesso" : "Bem-vindo de volta ao SIVI!"
-							}), /* @__PURE__ */ (0, Z.jsx)("p", { children: v ? "Informe o e-mail usado no cadastro." : "Acompanhe suas demandas, propostas e pedidos." })]
-						}),
-						!v && /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [/* @__PURE__ */ (0, Z.jsxs)("div", {
 							className: "sa-providers",
 							children: [/* @__PURE__ */ (0, Z.jsxs)("button", {
 								type: "button",
@@ -20781,120 +20888,43 @@ function kS({ bridge: e }) {
 									children: /* @__PURE__ */ (0, Z.jsx)("path", { d: "M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" })
 								}), "Entrar com Apple"]
 							})]
-						}), /* @__PURE__ */ (0, Z.jsx)("div", {
-							className: "sa-divider",
-							children: /* @__PURE__ */ (0, Z.jsx)("span", { children: "ou entre com e-mail" })
-						})] }),
-						/* @__PURE__ */ (0, Z.jsx)("form", {
-							id: "login-form",
-							noValidate: !0,
-							onSubmit: L,
-							children: /* @__PURE__ */ (0, Z.jsxs)("fieldset", {
-								disabled: f,
-								children: [
-									/* @__PURE__ */ (0, Z.jsx)(TS, {
-										id: "login-email",
-										label: "E-mail",
-										name: "email",
-										type: "email",
-										placeholder: "voce@empresa.com",
-										autoComplete: "username",
-										maxLength: 254,
-										value: x,
-										onChange: (e, t) => S(t)
-									}),
-									!v && /* @__PURE__ */ (0, Z.jsxs)(Z.Fragment, { children: [/* @__PURE__ */ (0, Z.jsx)(TS, {
-										id: "login-password",
-										label: "Senha",
-										name: "password",
-										type: "password",
-										placeholder: "Sua senha",
-										autoComplete: "current-password",
-										maxLength: 128,
-										value: C,
-										onChange: (e, t) => w(t),
-										labelAction: /* @__PURE__ */ (0, Z.jsx)("button", {
-											className: "sa-reset",
-											type: "button",
-											"data-reset-password": !0,
-											onClick: () => {
-												b(!0), h("");
-											},
-											children: "Esqueci minha senha"
-										})
-									}), F] }),
-									ne,
-									/* @__PURE__ */ (0, Z.jsx)("button", {
-										type: "submit",
-										className: "sa-submit",
-										"aria-describedby": v ? void 0 : "access-terms",
-										children: f ? "Aguarde…" : v ? "Enviar orientações" : "Entrar"
-									}),
-									v && /* @__PURE__ */ (0, Z.jsx)("button", {
-										className: "sa-reset sa-reset--return",
-										type: "button",
-										"data-reset-password": !0,
-										onClick: () => {
-											b(!1), h("");
-										},
-										children: "Voltar ao login"
-									})
-								]
-							})
 						}),
-						!v && R
+						R,
+						F
 					] })
-				})
-			}),
-			/* @__PURE__ */ (0, Z.jsxs)("aside", {
-				className: "sa-story",
-				children: [/* @__PURE__ */ (0, Z.jsx)("img", {
-					className: "sa-story-photo",
-					src: "./assets/operador-torno.jpg",
-					width: 1920,
-					height: 1280,
-					alt: "",
-					fetchPriority: "high"
-				}), /* @__PURE__ */ (0, Z.jsxs)("div", {
-					className: "sa-story-content",
-					children: [/* @__PURE__ */ (0, Z.jsxs)("h2", { children: [
-						"Da cotação",
-						/* @__PURE__ */ (0, Z.jsx)("br", {}),
-						"ao recebimento."
-					] }), /* @__PURE__ */ (0, Z.jsx)("p", { children: "Compradores e fornecedores no mesmo lugar, com cada etapa da negociação registrada." })]
-				})]
+				] })]
 			})
-		]
+		}), /* @__PURE__ */ (0, Z.jsx)(AS, { register: n })]
 	});
 }
 String.raw;
 // node_modules/number-flow/dist/ssr-DvIINv8w.mjs
-var AS = String.raw, jS = (() => {
+var MS = String.raw, NS = (() => {
 	try {
 		document.createElement("div").animate({ opacity: 0 }, { easing: "linear(0, 1)" });
 	} catch {
 		return !1;
 	}
 	return !0;
-})(), MS = typeof CSS < "u" && CSS.supports && CSS.supports("line-height", "mod(1,1)"), NS = typeof matchMedia < "u" ? matchMedia("(prefers-reduced-motion: reduce)") : null, PS = "--_number-flow-d-opacity", FS = "--_number-flow-d-width", IS = "--_number-flow-dx", LS = "--_number-flow-d", RS = (() => {
+})(), PS = typeof CSS < "u" && CSS.supports && CSS.supports("line-height", "mod(1,1)"), FS = typeof matchMedia < "u" ? matchMedia("(prefers-reduced-motion: reduce)") : null, IS = "--_number-flow-d-opacity", LS = "--_number-flow-d-width", RS = "--_number-flow-dx", zS = "--_number-flow-d", BS = (() => {
 	try {
 		return CSS.registerProperty({
-			name: PS,
+			name: IS,
 			syntax: "<number>",
 			inherits: !1,
 			initialValue: "0"
 		}), CSS.registerProperty({
-			name: IS,
+			name: RS,
 			syntax: "<length>",
 			inherits: !0,
 			initialValue: "0px"
 		}), CSS.registerProperty({
-			name: FS,
+			name: LS,
 			syntax: "<number>",
 			inherits: !1,
 			initialValue: "0"
 		}), CSS.registerProperty({
-			name: LS,
+			name: zS,
 			syntax: "<number>",
 			inherits: !0,
 			initialValue: "0"
@@ -20902,17 +20932,17 @@ var AS = String.raw, jS = (() => {
 	} catch {
 		return !1;
 	}
-})(), zS = "round(nearest, calc(var(--number-flow-mask-height, 0.25em) / 2), 1px)", BS = `calc(${zS} * 2)`, VS = "var(--number-flow-mask-width, 0.5em)", HS = `calc(${VS} / var(--scale-x))`, US = "#000 0, transparent 71%", WS = AS`:host{display:inline-block;direction:ltr;white-space:nowrap;isolation:isolate;line-height:1}.number,.number__inner{display:inline-block;transform-origin:left top}:host([data-will-change]) :is(.number,.number__inner,.section,.digit,.digit__num,.symbol){will-change:transform}.number{--scale-x:calc(1 + var(${FS}) / var(--width));transform:translateX(var(${IS})) scaleX(var(--scale-x));margin:0 calc(-1 * ${VS});position:relative;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 ${HS},#000 calc(100% - ${HS}),transparent ),linear-gradient(to bottom,transparent 0,#000 ${BS},#000 calc(100% - ${BS}),transparent 100% ),radial-gradient(at bottom right,${US}),radial-gradient(at bottom left,${US}),radial-gradient(at top left,${US}),radial-gradient(at top right,${US});-webkit-mask-size:100% calc(100% - ${BS} * 2),calc(100% - ${HS} * 2) 100%,${HS} ${BS},${HS} ${BS},${HS} ${BS},${HS} ${BS};-webkit-mask-position:center,center,top left,top right,bottom right,bottom left;-webkit-mask-repeat:no-repeat}.number__inner{padding:${zS} ${VS};transform:scaleX(calc(1 / var(--scale-x))) translateX(calc(-1 * var(${IS})))}:host > :not(.number){z-index:5}.section,.symbol{display:inline-block;position:relative;isolation:isolate}.section::after{content:'\200b';display:inline-block}.section--justify-left{transform-origin:center left}.section--justify-right{transform-origin:center right}.section > [inert],.symbol > [inert]{margin:0 !important;position:absolute !important;z-index:-1}.digit{display:inline-block;position:relative;--c:var(--current) + var(${LS})}.digit__num,.number .section::after{padding:${zS} 0}.digit__num{display:inline-block;--offset-raw:mod(var(--length) + var(--n) - mod(var(--c),var(--length)),var(--length));--offset:calc( var(--offset-raw) - var(--length) * round(down,var(--offset-raw) / (var(--length) / 2),1) );--y:clamp(-100%,var(--offset) * 100%,100%);transform:translateY(var(--y))}.digit__num[inert]{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(var(--y))}.digit:not(.is-spinning) .digit__num[inert]{display:none}.symbol__value{display:inline-block;mix-blend-mode:plus-lighter;white-space:pre}.section--justify-left .symbol > [inert]{left:0}.section--justify-right .symbol > [inert]{right:0}.animate-presence{opacity:calc(1 + var(${PS}))}`, GS = typeof HTMLElement < "u" ? HTMLElement : class {}, KS = AS`:host{display:inline-block;direction:ltr;white-space:nowrap;line-height:1}span{display:inline-block}:host([data-will-change]) span{will-change:transform}.number,.digit{padding:${zS} 0}.symbol{white-space:pre}`, qS = (e = "") => AS`:where(number-flow${e}){line-height:1}number-flow${e} > span{font-kerning:none;display:inline-block;padding:${BS} 0}`, JS = (e, t, n) => {
+})(), VS = "round(nearest, calc(var(--number-flow-mask-height, 0.25em) / 2), 1px)", HS = `calc(${VS} * 2)`, US = "var(--number-flow-mask-width, 0.5em)", WS = `calc(${US} / var(--scale-x))`, GS = "#000 0, transparent 71%", KS = MS`:host{display:inline-block;direction:ltr;white-space:nowrap;isolation:isolate;line-height:1}.number,.number__inner{display:inline-block;transform-origin:left top}:host([data-will-change]) :is(.number,.number__inner,.section,.digit,.digit__num,.symbol){will-change:transform}.number{--scale-x:calc(1 + var(${LS}) / var(--width));transform:translateX(var(${RS})) scaleX(var(--scale-x));margin:0 calc(-1 * ${US});position:relative;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 ${WS},#000 calc(100% - ${WS}),transparent ),linear-gradient(to bottom,transparent 0,#000 ${HS},#000 calc(100% - ${HS}),transparent 100% ),radial-gradient(at bottom right,${GS}),radial-gradient(at bottom left,${GS}),radial-gradient(at top left,${GS}),radial-gradient(at top right,${GS});-webkit-mask-size:100% calc(100% - ${HS} * 2),calc(100% - ${WS} * 2) 100%,${WS} ${HS},${WS} ${HS},${WS} ${HS},${WS} ${HS};-webkit-mask-position:center,center,top left,top right,bottom right,bottom left;-webkit-mask-repeat:no-repeat}.number__inner{padding:${VS} ${US};transform:scaleX(calc(1 / var(--scale-x))) translateX(calc(-1 * var(${RS})))}:host > :not(.number){z-index:5}.section,.symbol{display:inline-block;position:relative;isolation:isolate}.section::after{content:'\200b';display:inline-block}.section--justify-left{transform-origin:center left}.section--justify-right{transform-origin:center right}.section > [inert],.symbol > [inert]{margin:0 !important;position:absolute !important;z-index:-1}.digit{display:inline-block;position:relative;--c:var(--current) + var(${zS})}.digit__num,.number .section::after{padding:${VS} 0}.digit__num{display:inline-block;--offset-raw:mod(var(--length) + var(--n) - mod(var(--c),var(--length)),var(--length));--offset:calc( var(--offset-raw) - var(--length) * round(down,var(--offset-raw) / (var(--length) / 2),1) );--y:clamp(-100%,var(--offset) * 100%,100%);transform:translateY(var(--y))}.digit__num[inert]{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(var(--y))}.digit:not(.is-spinning) .digit__num[inert]{display:none}.symbol__value{display:inline-block;mix-blend-mode:plus-lighter;white-space:pre}.section--justify-left .symbol > [inert]{left:0}.section--justify-right .symbol > [inert]{right:0}.animate-presence{opacity:calc(1 + var(${IS}))}`, qS = typeof HTMLElement < "u" ? HTMLElement : class {}, JS = MS`:host{display:inline-block;direction:ltr;white-space:nowrap;line-height:1}span{display:inline-block}:host([data-will-change]) span{will-change:transform}.number,.digit{padding:${VS} 0}.symbol{white-space:pre}`, YS = (e = "") => MS`:where(number-flow${e}){line-height:1}number-flow${e} > span{font-kerning:none;display:inline-block;padding:${HS} 0}`, XS = (e, t, n) => {
 	let r = document.createElement(e), [i, a] = Array.isArray(t) ? [void 0, t] : [t, n];
 	return i && Object.assign(r, i), a?.forEach((e) => r.appendChild(e)), r;
-}, YS = (e, t) => t === "left" ? e.offsetLeft : ((e.offsetParent instanceof HTMLElement ? e.offsetParent : null)?.offsetWidth ?? 0) - e.offsetWidth - e.offsetLeft, XS = (e) => e.offsetWidth > 0 && e.offsetHeight > 0, ZS = (e, t) => {
+}, ZS = (e, t) => t === "left" ? e.offsetLeft : ((e.offsetParent instanceof HTMLElement ? e.offsetParent : null)?.offsetWidth ?? 0) - e.offsetWidth - e.offsetLeft, QS = (e) => e.offsetWidth > 0 && e.offsetHeight > 0, $S = (e, t) => {
 	typeof HTMLElement < "u" && typeof customElements < "u" && !customElements.get(e) && customElements.define(e, t);
 };
-function QS(e, t, { reverse: n = !1 } = {}) {
+function eC(e, t, { reverse: n = !1 } = {}) {
 	let r = e.length;
 	for (let i = n ? r - 1 : 0; n ? i >= 0 : i < r; n ? i-- : i++) t(e[i], i);
 }
-function $S(e, t, n, r) {
+function tC(e, t, n, r) {
 	let i = t.formatToParts(e);
 	n && i.unshift({
 		type: "prefix",
@@ -20967,7 +20997,7 @@ function $S(e, t, n, r) {
 		value: typeof e == "string" ? parseFloat(e) : e
 	};
 }
-var eC = MS && jS && RS, tC = class extends GS {
+var nC = PS && NS && BS, rC = class extends qS {
 	constructor() {
 		super(), this.created = !1, this.batched = !1, this._preUpdated = !1;
 		let { animated: e, ...t } = this.constructor.defaultProps;
@@ -20986,7 +21016,7 @@ var eC = MS && jS && RS, tC = class extends GS {
 		let { pre: r, integer: i, fraction: a, post: o, value: s } = e;
 		if (this.created) {
 			let c = this._data;
-			this._data = e, this.computedTrend = typeof this.trend == "function" ? this.trend(c.value, s) : this.trend, this.computedAnimated = eC && this._animated && (!this.respectMotionPreference || !((t = NS) != null && t.matches)) && XS(this) && this.ownerDocument.visibilityState === "visible", (n = this.plugins) == null || n.forEach((t) => t.onUpdate?.call(t, e, c, this)), this.batched || this.willUpdate(), this._pre.update(r), this._num.update({
+			this._data = e, this.computedTrend = typeof this.trend == "function" ? this.trend(c.value, s) : this.trend, this.computedAnimated = nC && this._animated && (!this.respectMotionPreference || !((t = FS) != null && t.matches)) && QS(this) && this.ownerDocument.visibilityState === "visible", (n = this.plugins) == null || n.forEach((t) => t.onUpdate?.call(t, e, c, this)), this.batched || this.willUpdate(), this._pre.update(r), this._num.update({
 				integer: i,
 				fraction: a
 			}), this._post.update(o), this.batched || this.didUpdate();
@@ -20996,10 +21026,10 @@ var eC = MS && jS && RS, tC = class extends GS {
 				this._internals ??= this.attachInternals(), this._internals.role = "img";
 			} catch {}
 			let t = document.createElement("style");
-			this.nonce && (t.nonce = this.nonce), t.textContent = WS, this.shadowRoot.appendChild(t), this._pre = new aC(this, r, {
+			this.nonce && (t.nonce = this.nonce), t.textContent = KS, this.shadowRoot.appendChild(t), this._pre = new sC(this, r, {
 				justify: "right",
 				part: "left"
-			}), this.shadowRoot.appendChild(this._pre.el), this._num = new nC(this, i, a), this.shadowRoot.appendChild(this._num.el), this._post = new aC(this, o, {
+			}), this.shadowRoot.appendChild(this._pre.el), this._num = new iC(this, i, a), this.shadowRoot.appendChild(this._num.el), this._post = new sC(this, o, {
 				justify: "left",
 				part: "right"
 			}), this.shadowRoot.appendChild(this._post.el), this.created = !0;
@@ -21010,7 +21040,7 @@ var eC = MS && jS && RS, tC = class extends GS {
 	}
 	willUpdate() {
 		var e;
-		this._preUpdated = eC && this._animated && (!this.respectMotionPreference || !((e = NS) != null && e.matches)) && this.ownerDocument.visibilityState === "visible", this._preUpdated && (this._pre.willUpdate(), this._num.willUpdate(), this._post.willUpdate());
+		this._preUpdated = nC && this._animated && (!this.respectMotionPreference || !((e = FS) != null && e.matches)) && this.ownerDocument.visibilityState === "visible", this._preUpdated && (this._pre.willUpdate(), this._num.willUpdate(), this._post.willUpdate());
 	}
 	didUpdate() {
 		if (!this.computedAnimated || !this._preUpdated) return;
@@ -21021,7 +21051,7 @@ var eC = MS && jS && RS, tC = class extends GS {
 		}), this._abortAnimationsFinish = e;
 	}
 };
-tC.defaultProps = {
+rC.defaultProps = {
 	transformTiming: {
 		duration: 900,
 		easing: "linear(0,.005,.019,.039,.066,.096,.129,.165,.202,.24,.278,.316,.354,.39,.426,.461,.494,.526,.557,.586,.614,.64,.665,.689,.711,.731,.751,.769,.786,.802,.817,.831,.844,.856,.867,.877,.887,.896,.904,.912,.919,.925,.931,.937,.942,.947,.951,.955,.959,.962,.965,.968,.971,.973,.976,.978,.98,.981,.983,.984,.986,.987,.988,.989,.99,.991,.992,.992,.993,.994,.994,.995,.995,.996,.996,.9963,.9967,.9969,.9972,.9975,.9977,.9979,.9981,.9982,.9984,.9985,.9987,.9988,.9989,1)"
@@ -21037,15 +21067,15 @@ tC.defaultProps = {
 	plugins: void 0,
 	digits: void 0
 };
-var nC = class {
+var iC = class {
 	constructor(e, t, n, { className: r, ...i } = {}) {
-		this.flow = e, this._integer = new iC(e, t, {
+		this.flow = e, this._integer = new oC(e, t, {
 			justify: "right",
 			part: "integer"
-		}), this._fraction = new iC(e, n, {
+		}), this._fraction = new oC(e, n, {
 			justify: "left",
 			part: "fraction"
-		}), this._inner = JS("span", { className: "number__inner" }, [this._integer.el, this._fraction.el]), this.el = JS("span", {
+		}), this._inner = XS("span", { className: "number__inner" }, [this._integer.el, this._fraction.el]), this.el = XS("span", {
 			...i,
 			part: "number",
 			className: `number ${r ?? ""}`
@@ -21062,29 +21092,29 @@ var nC = class {
 		this._integer.didUpdate(), this._fraction.didUpdate();
 		let t = this._prevLeft - e.left, n = this.el.offsetWidth, r = this._prevWidth - n;
 		this.el.style.setProperty("--width", String(n)), this.el.animate({
-			[IS]: [`${t}px`, "0px"],
-			[FS]: [r, 0]
+			[RS]: [`${t}px`, "0px"],
+			[LS]: [r, 0]
 		}, {
 			...this.flow.transformTiming,
 			composite: "accumulate"
 		});
 	}
-}, rC = class {
+}, aC = class {
 	constructor(e, t, { justify: n, className: r, ...i }, a) {
 		this.flow = e, this.children = /* @__PURE__ */ new Map(), this.onCharRemove = (e) => () => {
 			this.children.delete(e);
 		}, this.justify = n;
 		let o = t.map((e) => this.addChar(e).el);
-		this.el = JS("span", {
+		this.el = XS("span", {
 			...i,
 			className: `section section--justify-${n} ${r ?? ""}`
 		}, a ? a(o) : o);
 	}
 	addChar(e, { startDigitsAtZero: t = !1, ...n } = {}) {
-		let r = e.type === "integer" || e.type === "fraction" ? new cC(this, e.type, t ? 0 : e.value, e.pos, {
+		let r = e.type === "integer" || e.type === "fraction" ? new uC(this, e.type, t ? 0 : e.value, e.pos, {
 			...n,
 			onRemove: this.onCharRemove(e.key)
-		}) : new lC(this, e.type, e.value, {
+		}) : new dC(this, e.type, e.value, {
 			...n,
 			onRemove: this.onCharRemove(e.key)
 		});
@@ -21095,14 +21125,14 @@ var nC = class {
 	}
 	pop(e) {
 		e.forEach((e) => {
-			e.el.style.top = `${e.el.offsetTop}px`, e.el.style[this.justify] = `${YS(e.el, this.justify)}px`;
+			e.el.style.top = `${e.el.offsetTop}px`, e.el.style[this.justify] = `${ZS(e.el, this.justify)}px`;
 		}), e.forEach((e) => {
 			e.el.setAttribute("inert", ""), e.present = !1;
 		});
 	}
 	addNewAndUpdateExisting(e) {
 		let t = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map(), r = this.justify === "left", i = r ? "prepend" : "append";
-		if (QS(e, (e) => {
+		if (eC(e, (e) => {
 			let r;
 			this.children.has(e.key) ? (r = this.children.get(e.key), n.set(e, r), this.unpop(r), r.present = !0) : (r = this.addChar(e, {
 				startDigitsAtZero: !0,
@@ -21133,23 +21163,23 @@ var nC = class {
 			composite: "accumulate"
 		});
 	}
-}, iC = class extends rC {
+}, oC = class extends aC {
 	update(e) {
 		let t = /* @__PURE__ */ new Map();
 		this.children.forEach((n, r) => {
 			e.find((e) => e.key === r) || t.set(r, n), this.unpop(n);
 		}), this.addNewAndUpdateExisting(e), t.forEach((e) => {
-			e instanceof cC && e.update(0);
+			e instanceof uC && e.update(0);
 		}), this.pop(t);
 	}
-}, aC = class extends rC {
+}, sC = class extends aC {
 	update(e) {
 		let t = /* @__PURE__ */ new Map();
 		this.children.forEach((n, r) => {
 			e.find((e) => e.key === r) || t.set(r, n);
 		}), this.pop(t), this.addNewAndUpdateExisting(e);
 	}
-}, oC = class {
+}, cC = class {
 	constructor(e, t, { onRemove: n, animateIn: r = !1 } = {}) {
 		this.flow = e, this.el = t, this._present = !0, this._remove = () => {
 			var e;
@@ -21168,22 +21198,22 @@ var nC = class {
 				e || this._remove();
 				return;
 			}
-			this.el.style.setProperty("--_number-flow-d-opacity", e ? "0" : "-.999"), this.el.animate({ [PS]: e ? [-.9999, 0] : [.999, 0] }, {
+			this.el.style.setProperty("--_number-flow-d-opacity", e ? "0" : "-.999"), this.el.animate({ [IS]: e ? [-.9999, 0] : [.999, 0] }, {
 				...this.flow.opacityTiming,
 				composite: "accumulate"
 			}), e ? this.flow.removeEventListener("animationsfinish", this._remove) : this.flow.addEventListener("animationsfinish", this._remove, { once: !0 });
 		}
 	}
-}, sC = class extends oC {
+}, lC = class extends cC {
 	constructor(e, t, n, r) {
 		super(e.flow, n, r), this.section = e, this.value = t, this.el = n;
 	}
-}, cC = class extends sC {
+}, uC = class extends lC {
 	constructor(e, t, n, r, i) {
 		let a = (e.flow.digits?.[r]?.max ?? 9) + 1, o = Array.from({ length: a }).map((e, t) => {
-			let r = JS("span", { className: "digit__num" }, [document.createTextNode(String(t))]);
+			let r = XS("span", { className: "digit__num" }, [document.createTextNode(String(t))]);
 			return t !== n && r.setAttribute("inert", ""), r.style.setProperty("--n", String(t)), r;
-		}), s = JS("span", {
+		}), s = XS("span", {
 			part: `digit ${t}-digit`,
 			className: "digit"
 		}, o);
@@ -21220,18 +21250,18 @@ var nC = class {
 		let e = this.value - this._prevValue, t = this.flow.computedTrend || Math.sign(e);
 		return t < 0 && this.value > this._prevValue ? this.value - this.length - this._prevValue : t > 0 && this.value < this._prevValue ? this.length - this._prevValue + this.value : e;
 	}
-}, lC = class extends sC {
+}, dC = class extends lC {
 	constructor(e, t, n, r) {
-		let i = JS("span", {
+		let i = XS("span", {
 			className: "symbol__value",
 			textContent: n
 		});
-		super(e, n, JS("span", {
+		super(e, n, XS("span", {
 			part: `symbol ${t}`,
 			className: "symbol"
 		}, [i]), r), this.type = t, this._children = /* @__PURE__ */ new Map(), this._onChildRemove = (e) => () => {
 			this._children.delete(e);
-		}, this._children.set(n, new oC(this.flow, i, { onRemove: this._onChildRemove(n) }));
+		}, this._children.set(n, new cC(this.flow, i, { onRemove: this._onChildRemove(n) }));
 	}
 	willUpdate(e) {
 		if (this.type === "decimal") return;
@@ -21245,11 +21275,11 @@ var nC = class {
 			let n = this._children.get(e);
 			if (n) n.present = !0;
 			else {
-				let t = JS("span", {
+				let t = XS("span", {
 					className: "symbol__value",
 					textContent: e
 				});
-				this.el.appendChild(t), this._children.set(e, new oC(this.flow, t, {
+				this.el.appendChild(t), this._children.set(e, new cC(this.flow, t, {
 					animateIn: !0,
 					onRemove: this._onChildRemove(e)
 				}));
@@ -21265,22 +21295,22 @@ var nC = class {
 			composite: "accumulate"
 		});
 	}
-}, uC = (e) => [
-	KS,
-	qS(e),
-	WS
-], dC = parseInt("19.3.1".match(/^(\d+)\./)?.[1]) >= 19, fC = ["data", "digits"], pC = class extends tC {
+}, fC = (e) => [
+	JS,
+	YS(e),
+	KS
+], pC = parseInt("19.3.1".match(/^(\d+)\./)?.[1]) >= 19, mC = ["data", "digits"], hC = class extends rC {
 	attributeChangedCallback(e, t, n) {
 		this[e] = JSON.parse(n);
 	}
 };
-pC.observedAttributes = dC ? [] : fC, ZS("number-flow-react", pC);
-var mC = {};
-function hC(e) {
+hC.observedAttributes = pC ? [] : mC, $S("number-flow-react", hC);
+var gC = {};
+function _C(e) {
 	return e;
 }
-var gC = dC ? hC : JSON.stringify;
-function _C(e) {
+var vC = pC ? _C : JSON.stringify;
+function yC(e) {
 	let { transformTiming: t, spinTiming: n, opacityTiming: r, animated: i, respectMotionPreference: a, trend: o, plugins: s, ...c } = e;
 	return [{
 		transformTiming: t,
@@ -21292,17 +21322,17 @@ function _C(e) {
 		plugins: s
 	}, c];
 }
-var vC = class extends y.Component {
+var bC = class extends y.Component {
 	updateProperties(e) {
 		if (!this.el) return;
 		this.el.batched = !this.props.isolate;
-		let [t] = _C(this.props);
+		let [t] = yC(this.props);
 		Object.entries(t).forEach(([e, t]) => {
-			this.el[e] = t ?? pC.defaultProps[e];
+			this.el[e] = t ?? hC.defaultProps[e];
 		}), e?.onAnimationsStart && this.el.removeEventListener("animationsstart", e.onAnimationsStart), this.props.onAnimationsStart && this.el.addEventListener("animationsstart", this.props.onAnimationsStart), e?.onAnimationsFinish && this.el.removeEventListener("animationsfinish", e.onAnimationsFinish), this.props.onAnimationsFinish && this.el.addEventListener("animationsfinish", this.props.onAnimationsFinish);
 	}
 	componentDidMount() {
-		this.updateProperties(), dC && this.el && (this.el.digits = this.props.digits, this.el.data = this.props.data);
+		this.updateProperties(), pC && this.el && (this.el.digits = this.props.digits, this.el.data = this.props.data);
 	}
 	getSnapshotBeforeUpdate(e) {
 		if (this.updateProperties(e), e.data !== this.props.data) {
@@ -21318,7 +21348,7 @@ var vC = class extends y.Component {
 		this.props.innerRef && (this.props.innerRef.current = e), this.el = e;
 	}
 	render() {
-		let [e, { innerRef: t, className: n, data: r, nonce: i, willChange: a, isolate: o, group: s, digits: c, onAnimationsStart: l, onAnimationsFinish: u, ...d }] = _C(this.props);
+		let [e, { innerRef: t, className: n, data: r, nonce: i, willChange: a, isolate: o, group: s, digits: c, onAnimationsStart: l, onAnimationsFinish: u, ...d }] = yC(this.props);
 		return /*#__PURE__*/ y.createElement("number-flow-react", {
 			ref: this.handleRef,
 			"data-will-change": a ? "" : void 0,
@@ -21327,49 +21357,49 @@ var vC = class extends y.Component {
 			...d,
 			dangerouslySetInnerHTML: { __html: "" },
 			suppressHydrationWarning: !0,
-			digits: gC(c),
-			data: gC(r)
+			digits: vC(c),
+			data: vC(r)
 		});
 	}
 	constructor(e) {
 		super(e), this.handleRef = this.handleRef.bind(this);
 	}
-}, yC = /*#__PURE__*/ y.forwardRef(function({ value: e, locales: t, format: n, prefix: r, suffix: i, ...a }, o) {
+}, xC = /*#__PURE__*/ y.forwardRef(function({ value: e, locales: t, format: n, prefix: r, suffix: i, ...a }, o) {
 	y.useImperativeHandle(o, () => s.current, []);
-	let s = y.useRef(void 0), c = y.useContext(bC);
+	let s = y.useRef(void 0), c = y.useContext(SC);
 	c?.useRegister(s);
-	let l = y.useMemo(() => t ? JSON.stringify(t) : "", [t]), u = y.useMemo(() => n ? JSON.stringify(n) : "", [n]), d = y.useMemo(() => $S(e, mC[`${l}:${u}`] ??= new Intl.NumberFormat(t, n), r, i), [
+	let l = y.useMemo(() => t ? JSON.stringify(t) : "", [t]), u = y.useMemo(() => n ? JSON.stringify(n) : "", [n]), d = y.useMemo(() => tC(e, gC[`${l}:${u}`] ??= new Intl.NumberFormat(t, n), r, i), [
 		e,
 		l,
 		u,
 		r,
 		i
 	]);
-	return /*#__PURE__*/ y.createElement(vC, {
+	return /*#__PURE__*/ y.createElement(bC, {
 		...a,
 		group: c,
 		data: d,
 		innerRef: s
 	});
-}), bC = /*#__PURE__*/ y.createContext(void 0);
-uC("-react");
+}), SC = /*#__PURE__*/ y.createContext(void 0);
+fC("-react");
 // src/domain/workspace-insights.js
-var xC = new Intl.DateTimeFormat("en-CA", {
+var CC = new Intl.DateTimeFormat("en-CA", {
 	timeZone: "America/Sao_Paulo",
 	year: "numeric",
 	month: "2-digit",
 	day: "2-digit"
-}), SC = 864e5, CC = (e) => {
-	let t = Object.fromEntries(xC.formatToParts(e).map((e) => [e.type, e.value]));
+}), wC = 864e5, TC = (e) => {
+	let t = Object.fromEntries(CC.formatToParts(e).map((e) => [e.type, e.value]));
 	return `${t.year}-${t.month}-${t.day}`;
-}, wC = (e) => Date.parse(`${e}T12:00:00Z`) / SC, TC = (e) => (/* @__PURE__ */ new Date(e * SC)).toISOString().slice(0, 10), EC = (e) => `${e.slice(8, 10)}/${e.slice(5, 7)}`, DC = (e) => {
+}, EC = (e) => Date.parse(`${e}T12:00:00Z`) / wC, DC = (e) => (/* @__PURE__ */ new Date(e * wC)).toISOString().slice(0, 10), OC = (e) => `${e.slice(8, 10)}/${e.slice(5, 7)}`, kC = (e) => {
 	if (typeof e == "number" && Number.isFinite(e) && e > 0) return e;
 	if (typeof e == "string" && /^\d{4}-\d{2}-\d{2}T/.test(e)) {
 		let t = Date.parse(e);
 		if (Number.isFinite(t)) return t;
 	}
 	return null;
-}, OC = [
+}, AC = [
 	[
 		"accepted",
 		"Em execução",
@@ -21401,19 +21431,19 @@ var xC = new Intl.DateTimeFormat("en-CA", {
 		"other"
 	]
 ];
-function kC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {}) {
+function jC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {}) {
 	if (!Number.isFinite(r)) throw Error("Informe um instante válido para os indicadores.");
 	n = [
 		30,
 		60,
 		90
 	].includes(n) ? n : 90;
-	let i = CC(r), a = wC(i) - n + 1, o = Array.from({ length: 6 }, (e, t) => {
-		let r = TC(a + Math.ceil(t * n / 6)), i = TC(a + Math.ceil((t + 1) * n / 6) - 1);
+	let i = TC(r), a = EC(i) - n + 1, o = Array.from({ length: 6 }, (e, t) => {
+		let r = DC(a + Math.ceil(t * n / 6)), i = DC(a + Math.ceil((t + 1) * n / 6) - 1);
 		return {
 			start: r,
 			end: i,
-			label: `${EC(r)}–${EC(i)}`,
+			label: `${OC(r)}–${OC(i)}`,
 			demands: 0,
 			proposals: 0,
 			orders: 0
@@ -21428,9 +21458,9 @@ function kC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {
 		orders: 0
 	};
 	for (let t of Object.keys(s)) for (let i of e[t] ?? []) {
-		let e = DC(i.createdAt);
+		let e = kC(i.createdAt);
 		if (e === null && t === "proposals") {
-			let t = (i.versions ?? []).map((e) => DC(e.createdAt)).filter((e) => e !== null);
+			let t = (i.versions ?? []).map((e) => kC(e.createdAt)).filter((e) => e !== null);
 			t.length && (e = Math.min(...t));
 		}
 		if (e === null) {
@@ -21438,12 +21468,12 @@ function kC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {
 			continue;
 		}
 		if (e > r) continue;
-		let l = wC(CC(e)) - a;
+		let l = EC(TC(e)) - a;
 		if (l < 0 || l >= n) continue;
 		let u = Math.min(5, Math.floor(l * 6 / n));
 		o[u][t] += 1, s[t] += 1;
 	}
-	let l = OC.map(([e, t, n]) => ({
+	let l = AC.map(([e, t, n]) => ({
 		id: e,
 		label: t,
 		tone: n,
@@ -21459,7 +21489,7 @@ function kC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {
 		role: t,
 		period: {
 			days: n,
-			start: TC(a),
+			start: DC(a),
 			end: i
 		},
 		series: o,
@@ -21471,10 +21501,10 @@ function kC(e = {}, { role: t = "buyer", days: n = 90, now: r = Date.now() } = {
 	};
 }
 // src/workspace/analytics.tsx
-var AC = new Intl.NumberFormat("pt-BR", {
+var MC = new Intl.NumberFormat("pt-BR", {
 	style: "currency",
 	currency: "BRL"
-}), jC = (e) => [
+}), NC = (e) => [
 	{
 		id: "proposals",
 		label: "Propostas",
@@ -21490,13 +21520,13 @@ var AC = new Intl.NumberFormat("pt-BR", {
 		label: e === "supplier" ? "Oportunidades" : "Demandas",
 		detail: e === "supplier" ? "oportunidades acessíveis criadas" : "demandas criadas"
 	}
-], MC = (e) => e.reduce((t, n, r) => {
+], PC = (e) => e.reduce((t, n, r) => {
 	if (!r) return `M ${n[0]} ${n[1]}`;
 	let i = e[r - 1], a = (i[0] + n[0]) / 2;
 	return `${t} C ${a} ${i[1]}, ${a} ${n[1]}, ${n[0]} ${n[1]}`;
 }, "");
-function NC({ records: e, role: t = "buyer", now: n }) {
-	let [r, i] = (0, y.useState)(90), [a, o] = (0, y.useState)("proposals"), [s, c] = (0, y.useState)(null), [l] = (0, y.useState)(() => n ?? Date.now()), u = Nu(), d = (0, y.useId)(), f = (0, y.useId)(), p = (0, y.useMemo)(() => kC(e, {
+function FC({ records: e, role: t = "buyer", now: n }) {
+	let [r, i] = (0, y.useState)(90), [a, o] = (0, y.useState)("proposals"), [s, c] = (0, y.useState)(null), [l] = (0, y.useState)(() => n ?? Date.now()), u = Nu(), d = (0, y.useId)(), f = (0, y.useId)(), p = (0, y.useMemo)(() => jC(e, {
 		role: t,
 		days: r,
 		now: l
@@ -21505,7 +21535,7 @@ function NC({ records: e, role: t = "buyer", now: n }) {
 		t,
 		r,
 		l
-	]), m = jC(t), h = m.find((e) => e.id === a), g = p.totals[a], _ = Math.max(4, Math.ceil(Math.max(...p.series.map((e) => e[a])) / 4) * 4), v = p.series.map((e, t) => [4 + t * 126.4, 170 - e[a] / _ * 140]), b = s ?? 5, x = v[b], S = p.portfolio.reduce((e, t) => e + t.count, 0), C = p.omitted[a], w = t === "supplier" ? "#/app/fornecedor/oportunidades" : "#/app/comprador/demandas", T = 0;
+	]), m = NC(t), h = m.find((e) => e.id === a), g = p.totals[a], _ = Math.max(4, Math.ceil(Math.max(...p.series.map((e) => e[a])) / 4) * 4), v = p.series.map((e, t) => [4 + t * 126.4, 170 - e[a] / _ * 140]), b = s ?? 5, x = v[b], S = p.portfolio.reduce((e, t) => e + t.count, 0), C = p.omitted[a], w = t === "supplier" ? "#/app/fornecedor/oportunidades" : "#/app/comprador/demandas", T = 0;
 	return /* @__PURE__ */ (0, Z.jsxs)("section", {
 		className: "workspace-insights",
 		"data-workspace-insights": !0,
@@ -21559,7 +21589,7 @@ function NC({ records: e, role: t = "buyer", now: n }) {
 							"data-insight-total": !0,
 							"aria-label": `${h.detail}: ${g}`,
 							"aria-live": "polite",
-							children: /* @__PURE__ */ (0, Z.jsx)(yC, {
+							children: /* @__PURE__ */ (0, Z.jsx)(xC, {
 								value: g,
 								locales: "pt-BR",
 								animated: !u,
@@ -21601,10 +21631,10 @@ function NC({ records: e, role: t = "buyer", now: n }) {
 									className: "workspace-insights__grid"
 								}, e)),
 								/* @__PURE__ */ (0, Z.jsx)(zu.path, {
-									d: MC(v),
+									d: PC(v),
 									className: "workspace-insights__curve",
 									initial: !1,
-									animate: { d: MC(v) },
+									animate: { d: PC(v) },
 									transition: { duration: u ? 0 : .35 }
 								}),
 								/* @__PURE__ */ (0, Z.jsx)("line", {
@@ -21768,7 +21798,7 @@ function NC({ records: e, role: t = "buyer", now: n }) {
 					className: "workspace-insights__value",
 					children: [
 						/* @__PURE__ */ (0, Z.jsx)("span", { children: "Valor registrado em pedidos" }),
-						/* @__PURE__ */ (0, Z.jsx)("strong", { children: AC.format(p.orderValueCents / 100) }),
+						/* @__PURE__ */ (0, Z.jsx)("strong", { children: MC.format(p.orderValueCents / 100) }),
 						/* @__PURE__ */ (0, Z.jsxs)("small", { children: [p.incompleteOrderValues ? `${p.incompleteOrderValues} pedido(s) com valor incompleto fora da soma. ` : "", "Inclui frete. Não representa pagamento recebido."] })
 					]
 				}),
@@ -21785,7 +21815,7 @@ function NC({ records: e, role: t = "buyer", now: n }) {
 	});
 }
 // src/public/entry.tsx
-function PC(e, t, n) {
+function IC(e, t, n) {
 	e.replaceChildren();
 	let r = (0, Ru.createRoot)(e);
 	return (0, Lu.flushSync)(() => r.render(/* @__PURE__ */ (0, Z.jsx)(Cl, {
@@ -21796,7 +21826,7 @@ function PC(e, t, n) {
 		})
 	}))), () => r.unmount();
 }
-var FC = {
+var LC = {
 	home: {
 		Page: Gx,
 		title: "SIVI — O próximo acordo começa aqui."
@@ -21814,7 +21844,7 @@ var FC = {
 		title: "Perguntas frequentes — SIVI"
 	}
 };
-function IC(e, t = "home") {
+function RC(e, t = "home") {
 	let n = new URLSearchParams(location.hash.split("?")[1]), r = t === "home" ? n.get("pagina") : null, i = n.get("secao"), a = {
 		seguranca: "Segurança e dados",
 		privacidade: "Política de privacidade",
@@ -21822,15 +21852,15 @@ function IC(e, t = "home") {
 		ajuda: "Ajuda e acesso",
 		creditos: "Créditos"
 	};
-	if (r && r !== "sobre") return document.title = `${a[r] ?? "Sobre a plataforma"} — SIVI`, PC(e, /* @__PURE__ */ (0, Z.jsx)(oS, { page: r }), "sivi-public-ui");
+	if (r && r !== "sobre") return document.title = `${a[r] ?? "Sobre a plataforma"} — SIVI`, IC(e, /* @__PURE__ */ (0, Z.jsx)(oS, { page: r }), "sivi-public-ui");
 	(r === "sobre" || t === "home" && i === "visao-geral") && (t = "about"), t === "home" && Zg(i) && (t = "platform"), t === "home" && i === "duvidas" && (t = "faq");
-	let { Page: o, title: s } = FC[t];
-	return document.title = s, PC(e, /* @__PURE__ */ (0, Z.jsx)(o, {}), "sivi-public-ui");
+	let { Page: o, title: s } = LC[t];
+	return document.title = s, IC(e, /* @__PURE__ */ (0, Z.jsx)(o, {}), "sivi-public-ui");
 }
-function LC(e, t) {
-	return document.title = new URLSearchParams(location.hash.split("?")[1]).get("modo") === "login" ? "Entrar — SIVI" : "Cadastro — SIVI", PC(e, /* @__PURE__ */ (0, Z.jsx)(kS, { bridge: t }), "sivi-auth-ui");
+function zC(e, t) {
+	return document.title = new URLSearchParams(location.hash.split("?")[1]).get("modo") === "login" ? "Entrar — SIVI" : "Cadastro — SIVI", IC(e, /* @__PURE__ */ (0, Z.jsx)(jS, { bridge: t }), "sivi-auth-ui");
 }
-function RC(e, t) {
-	return PC(e, /* @__PURE__ */ (0, Z.jsx)(NC, { ...t }), "sivi-workspace-ui");
+function BC(e, t) {
+	return IC(e, /* @__PURE__ */ (0, Z.jsx)(FC, { ...t }), "sivi-workspace-ui");
 }
-export { LC as mountAuthExperience, IC as mountPublicExperience, RC as mountWorkspaceAnalytics };
+export { zC as mountAuthExperience, RC as mountPublicExperience, BC as mountWorkspaceAnalytics };

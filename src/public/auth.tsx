@@ -90,6 +90,47 @@ const personalInitial = {
 const cnpjLength = 14;
 const cleanCnpjInput = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 
+const signupBenefits = [
+  ["Publicar demandas", "Informe o que sua empresa precisa comprar e receba propostas."],
+  ["Encontrar oportunidades", "Consulte demandas compatíveis com o que sua empresa fornece."],
+  ["Acompanhar pedidos", "Consulte as condições do pedido e os registros de inspeção, expedição e recebimento."],
+];
+
+function AuthStory({ register }: { register: boolean }) {
+  if (register) {
+    return (
+      <aside className="sa-story sa-story--benefits" aria-labelledby="signup-benefits">
+        <img className="sa-story-photo" src="./assets/home-inspection.webp" width={1200} height={800} alt="" />
+        <div className="sa-benefits">
+          <h2 id="signup-benefits">O que sua empresa pode fazer no SIVI</h2>
+          <p>A conta é gratuita. Os recursos ficam disponíveis após a aprovação da empresa.</p>
+          <ul>
+            {signupBenefits.map(([label, description]) => (
+              <li key={label}>
+                <Check size={18} aria-hidden="true" />
+                <div>
+                  <strong>{label}</strong>
+                  <p>{description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    );
+  }
+
+  return (
+    <aside className="sa-story">
+      <img className="sa-story-photo" src="./assets/operador-torno.jpg" width={1920} height={1280} alt="" fetchPriority="high" />
+      <div className="sa-story-content">
+        <h2>Da cotação<br />ao recebimento.</h2>
+        <p>Compradores e fornecedores no mesmo lugar, com cada etapa da negociação registrada.</p>
+      </div>
+    </aside>
+  );
+}
+
 export function AuthExperience({ bridge }: any) {
   const params = new URLSearchParams(location.hash.split("?")[1]);
   const register = params.get("modo") !== "login";
@@ -347,9 +388,9 @@ export function AuthExperience({ bridge }: any) {
 
   return (
     <div className="sa-layout auth-shell" data-mode={register ? "register" : "login"} data-ui-ready="true" aria-busy={busy}>
-      <div className="sa-brand"><Brand back /></div>
       <main className="sa-main">
         <div className="sa-content form-view is-active">
+          <div className="sa-brand"><Brand back /></div>
           {success ? (
             <section className="sa-success">
               <span className="sa-success-symbol"><Check size={22} aria-hidden="true" /></span>
@@ -373,7 +414,7 @@ export function AuthExperience({ bridge }: any) {
             <>
               <div className="sa-form-heading">
                 <h1 ref={title} tabIndex={-1}>{step === 0 ? "Crie sua conta" : "Dados da empresa"}</h1>
-                {step === 0 && <p>Conecte sua empresa a compradores e fornecedores da indústria.</p>}
+                {step === 0 && <p>Informe seus dados para começar.</p>}
               </div>
               <ol className="sa-steps" aria-label="Etapas do cadastro">
                 <li aria-current={step === 0 ? "step" : undefined}>
@@ -402,7 +443,7 @@ export function AuthExperience({ bridge }: any) {
                         {personalField("firstName", "Nome", "text", "given-name")}
                         {personalField("lastName", "Sobrenome", "text", "family-name")}
                       </div>
-                      {personalField("email", "E-mail", "email", "email", "voce@empresa.com")}
+                      {personalField("email", "E-mail", "email", "email", "nome@empresa.com")}
                       {personalField("password", "Senha", "password", "new-password", "Crie uma senha")}
                       {personalField("confirmPassword", "Confirmar senha", "password", "new-password", "Repita a senha")}
                     </>
@@ -433,41 +474,24 @@ export function AuthExperience({ bridge }: any) {
                       </div>
                     </>
                   )}
-                  {terms}
                   {statusRegion}
                   <button type="submit" className="sa-submit" aria-describedby="access-terms">
-                    {busy ? "Criando sua conta…" : step === 0 ? "Continuar" : "Criar conta"}
+                    {busy ? "Criando sua conta…" : step === 0 ? "Continuar para dados da empresa" : "Criar conta"}
                   </button>
                 </fieldset>
               </form>
               {switchMode}
+              {terms}
             </>
           ) : (
             <>
               <div className="sa-form-heading">
                 <h1 ref={title} tabIndex={-1}>{reset ? "Recupere seu acesso" : "Bem-vindo de volta ao SIVI!"}</h1>
-                <p>{reset ? "Informe o e-mail usado no cadastro." : "Acompanhe suas demandas, propostas e pedidos."}</p>
+                {reset && <p>Informe o e-mail usado no cadastro.</p>}
               </div>
-              {!reset && (
-                <>
-                  <div className="sa-providers">
-                    <button type="button" disabled={busy} data-provider="google" aria-describedby="access-terms" onClick={() => provider("google")}>
-                      <img src="./assets/sign-in-google.png" width={18} height={18} alt="" />
-                      Entrar com Google
-                    </button>
-                    <button type="button" disabled={busy} data-provider="apple" aria-describedby="access-terms" onClick={() => provider("apple")}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
-                      </svg>
-                      Entrar com Apple
-                    </button>
-                  </div>
-                  <div className="sa-divider"><span>ou entre com e-mail</span></div>
-                </>
-              )}
               <form id="login-form" noValidate onSubmit={login}>
                 <fieldset disabled={busy}>
-                  <Field id="login-email" label="E-mail" name="email" type="email" placeholder="voce@empresa.com" autoComplete="username" maxLength={254} value={loginEmail} onChange={(_: string, value: string) => setLoginEmail(value)} />
+                  <Field id="login-email" label="E-mail" name="email" type="email" placeholder="nome@empresa.com" autoComplete="username" maxLength={254} value={loginEmail} onChange={(_: string, value: string) => setLoginEmail(value)} />
                   {!reset && (
                     <>
                       <Field
@@ -486,7 +510,6 @@ export function AuthExperience({ bridge }: any) {
                           </button>
                         }
                       />
-                      {terms}
                     </>
                   )}
                   {statusRegion}
@@ -500,18 +523,30 @@ export function AuthExperience({ bridge }: any) {
                   )}
                 </fieldset>
               </form>
-              {!reset && switchMode}
+              {!reset && (
+                <>
+                  <div className="sa-divider"><span>ou</span></div>
+                  <div className="sa-providers">
+                    <button type="button" disabled={busy} data-provider="google" aria-describedby="access-terms" onClick={() => provider("google")}>
+                      <img src="./assets/sign-in-google.png" width={18} height={18} alt="" />
+                      Entrar com Google
+                    </button>
+                    <button type="button" disabled={busy} data-provider="apple" aria-describedby="access-terms" onClick={() => provider("apple")}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
+                      </svg>
+                      Entrar com Apple
+                    </button>
+                  </div>
+                  {switchMode}
+                  {terms}
+                </>
+              )}
             </>
           )}
         </div>
       </main>
-      <aside className="sa-story">
-        <img className="sa-story-photo" src="./assets/operador-torno.jpg" width={1920} height={1280} alt="" fetchPriority="high" />
-        <div className="sa-story-content">
-          <h2>Da cotação<br />ao recebimento.</h2>
-          <p>Compradores e fornecedores no mesmo lugar, com cada etapa da negociação registrada.</p>
-        </div>
-      </aside>
+      <AuthStory register={register} />
     </div>
   );
 }
