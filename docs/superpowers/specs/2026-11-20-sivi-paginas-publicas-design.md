@@ -1,6 +1,6 @@
 # Direção editorial para as páginas públicas do SIVI
 
-Rascunho para aprovação.
+Direção aprovada. Os detalhes podem ser ajustados após a revisão de cada página.
 
 ## Objetivo
 

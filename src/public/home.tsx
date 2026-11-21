@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
 import { Action } from "./components";
 import { HomeContent } from "./home-content";
 import { PublicLayout } from "./public-layout";
@@ -11,49 +13,81 @@ const businessFilm = "./assets/home-b2b.webm";
 const businessPoster = "./assets/home-b2b-poster.webp";
 const openingPhoto = "./assets/home-hero-opening.webp";
 const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
-type HeroPhase = "opening" | "industrial" | "business";
+type HeroPhase = "industrial" | "business";
 let homeOpened = false;
 
-function prefersStillHero() {
-  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return window.matchMedia(reducedMotionQuery).matches || Boolean(connection?.saveData);
-}
+const getConnection = () => (navigator as Navigator & { connection?: EventTarget & { saveData?: boolean } }).connection;
+const prefersStillHero = () => window.matchMedia(reducedMotionQuery).matches || Boolean(getConnection()?.saveData);
 
 function Hero() {
   const hero = useRef<HTMLElement>(null);
+  const opening = useRef<HTMLDivElement>(null);
   const industrialVideo = useRef<HTMLVideoElement>(null);
   const businessVideo = useRef<HTMLVideoElement>(null);
-  const [showOpening] = useState(() => {
+  const [firstVisit] = useState(() => {
     const section = new URLSearchParams(location.hash.split("?")[1]).get("secao");
     return !homeOpened && (!section || section === "topo");
   });
-  const [phase, setPhase] = useState<HeroPhase>(showOpening ? "opening" : "business");
-  const [openingReady, setOpeningReady] = useState(false);
+  const [still, setStill] = useState(prefersStillHero);
+  const [showOpening, setShowOpening] = useState(firstVisit && !still);
+  const [phase, setPhase] = useState<HeroPhase>(showOpening ? "industrial" : "business");
   const [industrialFrame, setIndustrialFrame] = useState(false);
   const [businessFrame, setBusinessFrame] = useState(false);
 
-  useEffect(() => {
-    if (phase !== "opening") return;
+  useGSAP(() => {
     homeOpened = true;
-    const timer = window.setTimeout(() => {
-      setPhase(prefersStillHero() ? "business" : "industrial");
-    }, openingReady ? 1150 : 2200);
-    return () => window.clearTimeout(timer);
-  }, [phase, openingReady]);
+    if (!showOpening || !opening.current) return;
+    const compact = window.matchMedia("(max-width: 760px)").matches;
+    gsap.timeline({ defaults: { ease: "power2.out" }, onComplete: () => setShowOpening(false) })
+      .fromTo(".sv-hero-opening-brand", { opacity: .72, y: 5 }, { opacity: 0, y: -7, duration: .32 }, 0)
+      .fromTo(".sv-hero-opening-photo", { scale: 1.035 }, { scale: 1, duration: .76 }, 0)
+      .to(opening.current, { opacity: 0, duration: .64 }, .08)
+      .fromTo("h1 > span", {
+        y: compact ? 16 : 30,
+        opacity: .68,
+        clipPath: "inset(0 0 27% 0)",
+      }, {
+        y: 0,
+        opacity: 1,
+        clipPath: "inset(0 0 0% 0)",
+        duration: .63,
+        stagger: .12,
+        ease: "power3.out",
+      }, .04)
+      .fromTo(".sv-hero-description", { opacity: .8, y: 12 }, { opacity: 1, y: 0, duration: .56 }, .12);
+  }, { scope: hero, dependencies: [showOpening], revertOnUpdate: true });
+
+  useEffect(() => {
+    const preference = window.matchMedia(reducedMotionQuery);
+    const connection = getConnection();
+    const updatePreference = () => {
+      const useStill = prefersStillHero();
+      setStill(useStill);
+      if (useStill) {
+        setShowOpening(false);
+        setPhase("business");
+      }
+    };
+    preference.addEventListener("change", updatePreference);
+    connection?.addEventListener("change", updatePreference);
+    return () => {
+      preference.removeEventListener("change", updatePreference);
+      connection?.removeEventListener("change", updatePreference);
+    };
+  }, []);
 
   useEffect(() => {
     const section = hero.current;
     const business = businessVideo.current;
     const video = phase === "business" ? business : industrialVideo.current;
-    if (!section || !video || !business) return;
+    if (!section || !video || !business || still) return;
 
-    const preference = window.matchMedia(reducedMotionQuery);
     let active = true;
     let onScreen = false;
     let playBlocked = false;
     const sync = () => {
       if (!active) return;
-      if (prefersStillHero() || document.hidden || !onScreen || playBlocked) {
+      if (document.hidden || !onScreen || playBlocked) {
         video.pause();
         return;
       }
@@ -62,9 +96,6 @@ function Hero() {
         return;
       }
       if (!video.hasAttribute("src")) video.src = phase === "business" ? businessFilm : heroFilm;
-      if (phase === "opening") return;
-
-      if (phase === "industrial" && !business.hasAttribute("src")) business.src = businessFilm;
       video.play().catch((error) => {
         if (!active || error.name === "AbortError") return;
         playBlocked = true;
@@ -72,30 +103,24 @@ function Hero() {
         else setBusinessFrame(false);
       });
     };
-    const updatePreference = () => {
-      if (preference.matches && phase === "industrial") setPhase("business");
-      sync();
-    };
     const observer = new IntersectionObserver((entries) => {
       onScreen = entries[0].intersectionRatio >= 0.15;
       sync();
     }, { threshold: 0.15 });
     observer.observe(section);
-    preference.addEventListener("change", updatePreference);
     document.addEventListener("visibilitychange", sync);
     return () => {
       active = false;
       observer.disconnect();
-      preference.removeEventListener("change", updatePreference);
       document.removeEventListener("visibilitychange", sync);
       video.pause();
     };
-  }, [phase]);
+  }, [phase, still]);
 
   return (
-    <section ref={hero} className="sv-hero" data-hero-phase={phase} aria-labelledby="public-title">
+    <section ref={hero} className="sv-hero" data-hero-phase={phase} data-hero-still={still || undefined} aria-labelledby="public-title">
       <div className="sv-hero-media" aria-hidden="true">
-        <img src={heroPoster} alt="" width={1440} height={810} />
+        <img src={heroPoster} alt="" width={1920} height={1080} />
         <video
           ref={industrialVideo}
           className="sv-hero-industrial-video"
@@ -110,7 +135,7 @@ function Hero() {
             setPhase((current) => current === "industrial" ? "business" : current);
           }}
         />
-        <img className="sv-hero-business-poster" src={businessPoster} alt="" width={1280} height={720} />
+        <img className="sv-hero-business-poster" src={businessPoster} alt="" width={1920} height={1080} />
         <video
           ref={businessVideo}
           className="sv-hero-business-video"
@@ -122,25 +147,24 @@ function Hero() {
           onPlaying={() => setBusinessFrame(true)}
           onError={() => setBusinessFrame(false)}
         />
-      </div>
-      {showOpening && (
-        <div className="sv-hero-opening" aria-hidden="true">
-          <img
-            className="sv-hero-opening-photo"
-            src={openingPhoto}
-            width={1600}
-            height={1200}
-            alt=""
-            fetchPriority="high"
-            onLoad={() => setOpeningReady(true)}
-            onError={() => setOpeningReady(true)}
-          />
-          <div className="sv-hero-opening-brand">
-            <img src="./src/assets/brand/raposa.svg" width={96} height={96} alt="" />
-            <span>SIVI</span>
+        {showOpening && (
+          <div ref={opening} className="sv-hero-opening">
+            <img
+              className="sv-hero-opening-photo"
+              src={openingPhoto}
+              width={1600}
+              height={1200}
+              alt=""
+              fetchPriority="high"
+              onLoad={(event) => event.currentTarget.setAttribute("data-ready", "")}
+            />
+            <div className="sv-hero-opening-brand">
+              <img src="./src/assets/brand/raposa.svg" width={96} height={96} alt="" />
+              <span>SIVI</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <div className="sv-shell sv-landing-hero">
         <div className="sv-landing-lead">
           <h1 id="public-title" tabIndex={-1}>

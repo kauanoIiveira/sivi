@@ -1,18 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ClipboardEvent } from "react";
 import {
-  ArrowLeft,
-  ArrowUpRight,
   Check,
-  ChevronRight,
   Eye,
   EyeOff,
-  LockKeyhole,
-  ShieldCheck,
 } from "lucide-react";
 import {
   PUBLIC_PLANS,
-  money,
-  planQuote,
   resolvePlan,
   validateSignup,
 } from "../domain/public-signup.js";
@@ -26,6 +19,7 @@ import { Brand, infoLink } from "./components";
 
 function Field({
   label,
+  labelAction,
   name,
   id,
   type = "text",
@@ -40,7 +34,10 @@ function Field({
   const [visible, setVisible] = useState(false);
   return (
     <div className="sa-field">
-      <label htmlFor={id}>{label}</label>
+      <div className="sa-field-heading">
+        <label htmlFor={id}>{label}</label>
+        {labelAction}
+      </div>
       <div className="sa-input-wrap">
         <input
           {...rest}
@@ -82,6 +79,7 @@ function Field({
     </div>
   );
 }
+
 const personalInitial = {
   firstName: "",
   lastName: "",
@@ -89,13 +87,9 @@ const personalInitial = {
   password: "",
   confirmPassword: "",
 };
-const paymentInitial = {
-  card: "",
-  expiry: "",
-  cvv: "",
-  holder: "",
-  consent: false,
-};
+const cnpjLength = 14;
+const cleanCnpjInput = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+
 export function AuthExperience({ bridge }: any) {
   const params = new URLSearchParams(location.hash.split("?")[1]);
   const register = params.get("modo") !== "login";
@@ -106,9 +100,7 @@ export function AuthExperience({ bridge }: any) {
           (params.get("atuacao") === "supplier" ? "fornecimento" : "compras"),
       ).id,
   );
-  const [period, setPeriod] = useState(
-    params.get("periodo") === "anual" ? "anual" : "mensal",
-  );
+  const period = params.get("periodo") === "anual" ? "anual" : "mensal";
   const [step, setStep] = useState(0),
     [values, setValues] = useState<any>({
       ...personalInitial,
@@ -117,7 +109,6 @@ export function AuthExperience({ bridge }: any) {
       city: "",
       state: "SP",
       contact: "",
-      ...paymentInitial,
     });
   const [errors, setErrors] = useState<any>({}),
     [busy, setBusy] = useState(false),
@@ -130,7 +121,6 @@ export function AuthExperience({ bridge }: any) {
   const active = useRef(true);
   const title = useRef<HTMLHeadingElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
-  const quote = planQuote(plan, period);
   const selected = resolvePlan(plan);
   const store = signupDraftStore();
   useEffect(
@@ -143,9 +133,21 @@ export function AuthExperience({ bridge }: any) {
     title.current?.focus({ preventScroll: true });
   }, [step, success, reset]);
   const change = (name: string, value: any) => {
-    setValues((v: any) => ({ ...v, [name]: value }));
+    setValues((v: any) => ({ ...v, [name]: name === "cnpj" ? cleanCnpjInput(value).slice(0, cnpjLength) : value }));
     setErrors((e: any) => ({ ...e, [name]: undefined, company: undefined }));
   };
+  function pasteCnpj(event: ClipboardEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const pasted = cleanCnpjInput(event.clipboardData.getData("text"));
+    if (!pasted) return;
+    const input = event.currentTarget;
+    const start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? start;
+    const available = cnpjLength - input.value.length + end - start;
+    const inserted = pasted.slice(0, available);
+    change("cnpj", input.value.slice(0, start) + inserted + input.value.slice(end));
+    requestAnimationFrame(() => input.setSelectionRange(start + inserted.length, start + inserted.length));
+  }
   const feedback = (message: string) => {
     setStatus(message);
     requestAnimationFrame(() => statusRef.current?.focus());
@@ -159,6 +161,12 @@ export function AuthExperience({ bridge }: any) {
         ?.focus(),
     );
   };
+  const terms = (
+    <p id="access-terms" className="sa-terms">
+      Ao continuar, você concorda com as <a href={infoLink("condicoes")}>condições de uso</a>
+      {" e com a "}<a href={infoLink("privacidade")}>política de privacidade</a>.
+    </p>
+  );
   async function submitRegistration(e: any) {
     e.preventDefault();
     if (lock.current) return;
@@ -168,21 +176,17 @@ export function AuthExperience({ bridge }: any) {
       invalid(next);
       return;
     }
-    if (step < 2) {
-      setStep(step + 1);
+    if (step === 0) {
+      setStep(1);
       setStatus("");
       setErrors({});
       window.scrollTo(0, 0);
       return;
     }
-    const all = {
-      ...validateSignup(input, 0),
-      ...validateSignup(input, 1),
-      ...next,
-    };
-    if (Object.keys(all).length) {
-      setStep(Object.keys(validateSignup(input, 0)).length ? 0 : 1);
-      invalid(all);
+    const personalErrors = validateSignup(input, 0);
+    if (Object.keys(personalErrors).length) {
+      setStep(0);
+      invalid(personalErrors);
       return;
     }
     lock.current = true;
@@ -213,12 +217,7 @@ export function AuthExperience({ bridge }: any) {
         email: values.email.trim(),
         persistent: store.persistent,
       });
-      setValues((v: any) => ({
-        ...v,
-        password: "",
-        confirmPassword: "",
-        ...paymentInitial,
-      }));
+      setValues((v: any) => ({ ...v, password: "", confirmPassword: "" }));
       setStatus("");
     } catch (error: any) {
       if (active.current)
@@ -266,16 +265,24 @@ export function AuthExperience({ bridge }: any) {
       if (active.current) setBusy(false);
     }
   }
-  async function provider(name: string) {
+  async function provider(name: "google" | "apple") {
     if (lock.current) return;
     lock.current = true;
     setBusy(true);
-    setStatus("Abrindo o provedor de acesso…");
+    setStatus(name === "apple" ? "Abrindo o acesso com Apple…" : "Abrindo o acesso com Google…");
     try {
       const service = await bridge.loadAuth();
       await service.loginWithProvider(name);
     } catch (error) {
-      if (active.current) feedback(getAuthErrorMessage(error));
+      if (active.current) {
+        const code = (error as { code?: string } | null)?.code;
+        const appleUnavailable = name === "apple" && (
+          code === "auth/operation-not-allowed" || code === "auth/invalid-oauth-client-id"
+        );
+        feedback(appleUnavailable
+          ? "O acesso com Apple está indisponível. Entre com Google ou e-mail."
+          : getAuthErrorMessage(error));
+      }
     } finally {
       lock.current = false;
       if (active.current) setBusy(false);
@@ -286,6 +293,7 @@ export function AuthExperience({ bridge }: any) {
     label: string,
     type = "text",
     autoComplete?: string,
+    placeholder?: string,
   ) => (
     <Field
       key={name}
@@ -300,6 +308,7 @@ export function AuthExperience({ bridge }: any) {
       }
       name={name}
       label={label}
+      placeholder={placeholder}
       type={type}
       autoComplete={autoComplete}
       maxLength={name.includes("assword") ? 128 : name === "email" ? 254 : 80}
@@ -313,641 +322,196 @@ export function AuthExperience({ bridge }: any) {
       }
     />
   );
-  return (
+  const switchMode = (
+    <p className="sa-switch-mode">
+      {register ? "Já tem conta?" : "Ainda não tem conta?"}{" "}
+      <a
+        href={register ? "#/acesso?modo=login" : "#/acesso?modo=register"}
+        data-switch-mode={register ? "login" : "register"}
+      >
+        {register ? "Entrar" : "Cadastre-se"}
+      </a>
+    </p>
+  );
+  const statusRegion = (
     <div
-      className="sa-layout auth-shell"
-      data-mode={register ? "register" : "login"}
-      data-ui-ready="true"
-      aria-busy={busy}
+      ref={statusRef}
+      className={`sa-feedback ${status ? "is-visible" : ""}`}
+      role="status"
+      tabIndex={-1}
+      data-status={register ? "register" : "login"}
     >
-      <aside className="sa-story">
-        <img
-          className="sa-story-photo"
-          src="./assets/operador-torno.jpg"
-          alt="Operador trabalhando em uma máquina industrial"
-        />
-        <div className="sa-story-shade" />
-        <div className="sa-story-top">
-          <Brand back />
-          <span>
-            DA NECESSIDADE
-            <br />
-            AO ACORDO.
-          </span>
-        </div>
-        <div className="sa-story-copy">
-          <p className="sv-eyebrow">Boas conexões movem a indústria</p>
-          <h2>
-            O próximo acordo
-            <br />
-            tem uma empresa
-            <br />
-            como a sua.
-          </h2>
-          <p>
-            Requisitos claros. Condições registradas.
-            <br />
-            Um caminho compartilhado até o recebimento.
-          </p>
-          <div className="sa-story-proof">
-            <ShieldCheck size={20} />
-            <span>
-              E-mail confirmado.
-              <br />
-              Empresa sujeita à análise.
-            </span>
-          </div>
-        </div>
-        <small className="sa-story-credit">
-          Fotografia real · Tima Miroshnichenko / Pexels
-        </small>
-      </aside>
+      {status}
+    </div>
+  );
+
+  return (
+    <div className="sa-layout auth-shell" data-mode={register ? "register" : "login"} data-ui-ready="true" aria-busy={busy}>
+      <div className="sa-brand"><Brand back /></div>
       <main className="sa-main">
-        <div className="sa-mobile-brand">
-          <Brand back />
-        </div>
-        <div className="sa-top">
-          <a href="#/" className="sa-back">
-            <ArrowLeft size={16} /> Voltar ao início
-          </a>
-          <span>
-            {register ? "Já tem conta?" : "Primeiro acesso?"}{" "}
-            <a
-              href={register ? "#/acesso?modo=login" : "#/acesso?modo=register"}
-              data-switch-mode={register ? "login" : "register"}
-            >
-              {register ? "Entrar" : "Criar conta"} <ArrowUpRight size={14} />
-            </a>
-          </span>
-        </div>
         <div className="sa-content form-view is-active">
           {success ? (
             <section className="sa-success">
-              <div className="sa-success-symbol">
-                <Check size={30} />
-              </div>
-              <p className="sv-eyebrow">Seu primeiro passo está concluído</p>
-              <h1 ref={title} tabIndex={-1}>
-                Sua conta foi criada.
-              </h1>
+              <span className="sa-success-symbol"><Check size={22} aria-hidden="true" /></span>
+              <h1 ref={title} tabIndex={-1}>Sua conta foi criada.</h1>
               <p>
-                Agora confirme o e-mail <strong>{success.email}</strong> para
-                continuar.
+                {success.verificationSent
+                  ? <>Enviamos um link para <strong>{success.email}</strong>. Confirme seu e-mail para continuar.</>
+                  : "Entre com sua conta para solicitar um novo e-mail de verificação."}
               </p>
-              <ol>
-                <li>
-                  <strong>Abra a mensagem de verificação.</strong>
-                  <span>
-                    {success.verificationSent
-                      ? "O link foi enviado. Confira a caixa de entrada e o spam."
-                      : "Não foi possível enviar a mensagem agora. Tente entrar para solicitar um novo envio."}
-                  </span>
-                </li>
-                <li>
-                  <strong>Entre e revise a empresa.</strong>
-                  <span>
-                    {success.persistent
-                      ? "Os dados empresariais ficam neste navegador por até sete dias para você retomar a revisão."
-                      : "Este navegador não permitiu salvar o rascunho. Ao entrar, apresente novamente os dados da empresa."}
-                  </span>
-                </li>
-                <li>
-                  <strong>Envie para análise.</strong>
-                  <span>
-                    O acesso comercial será liberado após a aprovação do
-                    cadastro empresarial.
-                  </span>
-                </li>
-              </ol>
+              <p>
+                {success.persistent
+                  ? "Depois de confirmar o e-mail, entre para revisar e enviar os dados da empresa para análise."
+                  : "Depois de confirmar o e-mail, entre e preencha novamente os dados da empresa neste navegador."}
+              </p>
               {(!success.profileSaved || !success.displayNameSaved) && (
-                <p className="sa-notice">
-                  A conta existe, mas parte dos dados do perfil não pôde ser
-                  salva. Confira seu perfil após entrar.
-                </p>
+                <p className="sa-notice">Confira os dados do perfil após entrar. Parte deles não pôde ser salva.</p>
               )}
-              <a className="sa-submit" href="#/acesso?modo=login">
-                Ir para entrar <ArrowUpRight size={18} />
-              </a>
-              <p className="sa-safe">
-                Nenhuma cobrança realizada. Nenhuma assinatura financeira ativa.
-              </p>
+              <a className="sa-submit" href="#/acesso?modo=login">Ir para o login</a>
             </section>
           ) : register ? (
             <>
               <div className="sa-form-heading">
-                <p className="sv-eyebrow">Sua empresa no SIVI</p>
-                <h1 ref={title} tabIndex={-1}>
-                  {
-                    [
-                      "Comece uma nova conexão.",
-                      "Apresente sua empresa.",
-                      "Tudo pronto para começar.",
-                    ][step]
-                  }
-                </h1>
-                <p>
-                  {
-                    [
-                      "Crie seu acesso. Depois, apresente sua empresa e revise a demonstração de pagamento.",
-                      "As informações serão revisadas após você confirmar seu e-mail.",
-                      "Revise sua escolha e use somente os dados de teste indicados.",
-                    ][step]
-                  }
-                </p>
+                <h1 ref={title} tabIndex={-1}>{step === 0 ? "Crie sua conta" : "Dados da empresa"}</h1>
+                {step === 0 && <p>Conecte sua empresa a compradores e fornecedores da indústria.</p>}
               </div>
               <ol className="sa-steps" aria-label="Etapas do cadastro">
-                {["Seu acesso", "Sua empresa", "Revisão e teste"].map(
-                  (label, i) => (
-                    <li
-                      key={label}
-                      aria-current={i === step ? "step" : undefined}
-                      className={i <= step ? "is-active" : ""}
-                    >
-                      <button
-                        type="button"
-                        disabled={i > step || busy}
-                        onClick={() => {
-                          setStep(i);
-                          setStatus("");
-                          setErrors({});
-                        }}
-                      >
-                        <span>{i < step ? <Check size={13} /> : i + 1}</span>
-                        {label}
-                      </button>
-                    </li>
-                  ),
-                )}
+                <li aria-current={step === 0 ? "step" : undefined}>
+                  {step === 0 ? (
+                    <span className="sa-step"><span className="sa-step-number" aria-hidden="true">1</span> Conta</span>
+                  ) : (
+                    <button type="button" className="sa-step" aria-label="Voltar à etapa 1, Conta" disabled={busy} onClick={() => {
+                      setStep(0);
+                      setStatus("");
+                      setErrors({});
+                      window.scrollTo(0, 0);
+                    }}>
+                      <span className="sa-step-number" aria-hidden="true">1</span> Conta
+                    </button>
+                  )}
+                </li>
+                <li aria-current={step === 1 ? "step" : undefined}>
+                  <span className="sa-step"><span className="sa-step-number" aria-hidden="true">2</span> Empresa</span>
+                </li>
               </ol>
-              <div className="sa-plan-summary">
-                <div>
-                  <span>Plano selecionado</span>
-                  <small className="sa-payment-label">
-                    Pagamento demonstrativo
-                  </small>
-                  <strong>
-                    {selected.name} <small>{money(quote.monthly)}/mês</small>
-                  </strong>
-                </div>
-                <span>
-                  {period === "anual"
-                    ? `${money(quote.total)}/ano`
-                    : "Proposta mensal"}
-                </span>
-              </div>
               <form id="register-form" noValidate onSubmit={submitRegistration}>
                 <fieldset disabled={busy}>
-                  {step === 0 && (
+                  {step === 0 ? (
                     <>
                       <div className="sa-row">
-                        {personalField(
-                          "firstName",
-                          "Nome",
-                          "text",
-                          "given-name",
-                        )}
-                        {personalField(
-                          "lastName",
-                          "Sobrenome",
-                          "text",
-                          "family-name",
-                        )}
+                        {personalField("firstName", "Nome", "text", "given-name")}
+                        {personalField("lastName", "Sobrenome", "text", "family-name")}
                       </div>
-                      {personalField("email", "E-mail", "email", "email")}
-                      {personalField(
-                        "password",
-                        "Senha",
-                        "password",
-                        "new-password",
-                      )}
-                      {personalField(
-                        "confirmPassword",
-                        "Confirmar senha",
-                        "password",
-                        "new-password",
-                      )}
+                      {personalField("email", "E-mail", "email", "email", "voce@empresa.com")}
+                      {personalField("password", "Senha", "password", "new-password", "Crie uma senha")}
+                      {personalField("confirmPassword", "Confirmar senha", "password", "new-password", "Repita a senha")}
                     </>
-                  )}
-                  {step === 1 && (
+                  ) : (
                     <>
-                      <Field
-                        label="Nome da empresa"
-                        id="company-name"
-                        name="name"
-                        autoComplete="organization"
-                        maxLength={120}
-                        value={values.name}
-                        onChange={change}
-                        error={errors.name}
-                      />
-                      <Field
-                        label="CNPJ"
-                        id="company-cnpj"
-                        error={errors.cnpj}
-                        name="cnpj"
-                        maxLength={18}
-                        value={values.cnpj}
-                        onChange={change}
-                        hint="14 caracteres. Aceita o formato com pontuação."
-                      />
+                      <Field label="Nome da empresa" id="company-name" name="name" placeholder="Ex.: Metalúrgica Horizonte" autoComplete="organization" maxLength={120} value={values.name} onChange={change} error={errors.name} />
+                      <Field label="CNPJ" id="company-cnpj" name="cnpj" placeholder="14 caracteres" autoComplete="off" maxLength={cnpjLength} value={values.cnpj} onChange={change} onPaste={pasteCnpj} error={errors.cnpj} />
                       <div className="sa-row sa-row--city">
-                        <Field
-                          label="Cidade"
-                          id="company-city"
-                          error={errors.city}
-                          name="city"
-                          autoComplete="address-level2"
-                          maxLength={100}
-                          value={values.city}
-                          onChange={change}
-                        />
+                        <Field label="Cidade" id="company-city" name="city" placeholder="Ex.: Diadema" autoComplete="address-level2" maxLength={100} value={values.city} onChange={change} error={errors.city} />
                         <div className="sa-field">
                           <label htmlFor="company-state">UF</label>
-                          <select
-                            id="company-state"
-                            aria-invalid={Boolean(errors.state)}
-                            aria-describedby={
-                              errors.state ? "company-state-error" : undefined
-                            }
-                            name="state"
-                            value={values.state}
-                            onChange={(e) => change("state", e.target.value)}
-                          >
-                            {states.map((state) => (
-                              <option key={state}>{state}</option>
-                            ))}
+                          <select id="company-state" name="state" autoComplete="address-level1" value={values.state} onChange={(event) => change("state", event.target.value)} aria-invalid={Boolean(errors.state)} aria-describedby={errors.state ? "company-state-error" : undefined}>
+                            {states.map((state) => <option key={state}>{state}</option>)}
                           </select>
-                          {errors.state && (
-                            <small
-                              id="company-state-error"
-                              className="sa-error"
-                            >
-                              {errors.state}
-                            </small>
-                          )}
+                          {errors.state && <small className="sa-error" id="company-state-error">{errors.state}</small>}
                         </div>
                       </div>
-                      <Field
-                        label="Telefone ou e-mail de contato"
-                        id="company-contact"
-                        error={errors.contact}
-                        name="contact"
-                        maxLength={120}
-                        value={values.contact}
-                        onChange={change}
-                      />
+                      <Field label="Telefone ou e-mail de contato" id="company-contact" name="contact" placeholder="contato@empresa.com" maxLength={120} value={values.contact} onChange={change} error={errors.contact} />
                       <div className="sa-field">
-                        <label htmlFor="signup-plan">Atuação e plano</label>
-                        <select
-                          id="signup-plan"
-                          value={plan}
-                          onChange={(e) => setPlan(e.target.value)}
-                        >
-                          {PUBLIC_PLANS.map((p) => (
-                            <option key={p.id} value={p.id}>
-                              {p.name} —{" "}
-                              {p.roles.length === 2
-                                ? "comprar e fornecer"
-                                : p.roles[0] === "buyer"
-                                  ? "comprar"
-                                  : "fornecer"}
+                        <label htmlFor="signup-plan">Atuação da empresa</label>
+                        <select id="signup-plan" value={plan} onChange={(event) => setPlan(event.target.value)}>
+                          {PUBLIC_PLANS.map(({ id, roles }) => (
+                            <option key={id} value={id}>
+                              {roles.length === 2 ? "Comprar e fornecer" : roles[0] === "buyer" ? "Comprar" : "Fornecer"}
                             </option>
                           ))}
                         </select>
-                        <small>
-                          A seleção define as atuações propostas no cadastro
-                          empresarial.
-                        </small>
                       </div>
                     </>
                   )}
-                  {step === 2 && (
-                    <>
-                      <div className="sa-review">
-                        <h2>Revise sua escolha</h2>
-                        <dl>
-                          <div>
-                            <dt>Responsável</dt>
-                            <dd>
-                              {values.firstName} {values.lastName}
-                              <small>{values.email}</small>
-                            </dd>
-                          </div>
-                          <div>
-                            <dt>Empresa</dt>
-                            <dd>
-                              {values.name}
-                              <small>
-                                {values.cnpj} · {values.city}/{values.state}
-                                <br />
-                                {values.contact}
-                              </small>
-                            </dd>
-                          </div>
-                        </dl>
-                        <button type="button" onClick={() => setStep(1)}>
-                          Editar dados da empresa
-                        </button>
-                        <div className="sa-row">
-                          <div className="sa-field">
-                            <label htmlFor="review-plan">Plano</label>
-                            <select
-                              id="review-plan"
-                              value={plan}
-                              onChange={(e) => setPlan(e.target.value)}
-                            >
-                              {PUBLIC_PLANS.map((p) => (
-                                <option key={p.id} value={p.id}>
-                                  {p.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="sa-field">
-                            <label htmlFor="review-period">Periodicidade</label>
-                            <select
-                              id="review-period"
-                              value={period}
-                              onChange={(e) => setPeriod(e.target.value)}
-                            >
-                              <option value="mensal">Mensal</option>
-                              <option value="anual">Anual</option>
-                            </select>
-                          </div>
-                        </div>
-                        <p>
-                          {period === "anual"
-                            ? `${money(quote.monthly)}/mês · total proposto de ${money(quote.total)}/ano.`
-                            : `${money(quote.monthly)}/mês propostos.`}{" "}
-                          <strong>Hoje: R$ 0.</strong>
-                        </p>
-                      </div>
-                      <div className="sa-demo-notice">
-                        <LockKeyhole size={20} />
-                        <div>
-                          <strong>Pagamento demonstrativo</strong>
-                          <p>
-                            Nenhum valor será cobrado. Não use cartão real. Os
-                            dados de teste não são enviados nem gravados.
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setValues((v: any) => ({
-                                ...v,
-                                card: "4242 4242 4242 4242",
-                                expiry: "12/30",
-                                cvv: "123",
-                                holder: "EMPRESA TESTE",
-                              }))
-                            }
-                          >
-                            Preencher dados de teste <ChevronRight size={14} />
-                          </button>
-                        </div>
-                      </div>
-                      <Field
-                        label="Número do cartão de teste"
-                        id="test-card"
-                        name="card"
-                        inputMode="numeric"
-                        autoComplete="off"
-                        maxLength={19}
-                        value={values.card}
-                        onChange={change}
-                        error={errors.card}
-                        hint="Somente 4242 4242 4242 4242"
-                      />
-                      <Field
-                        label="Nome demonstrativo no cartão"
-                        id="test-holder"
-                        name="holder"
-                        autoComplete="off"
-                        maxLength={80}
-                        value={values.holder}
-                        onChange={change}
-                        error={errors.holder}
-                      />
-                      <div className="sa-row">
-                        <Field
-                          label="Validade de teste"
-                          id="test-expiry"
-                          name="expiry"
-                          inputMode="numeric"
-                          autoComplete="off"
-                          maxLength={5}
-                          value={values.expiry}
-                          onChange={change}
-                          error={errors.expiry}
-                          hint="Use 12/30"
-                        />
-                        <Field
-                          label="CVV de teste"
-                          id="test-cvv"
-                          name="cvv"
-                          inputMode="numeric"
-                          autoComplete="off"
-                          maxLength={3}
-                          value={values.cvv}
-                          onChange={change}
-                          error={errors.cvv}
-                          hint="Use 123"
-                        />
-                      </div>
-                      <label className="sa-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={values.consent}
-                          onChange={(e) => change("consent", e.target.checked)}
-                          aria-invalid={Boolean(errors.consent)}
-                          aria-describedby={
-                            errors.consent ? "consent-error" : undefined
-                          }
-                        />
-                        <span>
-                          Entendi que o pagamento é demonstrativo, sem cobrança,
-                          e que a conclusão cria uma conta real.
-                        </span>
-                      </label>
-                      {errors.consent && (
-                        <p className="sa-error" id="consent-error">
-                          {errors.consent}
-                        </p>
-                      )}
-                    </>
-                  )}
-                  <div
-                    ref={statusRef}
-                    className={`sa-feedback ${status ? "is-visible" : ""}`}
-                    role="status"
-                    tabIndex={-1}
-                    data-status="register"
-                  >
-                    {status}
-                  </div>
-                  <button type="submit" className="sa-submit">
-                    {busy
-                      ? "Criando sua conta…"
-                      : [
-                          "Continuar para empresa",
-                          "Revisar e continuar",
-                          "Criar conta sem cobrança",
-                        ][step]}
-                    {!busy && <ArrowUpRight size={18} />}
+                  {terms}
+                  {statusRegion}
+                  <button type="submit" className="sa-submit" aria-describedby="access-terms">
+                    {busy ? "Criando sua conta…" : step === 0 ? "Continuar" : "Criar conta"}
                   </button>
-                  {step > 0 && (
-                    <button
-                      className="sa-previous"
-                      type="button"
-                      onClick={() => {
-                        setStep(step - 1);
-                        setStatus("");
-                        setErrors({});
-                      }}
-                    >
-                      ← Voltar e revisar
-                    </button>
-                  )}
-                  <p className="sa-legal">
-                    Ao criar a conta, você declara estar autorizado a
-                    representar a empresa. Conheça as{" "}
-                    <a
-                      href={infoLink("condicoes")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      condições de uso
-                    </a>{" "}
-                    e o uso de dados na{" "}
-                    <a
-                      href={infoLink("privacidade")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      privacidade
-                    </a>
-                    .
-                  </p>
                 </fieldset>
               </form>
+              {switchMode}
             </>
           ) : (
             <>
               <div className="sa-form-heading">
-                <p className="sv-eyebrow">Bem-vindo de volta</p>
-                <h1 ref={title} tabIndex={-1}>
-                  {reset
-                    ? "Recupere seu acesso."
-                    : "Seu próximo acordo espera."}
-                </h1>
-                <p>
-                  {reset
-                    ? "Informe o e-mail usado no cadastro para receber as orientações."
-                    : "Entre para acompanhar sua empresa e continuar de onde parou."}
-                </p>
+                <h1 ref={title} tabIndex={-1}>{reset ? "Recupere seu acesso" : "Bem-vindo de volta ao SIVI!"}</h1>
+                <p>{reset ? "Informe o e-mail usado no cadastro." : "Acompanhe suas demandas, propostas e pedidos."}</p>
               </div>
-              <form id="login-form" noValidate onSubmit={login}>
-                <fieldset disabled={busy}>
-                  <Field
-                    id="login-email"
-                    label="E-mail"
-                    name="email"
-                    type="email"
-                    autoComplete="username"
-                    value={loginEmail}
-                    onChange={(_: any, v: string) => setLoginEmail(v)}
-                  />
-                  {!reset && (
-                    <Field
-                      id="login-password"
-                      label="Senha"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      value={loginPassword}
-                      onChange={(_: any, v: string) => setLoginPassword(v)}
-                    />
-                  )}
-                  <div
-                    ref={statusRef}
-                    className={`sa-feedback ${status ? "is-visible" : ""}`}
-                    role="status"
-                    tabIndex={-1}
-                    data-status="login"
-                  >
-                    {status}
-                  </div>
-                  <button type="submit" className="sa-submit">
-                    {busy
-                      ? "Aguarde…"
-                      : reset
-                        ? "Enviar orientações"
-                        : "Entrar na minha conta"}
-                    {!busy && <ArrowUpRight size={18} />}
-                  </button>
-                  <button
-                    className="sa-previous"
-                    type="button"
-                    data-reset-password
-                    onClick={() => {
-                      setReset(!reset);
-                      setStatus("");
-                    }}
-                  >
-                    {reset ? "← Voltar para entrar" : "Esqueci minha senha"}
-                  </button>
-                </fieldset>
-              </form>
               {!reset && (
                 <>
-                  <div className="sa-divider">
-                    <span>ou entre com</span>
-                  </div>
                   <div className="sa-providers">
-                    <button
-                      disabled={busy}
-                      data-provider="google"
-                      onClick={() => provider("google")}
-                    >
-                      <span aria-hidden="true" className="sa-google">
-                        G
-                      </span>
-                      Google
+                    <button type="button" disabled={busy} data-provider="google" aria-describedby="access-terms" onClick={() => provider("google")}>
+                      <img src="./assets/sign-in-google.png" width={18} height={18} alt="" />
+                      Entrar com Google
                     </button>
-                    <button
-                      disabled={busy}
-                      data-provider="github"
-                      onClick={() => provider("github")}
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.8-1.33-3.8-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.71 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.03.76 2.08v3.1c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z" />
+                    <button type="button" disabled={busy} data-provider="apple" aria-describedby="access-terms" onClick={() => provider("apple")}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
                       </svg>
-                      GitHub
+                      Entrar com Apple
                     </button>
                   </div>
+                  <div className="sa-divider"><span>ou entre com e-mail</span></div>
                 </>
               )}
-              <p className="sa-login-help">
-                O acesso da empresa depende da confirmação de e-mail e da
-                análise cadastral.{" "}
-                <a href={infoLink("ajuda")}>Precisa de orientação?</a>
-              </p>
+              <form id="login-form" noValidate onSubmit={login}>
+                <fieldset disabled={busy}>
+                  <Field id="login-email" label="E-mail" name="email" type="email" placeholder="voce@empresa.com" autoComplete="username" maxLength={254} value={loginEmail} onChange={(_: string, value: string) => setLoginEmail(value)} />
+                  {!reset && (
+                    <>
+                      <Field
+                        id="login-password"
+                        label="Senha"
+                        name="password"
+                        type="password"
+                        placeholder="Sua senha"
+                        autoComplete="current-password"
+                        maxLength={128}
+                        value={loginPassword}
+                        onChange={(_: string, value: string) => setLoginPassword(value)}
+                        labelAction={
+                          <button className="sa-reset" type="button" data-reset-password onClick={() => { setReset(true); setStatus(""); }}>
+                            Esqueci minha senha
+                          </button>
+                        }
+                      />
+                      {terms}
+                    </>
+                  )}
+                  {statusRegion}
+                  <button type="submit" className="sa-submit" aria-describedby={reset ? undefined : "access-terms"}>
+                    {busy ? "Aguarde…" : reset ? "Enviar orientações" : "Entrar"}
+                  </button>
+                  {reset && (
+                    <button className="sa-reset sa-reset--return" type="button" data-reset-password onClick={() => { setReset(false); setStatus(""); }}>
+                      Voltar ao login
+                    </button>
+                  )}
+                </fieldset>
+              </form>
+              {!reset && switchMode}
             </>
           )}
         </div>
-        <footer className="sa-footer">
-          <span>© {new Date().getFullYear()} SIVI</span>
-          <a href={infoLink("privacidade")}>Privacidade</a>
-          <a href={infoLink("condicoes")}>Condições</a>
-          <a href={infoLink("ajuda")}>Ajuda</a>
-        </footer>
       </main>
+      <aside className="sa-story">
+        <img className="sa-story-photo" src="./assets/operador-torno.jpg" width={1920} height={1280} alt="" fetchPriority="high" />
+        <div className="sa-story-content">
+          <h2>Da cotação<br />ao recebimento.</h2>
+          <p>Compradores e fornecedores no mesmo lugar, com cada etapa da negociação registrada.</p>
+        </div>
+      </aside>
     </div>
   );
 }

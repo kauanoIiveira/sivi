@@ -23,7 +23,7 @@
           ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80"
         },
         "authProvider": {
-          ".validate": "newData.isString() && (newData.val() === 'password' || newData.val() === 'google' || newData.val() === 'github')"
+          ".validate": "newData.isString() && (newData.val() === 'password' || newData.val() === 'google' || newData.val() === 'github' || newData.val() === 'apple')"
         },
         "emailVerified": {
           ".validate": "newData.isBoolean() && newData.val() === auth.token.email_verified"

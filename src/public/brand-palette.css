@@ -1,0 +1,94 @@
+/* Cosmic Campfire — palette supplied by the SIVI team.
+   Shared tokens stay scoped to the public website and account access. */
+:is(.sivi-public-ui, .sivi-auth-ui) {
+  --sv-ink: #05060a;
+  --sv-dark: #1b1f3a;
+  --sv-orange: #ff6a00;
+  --sv-gold: #ffcc66;
+  --sv-paper: #d7e3ff;
+  --sv-surface: color-mix(in srgb, var(--sv-paper), white 85%);
+  --sv-muted: color-mix(in srgb, var(--sv-dark) 80%, var(--sv-paper));
+  --sv-line: color-mix(in srgb, var(--sv-dark) 22%, var(--sv-paper));
+  --sv-control-line: color-mix(in srgb, var(--sv-dark) 52%, var(--sv-paper));
+}
+
+/* Gold marks the secondary highlights; orange remains the main action. */
+.sv-landing { --shimmer-highlight: var(--sv-gold); }
+.sivi-public-ui .sv-landing .sv-button:hover,
+.sivi-public-ui .sv-landing .sv-home-agreement--dark .sv-button:hover {
+  background: var(--sv-gold);
+}
+.sivi-public-ui .sv-landing .sv-nav nav > a:hover { color: var(--sv-gold); }
+.sivi-public-ui .sv-landing .sv-nav .sv-nav-cta:hover {
+  background: var(--sv-gold);
+  color: var(--sv-ink);
+}
+.sv-landing :is(.sv-agreement dd, .sv-close-arrow) { color: var(--sv-gold); }
+.sv-home-agreement:not(.sv-home-agreement--dark) { background: var(--sv-gold); }
+.sv-story-card:nth-child(2) .sv-example-art { background: var(--sv-gold); }
+.sivi-public-ui .sv-landing .sv-home-agreement:not(.sv-home-agreement--dark) .sv-button:hover {
+  background: var(--sv-orange);
+  color: var(--sv-ink);
+}
+
+/* Keep the graph and its controls in the same palette. */
+.sivi-public-ui .sv-landing .sv-chart-filter button[aria-pressed="true"] { color: var(--sv-dark); }
+.sivi-public-ui .sv-landing .sv-demo-role button[aria-pressed="true"] { color: var(--sv-paper); }
+
+/* Account access uses the same colors, with restrained, readable form surfaces. */
+.sivi-auth-ui { background: var(--sv-paper); }
+.sivi-auth-ui .sa-main { background: var(--sv-surface); }
+.sivi-auth-ui .sa-story { background: var(--sv-dark); color: var(--sv-paper); }
+.sivi-auth-ui .sa-story-shade {
+  background: linear-gradient(0deg, #05060af0, #1b1f3a66 65%, #05060aaa);
+}
+.sivi-auth-ui :is(.sa-story-top > span, .sa-story-copy h2, .sa-story-copy > p:not(.sv-eyebrow), .sa-story-proof, .sa-story-credit) {
+  color: var(--sv-paper);
+}
+.sivi-auth-ui .sa-story-copy .sv-eyebrow { color: var(--sv-gold); }
+.sivi-auth-ui .sa-story-proof { border-color: color-mix(in srgb, var(--sv-paper) 35%, transparent); }
+.sivi-auth-ui :is(.sa-top, .sa-form-heading > p:not(.sv-eyebrow), .sa-password,
+  .sa-field > small:not(.sa-error), .sa-legal, .sa-login-help, .sa-footer, .sa-divider,
+  .sa-steps li, .sa-success > p:not(.sv-eyebrow), .sa-success li > span) {
+  color: var(--sv-muted);
+}
+.sivi-auth-ui :is(.sa-top a, .sa-field > label, .sa-previous, .sa-legal a,
+  .sa-login-help a, .sa-steps .is-active, .sa-success li > strong, .sa-success .sa-safe) {
+  color: var(--sv-dark);
+}
+.sivi-auth-ui :is(input:not([type="checkbox"]), select) {
+  color: var(--sv-ink);
+  background: var(--sv-surface);
+  border-color: var(--sv-control-line);
+}
+.sivi-auth-ui :is(input, select):focus {
+  border-color: var(--sv-dark);
+  outline-color: color-mix(in srgb, var(--sv-dark) 32%, transparent);
+}
+.sivi-auth-ui input[type="checkbox"] { accent-color: var(--sv-dark); }
+.sivi-auth-ui :is(.sa-steps, .sa-footer, .sa-top, .sa-steps button > span, .sa-providers button, .sa-success li:before) {
+  border-color: var(--sv-line);
+}
+.sivi-auth-ui .sa-steps .is-active button > span {
+  background: var(--sv-gold);
+  border-color: var(--sv-gold);
+  color: var(--sv-ink);
+}
+.sivi-auth-ui .sa-divider:before,
+.sivi-auth-ui .sa-divider:after { background: var(--sv-line); }
+.sivi-auth-ui .sa-providers button { background: var(--sv-surface); color: var(--sv-dark); }
+.sivi-auth-ui .sa-providers button:hover { background: var(--sv-paper); }
+.sivi-auth-ui .sa-feedback {
+  color: var(--sv-dark);
+  background: var(--sv-paper);
+  border-color: var(--sv-control-line);
+  border-left-color: var(--sv-dark);
+}
+.sivi-auth-ui .sa-success-symbol,
+.sivi-auth-ui .sa-success .sa-notice {
+  background: var(--sv-gold);
+  color: var(--sv-dark);
+  border-color: var(--sv-gold);
+}
+.sivi-auth-ui .sa-success li:before { color: var(--sv-dark); }
+.sivi-auth-ui input[aria-invalid="true"] { border-color: #a13520; outline-color: #a1352044; }

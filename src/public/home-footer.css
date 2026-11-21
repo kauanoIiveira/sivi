@@ -83,7 +83,7 @@
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 260ms cubic-bezier(.22, .61, .36, 1);
+  transition: transform var(--sv-feedback-duration) var(--sv-feedback-ease);
 }
 
 .sv-footer--home :is(nav, address) a:is(:hover, :focus-visible) > span::after {
@@ -142,26 +142,35 @@
 }
 
 .sv-footer-newsletter-fields {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 4px;
+  padding: 4px;
+  background: var(--sv-paper);
+  border: 1px solid #737373;
+  border-radius: 12px;
+  transition: border-color var(--sv-feedback-duration) var(--sv-feedback-ease);
+}
+
+.sv-footer-newsletter-fields:focus-within {
+  border-color: var(--sv-ink);
 }
 
 .sv-footer--home .sv-footer-newsletter-fields :is(input, button) {
-  min-height: 50px;
-  padding-inline: 12px;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  min-height: 44px;
+  padding-inline: clamp(8px, 1vw, 14px);
+  border: 0;
+  border-radius: 8px;
   color: var(--sv-ink);
   font: inherit;
   font-size: .8125rem;
 }
 
 .sv-footer--home .sv-footer-newsletter-fields input {
-  flex: 1 1 8rem;
   min-width: 0;
-  border-color: var(--sv-muted);
-  background: #fff;
+  width: 100%;
+  background: transparent;
 }
 
 .sv-footer-newsletter-fields input::placeholder {
@@ -169,9 +178,13 @@
   opacity: 1;
 }
 
-.sv-footer-newsletter-fields input:focus-visible {
+.sivi-public-ui .sv-landing .sv-footer-newsletter-fields :is(input, button):focus-visible {
   outline: 2px solid var(--sv-ink);
-  outline-offset: 2px;
+  outline-offset: -2px;
+}
+
+.sv-footer-newsletter-fields:has(input:user-invalid) {
+  border-color: #9b371e;
 }
 
 .sv-footer--home .sv-footer-newsletter-fields button {
@@ -179,8 +192,13 @@
   cursor: pointer;
 }
 
-.sv-footer--home .sv-footer-newsletter-fields button:hover {
-  border-color: var(--sv-ink);
+.sv-footer--home .sv-footer-newsletter-fields button:hover:enabled {
+  background: var(--sv-orange-hover);
+}
+
+.sv-footer--home .sv-footer-newsletter-fields button:disabled {
+  background: var(--sv-surface);
+  cursor: not-allowed;
 }
 
 .sv-footer-newsletter-status:not(:empty) {

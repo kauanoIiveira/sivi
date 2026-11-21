@@ -1,12 +1,65 @@
 import {
   Action,
   Arrow,
-  Brand,
   Footer,
   Header,
   PageNavigation,
   infoLink,
 } from "./components";
+
+const legalPages = {
+  privacidade: {
+    title: "Política de privacidade",
+    intro:
+      "Esta política explica quais dados são usados para criar sua conta, cadastrar sua empresa e registrar negociações no SIVI.",
+    sections: [
+      [
+        "Conta e autenticação",
+        "Nome, sobrenome, e-mail e credenciais são usados para criar e acessar a conta com Firebase Authentication. A senha é encaminhada ao serviço de autenticação; não integra o rascunho empresarial salvo no navegador.",
+      ],
+      [
+        "Dados empresariais e negociações",
+        "Nome da empresa, CNPJ, cidade, UF, contato e atuação compõem o cadastro para análise. Demandas, propostas, pedidos e seus registros são armazenados no Firebase Realtime Database e disponibilizados conforme as permissões e a relação comercial.",
+      ],
+      [
+        "Armazenamento no navegador",
+        "O cadastro integrado pode salvar um rascunho empresarial neste navegador por até sete dias, associado à conta. Ele permite retomar a revisão após confirmar o e-mail. Preferências de aparência e contexto também usam armazenamento local ou de sessão. Não há publicidade ou analytics adicionados nesta repaginação.",
+      ],
+      [
+        "Responsável e atendimento",
+        "Esta apresentação usa SIVI Tecnologia, São Paulo/SP, e CNPJ 00.000.000/0000-00 como identificação fictícia. contato@sivi.example é somente um exemplo, sem atendimento. Não há canal real para solicitações de dados configurado nesta versão. Antes de operação comercial, o responsável e esse canal precisam ser substituídos por dados reais.",
+      ],
+    ],
+  },
+  condicoes: {
+    title: "Condições de uso",
+    intro:
+      "Estas condições explicam como usar a versão demonstrativa do SIVI e quais são as responsabilidades de quem compra e de quem fornece.",
+    sections: [
+      [
+        "O papel da plataforma",
+        "O SIVI organiza o relacionamento e os registros comerciais entre empresas. Não fabrica, transporta nem processa o pagamento dos produtos negociados. Capacidade, requisitos, frete, prazos e pagamento devem ser verificados e acordados pelos participantes.",
+      ],
+      [
+        "Conta e cadastro empresarial",
+        "A conclusão do formulário cria uma conta real. O acesso operacional requer confirmação de e-mail e análise da empresa. Informe dados corretos de uma empresa que você está autorizado a representar; não use o CNPJ fictício do SIVI como identificação de uma empresa real.",
+      ],
+      [
+        "Planos e ausência de cobrança",
+        "Os valores exibidos são uma proposta de oferta comercial. Nesta versão não existe assinatura financeira ativa, débito, renovação automática, fatura ou captura de pagamento. Os planos não estabelecem limites financeiros de acesso implementados. Não há contratação paga pelo envio do formulário.",
+      ],
+      [
+        "Responsabilidades dos participantes",
+        "Revise as especificações e condições antes de aceitar propostas. Mantenha as informações de capacidade atualizadas. Registre inspeção, expedição e recebimento conforme os fatos. Não apresente dados de terceiros sem autorização nem compartilhe sua conta.",
+      ],
+      [
+        "Identidade demonstrativa",
+        "SIVI Tecnologia, o CNPJ fictício 00.000.000/0000-00 e o e-mail contato@sivi.example são dados de apresentação, sem registro ou atendimento declarado. Estas condições descrevem o produto atual; a operação comercial exige a identificação real do responsável e a formalização das condições comerciais.",
+      ],
+    ],
+  },
+} as const;
+
 const pages: any = {
   sobre: {
     eyebrow: "Sobre o SIVI",
@@ -47,68 +100,8 @@ const pages: any = {
         "O cadastro entra em análise administrativa. Quando houver correção solicitada, consulte a justificativa e reenvie. As permissões operacionais dependem da empresa, da atuação e da situação do cadastro.",
       ],
       [
-        "Pagamento de teste",
-        "O formulário aceita apenas os dados demonstrativos indicados. Cartão e CVV não são enviados nem gravados pelo SIVI. Não informe dados reais de pagamento. Nenhuma cobrança é realizada.",
-      ],
-      [
         "Limites claros",
         "A análise cadastral não substitui a diligência comercial e técnica entre empresas. O SIVI não anuncia certificações de segurança, garantia de entrega ou garantia de fornecimento que não tenham sido comprovadas.",
-      ],
-    ],
-  },
-  privacidade: {
-    eyebrow: "Privacidade",
-    title: "Seus dados, com clareza.",
-    intro:
-      "Esta página descreve o uso de dados na versão atual. Atualizada em 23 de outubro de 2026.",
-    sections: [
-      [
-        "Conta e autenticação",
-        "Nome, sobrenome, e-mail e credenciais são usados para criar e acessar a conta com Firebase Authentication. A senha é encaminhada ao serviço de autenticação; não integra o rascunho empresarial salvo no navegador.",
-      ],
-      [
-        "Dados empresariais e negociações",
-        "Nome da empresa, CNPJ, cidade, UF, contato e atuação compõem o cadastro para análise. Demandas, propostas, pedidos e seus registros são armazenados no Firebase Realtime Database e disponibilizados conforme as permissões e a relação comercial.",
-      ],
-      [
-        "Armazenamento no navegador",
-        "O cadastro integrado pode salvar um rascunho empresarial neste navegador por até sete dias, associado à conta. Ele permite retomar a revisão após confirmar o e-mail. Preferências de aparência e contexto também usam armazenamento local ou de sessão. Não há publicidade ou analytics adicionados nesta repaginação.",
-      ],
-      [
-        "Dados de pagamento",
-        "Somente dados indicados como teste podem ser usados. Cartão e CVV ficam na memória do formulário durante a etapa e são descartados na conclusão. Não são enviados a um gateway nem persistidos.",
-      ],
-      [
-        "Responsável e atendimento",
-        "Esta apresentação usa SIVI Tecnologia, São Paulo/SP, e CNPJ 00.000.000/0000-00 como identificação fictícia. contato@sivi.example é somente um exemplo, sem atendimento. Não há canal real para solicitações de dados configurado nesta versão. Antes de operação comercial, o responsável e esse canal precisam ser substituídos por dados reais.",
-      ],
-    ],
-  },
-  condicoes: {
-    eyebrow: "Condições de uso",
-    title: "O acordo começa com clareza.",
-    intro:
-      "Condições da versão demonstrativa, atualizadas em 23 de outubro de 2026.",
-    sections: [
-      [
-        "O papel da plataforma",
-        "O SIVI organiza o relacionamento e os registros comerciais entre empresas. Não fabrica, transporta nem processa o pagamento dos produtos negociados. Capacidade, requisitos, frete, prazos e pagamento devem ser verificados e acordados pelos participantes.",
-      ],
-      [
-        "Conta e cadastro empresarial",
-        "A conclusão do formulário cria uma conta real. O acesso operacional requer confirmação de e-mail e análise da empresa. Informe dados corretos de uma empresa que você está autorizado a representar; não use o CNPJ fictício do rodapé como identificação de uma empresa real.",
-      ],
-      [
-        "Planos e ausência de cobrança",
-        "Os valores exibidos são uma proposta de oferta comercial. Nesta versão não existe assinatura financeira ativa, débito, renovação automática, fatura ou captura de pagamento. Os planos não estabelecem limites financeiros de acesso implementados. Não há contratação paga pelo envio do formulário.",
-      ],
-      [
-        "Responsabilidades dos participantes",
-        "Revise as especificações e condições antes de aceitar propostas. Mantenha as informações de capacidade atualizadas. Registre inspeção, expedição e recebimento conforme os fatos. Não apresente dados de terceiros sem autorização nem compartilhe sua conta.",
-      ],
-      [
-        "Identidade demonstrativa",
-        "SIVI Tecnologia, o CNPJ fictício 00.000.000/0000-00 e o e-mail contato@sivi.example são dados de apresentação, sem registro ou atendimento declarado. Estas condições descrevem o produto atual; a operação comercial exige a identificação real do responsável e a formalização das condições comerciais.",
       ],
     ],
   },
@@ -124,7 +117,7 @@ const pages: any = {
       ],
       [
         "2. Conclua o cadastro",
-        "Preencha seus dados, os da empresa e o formulário demonstrativo com o cartão de teste indicado. Só o botão final cria a conta. Nenhum valor será cobrado.",
+        "Preencha seus dados e os da empresa. Depois, leia as condições de uso e selecione Criar conta.",
       ],
       [
         "3. Confirme o e-mail",
@@ -156,7 +149,40 @@ const pages: any = {
     sections: [],
   },
 };
+
+function LegalDocument({ page }: { page: keyof typeof legalPages }) {
+  const { title, intro, sections } = legalPages[page];
+  const related = page === "privacidade" ? "condicoes" : "privacidade";
+
+  return (
+    <div className="sv-legal-document">
+      <Header />
+      <main id="conteudo" tabIndex={-1}>
+        <header className="sv-legal-heading">
+          <h1 id="public-title" tabIndex={-1}>{title}</h1>
+          <p>Última atualização em <time dateTime="2026-10-23">23 de outubro de 2026</time></p>
+        </header>
+        <div className="sv-legal-reading">
+          <p>{intro}</p>
+          {sections.map(([heading, text], index) => (
+            <section key={heading}>
+              <h2 id={`info-${index}`} tabIndex={-1}>{index + 1}. {heading}</h2>
+              <p>{text}</p>
+            </section>
+          ))}
+        </div>
+      </main>
+      <footer className="sv-legal-footer">
+        <a href={infoLink(related)}>{legalPages[related].title}</a>
+      </footer>
+      <PageNavigation />
+    </div>
+  );
+}
+
 export function InformationPage({ page }: { page: string }) {
+  if (page === "privacidade" || page === "condicoes") return <LegalDocument page={page} />;
+
   const content = pages[page] ?? pages.sobre;
   return (
     <>

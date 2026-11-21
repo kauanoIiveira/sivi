@@ -22,9 +22,10 @@ export function createHashRouter({ windowObject, routes, onRoute, onNotFound, be
     }
     lastHash = nextHash;
     const path = normalizeRoutePath(windowObject.location.hash);
+    const fullPath = String(nextHash ?? "").replace(/^#/, "");
     const route = matchRoute(path, routes);
-    if (route) onRoute({ path, fullPath: String(windowObject.location.hash).replace(/^#/, ''), route });
-    else onNotFound({ path });
+    if (route) onRoute({ path, fullPath, route });
+    else onNotFound({ path, fullPath });
   };
 
   return {

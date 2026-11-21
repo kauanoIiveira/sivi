@@ -153,17 +153,5 @@ export function validateSignup(values, step) {
       errors.contact =
         "Informe um telefone ou e-mail de contato (8 a 120 caracteres).";
   }
-  if (step === 2) {
-    if (String(values.card ?? "").replace(/\s/g, "") !== "4242424242424242")
-      errors.card = "Use somente o cartão de teste 4242 4242 4242 4242.";
-    if (values.expiry !== "12/30")
-      errors.expiry = "Use a validade de teste 12/30.";
-    if (values.cvv !== "123") errors.cvv = "Use o código de teste 123.";
-    if (String(values.holder ?? "").trim().length < 2)
-      errors.holder = "Informe um nome demonstrativo.";
-    if (!values.consent)
-      errors.consent =
-        "Confirme que entendeu a criação da conta e o uso de dados de teste.";
-  }
   return errors;
 }

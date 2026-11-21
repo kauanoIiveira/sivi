@@ -7,6 +7,12 @@ import { mountNotFoundPage } from "../pages/not-found/not-found-page.js";
 
 const RETURN_TO_KEY = "sivi.return-to.v1";
 const INTENT_KEY = 'sivi.onboarding-role.v1';
+const retiredCaseSteps = new Map([
+  ["ficha-de-demanda", 1],
+  ["comparacao-de-propostas", 3],
+  ["registro-de-inspecao", 5],
+  ["recebimento-do-pedido", 7],
+]);
 
 function navigationFor(workspace, currentPath) {
   const items = [{ id: "context", label: "Empresas e atuação", path: ROUTE_PATHS.context }];
@@ -69,6 +75,10 @@ export function createAppController({
   let currentDestination = ROUTE_PATHS.access;
   let pageCleanup = () => {};
   let authCleanup = () => {};
+  let authTransition;
+  let pageTransition;
+  let pageEntrance;
+  let mountedPublicScreen;
   let shell = null;
   let renderRevision = 0;
   let unsubscribeSession = () => {};
@@ -85,6 +95,49 @@ export function createAppController({
   };
 
   const isActive = (revision) => started && revision === renderRevision;
+  const canAnimatePage = () => !reducedMotion.matches && document.documentElement.dataset.motion !== "reduce";
+  const cancelPageMotion = () => {
+    pageTransition?.skipTransition();
+    pageEntrance?.cancel();
+  };
+
+  async function swapPublicView(update, surface, kind) {
+    if (typeof document.startViewTransition === "function") {
+      const root = document.documentElement;
+      root.dataset.pageTransition = kind;
+      let transition;
+      try {
+        transition = document.startViewTransition(update);
+      } catch {
+        delete root.dataset.pageTransition;
+      }
+      if (transition) {
+        pageTransition = transition;
+        void transition.ready.catch(() => {});
+        void transition.finished.catch(() => {}).finally(() => {
+          if (pageTransition === transition) {
+            pageTransition = undefined;
+            delete root.dataset.pageTransition;
+          }
+        });
+        await transition.updateCallbackDone;
+        return;
+      }
+    }
+
+    update();
+    const content = surface.querySelector("main");
+    if (typeof content?.animate !== "function") return;
+    const animation = content.animate(
+      [{ opacity: .45, translate: "0 18px" }, { opacity: 1, translate: "0 0" }],
+      { duration: 360, easing: "cubic-bezier(.22, 1, .36, 1)" },
+    );
+    pageEntrance = animation;
+    void animation.finished.catch(() => {}).finally(() => {
+      if (pageEntrance === animation) pageEntrance = undefined;
+    });
+  }
+
   const readReturnTo = () => {
     try { return storage.getItem(RETURN_TO_KEY); } catch { return null; }
   };
@@ -283,40 +336,102 @@ export function createAppController({
       return;
     }
     if (route.surface === 'public') {
-      clearPage(); clearAuth();
-      if (shell) { shell.destroy(); shell = null; }
-      showSurface('public');
-      document.title = route.title;
+      const params = new URLSearchParams(currentDestination.split("?")[1]);
+      const screen = route.id === "public-home" ? `${route.id}:${params.get("pagina") ?? ""}` : route.id;
+      const surface = surfaces.public;
+      const showPublic = () => {
+        clearPage();
+        clearAuth();
+        if (shell) { shell.destroy(); shell = null; }
+        showSurface('public');
+        document.title = route.title;
+      };
       try {
         const mount = await loadPageMount(route.id);
         if (!isActive(revision)) return;
-        pageCleanup = mount({ container: surfaces.public });
+        const from = document.body.dataset.surface;
+        const update = () => {
+          if (!isActive(revision)) return;
+          showPublic();
+          pageCleanup = mount({ container: surface });
+          mountedPublicScreen = screen;
+        };
+        const animated = canAnimatePage() && (
+          (from === "public" && mountedPublicScreen && mountedPublicScreen !== screen) ||
+          (from === "auth" && surfaces.auth.querySelector(".sa-layout"))
+        );
+        const transitionKind = from === "auth" ? "access"
+          : route.id === "public-about" ? "about"
+          : route.id === "public-platform" ? "platform"
+          : "public";
+        if (animated) await swapPublicView(update, surface, transitionKind);
+        else update();
       } catch {
-        if (isActive(revision)) surfaces.public.innerHTML = '<p>Não foi possível abrir a página. <a href="#/acesso">Entrar no SIVI</a></p>';
+        if (isActive(revision)) {
+          showPublic();
+          mountedPublicScreen = undefined;
+          surface.innerHTML = '<p>Não foi possível abrir a página. <a href="#/acesso">Entrar no SIVI</a></p>';
+        }
       }
       return;
     }
     if (route.surface === "auth") {
-      clearPage();
-      clearAuth();
-      if (shell) {
-        shell.destroy();
-        shell = null;
+      const auth = surfaces.auth;
+      const oldMode = auth.querySelector(".sa-layout")?.dataset.mode;
+      const newMode = new URLSearchParams(currentDestination.split("?")[1]).get("modo") === "login" ? "login" : "register";
+      const slide = oldMode && oldMode !== newMode && document.body.dataset.surface === "auth" &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const fromPublic = document.body.dataset.surface === "public" && mountedPublicScreen && canAnimatePage();
+      const showAuth = () => {
+        clearPage();
+        if (shell) {
+          shell.destroy();
+          shell = null;
+        }
+        showSurface("auth");
+        document.title = "Acesso — SIVI";
+      };
+      if (!fromPublic) {
+        if (!slide) clearAuth();
+        showAuth();
       }
-      showSurface("auth");
-      document.title = "Acesso — SIVI";
       try {
         const mount = await loadAuthSurface();
         if (!isActive(revision)) return;
-        const cleanup = mount({ root: surfaces.auth });
-        if (!isActive(revision)) {
-          try { cleanup?.(); } catch { /* Uma montagem tardia deve ser descartada. */ }
-          return;
+        const update = () => {
+          if (!isActive(revision)) return;
+          if (fromPublic) showAuth();
+          clearAuth();
+          if (slide || fromPublic) window.scrollTo({ top: 0, behavior: "instant" });
+          const cleanup = mount({ root: auth });
+          if (!isActive(revision)) {
+            try { cleanup?.(); } catch { /* Uma montagem tardia deve ser descartada. */ }
+            return;
+          }
+          authCleanup = typeof cleanup === "function" ? cleanup : () => {};
+          auth.querySelector(".form-view.is-active h1")?.focus({ preventScroll: true });
+        };
+        delete auth.dataset.authSlide;
+        if (fromPublic) {
+          await swapPublicView(update, auth, "access");
+        } else if (slide && typeof document.startViewTransition === "function") {
+          auth.dataset.authTransition = newMode;
+          const transition = document.startViewTransition(update);
+          authTransition = transition;
+          void transition.finished.catch(() => {}).finally(() => {
+            if (authTransition === transition) {
+              authTransition = undefined;
+              delete auth.dataset.authTransition;
+            }
+          });
+          await transition.updateCallbackDone;
+        } else {
+          if (slide) auth.dataset.authSlide = newMode;
+          update();
         }
-        authCleanup = typeof cleanup === "function" ? cleanup : () => {};
-        surfaces.auth.querySelector(".form-view.is-active h1")?.focus({ preventScroll: true });
       } catch (error) {
         if (!isActive(revision)) return;
+        if (fromPublic) showAuth();
         console.warn("A superfície de acesso não pôde ser carregada.", error);
         const retry = document.createElement("button");
         retry.type = "button";
@@ -396,6 +511,8 @@ export function createAppController({
     },
     handleRoute({ route, path, fullPath = path }) {
       if (!started) return;
+      authTransition?.skipTransition();
+      cancelPageMotion();
       currentRoute = route;
       currentPath = path;
       currentDestination = fullPath;
@@ -410,8 +527,18 @@ export function createAppController({
       const revision = ++renderRevision;
       void renderRoute(route, path, revision);
     },
-    handleNotFound({ path }) {
+    handleNotFound({ path, fullPath = path }) {
       if (!started) return;
+      if (path === "/casos") {
+        const section = new URLSearchParams(fullPath.split("?")[1]).get("secao");
+        const step = retiredCaseSteps.get(section);
+        const destination = step
+          ? `${ROUTE_PATHS.publicPlatform}?secao=funcionamento&etapa=${step}`
+          : ROUTE_PATHS.publicPlatform;
+        router.navigate(destination, { replace: true, force: true });
+        return;
+      }
+      cancelPageMotion();
       const revision = ++renderRevision;
       retryInFlight = false;
       const session = sessionStore.getSnapshot();
@@ -440,6 +567,8 @@ export function createAppController({
     stop() {
       if (!started) return;
       started = false;
+      authTransition?.skipTransition();
+      cancelPageMotion();
       renderRevision += 1;
       unsubscribeSession();
       unsubscribeWorkspace();

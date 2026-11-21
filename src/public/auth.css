@@ -1,822 +1,484 @@
-.sivi-auth-ui {
-  min-height: 100svh;
-  background: #f8f9f5;
-}
 .sivi-auth-ui .sa-layout {
+  --sv-ink: #242424;
+  --sv-muted: #595959;
+  --sv-paper: #fff;
+  --sv-surface: #f7f7f7;
+  --sv-line: #dedede;
+  --sv-control-line: #878787;
+  --sv-orange: #ff9000;
+  --sa-error: #a13520;
+  position: relative;
   display: grid;
-  grid-template-columns: 43% 57%;
+  grid-template-areas: "form story";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 100svh;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  overflow: visible;
+  color: var(--sv-ink);
+  background: var(--sv-paper);
+  color-scheme: light;
 }
-.sivi-auth-ui .sa-story {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  min-height: 720px;
-  background: #18231b;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 45px;
-  overflow: hidden;
+
+.sivi-auth-ui .sa-layout[data-mode="register"] {
+  grid-template-areas: "story form";
 }
-.sivi-auth-ui .sa-story-photo {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  object-position: 48% center;
-  filter: saturate(0.55);
-}
-.sivi-auth-ui .sa-story-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, #0c1d13ed, #0d1d1355 65%, #0d1d13aa);
-}
-.sivi-auth-ui .sa-story-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+
+.sivi-auth-ui .sa-layout .sa-main {
+  grid-area: form;
+  display: grid;
   align-items: center;
-  position: relative;
-}
-.sivi-auth-ui .sa-story-top > span {
-  font-size: 7px;
-  line-height: 1.6;
-  letter-spacing: 0.13em;
-  text-align: right;
-  color: #d8e5ce;
-}
-.sivi-auth-ui .sa-story-copy {
-  position: relative;
-  margin-top: auto;
-  padding-top: 100px;
-  padding-bottom: 70px;
-}
-.sivi-auth-ui .sa-story-copy h2 {
-  font-size: clamp(38px, 3.6vw, 62px);
-  font-weight: 500;
-  line-height: 1.07;
-  color: white;
-}
-.sivi-auth-ui .sa-story-copy > p:not(.sv-eyebrow) {
-  font-size: 12px;
-  color: #d1deca;
-  line-height: 1.8;
-  margin-top: 25px;
-}
-.sivi-auth-ui .sa-story-copy .sv-eyebrow {
-  font-size: 8px;
-  color: #e3eddd;
-}
-.sivi-auth-ui .sa-story-proof {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-top: 24px;
-  border-top: 1px solid #9fae9344;
-  margin-top: 35px;
-  color: #c5d7ba;
-  font-size: 10px;
-  line-height: 1.7;
-}
-.sivi-auth-ui .sa-story-credit {
-  position: relative;
-  font-size: 8px;
-  color: #afc1a4;
-}
-.sivi-auth-ui .sa-main {
-  padding: 32px 55px 20px;
-  display: flex;
-  flex-direction: column;
-  min-height: 100svh;
   min-width: 0;
+  min-height: 100svh;
+  padding: clamp(100px, 12vh, 124px) clamp(22px, 5.2vw, 98px) clamp(30px, 5vh, 64px);
+  background: var(--sv-paper);
+  view-transition-name: sivi-auth-form;
 }
-.sivi-auth-ui .sa-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  font-size: 10px;
-  color: #66745d;
+
+.sivi-auth-ui .sa-layout .sa-content {
+  width: min(100%, 34rem);
+  margin: auto;
 }
-.sivi-auth-ui .sa-top a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 44px;
-  font-weight: 650;
-  color: #34482a;
+
+.sa-brand {
+  position: absolute;
+  inset-block-start: clamp(20px, 2.65vw, 44px);
+  inset-inline-start: clamp(24px, 3.25vw, 54px);
+  z-index: 2;
+  color: var(--sv-ink);
+  view-transition-name: sivi-auth-brand;
 }
-.sivi-auth-ui .sa-top > span {
-  display: flex;
-  align-items: center;
+
+@media (min-width: 861px) {
+  .sa-layout[data-mode="register"] .sa-brand { color: #fff; }
+}
+
+.sivi-auth-ui .sa-brand .sv-brand {
   gap: 9px;
-}
-.sivi-auth-ui .sa-content {
-  width: 100%;
-  max-width: 460px;
-  margin: 52px auto 45px;
-  flex: 1;
-  display: block;
-  position: static;
-  visibility: visible;
-  opacity: 1;
-  transform: none;
-}
-.sivi-auth-ui .sa-form-heading h1,
-.sivi-auth-ui .sa-success h1 {
-  font-size: 37px;
-  font-weight: 550;
-  line-height: 1.1;
-  letter-spacing: -0.055em;
-}
-.sivi-auth-ui .sa-form-heading > p:not(.sv-eyebrow) {
-  font-size: 12px;
-  color: #6c7764;
-  line-height: 1.85;
-  margin-top: 18px;
-}
-.sivi-auth-ui .sa-form-heading .sv-eyebrow {
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  margin-bottom: 15px;
-}
-.sivi-auth-ui fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-}
-.sivi-auth-ui fieldset:disabled {
-  opacity: 0.75;
-}
-.sivi-auth-ui .sa-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-.sivi-auth-ui .sa-row--city {
-  grid-template-columns: 1fr 100px;
-}
-.sivi-auth-ui .sa-field {
-  margin-top: 19px;
-  min-width: 0;
-}
-.sivi-auth-ui .sa-field > label {
-  display: block;
-  font-size: 10px;
-  color: #34492a;
-  font-weight: 700;
-  margin-bottom: 7px;
-}
-.sivi-auth-ui :is(input:not([type="checkbox"]), select) {
-  width: 100%;
   min-height: 48px;
-  border: 1px solid #d3dacb;
-  border-radius: 5px;
-  background: #fff;
-  color: #263520;
-  padding: 11px 13px;
-  font-family: inherit;
-  font-size: 13px;
-  line-height: 1.5;
-  box-shadow: none;
-  outline: none;
-  letter-spacing: 0;
+  color: inherit;
 }
-.sivi-auth-ui input:focus,
-.sivi-auth-ui select:focus {
-  border-color: #6e8a58;
-  outline: 2px solid #74935b30;
-  outline-offset: 1px;
+
+.sivi-auth-ui .sa-brand .sv-brand img { width: 41px; height: auto; }
+.sivi-auth-ui .sa-brand .sv-brand > span { font-size: 1.83rem; }
+.sivi-auth-ui .sa-brand .sv-brand > small { display: none; }
+
+.sivi-auth-ui .sa-layout h1 {
+  font-size: clamp(1.85rem, 2.95vw, 2.7rem);
+  font-weight: 780;
+  letter-spacing: -.035em;
+  line-height: 1.1;
+  text-wrap: balance;
 }
-.sivi-auth-ui input[aria-invalid="true"] {
-  border-color: #b24c33;
-  outline-color: #b24c3344;
-}
-.sivi-auth-ui .sa-input-wrap {
-  position: relative;
-}
-.sivi-auth-ui .sa-input-wrap input[type="password"],
-.sivi-auth-ui .sa-input-wrap input[autocomplete="new-password"],
-.sivi-auth-ui .sa-input-wrap input[autocomplete="current-password"] {
-  padding-right: 48px;
-}
-.sivi-auth-ui .sa-password {
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  min-height: 46px;
-  min-width: 44px;
-  display: grid;
-  place-items: center;
-  color: #78866e;
-}
-.sivi-auth-ui .sa-field > small {
-  display: block;
-  font-size: 9px;
-  color: #6e7b64;
-  line-height: 1.7;
-  margin-top: 6px;
-}
-.sivi-auth-ui .sa-error {
-  color: #a13520 !important;
-  font-size: 10px;
-  line-height: 1.6;
-}
-.sivi-auth-ui .sa-submit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  width: 100%;
-  min-height: 50px;
-  padding: 13px 18px;
-  border-radius: 5px;
-  background: #263b23;
-  color: white !important;
-  font-size: 12px;
-  font-weight: 650;
-  margin-top: 24px;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-.sivi-auth-ui .sa-submit:hover {
-  background: #3d5634;
-}
-.sivi-auth-ui .sa-submit:disabled {
-  cursor: wait;
-}
-.sivi-auth-ui .sa-previous {
-  display: block;
-  min-height: 44px;
-  margin: 9px auto 0;
-  font-size: 10px;
-  color: #546b45;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.sivi-auth-ui .sa-legal {
-  font-size: 9px;
-  line-height: 1.9;
-  color: #77836d;
-  margin-top: 23px;
-}
-.sivi-auth-ui .sa-legal a {
-  text-decoration: underline;
-  color: #526e40;
-  text-underline-offset: 3px;
-}
-.sivi-auth-ui .sa-feedback {
-  display: none;
-  font-size: 11px;
-  line-height: 1.8;
-  color: #475e3c;
-  background: #ecf1e5;
-  padding: 12px 14px;
-  border-left: 2px solid #82996c;
-  border-radius: 0 4px 4px 0;
-  margin-top: 20px;
-}
-.sivi-auth-ui .sa-feedback.is-visible {
-  display: block;
-}
-.sivi-auth-ui .sa-steps {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  gap: 16px;
-  margin-top: 30px;
-  border-bottom: 1px solid #dce2d4;
-  padding-bottom: 20px;
-}
-.sivi-auth-ui .sa-steps li {
-  font-size: 9px;
-  color: #8a957f;
-  flex: 1;
-}
-.sivi-auth-ui .sa-steps button {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0;
-  min-height: 36px;
-  text-align: left;
-  font-size: 9px;
-}
-.sivi-auth-ui .sa-steps button > span {
-  display: grid;
-  place-items: center;
-  width: 23px;
-  height: 23px;
-  border: 1px solid #cbd4c1;
-  border-radius: 50%;
-  font-size: 9px;
-  flex-shrink: 0;
-}
-.sivi-auth-ui .sa-steps .is-active {
-  color: #344c29;
-}
-.sivi-auth-ui .sa-steps .is-active button > span {
-  border-color: #425c35;
-  background: #425c35;
-  color: white;
-}
-.sivi-auth-ui .sa-steps button:disabled {
-  cursor: default;
-}
-.sivi-auth-ui .sa-plan-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  background: #edf2e6;
-  border: 1px solid #d9e2ce;
-  border-radius: 5px;
-  padding: 13px 15px;
-  margin-top: 20px;
-}
-.sivi-auth-ui .sa-plan-summary > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.sivi-auth-ui .sa-plan-summary > div > span {
-  font-size: 8px;
-  color: #708461;
-}
-.sivi-auth-ui .sa-plan-summary strong {
-  font-size: 12px;
-  font-weight: 650;
-  color: #3c552e;
-}
-.sivi-auth-ui .sa-plan-summary small {
-  font-size: 10px;
-  font-weight: 500;
-  margin-left: 6px;
-  color: #658054;
-}
-.sivi-auth-ui .sa-plan-summary > span {
-  font-size: 9px;
-  color: #668055;
-}
-.sivi-auth-ui .sa-review {
-  border: 1px solid #d7e0cc;
-  border-radius: 6px;
-  padding: 20px;
-  margin-top: 25px;
-  background: white;
-}
-.sivi-auth-ui .sa-review h2 {
-  font-size: 19px;
-  letter-spacing: -0.03em;
-}
-.sivi-auth-ui .sa-review dl {
-  display: grid;
-  gap: 15px;
-  margin-top: 20px;
-}
-.sivi-auth-ui .sa-review dl > div {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 15px;
-  font-size: 11px;
-}
-.sivi-auth-ui .sa-review dt {
-  font-size: 9px;
-  color: #7b8b6e;
-}
-.sivi-auth-ui .sa-review dd {
-  font-weight: 600;
-  min-width: 0;
+
+.sivi-auth-ui .sa-layout .sa-form-heading > p,
+.sivi-auth-ui .sa-layout .sa-success > p {
+  margin-top: 13px;
+  color: var(--sv-muted);
+  font-size: .9rem;
+  line-height: 1.55;
   overflow-wrap: anywhere;
 }
-.sivi-auth-ui .sa-review dd > small {
-  display: block;
-  font-size: 9px;
-  font-weight: 400;
-  color: #6d8060;
-  margin-top: 3px;
-}
-.sivi-auth-ui .sa-review > button {
-  font-size: 9px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  min-height: 40px;
-  color: #49683a;
-}
-.sivi-auth-ui .sa-review > p {
-  font-size: 10px;
-  color: #6c805e;
-  margin-top: 16px;
-  border-top: 1px solid #dce4d3;
-  padding-top: 15px;
-}
-.sivi-auth-ui .sa-review > p > strong {
-  display: block;
-  color: #3b572d;
-  margin-top: 5px;
-}
-.sivi-auth-ui .sa-demo-notice {
-  display: flex;
-  gap: 12px;
-  background: #eaf0e1;
-  border: 1px solid #d5e0c7;
-  border-radius: 5px;
-  padding: 16px;
-  margin-top: 23px;
-  color: #506b3e;
-}
-.sivi-auth-ui .sa-demo-notice > svg {
-  margin-top: 2px;
-}
-.sivi-auth-ui .sa-demo-notice strong {
-  font-size: 11px;
-  font-weight: 700;
-}
-.sivi-auth-ui .sa-demo-notice p {
-  font-size: 10px;
-  line-height: 1.8;
-  margin-top: 6px;
-}
-.sivi-auth-ui .sa-demo-notice button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 36px;
-  font-size: 9px;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  margin-top: 5px;
+
+.sa-form-heading { margin-bottom: 24px; }
+
+.sivi-auth-ui .sa-layout .sa-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 23px;
   padding: 0;
-}
-.sivi-auth-ui .sa-checkbox {
-  display: flex;
-  align-items: start;
-  gap: 10px;
-  font-size: 10px;
-  color: #657958;
-  line-height: 1.8;
-  margin-top: 25px;
-  cursor: pointer;
-}
-.sivi-auth-ui .sa-checkbox input {
-  appearance: auto;
-  width: 17px;
-  height: 17px;
-  accent-color: #3c592d;
-  margin: 3px 0 0;
-  flex-shrink: 0;
-}
-.sivi-auth-ui .sa-divider {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin: 28px 0 20px;
-  font-size: 9px;
-  color: #87947c;
-}
-.sivi-auth-ui .sa-divider:before,
-.sivi-auth-ui .sa-divider:after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: #dce3d4;
-}
-.sivi-auth-ui .sa-providers {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-.sivi-auth-ui .sa-providers button {
-  border: 1px solid #d4deca;
-  border-radius: 5px;
-  min-height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  background: white;
-}
-.sivi-auth-ui .sa-providers button:hover {
-  background: #f0f4e9;
-}
-.sivi-auth-ui .sa-google {
-  font-family: Arial, sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  color: #4285f4;
-}
-.sivi-auth-ui .sa-login-help {
-  font-size: 10px;
-  color: #7a8b6c;
-  line-height: 1.9;
-  margin-top: 26px;
-}
-.sivi-auth-ui .sa-login-help a {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  color: #4e6c3b;
-}
-.sivi-auth-ui .sa-footer {
-  display: flex;
-  gap: 22px;
-  font-size: 9px;
-  color: #839575;
-  border-top: 1px solid #dce3d5;
-  padding-top: 15px;
-  margin-top: auto;
-}
-.sivi-auth-ui .sa-footer > span {
-  margin-right: auto;
-}
-.sivi-auth-ui .sa-footer > a {
-  min-height: 32px;
-}
-.sivi-auth-ui .sa-mobile-brand {
-  display: none;
-}
-.sivi-auth-ui .sa-success-symbol {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  background: #e2edda;
-  border: 1px solid #c5d7b6;
-  border-radius: 50%;
-  color: #54713f;
-  margin-bottom: 35px;
-}
-.sivi-auth-ui .sa-success > p:not(.sv-eyebrow) {
-  font-size: 13px;
-  color: #6e8061;
-  line-height: 1.9;
-  margin-top: 25px;
-}
-.sivi-auth-ui .sa-success ol {
   list-style: none;
-  counter-reset: success;
-  padding: 0;
-  margin-top: 35px;
-  display: grid;
-  gap: 25px;
 }
-.sivi-auth-ui .sa-success li {
-  counter-increment: success;
-  padding-left: 40px;
-  position: relative;
-  font-size: 11px;
+
+.sivi-auth-ui .sa-layout .sa-steps li {
+  border-block-end: 2px solid var(--sv-line);
+  color: var(--sv-muted);
 }
-.sivi-auth-ui .sa-success li:before {
-  content: counter(success);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 25px;
-  height: 25px;
-  border: 1px solid #cbd8bf;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 9px;
-  color: #718960;
+
+.sivi-auth-ui .sa-layout .sa-steps li[aria-current="step"] {
+  border-color: var(--sv-orange);
+  color: var(--sv-ink);
 }
-.sivi-auth-ui .sa-success li > strong {
-  display: block;
-  font-weight: 650;
-  color: #405933;
-}
-.sivi-auth-ui .sa-success li > span {
-  display: block;
-  font-size: 11px;
-  line-height: 1.85;
-  margin-top: 5px;
-  color: #73866a;
-}
-.sivi-auth-ui .sa-success .sa-notice {
-  background: #f5eadd;
-  padding: 14px;
-  font-size: 11px;
-  color: #815522;
-  border-radius: 5px;
-}
-.sivi-auth-ui .sa-success .sa-safe {
-  font-size: 10px;
-  margin-top: 15px;
-  color: #658052;
-}
-@media (min-width: 1800px) {
-  .sivi-auth-ui .sa-main {
-    padding-inline: 90px;
-  }
-  .sivi-auth-ui .sa-content {
-    max-width: 560px;
-    margin-top: 75px;
-  }
-  .sivi-auth-ui .sa-story {
-    padding: 60px;
-  }
-  .sivi-auth-ui .sa-form-heading h1 {
-    font-size: 46px;
-  }
-}
-@media (max-width: 1100px) {
-  .sivi-auth-ui .sa-layout {
-    grid-template-columns: 38% 62%;
-  }
-  .sivi-auth-ui .sa-story {
-    padding: 30px 25px;
-  }
-  .sivi-auth-ui .sa-story-top > span {
-    display: none;
-  }
-  .sivi-auth-ui .sa-story-copy h2 {
-    font-size: 40px;
-  }
-  .sivi-auth-ui .sa-main {
-    padding: 25px 35px 15px;
-  }
-  .sivi-auth-ui .sa-top {
-    font-size: 9px;
-    gap: 15px;
-  }
-  .sivi-auth-ui .sa-content {
-    margin-top: 40px;
-  }
-  .sivi-auth-ui .sa-form-heading h1 {
-    font-size: 34px;
-  }
-}
-@media (max-width: 760px) {
-  .sivi-auth-ui .sa-layout {
-    display: block;
-  }
-  .sivi-auth-ui .sa-story {
-    display: none;
-  }
-  .sivi-auth-ui .sa-main {
-    padding: 24px 22px 15px;
-  }
-  .sivi-auth-ui .sa-mobile-brand {
-    display: block;
-    margin-bottom: 20px;
-  }
-  .sivi-auth-ui .sa-mobile-brand .sv-brand > span {
-    font-size: 27px;
-  }
-  .sivi-auth-ui .sa-mobile-brand .sv-brand > small {
-    font-size: 7px;
-  }
-  .sivi-auth-ui .sa-top {
-    font-size: 9px;
-    border-top: 1px solid #dce3d5;
-    padding-top: 8px;
-    flex-wrap: wrap;
-    gap: 0 20px;
-  }
-  .sivi-auth-ui .sa-top a {
-    min-height: 36px;
-  }
-  .sivi-auth-ui .sa-content {
-    margin-top: 30px;
-    margin-bottom: 35px;
-    max-width: 490px;
-  }
-  .sivi-auth-ui .sa-form-heading h1,
-  .sivi-auth-ui .sa-success h1 {
-    font-size: 34px;
-    max-width: 360px;
-  }
-  .sivi-auth-ui .sa-form-heading > p:not(.sv-eyebrow) {
-    font-size: 12px;
-  }
-  .sivi-auth-ui .sa-steps {
-    gap: 10px;
-    margin-top: 24px;
-    padding-bottom: 15px;
-  }
-  .sivi-auth-ui .sa-steps button {
-    font-size: 8px;
-    gap: 6px;
-  }
-  .sivi-auth-ui .sa-steps button > span {
-    width: 21px;
-    height: 21px;
-  }
-  .sivi-auth-ui .sa-plan-summary {
-    padding: 12px;
-    gap: 12px;
-  }
-  .sivi-auth-ui .sa-plan-summary strong {
-    font-size: 11px;
-  }
-  .sivi-auth-ui .sa-plan-summary small {
-    font-size: 9px;
-  }
-  .sivi-auth-ui .sa-row {
-    gap: 12px;
-  }
-  .sivi-auth-ui :is(input:not([type="checkbox"]), select) {
-    font-size: 16px;
-    min-height: 49px;
-  }
-  .sivi-auth-ui .sa-field > label {
-    font-size: 10px;
-  }
-  .sivi-auth-ui .sa-field {
-    margin-top: 18px;
-  }
-  .sivi-auth-ui .sa-field > small {
-    font-size: 9px;
-  }
-  .sivi-auth-ui .sa-review {
-    padding: 16px;
-  }
-  .sivi-auth-ui .sa-review dl > div {
-    grid-template-columns: 75px 1fr;
-    gap: 10px;
-    font-size: 10px;
-  }
-  .sivi-auth-ui .sa-review .sa-field select {
-    font-size: 13px;
-  }
-  .sivi-auth-ui .sa-footer {
-    gap: 17px;
-    font-size: 8px;
-  }
-  .sivi-auth-ui .sa-checkbox {
-    font-size: 10px;
-  }
-  .sivi-auth-ui .sa-success .sv-eyebrow {
-    font-size: 8px;
-  }
-  .sivi-auth-ui .sa-success > p:not(.sv-eyebrow) {
-    font-size: 12px;
-  }
-}
-.sivi-auth-ui .sa-field > label {
-  font-size: 12px;
-}
-.sivi-auth-ui .sa-field > small {
-  font-size: 11px;
-}
-.sivi-auth-ui .sa-form-heading > p:not(.sv-eyebrow) {
-  font-size: 14px;
-}
-.sivi-auth-ui .sa-steps button {
-  font-size: 10px;
+
+.sivi-auth-ui .sa-layout .sa-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   min-height: 44px;
+  padding: 0 0 8px;
+  color: inherit;
+  font-size: .85rem;
+  font-weight: 750;
 }
-.sivi-auth-ui .sa-plan-summary > div > small.sa-payment-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: #566f46;
+
+.sa-step-number {
+  display: grid;
+  flex: none;
+  width: 27px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--sv-line);
+  border-radius: 50%;
+  font-size: .75rem;
 }
-.sivi-auth-ui .sa-top {
-  font-size: 11px;
+
+.sa-steps [aria-current="step"] .sa-step-number {
+  border-color: var(--sv-orange);
+  background: var(--sv-orange);
+  color: var(--sv-ink);
 }
-.sivi-auth-ui :is(.sa-legal, .sa-login-help) {
-  font-size: 11px;
+
+.sa-steps button.sa-step:hover:not(:disabled) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.sivi-auth-ui .sa-demo-notice p {
-  font-size: 12px;
+
+.sa-layout fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
-.sivi-auth-ui .sa-demo-notice strong {
-  font-size: 13px;
+
+.sa-layout fieldset:disabled { opacity: .65; }
+
+.sa-layout :is(button, input, select):disabled { cursor: not-allowed; }
+
+.sa-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
-.sivi-auth-ui .sa-checkbox {
-  font-size: 12px;
+
+.sa-row--city { grid-template-columns: minmax(0, 1fr) 80px; }
+
+.sa-field {
+  min-width: 0;
+  margin-block-end: 17px;
 }
-.sivi-auth-ui .sa-previous {
-  font-size: 12px;
+
+.sa-field-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
 }
-.sivi-auth-ui .sa-review dl > div {
-  font-size: 13px;
+
+.sivi-auth-ui .sa-layout :is(.sa-field > label, .sa-field-heading > label) {
+  display: block;
+  color: var(--sv-ink);
+  font-size: .86rem;
+  font-weight: 700;
 }
-.sivi-auth-ui .sa-review dd > small {
-  font-size: 11px;
+
+.sivi-auth-ui .sa-layout .sa-field > label { margin-bottom: 6px; }
+
+.sa-input-wrap { position: relative; }
+
+.sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select) {
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 12px;
+  border: 1px solid var(--sv-control-line);
+  border-radius: 7px;
+  background: var(--sv-paper);
+  color: var(--sv-ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.35;
 }
-@media (max-width: 760px) {
-  .sivi-auth-ui .sa-top {
-    font-size: 10px;
+
+.sivi-auth-ui .sa-layout .sa-field input::placeholder {
+  color: #6c6c6c;
+  opacity: 1;
+}
+
+.sivi-auth-ui .sa-layout :is(.sa-field input, .sa-field select):focus {
+  border-color: var(--sv-orange);
+  outline: 2px solid color-mix(in srgb, var(--sv-orange) 55%, transparent);
+  outline-offset: 1px;
+}
+
+.sivi-auth-ui .sa-layout :is(input, select)[aria-invalid="true"] {
+  border-color: var(--sa-error);
+}
+
+.sivi-auth-ui .sa-layout :is(input[autocomplete="current-password"], input[autocomplete="new-password"]) {
+  padding-inline-end: 46px;
+}
+
+.sivi-auth-ui .sa-layout .sa-password {
+  position: absolute;
+  inset: 1px 1px 1px auto;
+  display: grid;
+  width: 44px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--sv-muted);
+}
+
+.sivi-auth-ui .sa-layout .sa-password:hover { color: var(--sv-ink); }
+
+.sivi-auth-ui .sa-layout .sa-field > small {
+  display: block;
+  margin-top: 6px;
+  color: var(--sv-muted);
+  font-size: .74rem;
+  line-height: 1.45;
+}
+
+.sivi-auth-ui .sa-layout .sa-field > small.sa-error { color: var(--sa-error); }
+
+.sa-providers {
+  display: grid;
+  gap: 9px;
+}
+
+.sivi-auth-ui .sa-layout .sa-providers button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 12px;
+  border: 1px solid var(--sv-line);
+  border-radius: 7px;
+  background: var(--sv-surface);
+  color: var(--sv-ink);
+  font-size: .88rem;
+  font-weight: 680;
+  line-height: 1.3;
+}
+
+.sivi-auth-ui .sa-layout .sa-providers button:hover:not(:disabled) { background: #efefef; }
+.sivi-auth-ui .sa-layout .sa-providers button:disabled { opacity: .65; }
+.sa-providers img { flex: none; object-fit: contain; }
+
+.sivi-auth-ui .sa-layout .sa-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block: 18px;
+  color: var(--sv-muted);
+  font-size: .74rem;
+}
+
+.sa-divider::before,
+.sa-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--sv-line);
+}
+
+.sivi-auth-ui .sa-layout .sa-submit {
+  display: grid;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 15px;
+  padding: 10px 16px;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--sv-ink);
+  background: var(--sv-orange);
+  font-size: .88rem;
+  font-weight: 800;
+  transition: background-color 160ms ease;
+}
+
+.sivi-auth-ui .sa-layout .sa-submit:hover:not(:disabled) { background: #ffab36; }
+.sivi-auth-ui .sa-layout .sa-submit:focus-visible { outline-color: var(--sv-ink); }
+
+.sivi-auth-ui .sa-layout .sa-reset {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-inline: 0;
+  color: #171717;
+  font-size: .8rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sivi-auth-ui .sa-layout .sa-reset--return {
+  display: flex;
+  min-height: 40px;
+  margin: 9px auto 0;
+}
+
+.sivi-auth-ui .sa-layout .sa-switch-mode {
+  margin-top: 14px;
+  color: var(--sv-muted);
+  font-size: .84rem;
+  text-align: center;
+}
+
+.sivi-auth-ui .sa-layout .sa-switch-mode a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding-inline: 2px;
+  color: var(--sv-ink);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sivi-auth-ui .sa-layout .sa-feedback {
+  border: 0;
+  border-radius: 7px;
+  color: var(--sv-ink);
+  background: var(--sv-surface);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+
+.sa-feedback:empty { display: none; }
+.sa-feedback.is-visible { margin-top: 10px; padding: 9px 11px; }
+
+.sa-success-symbol {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sv-surface);
+  color: var(--sv-ink);
+}
+
+.sivi-auth-ui .sa-layout .sa-terms {
+  color: var(--sv-muted);
+  font-size: .8rem;
+  line-height: 1.55;
+}
+
+.sivi-auth-ui .sa-terms a {
+  color: var(--sv-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.sivi-auth-ui .sa-layout .sa-story {
+  grid-area: story;
+  position: sticky;
+  top: 0;
+  display: grid;
+  align-items: end;
+  height: 100svh;
+  min-width: 0;
+  align-self: start;
+  overflow: clip;
+  background: #202020;
+  view-transition-name: sivi-auth-story;
+}
+
+.sa-story-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 55% center;
+  filter: grayscale(1);
+}
+
+.sa-story::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(0deg, #101010f0, #101010af 30%, #10101022 69%, #10101066);
+}
+
+.sa-story-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(24px, 2.85vw, 54px) clamp(24px, 5svh, 65px);
+  color: #fff;
+}
+
+.sivi-auth-ui .sa-story-content h2 {
+  font-size: clamp(2.65rem, min(5.35vw, 13svh), 6.5rem);
+  font-weight: 740;
+  line-height: 1.01;
+  letter-spacing: -.055em;
+}
+
+.sivi-auth-ui .sa-story-content p {
+  max-width: 39ch;
+  margin-top: 20px;
+  color: #efefef;
+  font-size: clamp(.94rem, 1.24vw, 1.23rem);
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .sivi-auth-ui .sa-layout { display: block; }
+  .sivi-auth-ui .sa-layout .sa-main { padding-inline: clamp(15px, 5vw, 44px); }
+  .sivi-auth-ui .sa-layout .sa-story { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has([data-auth-transition], [data-auth-slide]) {
+    --sa-slide-pause: 120ms;
+    --sa-slide-duration: 660ms;
   }
-  .sivi-auth-ui .sa-steps button {
-    font-size: 9px;
+
+  html:has([data-auth-transition])::view-transition-group(root) { animation: none; }
+  html:has([data-auth-transition])::view-transition-old(root) { display: none; }
+
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-form),
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-story),
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-brand) {
+    animation-duration: var(--sa-slide-duration);
+    animation-delay: var(--sa-slide-pause);
+    animation-timing-function: cubic-bezier(.65, .02, .24, 1);
+    animation-fill-mode: both;
   }
-  .sivi-auth-ui .sa-form-heading > p:not(.sv-eyebrow) {
-    font-size: 13px;
+
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-form) { z-index: 2; }
+  html:has([data-auth-transition])::view-transition-group(sivi-auth-brand) { z-index: 3; }
+
+  @media (min-width: 861px) {
+    html:has([data-auth-transition])::view-transition-image-pair(sivi-auth-form) { background: #fff; }
+    html:has([data-auth-transition])::view-transition-old(sivi-auth-form) {
+      animation-name: sa-form-out;
+      animation-timing-function: ease-in;
+    }
+    html:has([data-auth-transition])::view-transition-new(sivi-auth-form) {
+      animation-name: sa-form-in;
+      animation-timing-function: ease-out;
+    }
   }
-  .sivi-auth-ui .sa-review dl > div {
-    font-size: 12px;
+
+  [data-auth-slide="register"], html:has([data-auth-transition="register"]) { --sa-slide-from: -44px; }
+  [data-auth-slide="login"], html:has([data-auth-transition="login"]) { --sa-slide-from: 44px; }
+
+  [data-auth-slide] .sa-content {
+    animation: sa-enter-form 500ms cubic-bezier(.22, 1, .36, 1) var(--sa-slide-pause) both;
   }
+
+  @media (max-width: 860px) {
+    html:has([data-auth-transition]) { --sa-slide-duration: 500ms; }
+    html:has([data-auth-transition])::view-transition-new(sivi-auth-form) {
+      animation: sa-enter-form var(--sa-slide-duration) cubic-bezier(.22, 1, .36, 1) var(--sa-slide-pause) both;
+    }
+  }
+}
+
+@keyframes sa-form-out {
+  0%, 12% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+@keyframes sa-form-in {
+  0%, 34% { opacity: 0; }
+  78%, 100% { opacity: 1; }
+}
+
+@keyframes sa-enter-form {
+  from { opacity: .25; translate: var(--sa-slide-from) 0; }
+  to { opacity: 1; translate: 0 0; }
 }

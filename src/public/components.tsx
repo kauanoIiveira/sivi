@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { ROUTE_PATHS } from "../app/routes.js";
@@ -7,7 +7,6 @@ const publicPaths = {
   home: ROUTE_PATHS.publicHome,
   about: ROUTE_PATHS.publicAbout,
   platform: ROUTE_PATHS.publicPlatform,
-  cases: ROUTE_PATHS.publicCases,
   faq: ROUTE_PATHS.publicFaq,
 };
 
@@ -26,16 +25,23 @@ export const signupLink = (activity?: "buyer" | "supplier" | "both") =>
 
 const publicNavigation = [
   ["about", "Quem somos"],
-  ["platform", "Plataforma"],
-  ["cases", "Casos de uso"],
-  ["faq", "Dúvidas"],
+  ["platform", "O que fazemos"],
+  ["faq", "FAQ"],
 ] as const;
-export function Brand({ back = false }: { back?: boolean }) {
+export function Brand({ back = false, home = false }: { back?: boolean; home?: boolean }) {
   return (
     <a
       className="sv-brand"
       href="#/"
-      aria-label={back ? "SIVI, voltar à página inicial" : "SIVI, início"}
+      aria-label={home ? "SIVI, voltar ao topo" : back ? "SIVI, voltar à página inicial" : "SIVI, início"}
+      onClick={home ? (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (location.hash && location.hash !== publicLink("home")) return;
+        event.preventDefault();
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        document.getElementById("public-title")?.focus({ preventScroll: true });
+        window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
+      } : undefined}
     >
       <img src="./src/assets/brand/raposa.svg" width="36" height="36" alt="" />
       <span>SIVI</span>
@@ -83,9 +89,11 @@ export function Reveal({ children, className = "", delay = 0 }: any) {
     </motion.div>
   );
 }
-export function Header({ current }: { current?: PublicPageName }) {
+export function Header({ current, editorial = false }: { current?: PublicPageName; editorial?: boolean }) {
   const [open, setOpen] = useState(false);
   const menu = useRef<HTMLButtonElement>(null);
+  const home = current === "home";
+  const sharedNavigation = home || editorial;
   const pages = publicNavigation.map(([page, label]) => (
     <a key={page} href={publicLink(page)} aria-current={page === current ? "page" : undefined}>
       {label}
@@ -93,11 +101,9 @@ export function Header({ current }: { current?: PublicPageName }) {
   ));
   const accountLinks = (
     <>
-      <a href="#/acesso?modo=login" className="sv-login-link">
-        Entrar <Arrow />
-      </a>
-      <a className="sv-nav-cta" href={signupLink()}>
-        Cadastrar empresa <Arrow />
+      {!sharedNavigation && <a href="#/acesso?modo=login" className="sv-login-link">Entrar <Arrow /></a>}
+      <a className="sv-nav-cta" href={sharedNavigation ? "#/acesso?modo=login" : signupLink()}>
+        {sharedNavigation ? "Acessar sistema" : "Cadastrar empresa"} <Arrow />
       </a>
     </>
   );
@@ -126,7 +132,7 @@ export function Header({ current }: { current?: PublicPageName }) {
       </a>
       <header className="sv-header" data-menu-open={open || undefined}>
         <div className="sv-nav sv-shell">
-          <Brand />
+          <Brand home={home} />
           <button
             className="sv-menu"
             ref={menu}
@@ -143,7 +149,7 @@ export function Header({ current }: { current?: PublicPageName }) {
             className={open ? "is-open" : ""}
             onClick={() => setOpen(false)}
           >
-            {current === "home" ? (
+            {sharedNavigation ? (
               <>
                 <div className="sv-home-nav-pages">{pages}</div>
                 <div className="sv-home-nav-account">{accountLinks}</div>
@@ -178,7 +184,6 @@ const footerGroups = [
       ["Como funciona", sectionLink("funcionamento")],
       ["Para compradores", sectionLink("compras")],
       ["Para fornecedores", sectionLink("fornecimento")],
-      ["Casos de uso", publicLink("cases")],
     ],
   },
   {
@@ -226,18 +231,19 @@ function FooterNewsletter() {
   );
 }
 
-export function Footer({ home = false }: { home?: boolean }) {
+export function Footer({ home = false, editorial = false }: { home?: boolean; editorial?: boolean }) {
   const copyright = `© ${new Date().getFullYear()} SIVI`;
-  const groups = home ? footerGroups : [
+  const sharedFooter = home || editorial;
+  const groups = sharedFooter ? footerGroups : [
     ...footerGroups,
     { ...footerAccount, links: [...footerAccount.links, ...footerLegal] },
   ];
   return (
-    <footer className={home ? "sv-footer public-footer sv-footer--home" : "sv-footer public-footer"}>
+    <footer className={sharedFooter ? "sv-footer public-footer sv-footer--home" : "sv-footer public-footer"}>
       <div className="sv-shell">
         <div className="sv-footer-top">
           <div className="sv-footer-brand">
-            <Brand />
+            <Brand home={home} />
             <small>Sistema Integrado de Vendas Industriais</small>
           </div>
           {groups.map((group) => (
@@ -245,12 +251,12 @@ export function Footer({ home = false }: { home?: boolean }) {
               <h2>{group.name}</h2>
               {group.links.map(([label, href]) => (
                 <a key={label} href={href}>
-                  {home ? <span>{label}</span> : label}
+                  {sharedFooter ? <span>{label}</span> : label}
                 </a>
               ))}
             </nav>
           ))}
-          {home && (
+          {sharedFooter && (
             <div className="sv-footer-contact-column">
               <section className="sv-footer-contact" aria-labelledby="sv-footer-contact-title">
                 <h2 id="sv-footer-contact-title">Contato</h2>
@@ -268,7 +274,7 @@ export function Footer({ home = false }: { home?: boolean }) {
             </div>
           )}
         </div>
-        {home ? (
+        {sharedFooter ? (
           <div className="sv-footer-bottom">
             <div className="sv-footer-legal">
               <span>{copyright}</span>
@@ -292,21 +298,17 @@ export function Footer({ home = false }: { home?: boolean }) {
   );
 }
 export function PageNavigation({ focusTitle = false }: { focusTitle?: boolean }) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const params = new URLSearchParams(location.hash.split("?")[1]);
     const id = params.get("secao");
-    const frame = requestAnimationFrame(() => {
-      const heading = document.getElementById("public-title");
-      const anchor = id && id !== "topo" ? document.getElementById(id) : null;
-      if (anchor) {
-        anchor.focus({ preventScroll: true });
-        anchor.scrollIntoView({ block: "start", behavior: "instant" });
-      } else {
-        if (id === "topo" || focusTitle) heading?.focus({ preventScroll: true });
-        window.scrollTo(0, 0);
-      }
-    });
-    return () => cancelAnimationFrame(frame);
+    const anchor = id && id !== "topo" ? document.getElementById(id) : null;
+    if (anchor) {
+      anchor.focus({ preventScroll: true });
+      anchor.scrollIntoView({ block: "start", behavior: "instant" });
+    } else {
+      if (id === "topo" || focusTitle) document.getElementById("public-title")?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }, [focusTitle]);
   return null;
 }

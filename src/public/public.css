@@ -954,202 +954,6 @@
   margin-top: 10px !important;
   font-size: 12px !important;
 }
-.sivi-public-ui .sv-pricing {
-  padding-block: 110px;
-}
-.sivi-public-ui .sv-pricing-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
-  margin-bottom: 38px;
-}
-.sivi-public-ui .sv-pricing-toolbar > p {
-  font-size: 10px;
-  color: var(--sv-muted);
-}
-.sivi-public-ui .sv-period {
-  display: flex;
-  gap: 2px;
-  background: #e9ece4;
-  border: 1px solid #dadfd3;
-  border-radius: 7px;
-  padding: 4px;
-}
-.sivi-public-ui .sv-period button {
-  position: relative;
-  min-height: 44px;
-  padding: 9px 17px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 5px;
-  font-weight: 650;
-}
-.sivi-public-ui .sv-period button > span:not(.sv-period-indicator),
-.sivi-public-ui .sv-period button > small {
-  z-index: 1;
-  position: relative;
-}
-.sivi-public-ui .sv-period-indicator {
-  position: absolute;
-  inset: 0;
-  border-radius: 5px;
-  background: #263326;
-}
-.sivi-public-ui .sv-period button[aria-pressed="true"] {
-  color: white;
-}
-.sivi-public-ui .sv-period button > small {
-  font-size: 8px;
-  background: #d8e5cb;
-  color: #33472b;
-  padding: 3px 6px;
-  border-radius: 3px;
-}
-.sivi-public-ui .sv-plan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-.sivi-public-ui .sv-plan-grid > div {
-  display: flex;
-}
-.sivi-public-ui .sv-plan {
-  border: 1px solid #d6dbcf;
-  border-radius: 9px;
-  background: #fff;
-  padding: 30px;
-  flex: 1;
-}
-.sivi-public-ui .sv-plan-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 28px;
-  color: #627259;
-}
-.sivi-public-ui .sv-plan-top > span {
-  font-size: 8px;
-  letter-spacing: 0.02em;
-  padding: 4px 7px;
-  background: #d9e5cf;
-  border-radius: 4px;
-  color: #3c5431;
-}
-.sivi-public-ui .sv-plan h3 {
-  font-size: 25px;
-  letter-spacing: -0.04em;
-}
-.sivi-public-ui .sv-plan > p {
-  font-size: 11px;
-  color: #6b7664;
-  max-width: 240px;
-  margin-top: 12px;
-  min-height: 38px;
-}
-.sivi-public-ui .sv-price {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin-top: 28px;
-  line-height: 1;
-}
-.sivi-public-ui .sv-price > span:first-child {
-  font-size: 16px;
-  margin-right: 3px;
-}
-.sivi-public-ui .sv-price number-flow-react {
-  font-size: 60px;
-  font-weight: 550;
-  letter-spacing: -0.075em;
-}
-.sivi-public-ui .sv-price > small {
-  font-size: 11px;
-  color: #65765c;
-  margin-left: 4px;
-}
-.sivi-public-ui .sv-plan p.sv-price-condition {
-  font-size: 9px;
-  min-height: 32px;
-  margin-top: 13px;
-  line-height: 1.6;
-}
-.sivi-public-ui .sv-plan-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  min-height: 48px;
-  padding: 12px 16px;
-  border: 1px solid #cbd4c1;
-  border-radius: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 20px;
-  transition: background 0.2s;
-}
-.sivi-public-ui .sv-plan-button:hover {
-  background: #edf2e5;
-}
-.sivi-public-ui .sv-plan-features {
-  border-top: 1px solid #e0e5d9;
-  margin-top: 28px;
-  padding-top: 23px;
-}
-.sivi-public-ui .sv-plan-features > span {
-  font-size: 9px;
-  font-weight: 700;
-}
-.sivi-public-ui .sv-plan-features ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 18px;
-  display: grid;
-  gap: 14px;
-  font-size: 10px;
-  color: #57684d;
-}
-.sivi-public-ui .sv-plan-features li {
-  display: flex;
-  align-items: start;
-  gap: 10px;
-}
-.sivi-public-ui .sv-plan--featured {
-  background: #e8eedf;
-  border-color: #9baa8b;
-}
-.sivi-public-ui .sv-plan--featured .sv-plan-button {
-  background: #273a24;
-  color: white;
-  border-color: #273a24;
-}
-.sivi-public-ui .sv-plan--featured .sv-plan-button:hover {
-  background: #3d5437;
-}
-.sivi-public-ui .sv-plan-shared {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  border-bottom: 1px solid var(--sv-line);
-  padding: 28px 0;
-  font-size: 10px;
-  color: #66745d;
-}
-.sivi-public-ui .sv-plan-shared strong {
-  color: #34452c;
-  font-size: 11px;
-  font-weight: 700;
-}
-.sivi-public-ui .sv-pricing-note {
-  font-size: 10px;
-  color: var(--sv-muted);
-  max-width: 850px;
-  margin-top: 22px;
-  line-height: 1.9;
-}
 .sivi-public-ui .sv-faq {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -1391,6 +1195,75 @@
 .sivi-public-ui .sv-information-cta h2 {
   font-size: 30px;
 }
+.sivi-public-ui .sv-legal-document {
+  --sv-paper: #fff;
+  --sv-ink: #171717;
+  --sv-muted: #595959;
+  --sv-line: #e4e4e4;
+  min-height: 100svh;
+  background: var(--sv-paper);
+  color: var(--sv-ink);
+}
+.sivi-public-ui .sv-legal-document .sv-header {
+  border-bottom-color: transparent;
+}
+.sivi-public-ui .sv-legal-document .sv-nav {
+  width: min(1220px, calc(100% - 44px));
+  min-height: 76px;
+}
+.sivi-public-ui .sv-legal-document .sv-nav nav > a:hover:not(.sv-nav-cta) {
+  color: var(--sv-ink);
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+.sivi-public-ui .sv-legal-document .sv-nav .sv-nav-cta:hover {
+  background: #333;
+}
+.sivi-public-ui .sv-legal-heading {
+  padding: clamp(58px, 8vw, 126px) 22px clamp(44px, 6vw, 94px);
+  text-align: center;
+}
+.sivi-public-ui .sv-legal-heading h1 {
+  font-size: clamp(2.55rem, 4.8vw, 5.25rem);
+  font-weight: 780;
+  line-height: 1.04;
+}
+.sivi-public-ui .sv-legal-heading p {
+  margin-top: 22px;
+  color: var(--sv-muted);
+  font-size: .875rem;
+}
+.sivi-public-ui :is(.sv-legal-reading, .sv-legal-footer) {
+  width: min(48rem, calc(100% - 44px));
+  margin-inline: auto;
+}
+.sivi-public-ui .sv-legal-reading {
+  font-size: clamp(1rem, 1.08vw, 1.125rem);
+  line-height: 1.65;
+}
+.sivi-public-ui .sv-legal-reading section {
+  margin-top: clamp(36px, 4vw, 64px);
+}
+.sivi-public-ui .sv-legal-reading h2 {
+  margin-bottom: 14px;
+  font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+  font-weight: 740;
+  letter-spacing: -.035em;
+  scroll-margin-top: 24px;
+}
+.sivi-public-ui .sv-legal-footer {
+  margin-top: clamp(48px, 6vw, 86px);
+  padding-block: 22px 44px;
+  border-top: 1px solid var(--sv-line);
+  font-size: .875rem;
+}
+.sivi-public-ui .sv-legal-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
 @media (min-width: 1800px) {
   .sivi-public-ui .sv-shell {
     width: min(1600px, calc(100% - 160px));
@@ -1454,12 +1327,6 @@
   }
   .sivi-public-ui .sv-trust > .sv-shell {
     gap: 70px;
-  }
-  .sivi-public-ui .sv-plan {
-    padding: 25px;
-  }
-  .sivi-public-ui .sv-plan h3 {
-    font-size: 22px;
   }
   .sivi-public-ui .sv-faq {
     gap: 70px;
@@ -1856,59 +1723,6 @@
   .sivi-public-ui .sv-trust-facts h3 {
     font-size: 22px;
   }
-  .sivi-public-ui .sv-pricing {
-    padding-block: 65px;
-  }
-  .sivi-public-ui .sv-pricing-toolbar {
-    flex-direction: column;
-    align-items: start;
-    gap: 18px;
-    margin-bottom: 28px;
-  }
-  .sivi-public-ui .sv-pricing-toolbar > p {
-    font-size: 9px;
-  }
-  .sivi-public-ui .sv-plan-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .sivi-public-ui .sv-plan {
-    padding: 28px;
-    max-width: none;
-  }
-  .sivi-public-ui .sv-plan h3 {
-    font-size: 28px;
-  }
-  .sivi-public-ui .sv-plan-top {
-    margin-bottom: 22px;
-  }
-  .sivi-public-ui .sv-plan > p {
-    font-size: 12px;
-    min-height: 0;
-    max-width: 100%;
-  }
-  .sivi-public-ui .sv-price {
-    margin-top: 24px;
-  }
-  .sivi-public-ui .sv-plan p.sv-price-condition {
-    min-height: 0;
-    font-size: 10px;
-  }
-  .sivi-public-ui .sv-plan-features ul {
-    font-size: 11px;
-  }
-  .sivi-public-ui .sv-plan-button {
-    font-size: 12px;
-  }
-  .sivi-public-ui .sv-plan-shared {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font-size: 9px;
-    gap: 14px;
-  }
-  .sivi-public-ui .sv-pricing-note {
-    font-size: 10px;
-  }
   .sivi-public-ui .sv-faq {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -2031,7 +1845,7 @@
 .sivi-public-ui .sv-nav nav {
   font-size: 13px;
 }
-.sivi-public-ui :is(.sv-button, .sv-text-link, .sv-plan-button) {
+.sivi-public-ui :is(.sv-button, .sv-text-link) {
   font-size: 13px;
 }
 .sivi-public-ui .sv-intro > div:nth-child(2) {
@@ -2052,15 +1866,6 @@
   font-size: 14px;
 }
 .sivi-public-ui .sv-workflow-copy dl {
-  font-size: 12px;
-}
-.sivi-public-ui .sv-plan > p {
-  font-size: 13px;
-}
-.sivi-public-ui .sv-plan-features ul {
-  font-size: 12px;
-}
-.sivi-public-ui :is(.sv-pricing-note, .sv-pricing-toolbar > p) {
   font-size: 12px;
 }
 .sivi-public-ui .sv-faq summary {
@@ -2090,19 +1895,13 @@
   .sivi-public-ui .sv-nav nav {
     font-size: 14px;
   }
-  .sivi-public-ui :is(.sv-button, .sv-text-link, .sv-plan-button) {
+  .sivi-public-ui :is(.sv-button, .sv-text-link) {
     font-size: 12px;
   }
   .sivi-public-ui .sv-intro > div:nth-child(2),
   .sivi-public-ui .sv-section-heading > p,
   .sivi-public-ui .sv-role-copy > p:not(.sv-eyebrow) {
     font-size: 14px;
-  }
-  .sivi-public-ui .sv-pricing-note {
-    font-size: 11px;
-  }
-  .sivi-public-ui .sv-pricing-toolbar > p {
-    font-size: 10px;
   }
   .sivi-public-ui .sv-footer-top nav {
     font-size: 11px;

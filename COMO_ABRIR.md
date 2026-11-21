@@ -11,15 +11,13 @@ npm start
 
 Abra `http://127.0.0.1:4173`. A interface usa Firebase Authentication e Realtime Database. O domínio local precisa estar autorizado no Firebase. Os módulos Firebase e as fontes dependem de conexão com a internet.
 
-Escolha o plano e complete as três etapas do cadastro. Use o botão **Preencher dados de teste** na revisão: cartão 4242 4242 4242 4242, validade 12/30 e CVV 123. Somente a conclusão cria a conta; nenhum valor é cobrado. Confirme o e-mail e entre no mesmo navegador para retomar os dados empresariais por até sete dias. Revise e solicite a análise. Para configurar o primeiro administrador, consulte [a entrega funcional](docs/21-entrega-firebase-empresas-perfil-match.md).
+Crie sua conta e informe os dados da empresa e a atuação desejada. Confirme o e-mail e entre no mesmo navegador para retomar os dados empresariais por até sete dias. Revise e solicite a análise. Para configurar o primeiro administrador, consulte [a entrega funcional](docs/21-entrega-firebase-empresas-perfil-match.md).
 
 A abertura sem rota leva à página pública (`#/`). O login permanece em `#/acesso`. No cadastro empresarial, preencha os dados, revise e clique em **Solicitar acesso**. Consulte a solicitação em **Empresas e atuação** e use **Atualizar situação** para buscar a decisão da administração.
 
 Se houver correção solicitada, abra **Consultar cadastro**, leia o motivo e use **Corrigir e reenviar**. Uma solicitação recusada continua visível com seu motivo, mas não libera negociações.
 
 Abrir o HTML por duplo clique não executa os módulos corretamente. Para alterar os componentes React em `src/public/`, `src/components/ui/` ou `src/workspace/`, execute `npm run check:public` e `npm run build:public`. O build Vite atualiza os arquivos portáteis em `src/generated/public/`, incluindo os gráficos operacionais. Páginas e serviços operacionais JavaScript permanecem na estrutura existente; a nova fonte Manrope é local. Os módulos Firebase dependem de internet.
-
-Para avaliar a nova aparência interna com dados ilustrativos, abra `http://127.0.0.1:4173/tests/fixtures/workspace-preview.html?role=buyer#/app/comprador/inicio` após iniciar o servidor. A prévia permite trocar entre comprador, fornecedor e administração sem criar uma conta; suas alterações valem somente naquela página. A aplicação normal continua exigindo login e acesso autorizado à empresa. Detalhes em [36 — Repaginação interna](docs/36-repaginacao-interna.md).
 
 ## Portal administrativo
 
@@ -29,40 +27,13 @@ Para analisar solicitações dos usuários, abra **Administração SIVI** e cliq
 
 Para apresentar o fluxo, use dois perfis de navegador: um do responsável e outro da administração. Envie a solicitação, solicite uma correção, reenvie e aprove. Atualize a situação na sessão do responsável. Após aprovação, ele pode entrar como comprador ou fornecedor; no próximo login, uma única atuação comercial ativa abre o painel diretamente.
 
-## Testes
+## Verificações locais
 
 ```powershell
-npm run test:unit
-# Com npm start em outro terminal:
-npm run test:operations
-# Auth e Database Emulator são iniciados pelo Playwright:
-npm run test:e2e
+npm test
 ```
 
-Os testes de navegador exigem Chromium instalado pelo Playwright (`npx playwright install chromium`) ou o Edge local:
-
-```powershell
-$env:SIVI_BROWSER_CHANNEL = 'msedge'
-```
-
-Os emuladores exigem JDK compatível. Nesta máquina, o runtime do Android Studio foi usado sem alterar o Java do sistema:
-
-```powershell
-$env:SIVI_JAVA_HOME = 'C:/Program Files/Android/Android Studio/jbr'
-npm run test:e2e
-```
-
-Em outra máquina, aponte `SIVI_JAVA_HOME` para seu JDK 21+. A URL `/?authEmulator=1` usa os emuladores somente em HTTP local. Os testes nunca publicam regras ou criam dados no projeto remoto.
-
-Para capturar as páginas reais com registros criados nos emuladores, defina uma pasta de saída e execute a jornada:
-
-```powershell
-$env:SIVI_CAPTURE_UI = "$env:TEMP/sivi-ui-review"
-npx playwright test tests/e2e/firebase-marketplace.spec.js
-Remove-Item Env:SIVI_CAPTURE_UI
-```
-
-O teste salva capturas dos dois temas em 390 e 1440px e verifica também as larguras de 360 e 768px. Para revisar a página pública, use `npx playwright test tests/e2e/public-page.spec.js`; ela também verifica 1920 e 2560px e salva a captura de 1920px quando `SIVI_CAPTURE_UI` estiver definida.
+O comando executa a checagem de tipos e recompila a interface pública.
 
 ## Transferir
 
@@ -70,7 +41,7 @@ O teste salva capturas dos dois temas em 390 e 1440px e verifica também as larg
 .\scripts\export-project.ps1
 ```
 
-O ZIP em `exports/` inclui código, testes, documentação, configurações compartilháveis e um manifesto SHA-256. Ele funciona sem a pasta original e sem Git. Exclui dependências, resultados de testes, logs, credenciais locais e `.git`. Extraia a pasta `SIVI`, abra um terminal nela e execute `npm ci` e `npm start`.
+O ZIP em `exports/` inclui código, documentação, configurações compartilháveis e um manifesto SHA-256. Ele funciona sem a pasta original e sem Git. Exclui dependências, resultados de testes, logs, credenciais locais e `.git`. Extraia a pasta `SIVI`, abra um terminal nela e execute `npm ci` e `npm start`.
 
 O histórico é opcional. Para levá-lo junto:
 

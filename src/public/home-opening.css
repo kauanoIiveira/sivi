@@ -1,4 +1,4 @@
-.sv-landing[data-home-opening] {
+.sv-landing:is([data-home-opening], [data-public-editorial]) {
   --sv-ink: #303030;
   --sv-dark: #363636;
   --sv-paper: #fff;
@@ -7,36 +7,58 @@
   --sv-line: #d6d6d6;
   --sv-orange: #ff9000;
   --sv-orange-hover: #ffa32a;
+  --sv-feedback-duration: 180ms;
+  --sv-feedback-ease: cubic-bezier(.22, .61, .36, 1);
   --sv-opening-gutter: clamp(22px, 5.5vw, 104px);
   --sv-opening-width: min(1680px, calc(100% - 2 * var(--sv-opening-gutter)));
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] :is(.sv-nav, .sv-landing-hero) {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) :is(.sv-nav, .sv-landing-hero) {
   width: var(--sv-opening-width);
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] .sv-header {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-header {
+  --sv-home-access-bg: #fff;
+  --sv-home-nav-text: #e4e4e4;
+  --sv-home-nav-emphasis: var(--sv-paper);
   color: var(--sv-paper);
 }
 
-.sivi-public-ui .sv-landing[data-home-opening][data-header-solid] .sv-header {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial])[data-header-solid] .sv-header {
+  --sv-home-access-bg: #ededed;
   color: var(--sv-ink);
   background: var(--sv-paper);
   box-shadow: 0 1px 0 var(--sv-line);
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] .sv-nav {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial])[data-header-solid] .sv-header,
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav.is-open {
+  --sv-home-nav-text: #585858;
+  --sv-home-nav-emphasis: var(--sv-ink);
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav {
   position: relative;
   justify-content: space-between;
   min-height: 88px;
 }
 
-.sv-landing[data-home-opening] .sv-nav .sv-brand > small {
+.sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-brand > small {
   display: none;
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] .sv-nav nav {
-  font-size: 0.875rem;
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-brand img {
+  width: clamp(40px, 4.1vw, 42px);
+  height: auto;
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-brand > span {
+  font-size: clamp(1.875rem, 3.2vw, 2.0625rem);
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .sv-home-nav-pages,
@@ -69,38 +91,52 @@
   height: 16px;
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] :is(.sv-home-nav-pages a, .sv-login-link):hover {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--sv-orange);
-  text-underline-offset: 0.35em;
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-home-nav-pages a {
+  color: var(--sv-home-nav-text);
+  transition: color var(--sv-feedback-duration) var(--sv-feedback-ease);
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] .sv-nav .sv-nav-cta {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-home-nav-pages a:is(:hover, :focus-visible) {
+  color: var(--sv-home-nav-emphasis);
+  outline-color: var(--sv-home-nav-emphasis);
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-nav-cta {
   display: inline-flex;
   padding: 0 16px;
-  border: 1px solid currentColor;
-  background: transparent;
-  color: inherit;
+  border: 1px solid transparent;
+  background: var(--sv-home-access-bg);
+  color: var(--sv-muted);
 }
 
-.sivi-public-ui .sv-landing[data-home-opening] .sv-nav .sv-nav-cta:hover {
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-nav-cta:is(:hover, :focus-visible) {
+  background: var(--sv-home-access-bg);
   color: var(--sv-ink);
-  background: var(--sv-orange);
-  border-color: var(--sv-orange);
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-nav-cta:focus-visible {
+  outline-color: var(--sv-paper);
+}
+
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial])[data-header-solid] .sv-nav .sv-nav-cta:focus-visible,
+.sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav.is-open .sv-nav-cta:focus-visible {
+  outline-color: var(--sv-ink);
 }
 
 .sv-hero {
   position: relative;
   isolation: isolate;
   display: grid;
-  min-height: max(35rem, 100svh);
   color: var(--sv-paper);
   background: #292929;
 }
 
+.sivi-public-ui .sv-landing[data-home-opening] .sv-hero {
+  min-height: max(35rem, 100svh);
+}
+
 .sv-hero-media,
-.sv-hero-media > *,
+.sv-hero-media > :is(img, video),
 .sv-hero-media::after {
   position: absolute;
   inset: 0;
@@ -111,7 +147,7 @@
   pointer-events: none;
 }
 
-.sv-hero-media > * {
+.sv-hero-media > :is(img, video) {
   display: block;
   width: 100%;
   height: 100%;
@@ -129,14 +165,24 @@
   opacity: 1;
 }
 
+.sv-hero[data-hero-still] .sv-hero-media :is(video, .sv-hero-business-poster) {
+  transition: none;
+}
+
+.sv-hero[data-hero-still] .sv-hero-media video[data-playing-frame] {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sv-hero-media video[data-playing-frame] {
+  .sv-hero-media video[data-playing-frame],
+  .sv-hero-opening {
     opacity: 0;
   }
 }
 
 .sv-hero-media::after {
   content: "";
+  z-index: 2;
   background:
     linear-gradient(90deg, #292929f5 0%, #292929d6 29%, #29292994 50%, #29292914 78%),
     linear-gradient(180deg, #292929c7, #2929290d 24%, #29292900 64%, #292929db 100%);
@@ -149,11 +195,7 @@
   display: grid;
   place-items: center;
   overflow: clip;
-  opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  background: #292929;
-  transition: opacity 520ms ease, visibility 0s 520ms;
 }
 
 body:has([data-public-surface]:not([hidden]) [data-home-hero-shell]) .boot-surface:not([data-boot-error]),
@@ -161,33 +203,23 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
   display: none;
 }
 
-.sv-hero[data-hero-phase="opening"] .sv-hero-opening {
-  opacity: 1;
-  visibility: visible;
-  transition: none;
-}
-
-.sv-hero[data-hero-phase="opening"]:has(.sv-landing-lead :focus-visible) .sv-hero-opening {
-  opacity: 0;
+.sv-hero:focus-within .sv-hero-opening {
   visibility: hidden;
 }
 
-.sv-hero-opening-photo,
-.sv-hero-opening::after {
+.sv-hero-opening-photo {
   position: absolute;
   inset: 0;
-}
-
-.sv-hero-opening-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 59% 52%;
+  opacity: 0;
+  transition: opacity 140ms ease-out;
 }
 
-.sv-hero-opening::after {
-  content: "";
-  background: linear-gradient(180deg, #292929c9, #29292945 28%, #2929298f 56%, #292929a6);
+.sv-hero-opening-photo[data-ready] {
+  opacity: 1;
 }
 
 .sv-hero-opening-brand {
@@ -195,8 +227,11 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
   z-index: 1;
   display: flex;
   align-items: center;
+  justify-self: end;
+  margin-inline-end: clamp(24px, 7vw, 128px);
   gap: 0.2em;
   color: var(--sv-paper);
+  translate: 0 -10svh;
   font-size: clamp(min(4.7rem, 23vw), 11.5vw, 11rem);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -264,19 +299,48 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
   outline-color: var(--sv-paper);
 }
 
+.sivi-public-ui .sv-landing[data-home-opening] :is(.sv-hero-action, .sv-home-body-action, .sv-nav .sv-nav-cta, .sv-footer-newsletter-fields button) {
+  transition:
+    background-color var(--sv-feedback-duration) var(--sv-feedback-ease),
+    border-color var(--sv-feedback-duration) var(--sv-feedback-ease),
+    color var(--sv-feedback-duration) var(--sv-feedback-ease),
+    translate var(--sv-feedback-duration) var(--sv-feedback-ease);
+}
+
+.sivi-public-ui .sv-landing[data-home-opening] :is(.sv-hero-action, .sv-home-body-action, .sv-nav .sv-nav-cta, .sv-footer-newsletter-fields button):active:not(:disabled) {
+  translate: 0 1px;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .sivi-public-ui .sv-landing[data-home-opening] :is(.sv-hero-action, .sv-home-body-action):hover:not(:active) {
+    translate: 0 -2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-home-nav-pages a {
+    transition: none;
+  }
+
+  .sivi-public-ui .sv-landing[data-home-opening] :is(.sv-hero-action, .sv-home-body-action, .sv-nav .sv-nav-cta, .sv-footer-newsletter-fields button):active:not(:disabled) {
+    translate: none;
+  }
+
+}
+
 .sv-landing[data-home-opening] ::selection {
   color: var(--sv-ink);
   background: var(--sv-orange);
 }
 
 @media (width > 920px) {
-  .sv-landing[data-home-opening] .sv-nav .sv-brand {
+  .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav .sv-brand {
     position: absolute;
     inset-inline-start: 0;
     z-index: 1;
   }
 
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-nav nav {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav {
     display: grid;
     grid-template-columns: minmax(110px, 1fr) minmax(0, max-content) minmax(max-content, 1fr);
     width: 100%;
@@ -292,11 +356,11 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
 }
 
 @media (max-width: 920px) {
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-nav {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav {
     min-height: 76px;
   }
 
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-menu {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-menu {
     position: static;
     display: grid;
     place-items: center;
@@ -305,13 +369,13 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
     color: inherit;
   }
 
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-nav nav {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav {
     display: none;
     position: absolute;
     inset: 100% 0 auto;
   }
 
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-nav nav.is-open {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav.is-open {
     display: grid;
     gap: 10px;
     max-height: calc(100svh - 88px);
@@ -340,17 +404,15 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
     white-space: normal;
   }
 
-  .sivi-public-ui .sv-landing[data-home-opening] .sv-nav nav.is-open .sv-nav-cta {
+  .sivi-public-ui .sv-landing:is([data-home-opening], [data-public-editorial]) .sv-nav nav.is-open .sv-nav-cta {
     justify-content: space-between;
     margin-block-start: 3px;
-    color: var(--sv-ink);
-    background: var(--sv-orange);
-    border-color: transparent;
+    background: var(--sv-home-access-bg);
   }
 }
 
 @media (max-width: 600px) {
-  .sv-hero-media > * {
+  .sv-hero-media > :is(img, video) {
     height: 78%;
     object-position: 61% top;
   }
@@ -359,6 +421,14 @@ body:has(.boot-surface[data-boot-error]:not([hidden])) [data-home-hero-shell] {
     background:
       linear-gradient(180deg, #292929cb, #2929292b 23%, #2929299e 45%, #292929 78%),
       linear-gradient(90deg, #29292973, #29292900 90%);
+  }
+
+  .sv-hero-opening-brand {
+    align-self: start;
+    justify-self: center;
+    margin: clamp(86px, 15svh, 130px) 0 0;
+    translate: none;
+    font-size: clamp(3rem, 12vw, 4.5rem);
   }
 
   .sv-landing-hero {

@@ -1,6 +1,7 @@
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
+  OAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendEmailVerification,
@@ -164,6 +165,12 @@ export async function loginWithProvider(providerName) {
   const providerFactories = {
     google: () => new GoogleAuthProvider(),
     github: () => new GithubAuthProvider(),
+    apple: () => {
+      const provider = new OAuthProvider("apple.com");
+      provider.addScope("email");
+      provider.addScope("name");
+      return provider;
+    },
   };
   const createProvider = providerFactories[providerName];
 

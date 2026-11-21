@@ -35,86 +35,15 @@ export function useLandingMotion(root: RefObject<HTMLDivElement | null>) {
       if (!frame) frame = requestAnimationFrame(updateHeader);
     }
 
-    const reveals = landing.querySelectorAll<HTMLElement>("[data-landing-reveal]");
-    const reveal = (element: Element) => {
-      element.removeAttribute("data-awaiting-view");
-      element.setAttribute("data-in-view", "");
-    };
-    const observer = typeof IntersectionObserver === "function"
-      ? new IntersectionObserver((entries) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            reveal(entry.target);
-            observer?.unobserve(entry.target);
-          }
-        }, { threshold: 0.08 })
-      : null;
-
-    function syncReveals() {
-      observer?.disconnect();
-      for (const item of reveals) {
-        if (reduced.matches || !observer) {
-          item.removeAttribute("data-awaiting-view");
-          item.removeAttribute("data-in-view");
-          continue;
-        }
-        if (item.hasAttribute("data-in-view")) continue;
-        if (item.getBoundingClientRect().bottom <= 0 || item.contains(document.activeElement)) {
-          item.removeAttribute("data-awaiting-view");
-          continue;
-        }
-        item.setAttribute("data-awaiting-view", "");
-        observer.observe(item);
-      }
-      onScroll();
-    }
-
-    function onFocus(event: FocusEvent) {
-      let element = (event.target as Element).closest("[data-awaiting-view]");
-      while (element) {
-        reveal(element);
-        observer?.unobserve(element);
-        element = element.parentElement?.closest("[data-awaiting-view]") ?? null;
-      }
-    }
-
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const visuals = landing.querySelectorAll<HTMLElement>("[data-landing-pointer]");
-    function move(event: PointerEvent) {
-      if (reduced.matches || !finePointer.matches || event.pointerType === "touch") return;
-      const visual = event.currentTarget as HTMLElement;
-      const bounds = visual.getBoundingClientRect();
-      const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
-      const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
-      visual.style.setProperty("--pointer-x", x.toFixed(3));
-      visual.style.setProperty("--pointer-y", y.toFixed(3));
-    }
-    function reset(event: PointerEvent) {
-      const visual = event.currentTarget as HTMLElement;
-      visual.style.removeProperty("--pointer-x");
-      visual.style.removeProperty("--pointer-y");
-    }
-
-    for (const visual of visuals) {
-      visual.addEventListener("pointermove", move);
-      visual.addEventListener("pointerleave", reset);
-    }
-    syncReveals();
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     if (homeHero) window.addEventListener("resize", onScroll);
-    reduced.addEventListener("change", syncReveals);
-    landing.addEventListener("focusin", onFocus);
+    reduced.addEventListener("change", onScroll);
     return () => {
-      observer?.disconnect();
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       if (homeHero) window.removeEventListener("resize", onScroll);
-      reduced.removeEventListener("change", syncReveals);
-      landing.removeEventListener("focusin", onFocus);
-      for (const visual of visuals) {
-        visual.removeEventListener("pointermove", move);
-        visual.removeEventListener("pointerleave", reset);
-      }
+      reduced.removeEventListener("change", onScroll);
     };
   }, [root]);
 }

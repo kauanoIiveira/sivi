@@ -5,9 +5,6 @@
 .sivi-public-ui .sv-hero h1 {
   letter-spacing: -0.04em;
 }
-.sivi-public-ui .sv-price number-flow-react {
-  letter-spacing: -0.04em;
-}
 .sivi-public-ui .sv-button {
   background: #c94317;
 }
@@ -15,9 +12,6 @@
   background: #ae3610;
 }
 .sivi-public-ui .sv-skip {background:#c94317}
-.sivi-public-ui .sv-plan>p {color:#56644d}
-.sivi-public-ui .sv-plan p.sv-price-condition {font-size:12px;color:#56644d;min-height:40px}
-.sivi-public-ui .sv-plan-top>span,.sivi-public-ui .sv-plan-features>span {font-size:12px}
 .sivi-public-ui .sv-role-copy li:before {
   content: none;
 }

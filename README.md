@@ -2,7 +2,7 @@
 
 **Sistema Integrado de Vendas Industriais**. Plataforma B2B que aproxima empresas compradoras, fornecedores e fabricantes, da demanda à entrega.
 
-O sistema funciona em `index.html`, com Firebase Authentication e Realtime Database. A apresentação, o acesso e os gráficos operacionais usam React/TypeScript, Motion e componentes adaptados das referências 21st.dev. As páginas operacionais preservam seus serviços JavaScript, com a nova aparência compartilhada. O build já fica em `src/generated/public/` para uso com Live Server; `npm start` o recompila. Tem interface responsiva, temas e preferências de acessibilidade na área operacional. Consulte [a repaginação interna](docs/36-repaginacao-interna.md) para os novos painéis e a prévia com dados ilustrativos.
+O sistema funciona em `index.html`, com Firebase Authentication e Realtime Database. A apresentação, o acesso e os gráficos operacionais usam React/TypeScript, Motion e componentes adaptados das referências 21st.dev. As páginas operacionais preservam seus serviços JavaScript, com a nova aparência compartilhada. O build fica em `src/generated/public/` para uso com Live Server. O comando `npm start` recompila a interface pública e abre o servidor Vite. A área operacional tem interface responsiva, temas e preferências de acessibilidade. Consulte [a repaginação interna](docs/36-repaginacao-interna.md) para os novos painéis.
 
 ## Executar
 
@@ -15,7 +15,7 @@ npm ci
 npm start
 ```
 
-Acesse `http://127.0.0.1:4173`. Escolha um plano, informe acesso e empresa e conclua o pagamento demonstrativo com os dados de teste indicados. A conta é criada sem cobrança. Confirme o e-mail, entre e revise a empresa para análise. Consulte [COMO_ABRIR.md](COMO_ABRIR.md) e [a entrega pública](docs/35-repaginacao-publica.md).
+Acesse `http://127.0.0.1:4173`. Crie sua conta, confirme o e-mail e envie os dados da empresa para análise. Para verificar os tipos e o build da interface pública, rode `npm test`. Consulte [COMO_ABRIR.md](COMO_ABRIR.md).
 
 ## O que já funciona
 
@@ -46,7 +46,6 @@ O SIVI faz a intermediação. As empresas negociam e executam; a plataforma não
 | `src/repositories`, `src/services` | Operações persistidas e integração Firebase |
 | `src/styles`, `src/theme` | Tokens e preferência de tema |
 | `src/assets`, `src/vendor` | Imagem industrial, identidade e Anime.js com licença |
-| `tests` | Testes automatizados e massas de dados isoladas |
 | `database.rules.json` | Autorização no Realtime Database |
 | `docs`, `design-system` | Produto, próximos passos e padrões da interface |
 | `scripts` | Emuladores e exportação do projeto |
@@ -67,4 +66,4 @@ No sistema, use a **engrenagem de preferências** para tema, tamanho do texto, c
 
 Comece por [CONTINUE_AQUI.md](CONTINUE_AQUI.md). A preparação para outra máquina e o uso do repositório estão em [Transferência e retomada](docs/25-transferencia-e-retomada.md), e os padrões para as próximas telas em [Design System](design-system/MASTER.md).
 
-A página demonstrativa foi removida. Cenários fictícios existem somente nos testes e não fazem parte da entrada do sistema. Lotes, QR, anexos e propostas detalhadas por item seguem pendentes. A publicação histórica de regras de 18/09/2026 está documentada em [Portal administrativo e jornada](docs/23-jornada-e-proximas-acoes.md); as proteções comerciais locais posteriores ainda não foram publicadas. Os testes de jornada usam emuladores locais.
+Lotes, QR, anexos e propostas detalhadas por item seguem pendentes. O documento [Portal administrativo e jornada](docs/23-jornada-e-proximas-acoes.md) descreve a publicação histórica de regras de 18/09/2026. As proteções comerciais locais posteriores aguardam publicação.

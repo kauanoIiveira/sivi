@@ -1,0 +1,94 @@
+/* Adapted from the Texts reveal, Shimmer text and Number pop-in recipes at transitions.dev. */
+.sv-landing {
+  --stagger-dur: 640ms;
+  --stagger-distance: 16px;
+  --stagger-stagger: 85ms;
+  --stagger-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --shimmer-dur: 1700ms;
+  --shimmer-delay: 560ms;
+  --shimmer-base: var(--sv-paper);
+  --shimmer-highlight: var(--sv-orange);
+  --shimmer-band: 280%;
+  --shimmer-ease: linear;
+  --digit-dur: 500ms;
+  --digit-distance: 8px;
+  --digit-stagger: 70ms;
+  --digit-blur: 2px;
+  --digit-ease: cubic-bezier(0.34, 1.45, 0.64, 1);
+  --digit-dir-x: 0;
+  --digit-dir-y: 1;
+}
+
+.sv-landing h1 .t-stagger-line {
+  display: block;
+}
+
+.sv-landing .t-digit-group {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.sv-landing .t-digit {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sv-landing .t-stagger.is-shown .t-stagger-line {
+    animation: t-stagger-in var(--stagger-dur) var(--stagger-ease) both;
+    animation-delay: calc(var(--stagger-stagger) * var(--stagger-index, 0));
+  }
+
+  .sv-landing .t-stagger-line--2 { --stagger-index: 1; }
+  .sv-landing .t-stagger-line--3 { --stagger-index: 2; }
+  .sv-landing .t-stagger-line--4 { --stagger-index: 3; }
+
+  .sv-landing .t-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      var(--shimmer-base) 38%,
+      var(--shimmer-highlight) 50%,
+      var(--shimmer-base) 62%
+    );
+    background-size: var(--shimmer-band) 100%;
+    background-clip: text;
+    animation: t-shimmer var(--shimmer-dur) var(--shimmer-ease) var(--shimmer-delay);
+  }
+
+  .sv-landing .t-digit-group.is-animating .t-digit {
+    animation: t-digit-pop-in var(--digit-dur) var(--digit-ease) both;
+  }
+
+  .sv-landing .t-digit-group.is-animating [data-stagger="1"] {
+    animation-delay: var(--digit-stagger);
+  }
+}
+
+@keyframes t-stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--stagger-distance));
+  }
+}
+
+@keyframes t-shimmer {
+  from { background-position: 100% 0; color: transparent; }
+  to { background-position: 0 0; color: transparent; }
+}
+
+@keyframes t-digit-pop-in {
+  from {
+    opacity: 0;
+    transform: translate(
+      calc(var(--digit-distance) * var(--digit-dir-x)),
+      calc(var(--digit-distance) * var(--digit-dir-y))
+    );
+    filter: blur(var(--digit-blur));
+  }
+}
+
+@media (forced-colors: active) {
+  .sv-landing .t-shimmer {
+    animation: none;
+  }
+}

@@ -82,17 +82,23 @@
     <noscript><p>Ative o JavaScript para conhecer o SIVI e usar o cadastro e o acesso à plataforma.</p></noscript>
     <div data-public-surface hidden></div>
     <template id="public-home-opening">
-      <div class="sivi-public-ui" data-home-hero-shell aria-hidden="true">
+      <div class="sivi-public-ui" data-home-hero-shell>
         <div class="sv-landing" data-home-opening>
-          <div class="sv-hero" data-hero-phase="opening">
-            <div class="sv-hero-opening">
-              <img class="sv-hero-opening-photo" src="./assets/home-hero-opening.webp" width="1600" height="1200" alt="" fetchpriority="high" />
-              <div class="sv-hero-opening-brand">
-                <img src="./src/assets/brand/raposa.svg" width="96" height="96" alt="" />
-                <span>SIVI</span>
+          <section class="sv-hero" aria-labelledby="public-title">
+            <div class="sv-hero-media" aria-hidden="true">
+              <img width="1920" height="1080" alt="" fetchpriority="high" />
+            </div>
+            <div class="sv-shell sv-landing-hero">
+              <div class="sv-landing-lead">
+                <h1 id="public-title" tabindex="-1"><span>A indústria</span> <span>se conecta<span class="sv-hero-period">.</span></span></h1>
+                <p class="sv-hero-description">Marketplace B2B de compras e fornecimento industrial, da cotação ao recebimento.</p>
+                <a class="sv-button t-learn sv-hero-action" href="#/acesso?modo=register">
+                  Cadastrar empresa
+                  <svg class="t-learn-chevron" width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="t-learn-arm t-learn-arm-top" d="M6 4L10 8" /><path class="t-learn-arm t-learn-arm-bot" d="M10 8L6 12" /></svg>
+                </a>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </template>
@@ -118,13 +124,13 @@
         if ((!route || route === "/") && !params.get("pagina") && (!section || section === "topo")) {
           const surface = document.querySelector("[data-public-surface]");
           const template = document.getElementById("public-home-opening");
-          surface.append(template.content.cloneNode(true));
+          const firstFrame = template.content.cloneNode(true);
+          const still = matchMedia("(prefers-reduced-motion: reduce)").matches || navigator.connection?.saveData;
+          firstFrame.querySelector(".sv-hero-media img").src = still
+            ? "./assets/home-b2b-poster.webp"
+            : "./assets/home-industrial-poster.webp";
+          surface.append(firstFrame);
           surface.hidden = false;
-          window.setTimeout(() => {
-            if (document.body.dataset.surface) return;
-            surface.hidden = true;
-            surface.replaceChildren();
-          }, 8000);
         }
       }
     </script>

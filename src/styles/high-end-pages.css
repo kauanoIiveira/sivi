@@ -1,4 +1,4 @@
-/* Buyer proposal and order presentation. Public styles live in public-page.css. */
+/* Buyer proposal and order presentation. Public styles live in src/public. */
 .operations-page[data-operation-role="buyer"]:is([data-operation-section="proposals"], [data-operation-section="orders"]) {
   --design-tray: color-mix(in srgb, var(--text-primary) 5%, var(--canvas));
   --design-line: color-mix(in srgb, var(--text-primary) 11%, transparent);

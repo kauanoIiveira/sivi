@@ -3,17 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node tests/support/static-server.mjs",
-    "serve:test": "node tests/support/static-server.mjs",
-    "test:unit": "node tests/unit/all.test.js",
-    "test:operations": "node tests/operations-browser.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test": "npm run test:unit && npm run test:e2e",
+    "start": "vite --config vite.public.config.ts --host 127.0.0.1 --port 4173 --strictPort",
+    "test": "npm run check:public && npm run build:public",
     "build:public": "vite build --config vite.public.config.ts",
     "check:public": "tsc -p tsconfig.public.json",
-    "prestart": "npm run build:public",
-    "preserve:test": "npm run build:public"
+    "prestart": "npm run build:public"
   },
   "engines": {
     "node": ">=22.12"

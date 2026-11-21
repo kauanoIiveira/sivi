@@ -1,5 +1,8 @@
 export const ROUTE_PATHS = Object.freeze({
   publicHome: "/",
+  publicAbout: "/quem-somos",
+  publicPlatform: "/plataforma",
+  publicFaq: "/duvidas",
   access: "/acesso",
   context: "/app/contexto",
   buyerHome: "/app/comprador/inicio",
@@ -13,6 +16,9 @@ const route = (definition) => Object.freeze(definition);
 
 export const APP_ROUTES = Object.freeze([
   route({ id: "public-home", path: "/", surface: "public", access: "public", title: "SIVI — Vendas industriais" }),
+  route({ id: "public-about", path: ROUTE_PATHS.publicAbout, surface: "public", access: "public", title: "Quem somos — SIVI" }),
+  route({ id: "public-platform", path: ROUTE_PATHS.publicPlatform, surface: "public", access: "public", title: "O que fazemos — SIVI" }),
+  route({ id: "public-faq", path: ROUTE_PATHS.publicFaq, surface: "public", access: "public", title: "Perguntas frequentes — SIVI" }),
   ...[ ["buyer", "comprador", "demands", "demandas", "Minhas demandas"], ["buyer", "comprador", "proposals", "propostas", "Propostas recebidas"], ["buyer", "comprador", "orders", "pedidos", "Meus pedidos"], ["supplier", "fornecedor", "demands", "oportunidades", "Oportunidades"], ["supplier", "fornecedor", "proposals", "propostas", "Minhas propostas"], ["supplier", "fornecedor", "orders", "pedidos", "Pedidos recebidos"] ].map(([role, context, section, slug, title]) => route({ id: `${role}-${section}`, path: `/app/${context}/${slug}`, surface: "app", access: "authenticated", workspaceRole: role, section, title })),
   route({ id: "supplier-profile", path: "/app/fornecedor/perfil", surface: "app", access: "authenticated", workspaceRole: "supplier", section: "profile", title: "Perfil industrial" }),
   route({ id: "access", path: ROUTE_PATHS.access, surface: "auth", access: "public", title: "Acesso" }),

@@ -143,7 +143,7 @@ export function createAccountDialog({ getUser, onUpdated = () => {}, loadService
         dialog.querySelector('[name=email]').value = account.email ?? '';
         const providers = (account.providerData ?? []).map(provider => provider.providerId);
         const password = providers.includes('password') && Boolean(account.email);
-        const methods = providers.map(id => ({ password: 'E-mail e senha', 'google.com': 'Google', 'github.com': 'GitHub' })[id] ?? id);
+        const methods = providers.map(id => ({ password: 'E-mail e senha', 'google.com': 'Google', 'github.com': 'GitHub', 'apple.com': 'Apple' })[id] ?? id);
         dialog.querySelector('[data-account-method]').textContent = methods.length ? `Acesso: ${methods.join(', ')}.` : 'Endereço usado para entrar na sua conta.';
         dialog.querySelector('[data-account-security]').hidden = !password;
         syncControls();
